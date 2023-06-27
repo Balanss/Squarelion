@@ -101,8 +101,8 @@ export default function upload1({objectiveAnswer,typeAnswer,month,color,page,lev
     <form onSubmit={handleSub} className='upload1'> 
 
 
-        <input type="file" onChange={handleImageChange} />
-        <textarea  onChange={(e) => setExample(e.target.value)} />
+        <input type="file"  onChange={handleImageChange} />
+        <textarea  className='expample' onChange={(e) => setExample(e.target.value)} />
          <button> Add Example </button>
 
 </form>

@@ -7,7 +7,7 @@ import {useState, useEffect} from 'react'
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import check from '../images/check.png'
 import error from '../images/error.png'
-
+import wip from '../images/wip.png'
 
 
 export default function Button({objective,type,date,post,page,month,setObjective}) {
@@ -23,7 +23,7 @@ const [ succ,setSucc] = useState()
             type: type,
             objective: objective,
              count: post,
-             status: 'pending',
+             status: 'https://firebasestorage.googleapis.com/v0/b/squarelion-43d29.appspot.com/o/icons%2Fwip.png?alt=media&token=642d26a4-7c84-4111-8476-4cad8e77ebc8',
              color:'orange',
              month:month
            

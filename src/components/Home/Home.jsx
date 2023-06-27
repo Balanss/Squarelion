@@ -38,16 +38,16 @@ useEffect(()=>{
   <div>
 
 <div className='home-logo-text'> 
-    <img src={useLogo} alt="logo" />
-    <h2 style={{width:'900px',margin:'0 auto',color:'black',marginBottom:'50px'}}>
+    <img src={useLogo} alt="logo" className='front-page-logo' />
+    <h2 className='home-logo-text-text'>
     Duis lobortis consequat eros, vitae pretium ipsum ultricies quis. Nam porta massa et rutrum eleifend. Suspendisse potenti. Nulla facilisi. Ut vel feugiat magna. Fusce vitae libero arcu. Nam dignissim felis ex, 
     nec porta nulla vehicula non. Donec urna erat,
      pharetra ut fermentum vitae, pretium quis elit. Cras pellentesque magna nisi. </h2>
 </div>
 
 <div style={{backgroundColor:'#174174'}} className='home-2nd-banner'> 
-<img src={useLogo} alt="logo"  style={{width:'300px',margin:'0 auto',backgroundColor:'white'}}/>
-    <h2 style={{width:'900px',margin:'0 auto',color:'white',marginBottom:'50px'}}>
+<img src={useLogo} alt="logo"  className='front-page-logo-2nd'/>
+    <h2 style={{margin:'0 auto',color:'white',marginBottom:'50px'}} className='text-info-2nd'>
     Duis lobortis consequat eros, vitae pretium ipsum ultricies quis. Nam porta massa et rutrum eleifend. Suspendisse potenti. Nulla facilisi. Ut vel feugiat magna. Fusce vitae libero arcu. Nam dignissim felis ex, 
     nec porta nulla vehicula non. Donec urna erat,
      pharetra ut fermentum vitae, pretium quis elit. Cras pellentesque magna nisi. </h2>
@@ -56,18 +56,18 @@ useEffect(()=>{
 <div style={{  borderBottom: '5px solid gold'}}>
    <div className='home-3rd-banner'> 
     <img src={useLogo} alt="logo" style={{width:'300px',margin:'0 auto',backgroundColor:'white'}} />
-    <h2 style={{width:'900px',margin:'0 auto',color:'black',marginBottom:'50px'}}>
+    <h2 className='home-logo-text-text'>
     Duis lobortis consequat eros, vitae pretium ipsum ultricies quis. Nam porta massa et rutrum eleifend. Suspendisse potenti. Nulla facilisi. Ut vel feugiat magna. Fusce vitae libero arcu. Nam dignissim felis ex, 
     nec porta nulla vehicula non. Donec urna erat,
      pharetra ut fermentum vitae, pretium quis elit. Cras pellentesque magna nisi. </h2>
-     <Link to ='/partnerProgram'> Join us as a partner </Link>
+     <Link to ='/partnerProgram' style={{paddingBottom:'10px'}}> Join us as a partner </Link>
 </div> 
 </div>
 
-<div className='home-4th-banner'> 
+{/* <div className='home-4th-banner'> 
 <div className='home-4th-banner-inner'>
-        <img src={useLogo} alt="logo" style={{width:'200px',margin:'0 auto',backgroundColor:'white',height:'200px'}} />
-    <h2 style={{width:'900px',margin:'0 auto',color:'white',marginBottom:'50px'}}>
+        <img src={useLogo} alt="logo" className='front-page-logo-last' />
+    <h2 className='home-logo-text-text' style={{color:'white'}}>
     Duis lobortis consequat eros, vitae pretium ipsum ultricies quis. Nam porta massa et rutrum eleifend. Suspendisse potenti. Nulla facilisi. Ut vel feugiat magna. Fusce vitae libero arcu. Nam dignissim felis ex, 
     nec porta nulla vehicula non. Donec urna erat,
      pharetra ut fermentum vitae, pretium quis elit. Cras pellentesque magna nisi. </h2>
@@ -75,12 +75,12 @@ useEffect(()=>{
 </div>
 <Link to ='/recruitment' > Join our team </Link>
 
-</div>
+</div> */}
 
   </div>
 <Footer />
 
-  </>}
+  </>} 
 
 
   {loading === true &&  <>

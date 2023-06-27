@@ -231,7 +231,6 @@ const important = message.filter(work => work.imp === imp)
 
 const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null);
 
-    
 
 
   return (<>
@@ -248,7 +247,7 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
 
     {level > 7 ?  <>  <div className='profile'>
     <div style={{margin:'auto',backgroundColor:'white'}}> <Nav/> </div>
-    <Links/>
+     <div className='real-admin-links'><Links/> </div>
     <div className='group-text'>
 
 <h2 onClick={() => setShowImportant(showImportant === true? false : true)}> {showImportant === false? 'Show Priority' : 'Show All'} </h2>
@@ -256,11 +255,16 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
   {privateChat  === 'group' && <>
    
    
-  {showImportant === true ? important.map((x,id) => {
-  return  <div key={id} className='indi-group-text' onClick={() => handleDelete(x.id)} > <h2 className='style-this-h2'>  <img src={mark} style={{width:'40px',height:'40px'}}/> {x.text} - {x.sendBy} </h2> 
-  <img style={{width:'50px',height:'50px',cursor:'pointer'}} src={bin} onClick={(i) => handleDeleted(x.id)}/> </div> 
-   }) : 
+  {showImportant === true ? message.map((x,id) => {
+
+ 
    
+  return <div key={id} className='indi-group-text' onClick={() => handleDelete(x.id)} > {x.imp > ""? <h2 className='style-this-h2'>  <img src={mark} style={{width:'40px',height:'40px'}}/> {x.text} - {x.sendBy} </h2>  :null }
+
+ {x.imp >""?  <img style={{width:'50px',height:'50px',cursor:'pointer'}} src={bin} onClick={(i) => handleDeleted(x.id)}/> :null} <hr /> </div> 
+   
+  
+   }) : 
 
 
 
@@ -268,8 +272,9 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
   return  <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id)} > 
   <h2 className='style-this-h2' onClick={() => handleNoti(x.id)}>  {x.imp > ""? <img src={mark} style={{width:'40px',height:'40px'}}/> :null } {x.text} - {x.sendBy} </h2> 
 
-  <img style={{width:'50px',height:'50px',cursor:'pointer'}} src={bin} onClick={(i) => handleDeleted(x.id)}/> </div> 
- })}
+  <img style={{width:'50px',height:'50px',cursor:'pointer'}} src={bin} onClick={(i) => handleDeleted(x.id)}/> <hr /> </div> 
+ })  
+ }
 
 
   </>  }
@@ -306,10 +311,10 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
     <label > {`Send message to ${displayTo} ${imp === true && displayTo === 'Group'? ' [Priority] ' : '' }`} </label>
 
     <div>
-    <textarea onChange={(e) => setText(e.target.value)} style={{width:'600px',height:'200px'}} placeholder='Enter' > 
+    <textarea onChange={(e) => setText(e.target.value)} className='textarea' placeholder='Enter' > 
 
 </textarea>
-<img src={mark} onClick={() => {setImp(imp === false? true : false)}} className='img-imp'/> 
+<img src={mark} onClick={() => {setImp(imp === false? true : false)}} className='img-imp' style={{width:'2rem'}}/> 
     </div>
 
 {sendTo === 'designer' ? <Button allUid={allUid} user={user}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
@@ -320,16 +325,15 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 </form>
 
  <div className='list'  > 
- <img className='style-meeting' src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() => hideList === true? setHideList(false) : setHideList(true)}/>
-
+ 
  {hideList && level > 8 && <>
- <div style={{backgroundColor:'white',width:'125px',padding:'10px',borderRadius:'10px'}}>
-    <h2 onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group')}} style={{cursor:'pointer'}} className='h2-noti'> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2>
-    <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer')}} style={{cursor:'pointer'}} className='h2-noti'> Designer  </h2>
+ <div style={{backgroundColor:'white',padding:'10px',borderRadius:'10px',color:'black'}}>
+    <h2 onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group'), setHideList(false)}} style={{cursor:'pointer'}} className='h2-noti'> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2>
+    <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer'), setHideList(false)}} style={{cursor:'pointer'}} className='h2-noti'> Designer  </h2>
     
     {work.map((x,id) => {
      return <div key={id}>
-        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setDisplayTo(x.Name)}}> {x.Name} </h2>
+        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setDisplayTo(x.Name), setHideList(false)}}> {x.Name} </h2>
      
      </div>
    
@@ -340,10 +344,10 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 
 {hideList && level === 8 && <>
 <div style={{backgroundColor:'white',width:'125px',padding:'10px',borderRadius:'10px'}}>
-<h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer')}} style={{cursor:'pointer'}} className='h2-noti'> Chat  </h2>
+<h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer'), setHideList(false)}} style={{cursor:'pointer'}} className='h2-noti'> Chat  </h2>
 {work.map((x,id) => {
      return <div key={id}>
-        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setDisplayTo(x.Name)}}> {x.Name} </h2>
+        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setDisplayTo(x.Name), setHideList(false)}}> {x.Name} </h2>
      
      </div>
    
@@ -352,6 +356,7 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 
 </>}
 
+<img className='style-meeting' src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() => hideList === true? setHideList(false) : setHideList(true)}/>
 
 
 

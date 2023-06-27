@@ -111,11 +111,11 @@ export default function Links() {
 
 
   return (
-    <div className='admin-links-only'>
+    <div className=''>
 
 {['Partners'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <Button className='button-links' onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

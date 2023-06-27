@@ -5,14 +5,15 @@ export default function SignupMock({setCode,code}) {
 
 
   return (<>
-  <div className='code-div' style={{padding:'100px'}}>
+  <div className='code-div'>
   <div className='test'> </div>
     <div className='signup-div-code' >
      
-       <div className='signup-form'>
+       <div className=''>
            <h2> Enter Code </h2>
         <input type="number" onChange={(e) => setCode(e.target.value)} />
-        <button onClick={() => setCode(code)}> Enter</button>
+        <br />
+        <button onClick={() => setCode(code)} style={{marginTop:'15px'}}> Enter</button>
        </div>
      
     </div>

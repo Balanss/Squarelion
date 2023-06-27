@@ -100,13 +100,14 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
 
 
   return (<>  
-   <div className='above-div-send' style={{display:'flex',marginTop:'50px',marginBottom:'50px'}}> {level !== 10 ? null: <button onClick={handleData} className='addtotext'> <img src={addFile} style={{width:'50px',height:'50px',backgroundColor:'transparent'}}/>  </button> } 
+   <div className='above-div-send' style={{display:'flex',marginTop:'50px'}}> {level !== 10 ? null: <button onClick={handleData} className='addtotext'> <img src={addFile} style={{width:'50px',height:'50px',backgroundColor:'transparent'}}/>  </button> } 
 
 <form onSubmit={handleSub} className='designer-upload'> 
 
 
     <input type="file" onChange={handleImageChange} style={{width:'90px'}} />
      <button> Add Design </button>
+    
 
 </form>  </div>
    

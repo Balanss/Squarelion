@@ -96,15 +96,15 @@ const codeToSee = '123456'
 <input type='text' placeholder='email' onChange={(e) => setEmail(e.target.value)} />
 <input type='text' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
 <div>
- <button> Signup </button>
-<button onClick={() => navigate('/login')}> Login </button> 
+ <button className='signup-btn Button' > Signup </button>
+<button onClick={() => navigate('/login')} className='Button'> Login </button> 
 <div style={{marginTop:'15px'}}>
-  <button onClick={handleSignIn} className='google-sign'>  Google sign-in <img style={{width:'30px'}} src={google} /> </button>
+  <button onClick={handleSignIn} className='google-sign Button'>  Google sign-in <img style={{width:'30px'}} src={google} /> </button>
 </div>
 
 </div>
 
-<h2>  {successMsg} </h2> 
+<h2 style={{color:'white'}}>  {successMsg} </h2> 
 </form>
 
 

@@ -216,7 +216,7 @@ const [switching,setSwitching] = useState(false)
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {partner.map((partner ,index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
-            <img  className='partner-image' src={partner.imageUrl} key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',backgroundColor:'white',width:'200px',height:'200px'}}  />
+            <img  className='partner-image' src={partner.imageUrl} key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',backgroundColor:'white'}}  />
           </Grid>
         ))}
       </Grid>

@@ -26,7 +26,7 @@ import Upload1 from '../firebaseData/Upload1'
 import Upload2 from '../firebaseData/Upload2'
 import Upload3 from '../firebaseData/Upload3'
 import cross from '../images/cross.png'
-
+import tab from '../images/tap.png'
 import mail from '../images/mailchimp.png'
 import linked from '../images/linkedin.png'
 import Solo from '../Txt/Solo'
@@ -237,11 +237,11 @@ const [ statusBar,setStatusBar] = useState('');
 
 
 {level > 7 && uuid !== null && <>
-<Links/>
+<div className='admin-links-only'> <Links/> </div>
 <Group />
 <div className='content-div' >
 
-<div style={{position:'absolute',zIndex:1,width:'100px',height:'100px'}}>
+<div style={{zIndex:1}} className='text-icon'>
   {level > 8 ?<TxtAll className='txt' filter={filter} /> :null} 
 
 {/* <PDFDownloadLink  className='pdf-content' document={  <WholePage  filter={filter}/>} fileName={`${page}.pdf`} style={{position:'absolute',zIndex:1,width:'100px',height:'100px'}} >  {({ blob, url, loading, error }) =>
@@ -255,7 +255,7 @@ const [ statusBar,setStatusBar] = useState('');
 
  <div>
 
-   <img src={img}  style={{backgroundColor:'white',marginBottom:'40px',width:'200px'}}/> 
+   <img src={img}   style={{backgroundColor:'white',marginBottom:'40px',width:'200px',marginTop:'20px'}}/> 
  
  </div>
 
@@ -280,11 +280,9 @@ const [ statusBar,setStatusBar] = useState('');
  </form> :null}
 
 
-  <br />
+  
  
- <div >
 
- </div>
  
   
   {/* designer sees only his tabs and not the whole page */}
@@ -292,12 +290,13 @@ const [ statusBar,setStatusBar] = useState('');
  { level === 8 && x.status !== 'pending'? 
   <div className='mapped-div' key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
   
-  <p  className='same-map-text'> {x.count}  </p>
+  <p  className='same-map-text extra-styles'> {x.count}  </p>
 
 
  
   <div className='hidden-form-div'>
- <p className='same-map-text  extra' onClick={() => handleText(i)} style={{cursor:'pointer'}} > {x.objective} </p>
+ <p className='same-map-text  extra extra-styles' onClick={() => handleText(i)} style={{cursor:'pointer'}} > {x.objective}  </p>
+
  
 
  
@@ -318,35 +317,35 @@ const [ statusBar,setStatusBar] = useState('');
   <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
   <Upload1 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
 
-  <h2 style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx} </h2>
+  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx} </h2>
   </div>
 
 
   <div className='example-flex'>
-   <div className='border-edit'>
+  {x.textEx > "" ? <div className='border-edit'>
     <h2 style={{color:'black'}}> Example </h2>
   <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <Upload1 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-
-  <h2 style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx} </h2>
-  </div>
-
-
-  <div className='border-edit'>
-    <h2 style={{color:'black'}}> Example </h2>
-  <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <Upload1 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+  <Upload2 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
 
   <h2 style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx1} </h2>
-  </div> 
+  </div>:null}
 
-  <div className='border-edit'>
+
+{x.textEx1 > ""?   <div className='border-edit'>
+    <h2 style={{color:'black'}}> Example </h2>
+  <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
+  <Upload3  objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+
+  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
+  </div> :null}
+
+  {/* <div className='border-edit'>
     <h2 style={{color:'black'}}> Example </h2>
   <img src={x.exampleThree} style={{maxWidth:'200px',maxHeight:'200px'}} />
   <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
 
-  <h2 style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
-  </div> 
+  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
+  </div>  */}
 </div>
 
  </div>
@@ -377,9 +376,9 @@ const [ statusBar,setStatusBar] = useState('');
   
   </div>
  
-  <p className='same-map-text'> {x.type} </p>
-  <p className='same-map-text'> {x.date} </p>
-<p className='same-map-text' style={{backgroundColor:x.color,cursor:'pointer'}} onClick={() => handleApprove(i)}> {x.status} </p>
+  <p className='same-map-text extra-styles' > {x.type} </p>
+  <p className='same-map-text extra-styles'> {x.date} </p>
+<p className='same-map-text' style={{backgroundColor:x.color,cursor:'pointer',color:'black'}} onClick={() => handleApprove(i)}> {x.status} </p>
 
 {statusBar === i? <div style={{color:'black'}} className='status-div'> 
 {level === 8 ?  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} /> : null}
@@ -416,12 +415,12 @@ const [ statusBar,setStatusBar] = useState('');
  { level > 8? 
   <div className='mapped-div' key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
   
-  <p  className='same-map-text'> {x.count}  </p>
+  <p  className='same-map-text extra-styles'> {x.count}  </p>
 
 
  
   <div className='hidden-form-div'>
- <p className='same-map-text  extra' onClick={() => handleText(i)} style={{cursor:'pointer'}} > {x.objective} </p>
+ <p className='same-map-text  extra extra-styles' onClick={() => handleText(i)} style={{cursor:'pointer'}} > {x.objective}  <img className='tab-img' src={tab}/> </p>
  
  {level > 8 ? <> <Solo  createPdf={createPdf} pdfChannels={pdfChannels} pdfCount={pdfCount} pdfObject={pdfObject} pdfDate={pdfDate}/>
  <input type='checkbox' onClick={() => {setCreatePdf(x.answer),setPdfCount(x.count),setPdfObject(x.objective),setPdfDate(x.date),setPdfChannels(x.type)}}/> 
@@ -433,12 +432,12 @@ const [ statusBar,setStatusBar] = useState('');
  <div className='holds-content'>
   <div className='main-text-side' >
      <img src={x.designer} style={{maxWidth:'200px',maxHeight:'200px'}} />
-     <h2 className='answer-text' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}}> {x.answer} </h2>
+     {!x.answer ? null :<h2 className='answer-text' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}}> {x.answer} </h2>} 
      <SendFromForm objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
   <form className='' onSubmit={handleSubmit}>
     
 <div>
-<textarea type="text" placeholder='enter text here'  style={{width:'700px',height:'200px'}} value={objectiveAnswer} onChange={(e) => setObjectiveAnswer(e.target.value)}   /> 
+<textarea type="text" placeholder='enter text here'  className='text-area' value={objectiveAnswer} onChange={(e) => setObjectiveAnswer(e.target.value)}   /> 
 <div className='confirm-text'>
 
  <button className='x-button' onClick={() => {setShow(''),setObjectiveAnswer(''),setStatusBar('')}} >  <img src={cross} alt={cross} style={{width:'30px'}}/> </button>
@@ -451,6 +450,7 @@ const [ statusBar,setStatusBar] = useState('');
       emojiSize={30} 
       emojiStyle='google'
       theme='dark'
+     
       onEmojiClick={(e) => setObjectiveAnswer((prevAnswer) => prevAnswer + e.emoji)}
       /> </>: <h3 onClick={() => setEmojiShow(emojiShow === true?false:true)} > <AddReactionIcon className='emojiset'/> </h3> : null}
 </div>
@@ -470,25 +470,25 @@ const [ statusBar,setStatusBar] = useState('');
   <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
   <Upload1 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
 
-  <h2 style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx} </h2>
+  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx} </h2>
   </div>
 
 
-  <div className='border-edit'>
+ {x.textEx > ""?  <div className='border-edit'>
     <h2 style={{color:'black'}}> Example </h2>
   <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <Upload1 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+  <Upload2 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
 
-  <h2 style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx1} </h2>
-  </div> 
+  <h2  className='same'style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx1} </h2>
+  </div>:null} 
 
-  <div className='border-edit'>
+{x.textEx1 > "" ?   <div className='border-edit'>
     <h2 style={{color:'black'}}> Example </h2>
   <img src={x.exampleThree} style={{maxWidth:'200px',maxHeight:'200px'}} />
   <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
 
-  <h2 style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
-  </div> 
+  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
+  </div> :null}
 </div>
 
 
@@ -509,9 +509,9 @@ const [ statusBar,setStatusBar] = useState('');
   
   </div>
  
-  <p className='same-map-text'> {x.type} </p>
-  <p className='same-map-text'> {x.date} </p>
-<p className='same-map-text' style={{backgroundColor:x.color,cursor:'pointer'}} onClick={() => handleApprove(i)}> {x.status} </p>
+  <p className='same-map-text extra-styles' > {x.type} </p>
+  <p className='same-map-text extra-styles'> {x.date} </p>
+<img src={x.status} className=' status-awaiting' style={{backgroundColor:x.color,cursor:'pointer',color:'black'}} onClick={() => handleApprove(i)}/> 
 
 {statusBar === i? <div style={{color:'black'}} className='status-div'> 
 {level === 8 ?  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} /> : null}
@@ -519,7 +519,7 @@ const [ statusBar,setStatusBar] = useState('');
   <WaitingDesigner objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
   <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
 <WaitingApproved objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
-<WaitingDelete objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
+{/* <WaitingDelete objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} /> */}
 </>}
 
   

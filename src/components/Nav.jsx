@@ -91,6 +91,21 @@ function handleGo(){
 })
 }
 
+const [isMobile, setIsMobile] = useState(false);
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  handleResize(); // Call the function initially to set the initial state
+
+  window.addEventListener('resize', handleResize); // Add event listener for window resize
+
+  return () => {
+    window.removeEventListener('resize', handleResize); // Clean up the event listener on component unmount
+  };
+}, []);
+
 
 
     
@@ -99,7 +114,7 @@ function handleGo(){
     <div className='navbar'>
       <User setUser={setUser} user={user} level={level} setLevel={setLevel} setUuid={setUuid} uuid={uuid}/>
 
-<div style={{marginLeft:'20px'}}> 
+<div > 
 
 <Button
         id="basic-button"
@@ -123,27 +138,29 @@ function handleGo(){
         }}
       >
         <MenuItem onClick={handleClose}> <Link to='/'> Home </Link></MenuItem>
-        <MenuItem onClick={handleClose}><Link to='/partnerprogram'> Partner-Program </Link></MenuItem>
-        <MenuItem onClick={handleClose}> <Link to='/recruitment'> Join us </Link></MenuItem>
+        {isMobile? <MenuItem onClick={handleClose}><Link to='/admindashboard'> admin </Link></MenuItem>:null}
+       
         
         {/* <MenuItem onClick={handleClose}>Logout</MenuItem> */}
       </Menu>
 
        {uuid && <>
 <div className='style-nav'>
-{level === 10?  <Link to='/admindashboard' className='same-type'>admin</Link> :null} 
+{level === 10 && isMobile === false?  <Link to='/admindashboard' className=' nicer-style' >admin</Link> :null} 
         <br />
-  <button className='outline' onClick={handleLogout} style ={{backgroundColor:'white',color:'black'}}>Sign out</button>
+  <button className='outline nicer-style' onClick={handleLogout} >Sign out</button>
         <br />
-        <h2 className='same-type'onClick={handleGo} >{userOkay}</h2>
+        <button className=' nicer-style'onClick={handleGo} >{userOkay}</button>
+      
 </div>
   
        </>}
 
        {!uuid && <> 
        <div className='nav-notsigned'>
-            <Link to ='/login'> Login </Link>
-      <Link to ='/signup'> Signup </Link>
+            <Link to ='/login' className='nicer-style'> Login </Link>
+      <Link to ='/signup' className='nicer-style'> Signup </Link>
+    
        </div>
     
        

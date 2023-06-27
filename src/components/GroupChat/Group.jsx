@@ -282,7 +282,7 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
    
    {privateChat && <> 
  {Object.entries(chat).map(([key, value]) => (
-          <div key={key} style={{display:'flex',alignItems:'center',justifyContent:'center',width:'400px',flexDirection:'row',flexWrap:'wrap'}}>
+          <div key={key} className='chat-mini-private'>
             <h2 className='style-this-h2-smaller' >  <img src={time} style={{width:'20px',height:'20px',marginRight:'10px'}} />  {key} </h2>
             <h2 className='style-this-h2-smaller'>  -  {value} </h2>
            <hr style={{color:'black',width:'200px'}}/>

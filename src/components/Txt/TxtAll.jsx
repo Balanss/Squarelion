@@ -32,7 +32,7 @@ function TxtAll ({filter}) {
 
   return (
     <div>
-      <img src={txt} alt={txt} onClick={handleDownload} style={{width: "100px", height: "100px", cursor: "pointer"}}/>
+      <img src={txt} alt={txt} onClick={handleDownload} className='txt-img' style={{ cursor: "pointer"}}/>
     </div>
   );
 }

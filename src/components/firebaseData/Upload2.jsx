@@ -60,7 +60,7 @@ export default function upload2({objectiveAnswer,typeAnswer,month,color,page,lev
       
       if (image === ''){
         fs.collection(page).doc(typeAnswer+month).set({
-            textEx:example,
+          textEx1:example,
          
             
            },{merge:true})
@@ -102,7 +102,7 @@ export default function upload2({objectiveAnswer,typeAnswer,month,color,page,lev
 
 
         <input type="file" onChange={handleImageChange} />
-        <textarea  onChange={(e) => setExample(e.target.value)} />
+        <textarea className='expample' onChange={(e) => setExample(e.target.value)} />
          <button> Add Example </button>
 
 </form>

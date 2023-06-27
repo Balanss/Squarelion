@@ -4,17 +4,18 @@ import React from 'react'
 import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
 import { auth, fs,db } from '/src/Firebase.jsx'
 import {useState, useEffect} from 'react'
+import design from '../images/graphic-designer.png'
 export default function WaitingDesigner({typeAnswer,month,page}) {
     function handleData(){
      
         
         fs.collection(page).doc(typeAnswer+month).set({
             color:'gold',
-            status:'Send to Designer'
+            status:'https://firebasestorage.googleapis.com/v0/b/squarelion-43d29.appspot.com/o/icons%2Fgraphic-designer.png?alt=media&token=42299087-2375-419c-9c53-572d90276e80'
 
           },{merge:true})
   }
   return (
-    <p className='style-status  extra-designer' onClick={handleData}> Send to Designer </p> 
+    <img src={design} className='style-status  extra-designer' onClick={handleData}/> 
   )
 }

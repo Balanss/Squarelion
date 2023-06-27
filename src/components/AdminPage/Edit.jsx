@@ -40,8 +40,8 @@ export default function Edit() {
    
 
     const[value,setValue] = useState('')
-function handleUser(i){
-    
+function handleUser(i,e){
+    e.preventDefault()
     userPermit.map((x,index) => {
       
         if (index === i) {
@@ -58,45 +58,55 @@ function handleUser(i){
 
 
   return (
-    <div style={{display:'flex'}}>
+
+
+
+
+    <div className='user-settings-admin'>
     
-   
+ 
     <div className='user-levels'>
-<h2>  Users that have been registered to the system </h2>
-    {userPermit.map((x,i) => {
+    <h2>  Users that have been registered to the system </h2>
+    <div className='inside-user-levels'>
+        {userPermit.map((x,i) => {
 if (x.level > 0){
   return (<div key={i} className='user-level-div'>
   <img src={userPfp} style={{width:'30px'}}/>
-<h1>{x.Name}</h1>
-<h1>{x.level}</h1>
-<form onSubmit={() => {handleUser(i)}}>
+<h4>{x.Name}</h4>
+<h4>User Level: {x.level}</h4>
+<form onSubmit={(e) => {handleUser(i,e)}}>
       <input  placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/>
 </form>
 
 </div>)
 }
 })} 
+  
+    </div>
 
 
-
+<hr className='hr'/>
 
     </div>
 
-<div className='user-levels'>
+<div className='user-levels-await'>
   <h2> Users awaiting approval</h2>
-{userPermit.map((x,i) => {
+  <div>
+   {userPermit.map((x,i) => {
 if (x.level === 0){
   return (<div key={i} className='user-level-div'>
   <img src={userPfp} style={{width:'30px'}}/>
 <h1>{x.Name}</h1>
-<h1>{x.level}</h1>
-<form onSubmit={() => {handleUser(i)}}>
+<h1> User Level: {x.level}</h1>
+<form onSubmit={(e) => {handleUser(i,e)}}>
       <input  placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/>
 </form>
 
 </div>)
-}
-})} 
+} 
+})}  
+  </div>
+
 </div>
 
     </div> )

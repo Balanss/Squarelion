@@ -16,7 +16,7 @@ const [level,setLevel] = useState('')
 </div>
 <div className='profiletextwait'>
 <h2> Hello {user}, Currently you are waiting approval from an admin </h2>
-<img src={useLogo} alt="logo"  style={{width:'700px',margin:'0 auto',}}/>
+<img src={useLogo} alt="logo"  style={{margin:'0 auto',}} className='sql-logo'/>
 <h3> Sed dapibus tellus at tempor feugiat. Nullam id vehicula lacus.
      Aliquam erat volutpat. Vestibulum fermentum hendrerit odio, 
      non blandit metus ullamcorper vel. Nulla sed magna diam. Vestibulum 

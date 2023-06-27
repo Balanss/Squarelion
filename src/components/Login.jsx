@@ -80,18 +80,19 @@ const navigate = useNavigate()
     <div className='signup-div'>
         
 <form className='signup-form' onSubmit={handleSubmit}>
-<input type='text' placeholder='email' onChange={(e) => setEmail(e.target.value)} />
+<input type='text' placeholder='email' onChange={(e) => setEmail(e.target.value)}  />
 <input type='text' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
 <div >
-<button style={{marginRight:'20px',color:'black',backgroundColor:'background-color: #194375'}}> Login </button> 
- <button style={{color:'black',backgroundColor:'background-color: #194375'}} onClick={() => navigate('/')}> Signup </button>
+<button style={{marginRight:'20px'}} className='Button'> Login </button> 
+ <button  onClick={() => navigate('/signup')} className='Button'> Signup </button>
 
 <div style={{marginTop:'15px'}}>
-  <button onClick={handleSignIn} className='google-sign'>  Google sign-in <img style={{width:'30px'}} src={google} /> </button>
+  <button onClick={handleSignIn} className='google-sign Button' >  Google sign-in <img style={{width:'30px'}} src={google} /> </button>
+
 </div>
 </div>
 
-<h2>  {successMsg} </h2> 
+<h2 style={{color:'white'}}>  {successMsg} </h2> 
 </form>
 
 
@@ -107,7 +108,7 @@ const navigate = useNavigate()
     
   </div>
 
- <div className='success-msg'>   </div> 
+ <div className='success-msg' >   </div> 
 
   </div>
     </div>
