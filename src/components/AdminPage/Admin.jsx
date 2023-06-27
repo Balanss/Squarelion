@@ -195,10 +195,10 @@ const [switching,setSwitching] = useState(false)
       <div style={{backgroundColor:'#194375',minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
 <div style={{backgroundColor:'white'}}> <Nav/> </div>
 
-<div style={{marginTop:'30px'}}><h1 className='switching' onClick={() => setSwitching(switching === false ? true : false)}> {switching === false ? 'Switch to Users' : 'Switch to Partners' } </h1> </div>
+<div className='admin-page-btn-switch' style={{marginTop:'30px'}}><h1 className='switching' onClick={() => setSwitching(switching === false ? true : false)}> {switching === false ? 'Switch to Users' : 'Switch to Partners' } </h1> </div>
 
 {switching === false && <>
-  < div>
+  < div className='style-admin-page'>
   <form onSubmit={handleSub} className='form-admindb'> 
 
 <input type="text" placeholder='ENTER PARTNER' onChange={(e) => setName(e.target.value)} className='input-admindb' />

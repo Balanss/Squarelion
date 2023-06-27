@@ -87,7 +87,7 @@ if (x.level > 0){
 
 <hr className='hr'/>
 
-    </div>
+    </div> 
 
 <div className='user-levels-await'>
   <h2> Users awaiting approval</h2>

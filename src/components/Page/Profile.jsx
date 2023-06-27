@@ -137,29 +137,44 @@ useEffect(() => {
 
          
         
-      
-        const [ chat,setChat] = useState([]);
-        useEffect(() => {
-            if (user){
-              const docRef = doc(db,'chat',privateChat);
-              const unSub = onSnapshot(docRef,(docSnap )  => {
-                if (docSnap.exists()){
-                  const chat = docSnap.data().chat || []
-                  setChat(chat)
-                }
-                else{
-                    setChat('')
-                }
-              })
-              return unSub
-            }
+const [chat, setChat] = useState('');
+
+const getChatData = async () => {
+  try {
+    const chatDocRef = fs.collection('chat').doc(privateChat);
+
+    chatDocRef.onSnapshot((chatDocSnapshot) => {
+      if (chatDocSnapshot.exists) {
+        const chatData = chatDocSnapshot.data();
+
+        // Sort the chat messages based on time in descending order
+        const sortedChat = Object.entries(chatData)
+          .filter(([key]) => key !== 'timestamp') // Exclude the 'timestamp' field from sorting
+          .sort((a, b) => new Date(b[0]) - new Date(a[0])) // Sort by date in descending order
+          .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}); // Convert back to object
+
+        setChat(sortedChat);
+      } else {
+        console.log('privateChat document does not exist');
+        setChat(''); // Reset the chat data if the document doesn't exist
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching chat data:', error);
+  }
+};
+
+useEffect(() => {
+  getChatData();
+}, [privateChat]); // Re-fetch chat data whenever privateChat changes
+
+
+
+
+console.log(chat)
           
-            },[user,privateChat]);
 
-
-           
-
-         
+        const [trueChat,setTrueChat] = useState()
         
     
 const [hideList,setHideList] = useState(false)
@@ -183,12 +198,12 @@ const handleDeleted = (id) => {
 
 
 function handleNoti(id){
-   if(notiNumber !== 0){
+ 
   const docRef = collection(db,'group');
   const colRef = doc(docRef, id);
   updateDoc(colRef,{[user]:0 },{merge: true})
  }
-}
+
        
 
 
@@ -293,10 +308,10 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
  
  {privateChat && <> 
 {Object.entries(chat).map(([key, value]) => (
-        <div key={key} style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+        <div key={key} style={{display:'flex',alignItems:'center',justifyContent:'center'}} className='style-private-chat'>
           <h2 className='indi-group-text' >  <img src={time} style={{width:'20px',height:'20px',marginRight:'10px'}} />  {key} </h2>
-          <h2>  -  {value} </h2>
-         
+          <h2>   {value} </h2>
+         <hr style={{color:'black',width:'100px'}}/>
         </div>
       ))}
 
@@ -311,7 +326,7 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
     <label > {`Send message to ${displayTo} ${imp === true && displayTo === 'Group'? ' [Priority] ' : '' }`} </label>
 
     <div>
-    <textarea onChange={(e) => setText(e.target.value)} className='textarea' placeholder='Enter' > 
+    <textarea onChange={(e) => setText(e.target.value)} value={text} className='textarea' placeholder='Enter' > 
 
 </textarea>
 <img src={mark} onClick={() => {setImp(imp === false? true : false)}} className='img-imp' style={{width:'2rem'}}/> 
@@ -319,7 +334,7 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 
 {sendTo === 'designer' ? <Button allUid={allUid} user={user}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
 {sendTo === 'group' ? <Button allUid={allUid} user={user} sendTo={sendTo} text={text} uuid={uuid} imp={imp} />:null }
-{sendTo !== 'designer' && sendTo !== 'group' ?  <PrivateChat user={user} sendTo={sendTo} text={text} /> :null }
+{sendTo !== 'designer' && sendTo !== 'group' ?  <PrivateChat user={user}  setText ={setText} sendTo={sendTo} text={text} trueChat={trueChat} /> :null }
   
    
 </form>
@@ -333,7 +348,7 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
     
     {work.map((x,id) => {
      return <div key={id}>
-        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setDisplayTo(x.Name), setHideList(false)}}> {x.Name} </h2>
+        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setTrueChat('chat'+ x.Name + user),setDisplayTo(x.Name), setHideList(false)}}> {x.Name} </h2>
      
      </div>
    

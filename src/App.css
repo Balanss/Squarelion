@@ -26,6 +26,15 @@ padding-right: 0 !important;
 @media screen and (min-width:320px){
 
 
+  aside.EmojiPickerReact.epr-main{
+    width: 85vw !important;
+  }
+
+.style-admin-page{
+  background-color: #1b4883;
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+}
+
 
 
 .content-div{
@@ -36,6 +45,13 @@ padding-right: 0 !important;
   /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
   
+
+.style-private-chat{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column-reverse;
+}
 
   .nicer-style {
     --border: 5px;    /* the border width */
@@ -89,7 +105,7 @@ padding-right: 0 !important;
   }
 
   .nav-notsigned{
-    width: 150px;
+    width: 190px;
     display: flex;
     justify-content: space-evenly;
   }
@@ -644,6 +660,10 @@ padding-right: 0 !important;
 
 }
 
+aside.EmojiPickerReact.epr-main{
+  width: 40vw !important;
+}
+
 .tab-img{
  
   width: 60px;
@@ -659,6 +679,8 @@ padding-right: 0 !important;
 .user-settings-admin{
   display: flex;
   justify-content: space-around;
+  background-color: #1b4883;
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
 }
 
 
@@ -740,6 +762,14 @@ padding-right: 0 !important;
 }
 
 @media screen and (min-width:1440px) {
+
+
+.admin-page-btn-switch{
+  background-color: #1b4883;
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+  padding-top: 30px;
+  margin-top: 0px !important;
+}
 
 .status-awaiting{
   width: 50px;
@@ -850,6 +880,8 @@ padding-right: 0 !important;
   align-items: flex-start;
   transition: transform 0.3s ease;
   flex-direction:row;
+  border: 2px solid black;
+  padding: 10px;
 }
 
 .mapped-div:hover{ transform: scale(1.01);
