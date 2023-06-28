@@ -236,7 +236,7 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
  <div className='list-pages'  > 
 
 <div className={hideList === true ? 'hidden-chat' : 'hidden-zero'}>
-    {hideList && level > 8 && <>
+    {hideList && level > 7 && <>
  
  <div  className='inside-hidden-chat'>
 
@@ -308,7 +308,7 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
     </div>
 
 <div className='group-list'>
-      <h2  onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group')}} style={{cursor:'pointer'}} className='h2-noti elementwrapper'> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2>
+     {level > 8 ?  <h2  onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group')}} style={{cursor:'pointer'}} className='h2-noti elementwrapper'> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2> : null}
     <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer')}} style={{cursor:'pointer'}} className='h2-noti elementwrapper'> Designer  </h2>
     {work.map((x,id) => {
      return <div key={id} className='elementwrapper'>
@@ -327,21 +327,7 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
 </div>
 
 
-{hideList && level === 8 && <>
 
-
-<div style={{backgroundColor:'white',width:'125px',padding:'10px',borderRadius:'10px'}}>
-<h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer')}} style={{cursor:'pointer'}} className='h2-noti'> Chat  </h2>
-{work.map((x,id) => {
-     return <div key={id}>
-        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setDisplayTo(x.Name)}}> {x.Name} </h2>
-     
-     </div>
-   
- })}
-</div>
-
-</>}
 
 
 <img className='meeting-bg' src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() => hideList === true? setHideList(false) : setHideList(true)}/>

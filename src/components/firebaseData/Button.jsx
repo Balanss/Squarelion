@@ -10,7 +10,7 @@ import error from '../images/error.png'
 import wip from '../images/wip.png'
 
 
-export default function Button({objective,type,date,post,page,month,setObjective}) {
+export default function Button({objective,type,date,post,page,month,setObjective,qty}) {
     
 const [ succ,setSucc] = useState()
 
@@ -25,6 +25,7 @@ const [ succ,setSucc] = useState()
              count: post,
              status: 'https://firebasestorage.googleapis.com/v0/b/squarelion-43d29.appspot.com/o/icons%2Fwip.png?alt=media&token=642d26a4-7c84-4111-8476-4cad8e77ebc8',
              color:'orange',
+             statusText:'pending',
              month:month
            
           })
@@ -44,6 +45,11 @@ const [ succ,setSucc] = useState()
             setSucc('')
           },2000)
          }
+
+fs.collection('partner').doc(page).set({
+  status: qty - - 1,
+},{merge:true})
+
       }
 
 

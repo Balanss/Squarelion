@@ -79,6 +79,7 @@ uploadTask.on(
 
     setDoc(colRef,  {imageUrl: downloadURL,
       name:name ,
+      status:0,
     
 
     },{merge:true})
@@ -132,6 +133,7 @@ const [partner, setPartner] = useState([]);
 
             localStorage.setItem('partner',x.name)
             localStorage.setItem('image',x.imageUrl)
+            
 
             setTimeout(() =>{
                 navigate(`/profile/${x.name}`)

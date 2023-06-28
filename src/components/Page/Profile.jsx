@@ -21,8 +21,15 @@ import mark from "../images/important.png"
 import Links from './Links'
 import WaitingApproval from '../firebaseData/WaitingApproval'
 import WaitingForAdmin from './WaitingForAdmin'
+import Title from '../../Title'
 
 export default function Profile() {
+
+
+  const [customTitle, setCustomTitle] = useState('');
+
+ 
+
     const {id} = useParams()
     const [ name,setName] = useState('')
     const [user,setUser] = useState('')
@@ -171,8 +178,7 @@ useEffect(() => {
 
 
 
-console.log(chat)
-          
+
 
         const [trueChat,setTrueChat] = useState()
         
@@ -251,7 +257,7 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
   return (<>
   
   <User setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
- 
+ <Title sum={sum}  />
   
 {level === 0 && <>
 
@@ -358,7 +364,7 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
  </>}
 
 {hideList && level === 8 && <>
-<div style={{backgroundColor:'white',width:'125px',padding:'10px',borderRadius:'10px'}}>
+<div style={{backgroundColor:'white',width:'125px',padding:'10px',borderRadius:'10px',color:'black'}}>
 <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer'), setHideList(false)}} style={{cursor:'pointer'}} className='h2-noti'> Chat  </h2>
 {work.map((x,id) => {
      return <div key={id}>

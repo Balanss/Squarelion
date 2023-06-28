@@ -98,9 +98,14 @@ export default function Links() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-      {partner.map((partner,index) => (
+      {partner.map((partner,index) => (<div style={{display:'flex',alignItems:'center'}}>
 
-<h2 key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name} </h2> 
+<h2 key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}  </h2> 
+<p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p>
+
+
+      </div>
+
 ))}
       </List>
       <Divider />

@@ -26,6 +26,46 @@ padding-right: 0 !important;
 @media screen and (min-width:320px){
 
 
+  .img-zoom{
+    transition: transform 0.7s ease; 
+  }
+
+  .img-zoom:hover{
+    transform: scale(1.2);
+  }
+
+  .designer-chat-sees{
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    color: black;
+  }
+
+  .example-style{
+    color: black;
+    background-color: ghostwhite;
+    width: 200px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+  }
+
+
+  .above-div-send-designer{
+    justify-content: center;
+  }
+
+  .main-text-side{
+    margin-bottom: 30px;
+  }
+
+  .admin-links-only-designer{
+    background-color: ghostwhite;
+    border: 1px solid black;
+  }
+
   aside.EmojiPickerReact.epr-main{
     width: 85vw !important;
   }
@@ -429,6 +469,7 @@ padding-right: 0 !important;
       color: black;
       border: 8px solid;
       align-items: center;
+    
     }
     
 
@@ -450,7 +491,7 @@ padding-right: 0 !important;
     
     .addtotext{
       background-color: transparent ;
-      margin-bottom: 30px;
+      margin-bottom: 0px;
     }
     
     
@@ -562,7 +603,7 @@ padding-right: 0 !important;
     .extra{
      
       word-break: break-word;
-      font-size: 14px !important;
+    
     }
     
     
@@ -666,7 +707,7 @@ aside.EmojiPickerReact.epr-main{
 
 .tab-img{
  
-  width: 60px;
+  width: 40px;
 }
 
 .style-nav{
@@ -763,6 +804,11 @@ aside.EmojiPickerReact.epr-main{
 
 @media screen and (min-width:1440px) {
 
+  .admin-links-only-designer{
+    width: 200px;
+    position: absolute;
+    top: 13vh;
+  }
 
 .admin-page-btn-switch{
   background-color: #1b4883;
@@ -850,6 +896,7 @@ aside.EmojiPickerReact.epr-main{
 
   .expample{
     width: 13vw;
+    margin: auto;
   }
 
   .real-admin-links {
@@ -880,8 +927,10 @@ aside.EmojiPickerReact.epr-main{
   align-items: flex-start;
   transition: transform 0.3s ease;
   flex-direction:row;
-  border: 2px solid black;
+  border: 6px solid black;
   padding: 10px;
+  background-color: #194375;
+
 }
 
 .mapped-div:hover{ transform: scale(1.01);
@@ -927,6 +976,7 @@ aside.EmojiPickerReact.epr-main{
 
 .extra {
   word-break: break-all;
+  justify-content: center;
 }
 
 .answer-text{
@@ -1287,6 +1337,10 @@ section{
   border: transparent ;
   transition: transform 0.3s ease;
   margin-right: 20px;
+}
+
+.addtotext:hover{
+  outline: none !important;
 }
 
 .addtotext:hover{  transform: scale(1.1);}
