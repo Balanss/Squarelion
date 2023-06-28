@@ -167,6 +167,7 @@ setHide(false)
 
 
 
+
   function handleAdminSubmit(e){
     e.preventDefault();
   }
@@ -233,9 +234,13 @@ round.map((x,index) => {
 const [filter,setFilter] = useState('');
 const [ statusBar,setStatusBar] = useState('');
   useEffect(() => {
-   setFilter(round.filter((x) => x.status === 'Approved')) 
+    const currentDate = new Date();
+    const currentMonth = currentDate.toISOString().slice(0, 7); // Format: YYYY-MM
+ 
+    setFilter(round.filter((x) => x.statusText === 'Approved' && x.month === month)); 
+   
 
-  },[round])
+  },[round,month])
 
 
 
@@ -268,14 +273,7 @@ const [ statusBar,setStatusBar] = useState('');
 <div className='content-div' >
 
 {level > 8 ?<div style={{zIndex:1}} className='text-icon'>
-  <TxtAll className='txt' filter={filter} />  
-
-{/* <PDFDownloadLink  className='pdf-content' document={  <WholePage  filter={filter}/>} fileName={`${page}.pdf`} style={{position:'absolute',zIndex:1,width:'100px',height:'100px'}} >  {({ blob, url, loading, error }) =>
-          loading ? 'Loading document...' : 'Download PDF'
-        } </PDFDownloadLink> */}
-
-
-     
+  <TxtAll className='txt' filter={filter} />    
 </div>:null}
 
 
@@ -301,7 +299,7 @@ const [ statusBar,setStatusBar] = useState('');
 <p onClick={() => setType('Stories')} style={{cursor:'pointer'}}> Stories </p>  
 <input type=" text" placeholder='Other' onChange={(e) => setType(e.target.value)}    className='input-admindb'/>  </div> :null }
 
-  <input type="text" placeholder='date'  onChange={(e) => setDate(e.target.value)}  required className='input-admindb'/>
+  <input type="text" placeholder='day'  onChange={(e) => setDate(e.target.value)}  required className='input-admindb'/>
   <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb' /> 
  </form> :null}
 
@@ -406,7 +404,7 @@ const [ statusBar,setStatusBar] = useState('');
   </div>
  
   <p className='same-map-text extra-styles' > {x.type} </p>
-  <p className='same-map-text extra-styles'> {x.date} </p>
+  <p className='same-map-text extra-styles'> {month}-{x.date} </p>
   <img src={x.status} className=' status-awaiting' style={{backgroundColor:x.color,cursor:'pointer',color:'black'}} onClick={() => handleApprove(i)}/> 
 
 {statusBar === i? <div style={{color:'black'}} className='status-div'> 
@@ -539,7 +537,7 @@ const [ statusBar,setStatusBar] = useState('');
   </div>
  
   <p className='same-map-text extra-styles' > {x.type} </p>
-  <p className='same-map-text extra-styles'> {x.date} </p>
+  <p className='same-map-text extra-styles'>  {month}-{x.date}  </p>
 <img src={x.status} className=' status-awaiting' style={{backgroundColor:x.color,cursor:'pointer',color:'black'}} onClick={() => handleApprove(i)}/> 
 
 {statusBar === i? <div style={{color:'black'}} className='status-div'> 

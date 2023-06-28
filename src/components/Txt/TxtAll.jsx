@@ -30,6 +30,8 @@ function TxtAll ({filter}) {
     convertToTextFile(filter);
   };
 
+
+
   return (
     <div>
       <img src={txt} alt={txt} onClick={handleDownload} className='txt-img' style={{ cursor: "pointer"}}/>

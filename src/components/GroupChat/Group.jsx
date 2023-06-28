@@ -181,19 +181,28 @@ const handleDeleted = (id) => {
 
 
 function handleNoti(id){
-   if(notiNumber !== 0){
+
   const docRef = collection(db,'group');
   const colRef = doc(docRef, id);
   updateDoc(colRef,{[user]:0 },{merge: true})
- }
+ 
 }
        
 
+let sum = 0  ;
 
 
 
+function handleSum(id){
+  message.map((x,id) => {
+    const docRef = collection(db,'group');
+    const colRef = doc(docRef, x.id);
+    updateDoc(colRef,{[user]:0 },{merge: true})
 
+  })
 
+  
+}
 
 
 
@@ -217,9 +226,9 @@ const [showImportant,setShowImportant] = useState(false)
 
  
 const important = message.filter(work => work.imp === imp)
-const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null);
+ sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null);
 
-   
+
 
 
   return (<>
@@ -248,7 +257,7 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
      
      
     {showImportant === true ? important.map((x,id) => {
-    return  <div key={id} className='style-this-h2-smaller' onClick={() => handleDelete(x.id)} > <h2 className='style-this-h2-smaller'>  <img src={mark} style={{width:'40px',height:'40px'}}/> {x.text} - {x.sendBy} </h2> 
+    return  <div key={id} className='style-this-h2-smaller' onClick={() => handleDelete(x.id)} > <h2 className='style-this-h2-smaller'>  <img src={mark} style={{width:'40px',height:'40px'}}/>  {x.text} - {x.sendBy} </h2> 
     <img style={{width:'50px',height:'50px',cursor:'pointer'}} src={bin} onClick={(i) => handleDeleted(x.id)}/> </div> 
      }) : 
      
@@ -257,6 +266,7 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
 
      message.map((x,i) => {
     return <>  <div key={i} className='style-this-h2-smaller' onClick={() => handleDelete(x.id)} > 
+   {/* {sum > 0  ?  <img src={x.mail} alt={x.mail} style={{width:'40px',height:'40px'}} onClick={() => handleNoti(x.id)}/> :null } */}
     <h2 className='style-this-h2-smaller' onClick={() => handleNoti(x.id)}>  {x.imp > ""? <img src={mark} style={{width:'40px',height:'40px'}}/> :null } {x.text} - {x.sendBy} </h2> 
     <img style={{width:'50px',height:'50px',cursor:'pointer'}} src={bin} onClick={(i) => handleDeleted(x.id)}/>
      </div> 
@@ -308,7 +318,7 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
     </div>
 
 <div className='group-list'>
-     {level > 8 ?  <h2  onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group')}} style={{cursor:'pointer'}} className='h2-noti elementwrapper'> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2> : null}
+     {level > 8 ?  <h2  onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group')}} style={{cursor:'pointer'}} className='h2-noti elementwrapper' onDoubleClick={handleSum}> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2> : null}
     <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer')}} style={{cursor:'pointer'}} className='h2-noti elementwrapper'> Designer  </h2>
     {work.map((x,id) => {
      return <div key={id} className='elementwrapper'>

@@ -21,7 +21,7 @@ export default function Button({text,sendTo,user,imp,allUid,setText}) {
          
           
 
-           
+        
 
 
     function handleSend() {    
@@ -31,7 +31,8 @@ export default function Button({text,sendTo,user,imp,allUid,setText}) {
             text: text ,
             sendBy: user + ' /' + slicedDate,
             timestamp: timestamp,
-            imp: imp
+            imp: imp,
+            mail:'https://firebasestorage.googleapis.com/v0/b/squarelion-43d29.appspot.com/o/icons%2Fmail.png?alt=media&token=bdfde3a5-5c9b-4e2c-aa52-4ee31b2defe0',
           },{merge: true})
 
  
