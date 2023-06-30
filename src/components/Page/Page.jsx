@@ -263,25 +263,25 @@ const [ statusBar,setStatusBar] = useState('');
 
 
 {level === 8 && <>
-<div className='admin-links-only-designer'> <Links/> </div>
+<div className='admin-links-only-designer'> <Links/>
+<img src={img}  className='client-pic' style={{backgroundColor:'white',marginBottom:'40px',marginTop:'20px'}}/>  </div>
 </>
 }
 
 {level > 8 && <>
-  <div className='admin-links-only'> <Links/> </div>
+  <div className='admin-links-only'> <Links/> 
+  <img src={img}  className='client-pic' style={{backgroundColor:'white',marginBottom:'20px',marginTop:'20px'}}/>
+  <div style={{zIndex:1}} >
+  <TxtAll className='txt' filter={filter} />    
+</div>
+   </div>
 </>}
 
 <Group />
 <div className='content-div' >
-
-{level > 8 ?<div style={{zIndex:1}} className='text-icon'>
-  <TxtAll className='txt' filter={filter} />    
-</div>:null}
-
-
  <div>
 
-   <img src={img}  className='client-pic' style={{backgroundColor:'white',marginBottom:'40px',marginTop:'20px'}}/> 
+
  
  </div>
 
