@@ -2,10 +2,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import Nav from '../Nav'
-import { Link } from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import { auth, fs,db } from '../../Firebase'
-import { useNavigate } from 'react-router-dom'
 import User from '../User'
 import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
 import { useParams } from 'react-router-dom'
@@ -15,23 +13,17 @@ import Footer from '../Home/Footer'
 import bin from '../images/bin.png'
 import meeting from '../images/meeting.png'
 import time from '../images/time.png'
-import CircularProgress from '@mui/material/CircularProgress';
-import Stack from '@mui/material/Stack';
 import mark from "../images/important.png"
 import Links from './Links'
-import WaitingApproval from '../firebaseData/WaitingApproval'
 import WaitingForAdmin from './WaitingForAdmin'
 import Title from '../../Title'
+import ProfileFunctions from './profileFunctions/ProfileFunctions'
+import Loading from '../Loading'
 
 export default function Profile() {
 
 
-  const [customTitle, setCustomTitle] = useState('');
-
- 
-
     const {id} = useParams()
-    const [ name,setName] = useState('')
     const [user,setUser] = useState('')
 const [uuid,setUuid] = useState('')
 const [ isAccepted,setIsAccepted] = useState('')
@@ -40,7 +32,7 @@ const [ sendTo,setSendTo] = useState('')
 const [ text,setText] = useState('')
 const [privateChat,setPrivateChat] = useState('waiting')
 
-        const navigate = useNavigate()
+
 
 
         const [work, setWork] = useState([]);
@@ -73,118 +65,16 @@ const [privateChat,setPrivateChat] = useState('waiting')
         }, []);
         
 
-        // function handleName(){
-
-        // }
-
-      
-
-
-   
 
         
-        const [message, setMessage] = useState([]);
-        const getMessage = async () => {
-            try {
-              const unsubscribe = fs
-                .collection('group')
-                .orderBy('timestamp', 'desc')
-                .onSnapshot((querySnapshot) => {
-                  const messageArray = querySnapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data()
-                  }));
-          
-                  setMessage(messageArray);
-                });
-          
-              return unsubscribe;
-            } catch (error) {
-              console.error('Error fetching message data:', error);
-            }
-          };
-          
-          useEffect(() => {
-            const unsubscribe = getMessage();
-          
-            // Cleanup the subscription
-           
-          }, []); 
-
-
-          const [designerChat, setDesignerChat] = useState([]); 
-
-const getDesignerChat = async () => { 
-  try {
-    const unsubscribe = fs // Assuming 'fs' is Firestore
-      .collection('designer')
-      .orderBy('timestamp', 'desc')
-      .onSnapshot((querySnapshot) => {
-        const chatArray = querySnapshot.docs.map((doc) => ({ 
-          id: doc.id,
-          ...doc.data()
-        }));
-
-        setDesignerChat(chatArray); 
-      });
-
-    return unsubscribe;
-  } catch (error) {
-    console.error('Error fetching designer chat data:', error); 
-  }
-};
-
-useEffect(() => {
-  const unsubscribe = getDesignerChat(); 
-
-  // Cleanup the subscription
-
-}, []);
-
-
-         
-        
+const [message, setMessage] = useState([]);
+const [designerChat, setDesignerChat] = useState([]); 
 const [chat, setChat] = useState('');
-
-const getChatData = async () => {
-  try {
-    const chatDocRef = fs.collection('chat').doc(privateChat);
-
-    chatDocRef.onSnapshot((chatDocSnapshot) => {
-      if (chatDocSnapshot.exists) {
-        const chatData = chatDocSnapshot.data();
-
-        // Sort the chat messages based on time in descending order
-        const sortedChat = Object.entries(chatData)
-          .filter(([key]) => key !== 'timestamp') // Exclude the 'timestamp' field from sorting
-          .sort((a, b) => new Date(b[0]) - new Date(a[0])) // Sort by date in descending order
-          .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}); // Convert back to object
-
-        setChat(sortedChat);
-      } else {
-        console.log('privateChat document does not exist');
-        setChat(''); // Reset the chat data if the document doesn't exist
-      }
-    });
-  } catch (error) {
-    console.error('Error fetching chat data:', error);
-  }
-};
-
-useEffect(() => {
-  getChatData();
-}, [privateChat]); // Re-fetch chat data whenever privateChat changes
-
-
-
-
-
-
-        const [trueChat,setTrueChat] = useState()
-        
-    
+const [trueChat,setTrueChat] = useState()   
 const [hideList,setHideList] = useState(false)
 const [displayTo,setDisplayTo] = useState('')
+
+
     const allUid = (work.map(x => x.Name))
 const handleDeleted = (id) => {
    
@@ -210,16 +100,6 @@ function handleNoti(id){
   updateDoc(colRef,{[user]:0 },{merge: true})
  }
 
-       
-
-
-
-
-
-
-
-
-
 
 const handleDelete = (id) => {
     const docRef = doc(db, 'group', id);
@@ -230,7 +110,7 @@ const handleDelete = (id) => {
         console.log('Field successfully updated');
       })
       .catch((error) => {
-        console.error('Error deleting field:', error);
+        null
       });
   };
 
@@ -244,20 +124,16 @@ useEffect(() => {
   },1000)
 },[])
   
-const important = message.filter(work => work.imp === imp)
-
-
-
-
 
 const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null);
 
 
 
   return (<>
-  
+  <ProfileFunctions privateChat={privateChat} setChat={setChat} setDesignerChat={setDesignerChat} setMessage={setMessage}/>
+  <Title/>
   <User setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
- <Title sum={sum}  />
+
   
 {level === 0 && <>
 
@@ -267,7 +143,7 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
 </>}
 
     {level > 7 ?  <>  <div className='profile'>
-    <div style={{margin:'auto',backgroundColor:'white'}}> <Nav/> </div>
+    <div style={{margin:'auto',backgroundColor:'white',borderBottom:'2px solid gold'}}> <Nav/> </div>
      <div className='real-admin-links'><Links/> </div>
     <div className='group-text'>
 
@@ -328,6 +204,8 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 
 
 </div>
+
+
 <form className='form-private' onSubmit={(e) => e.preventDefault()}>
     <label > {`Send message to ${displayTo} ${imp === true && displayTo === 'Group'? ' [Priority] ' : '' }`} </label>
 
@@ -338,8 +216,8 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 <img src={mark} onClick={() => {setImp(imp === false? true : false)}} className='img-imp' style={{width:'2rem'}}/> 
     </div>
 
-{sendTo === 'designer' ? <Button allUid={allUid} user={user}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
-{sendTo === 'group' ? <Button allUid={allUid} user={user} sendTo={sendTo} text={text} uuid={uuid} imp={imp} />:null }
+{sendTo === 'designer' ? <Button allUid={allUid}  user={user}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
+{sendTo === 'group' ? <Button allUid={allUid}setText={setText} user={user} sendTo={sendTo} text={text} uuid={uuid} imp={imp} />:null }
 {sendTo !== 'designer' && sendTo !== 'group' ?  <PrivateChat user={user}  setText ={setText} sendTo={sendTo} text={text} trueChat={trueChat} /> :null }
   
    
@@ -398,10 +276,7 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 
 
  {loading === false &&  <>
-        <div className='loading-screen'> <Stack sx={{ color: 'gold' }} spacing={2} direction="row">
-      <CircularProgress color="secondary" />
-    </Stack>
-    <h1> Loading ... </h1></div>
+<Loading/>
       </>}
   
   </>

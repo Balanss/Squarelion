@@ -3,6 +3,7 @@ import {useState,useEffect} from 'react'
 import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
 import { auth, fs,db } from '/src/Firebase.jsx'
 import userPfp from "../images/user.png"
+import AdminLogic from './AdminLogic.jsx'
 
 
 export default function Edit() {
@@ -10,32 +11,7 @@ export default function Edit() {
 
     const [userPermit, setUserPermit] = useState([]);
 
-    const getUserPermit = async () => {
-      try {
-        const unsubscribe = fs.collection('admin')
-          .onSnapshot((querySnapshot) => {
-            const userPermitArray = querySnapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data()
-            }));
-    
-            userPermitArray.sort((a, b) => a.id - b.id); // Sort the array based on the numeric ID
-    
-            setUserPermit(userPermitArray);
-          });
-    
-        return unsubscribe;
-      } catch (error) {
-        console.error('Error fetching user permit data:', error);
-      }
-    };
-    
-    useEffect(() => {
-      const unsubscribe = getUserPermit();
-    
-      // Cleanup the subscription
-    
-    }, []);
+
     
    
 
@@ -60,7 +36,8 @@ function handleUser(i,e){
   return (
 
 
-
+<>  
+<AdminLogic setUserPermit={setUserPermit}/>
 
     <div className='user-settings-admin'>
     
@@ -109,5 +86,5 @@ if (x.level === 0){
 
 </div>
 
-    </div> )
+    </div> </>)
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import {useState, useEffect} from 'react'
 import { auth, fs } from '../Firebase'
 
-export default function User({user,setUser,setUuid,level,setLevel}) {
+export default function User({user,setUser,setUuid,setLevel}) {
  
 
     function GetUserUid() {

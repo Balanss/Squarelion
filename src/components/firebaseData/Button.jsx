@@ -23,7 +23,7 @@ const [ succ,setSucc] = useState()
             type: type,
             objective: objective,
              count: post,
-             status: 'https://firebasestorage.googleapis.com/v0/b/squarelion-43d29.appspot.com/o/icons%2Fwip.png?alt=media&token=642d26a4-7c84-4111-8476-4cad8e77ebc8',
+             status: 'pending',
              color:'orange',
              statusText:'pending',
              month:month

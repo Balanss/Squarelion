@@ -32,7 +32,9 @@ import linked from '../images/linkedin.png'
 import Solo from '../Txt/Solo'
 import TxtAll from '../Txt/TxtAll'
 import Group from '../GroupChat/Group'
-import Noti from '../AdminPage/Noti'
+import Title from '../../Title'
+import Designer from './PageFunctions/Designer'
+import Loading from '../Loading'
 
 
 
@@ -244,7 +246,6 @@ const [ statusBar,setStatusBar] = useState('');
 
 
 
-
   return (<>
 
 
@@ -253,6 +254,7 @@ const [ statusBar,setStatusBar] = useState('');
         
 {isLoading === false &&<> 
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
+ <Title/>
 <div className='nav-of-partners'> <Nav/> </div>  </>}
 
 
@@ -279,29 +281,30 @@ const [ statusBar,setStatusBar] = useState('');
 
  <div>
 
-   <img src={img}   style={{backgroundColor:'white',marginBottom:'40px',width:'200px',marginTop:'20px'}}/> 
+   <img src={img}  className='client-pic' style={{backgroundColor:'white',marginBottom:'40px',marginTop:'20px'}}/> 
  
  </div>
 
     
  
- {level > 8 ? <form onSubmit={handleAdminSubmit} className='fill-in-form'>
-  <Button qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/>
-  <input type="text" placeholder='Post number' onChange={(e) => setPost(e.target.value)} required className='input-admindb'/>  
-  <input type="text" placeholder='Subject' value={objective} onChange={(e) => setObjective(e.target.value)} required  className='input-admindb'/>  
+<form onSubmit={handleAdminSubmit} className='fill-in-form'>
 
-  {/* <input type=" text" placeholder='type of post' onChange={(e) => setType(e.target.value)}   className='input-admindb'/> */}
-  <h3 onClick={handleClick} className='channel-text' > {type === ''? 'Type of channel' : type}</h3>
-  {open === true?<div className='div-of-channel'> <img className='img-zoom' onClick={() => setType('Facebook')} style={{cursor:'pointer',width:'30px'}}  src={facebook} alt={facebook} />
-  <img className='img-zoom' onClick={() => setType('Instagram')} style={{cursor:'pointer',width:'30px'}}  src={instagram} alt={instagram} />
-<img className='img-zoom'  onClick={() => setType('MailChimp')}  style={{cursor:'pointer',width:'30px'}} src={mail} alt={mail} />
-<img className='img-zoom' onClick={() => setType('LinkedIn')} style={{cursor:'pointer',width:'30px'}} src={linked} alt={linked} />
-<p onClick={() => setType('Stories')} style={{cursor:'pointer'}}> Stories </p>  
-<input type=" text" placeholder='Other' onChange={(e) => setType(e.target.value)}    className='input-admindb'/>  </div> :null }
+  {level > 8 ? <>  <Button qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> 
+    <input value={post} type="text" placeholder='Post number' onChange={(e) => setPost(e.target.value)} required className='input-admindb'/>  
+    <input type="text" placeholder='Subject' value={objective} onChange={(e) => setObjective(e.target.value)} required  className='input-admindb'/>    
+    <h3  onClick={handleClick} className='channel-text' > {type === ''? 'Type of channel' : type}</h3>
+    {open === true?<div className='div-of-channel'> <img className='img-zoom' onClick={() => setType('Facebook')} style={{cursor:'pointer',width:'30px'}}  src={facebook} alt={facebook} />
+    <img className='img-zoom' onClick={() => setType('Instagram')} style={{cursor:'pointer',width:'30px'}}  src={instagram} alt={instagram} />
+  <img className='img-zoom'  onClick={() => setType('MailChimp')}  style={{cursor:'pointer',width:'30px'}} src={mail} alt={mail} />
+  <img className='img-zoom' onClick={() => setType('LinkedIn')} style={{cursor:'pointer',width:'30px'}} src={linked} alt={linked} />
+  <p onClick={() => setType('Stories')} style={{cursor:'pointer'}}> Stories </p>  
+  <input type=" text" placeholder='Other' onChange={(e) => setType(e.target.value)}    className='input-admindb'/>  </div> :null }
+    <input value={date} type="text" placeholder='day'  onChange={(e) => setDate(e.target.value)}  required className='input-admindb'/> 
+  <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb' /> </>:
+  
+  <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb designer-month' /> } 
 
-  <input type="text" placeholder='day'  onChange={(e) => setDate(e.target.value)}  required className='input-admindb'/>
-  <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb' /> 
- </form> :null}
+ </form>
 
 
   
@@ -310,131 +313,8 @@ const [ statusBar,setStatusBar] = useState('');
  
   
   {/* designer sees only his tabs and not the whole page */}
-  {round.map((x,i) => {  return <>
- { level === 8 && x.statusText !== 'pending'? 
-  <div className='mapped-div' key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
-  
-  <p  className='same-map-text extra-styles'> {x.count}  </p>
-
-
- 
-  <div className='hidden-form-div'>
- <p className='same-map-text  extra extra-styles' onClick={() => handleText(i)} style={{cursor:'pointer'}} > {x.objective}   <img className='tab-img' src={tab}/> </p>
-
- 
-
- 
-   
- 
- 
-   
- {show === i && <>
- <div className='holds-content'>
-  <div className='main-text-side' >
-     <img src={x.designer} style={{maxWidth:'200px',maxHeight:'200px'}} />
-    {!x.answer  ? null : <h2 className='answer-text' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}}> {x.answer} </h2>}
-    <SendFromForm objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setTypeAnswer={setTypeAnswer}/>
-  </div>
-
-
-
-
-  <div className='example-flex'>
-
-  <div className='border-edit'>
-    <h2 style={{color:'black'}}className='example-style'> Example </h2>
-  <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <Upload1 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-
-  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx} </h2>
-  </div>
-
-  {x.textEx > "" ? <div className='border-edit'>
-    <h2 style={{color:'black'}} className='example-style'> Example </h2>
-  <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <Upload2 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-
-  <h2 style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx1} </h2>
-  </div>:null}
-
-
-{x.textEx1 > ""?   <div className='border-edit'>
-    <h2 style={{color:'black'}} className='example-style'> Example </h2>
-  <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <Upload3  objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-
-  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
-  </div> :null}
-
-  {/* <div className='border-edit'>
-    <h2 style={{color:'black'}}> Example </h2>
-  <img src={x.exampleThree} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-
-  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
-  </div>  */}
-</div>
-
- </div>
-
-
-
- <hr/>
-
-
- 
-
-
-  <form className='' onSubmit={handleSubmit}>
-
-<div>
-<div className='confirm-text'>
- <button className='x-button' onClick={() => {setShow(''),setObjectiveAnswer(''),setStatusBar('')}} >  <img src={cross} alt={cross} style={{width:'30px'}}/> </button>
-
-
-</div>
-</div>
-
-
-
-</form>
- </>} 
-
-  
-  </div>
- 
-  <p className='same-map-text extra-styles' > {x.type} </p>
-  <p className='same-map-text extra-styles'> {month}-{x.date} </p>
-  <img src={x.status} className=' status-awaiting' style={{backgroundColor:x.color,cursor:'pointer',color:'black'}} onClick={() => handleApprove(i)}/> 
-
-{statusBar === i? <div style={{color:'black'}} className='status-div'> 
-{level === 8 ?  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} /> : null}
-{level > 8 && <>
-  <WaitingDesigner objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
-  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
-<WaitingApproved objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
-<WaitingDelete objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
-</>}
-
-  
-  </div> : null}
-
-   </div>:null
-
-}
- 
-
-
-
-
- </>
-
-
-
-
-
-
- })}
+<Designer round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer}typeAnswer={typeAnswer}
+objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setShow}setStatusBar={setStatusBar}/>
 
 
 {/* level 9 and above sees all tabs */}
@@ -442,17 +322,14 @@ const [ statusBar,setStatusBar] = useState('');
  { level > 8? 
   <div className='mapped-div' key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
   
-  <p  className='same-map-text extra-styles'> {x.count}  </p>
+  <p  onClick={() => {setPost(x.count),setDate(x.date),setType(x.type)}} className='same-map-text extra-styles'> {x.count}  </p>
 
 
  
   <div className='hidden-form-div'>
- <p className='same-map-text  extra extra-styles' onClick={() => handleText(i)} style={{cursor:'pointer'}} > {x.objective}  <img className='tab-img' src={tab}/> </p>
+ <p className='same-map-text  extra extra-styles' onClick={() => handleText(i)} style={{cursor:'pointer'}} > {x.objective}  </p>
  
- {level > 8 ? <> <Solo  createPdf={createPdf} pdfChannels={pdfChannels} pdfCount={pdfCount} pdfObject={pdfObject} pdfDate={pdfDate}/>
- <input type='checkbox' onClick={() => {setCreatePdf(x.answer),setPdfCount(x.count),setPdfObject(x.objective),setPdfDate(x.date),setPdfChannels(x.type)}}/> 
-      <hr />
- </> :null}
+
  
    
  {show === i && <>
@@ -480,15 +357,21 @@ const [ statusBar,setStatusBar] = useState('');
      
       onEmojiClick={(e) => setObjectiveAnswer((prevAnswer) => prevAnswer + e.emoji)}
       /> </>: <h3 onClick={() => setEmojiShow(emojiShow === true?false:true)} > <AddReactionIcon className='emojiset'/> </h3> : null}
+      
 </div>
 
-
+{level > 8 ? <> <Solo  createPdf={createPdf} pdfChannels={pdfChannels} pdfCount={pdfCount} pdfObject={pdfObject} pdfDate={pdfDate}/>
+ <input type='checkbox' onClick={() => {setCreatePdf(x.answer),setPdfCount(x.count),setPdfObject(x.objective),setPdfDate(x.date),setPdfChannels(x.type)}}/> 
+      <hr />
+ </> :null}
 
 </div>
+
 
 
 
 </form>
+
 
   </div>
 <div className='example-flex'>
@@ -538,7 +421,8 @@ const [ statusBar,setStatusBar] = useState('');
  
   <p className='same-map-text extra-styles' > {x.type} </p>
   <p className='same-map-text extra-styles'>  {month}-{x.date}  </p>
-<img src={x.status} className=' status-awaiting' style={{backgroundColor:x.color,cursor:'pointer',color:'black'}} onClick={() => handleApprove(i)}/> 
+  <p className='same-map-text extra-styles' style={{backgroundColor:x.color}}> {x.status} </p>
+
 
 {statusBar === i? <div style={{color:'black'}} className='status-div'> 
 {level === 8 ?  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} /> : null}
@@ -576,10 +460,7 @@ const [ statusBar,setStatusBar] = useState('');
 </>}
 
 {isLoading === true &&  <>
-        <div className='loading-screen'> <Stack sx={{ color: 'gold' }} spacing={2} direction="row">
-      <CircularProgress color="secondary" />
-    </Stack>
-    <h1> Loading ... </h1></div>
+<Loading />
       </>}
 
 

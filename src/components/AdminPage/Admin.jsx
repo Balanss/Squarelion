@@ -1,21 +1,20 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import {useState,useEffect} from 'react'
-import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
+import {collection,doc,setDoc,} from "firebase/firestore";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { auth, fs,db } from '/src/Firebase.jsx'
-import { Link ,Navigate,useNavigate} from 'react-router-dom';
-import Logo from "./Logo.png" 
+import { useNavigate} from 'react-router-dom';
 import User from '../User';
 import Nav from '../Nav';
-import Stack from '@mui/material/Stack';
-import CircularProgress from '@mui/material/CircularProgress';
+import Loading from '../Loading';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import Footer from '../Home/Footer';
 import Edit from './Edit';
+import PartnerLogic from './PartnerLogic';
 
 
 
@@ -33,12 +32,13 @@ export default function Admin() {
 
     const [ name,setName] = useState('')
     const [user,setUser] = useState('')
-const [uuid,setUuid] = useState('')
-const [ isAccepted,setIsAccepted] = useState('')
-const [ level,setLevel] = useState('waiting')
-        const navigate = useNavigate()
-        const [image, setImage] = useState();
-        const [imageUrl, setImageUrl] = useState("");
+    const [uuid,setUuid] = useState('')
+    const [ isAccepted,setIsAccepted] = useState('')
+    const [ level,setLevel] = useState('waiting')
+    const navigate = useNavigate()
+    const [image, setImage] = useState();
+    const [partner, setPartner] = useState([]);
+
 
 function handleSub(e){
     e.preventDefault()
@@ -90,36 +90,6 @@ uploadTask.on(
 }
 
 
-
-const [partner, setPartner] = useState([]);
-  const getPartner = async () => {
-    try {
-      const unsubscribe = fs.collection('partner')
-        .onSnapshot((querySnapshot) => {
-          const partnerArray = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-  
-          partnerArray.sort((a, b) => a.id - b.id); // Sort the array based on the numeric ID
-  
-          setPartner(partnerArray);
-        });
-  
-      return unsubscribe;
-    } catch (error) {
-      console.error('Error fetching partner data:', error);
-    }
-  };
-  
-  useEffect(() => {
-    const unsubscribe = getPartner();
-  
-    // Cleanup the subscription
-   
-  }, []);
-
- 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file )
@@ -145,11 +115,7 @@ const [partner, setPartner] = useState([]);
 
 
 
-  const handleLogout = () => {
-    auth.signOut().then(() => {
-      navigate('/')
-    })
-  };
+
 
 
 
@@ -187,7 +153,7 @@ const [switching,setSwitching] = useState(false)
   return (
 
     <> 
-
+<PartnerLogic partner={partner} setPartner={setPartner}/>
 <div className='signup-main' style={{color:'white'}}>
 <User  setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
 
@@ -244,10 +210,7 @@ const [switching,setSwitching] = useState(false)
       </>} 
 
   {isLoading === true &&  <>
-        <div className='loading-screen'> <Stack sx={{ color: 'gold' }} spacing={2} direction="row">
-      <CircularProgress color="secondary" />
-    </Stack>
-    <h1> Loading ... </h1></div>
+ <Loading/>
       </>}
 
 </div>

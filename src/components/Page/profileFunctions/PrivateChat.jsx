@@ -34,6 +34,10 @@ const sliced = date.slice(0, 25);
 const [count, setCount] = useState(0)
     
             
+
+
+
+
 function handlePrivate(){
 fs.collection('chat').doc(sendTo).set(
     
@@ -41,6 +45,8 @@ fs.collection('chat').doc(sendTo).set(
 
 
 },{merge: true})
+
+
 
 fs.collection('chat').doc(trueChat).set(
     

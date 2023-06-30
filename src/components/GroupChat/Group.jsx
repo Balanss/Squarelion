@@ -30,6 +30,7 @@ const [ level,setLevel] = useState('waiting')
 const [ sendTo,setSendTo] = useState('')
 const [ text,setText] = useState('')
 const [privateChat,setPrivateChat] = useState('waiting')
+const [trueChat,setTrueChat] = useState()
 
         const navigate = useNavigate()
 
@@ -134,30 +135,36 @@ useEffect(() => {
 
 
          
-        
-      
-        const [ chat,setChat] = useState([]);
-        useEffect(() => {
-            if (user){
-              const docRef = doc(db,'chat',privateChat);
-              const unSub = onSnapshot(docRef,(docSnap )  => {
-                if (docSnap.exists()){
-                  const chat = docSnap.data().chat || []
-                  setChat(chat)
-                }
-                else{
-                    setChat('')
-                }
-              })
-              return unSub
-            }
-          
-            },[user,privateChat]);
+const [chat, setChat] = useState('');
 
+const getChatData = async () => {
+  try {
+    const chatDocRef = fs.collection('chat').doc(privateChat);
 
-           
+    chatDocRef.onSnapshot((chatDocSnapshot) => {
+      if (chatDocSnapshot.exists) {
+        const chatData = chatDocSnapshot.data();
 
-         
+        // Sort the chat messages based on time in descending order
+        const sortedChat = Object.entries(chatData)
+          .filter(([key]) => key !== 'timestamp') // Exclude the 'timestamp' field from sorting
+          .sort((a, b) => new Date(b[0]) - new Date(a[0])) // Sort by date in descending order
+          .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}); // Convert back to object
+
+        setChat(sortedChat);
+      } else {
+        console.log('privateChat document does not exist');
+        setChat(''); // Reset the chat data if the document doesn't exist
+      }
+    });
+  } catch (error) {
+    console.error('Error fetching chat data:', error);
+  }
+};
+
+useEffect(() => {
+  getChatData();
+}, [privateChat]); // Re-fetch chat data whenever privateChat changes
         
     
 const [hideList,setHideList] = useState(false)
@@ -313,7 +320,7 @@ const important = message.filter(work => work.imp === imp)
  
     {sendTo === 'designer' ? <Button allUid={allUid} user={user} setText={setText}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
 {sendTo === 'group' ? <Button allUid={allUid} user={user} sendTo={sendTo} setText={setText}  text={text} uuid={uuid} imp={imp} />:null }
-{sendTo !== 'designer' && sendTo !== 'group' ?  <PrivateChat user={user} setText={setText}  sendTo={sendTo} text={text} /> :null }
+{sendTo !== 'designer' && sendTo !== 'group' ?  <PrivateChat user={user} setText={setText}  sendTo={sendTo} text={text} trueChat={trueChat} />  :null }
 <img src={mark} onClick={() => {setImp(imp === false? true : false)}}   className='img-imp' style={imp === false ?{width:'40px',backgroundColor:'white'}:{width:'40px',backgroundColor:'yellow'}} /> 
     </div>
 
@@ -322,7 +329,7 @@ const important = message.filter(work => work.imp === imp)
     <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer')}} style={{cursor:'pointer'}} className='h2-noti elementwrapper'> Designer  </h2>
     {work.map((x,id) => {
      return <div key={id} className='elementwrapper'>
-        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setDisplayTo(x.Name)}}> {x.Name} </h2>
+        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setDisplayTo(x.Name),setTrueChat('chat'+ x.Name + user)}}> {x.Name} </h2>
   
      </div>
    

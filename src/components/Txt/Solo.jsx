@@ -22,8 +22,8 @@ function Solo({ createPdf, pdfCount, pdfDate, pdfObject, pdfChannels }) {
   };
 
   return (
-    <div>
-      <button onClick={handleDownload}>Download Text File</button>
+    <div style={{marginTop:'40px'}}>
+      <button className='download-solo' onClick={handleDownload}>Download Text File</button>
     </div>
   );
 }

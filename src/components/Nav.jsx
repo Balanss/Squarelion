@@ -138,7 +138,7 @@ useEffect(() => {
         }}
       >
         <MenuItem onClick={handleClose}> <Link to='/'> Home </Link></MenuItem>
-        {isMobile? <MenuItem onClick={handleClose}><Link to='/admindashboard'> admin </Link></MenuItem>:null}
+        {isMobile && level > 8? <MenuItem onClick={handleClose}><Link to='/admindashboard'> admin </Link></MenuItem>:null}
        
         
         {/* <MenuItem onClick={handleClose}>Logout</MenuItem> */}

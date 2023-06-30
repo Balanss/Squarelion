@@ -6,14 +6,15 @@ import { auth, fs,db } from '/src/Firebase.jsx'
 import useLogo from '../images/useLogo.png'
 import User from '../User'
 import Footer from './Footer'
-import Stack from '@mui/material/Stack';
-import CircularProgress from '@mui/material/CircularProgress';
+
+import Loading from '../Loading'
+
+
 
 
 export default function Home() {
 
 
- 
 
     const [user,setUser] = useState('')
     const [ level,setLevel] = useState('')
@@ -30,13 +31,15 @@ useEffect(()=>{
 
 
 
+
   return (<> 
 
-<User level={level}  setLevel={setLevel} setUuid={setUuid} setUser={setUser} />
+
 
   {loading === false &&  <>
   
     <div className='home-container'><Nav  /></div>
+
 
   <div>
 
@@ -67,18 +70,6 @@ useEffect(()=>{
 </div> 
 </div>
 
-{/* <div className='home-4th-banner'> 
-<div className='home-4th-banner-inner'>
-        <img src={useLogo} alt="logo" className='front-page-logo-last' />
-    <h2 className='home-logo-text-text' style={{color:'white'}}>
-    Duis lobortis consequat eros, vitae pretium ipsum ultricies quis. Nam porta massa et rutrum eleifend. Suspendisse potenti. Nulla facilisi. Ut vel feugiat magna. Fusce vitae libero arcu. Nam dignissim felis ex, 
-    nec porta nulla vehicula non. Donec urna erat,
-     pharetra ut fermentum vitae, pretium quis elit. Cras pellentesque magna nisi. </h2>
-     
-</div>
-<Link to ='/recruitment' > Join our team </Link>
-
-</div> */}
 
   </div>
 <Footer />
@@ -87,11 +78,7 @@ useEffect(()=>{
 
 
   {loading === true &&  <>
-        <div className='loading-screen'> <Stack sx={{ color: 'gold' }} spacing={2} direction="row">
-      <CircularProgress color="secondary" />
-    </Stack>
-    <div className='' style={{display:'none'}}><Nav  /></div>
-    <h1> Loading ... </h1></div>
+       <Loading/>
       </>}
    
   </>  )

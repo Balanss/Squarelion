@@ -11,12 +11,12 @@ export default function WaitingApproval({typeAnswer,month,page}) {
         
         fs.collection(page).doc(typeAnswer+month).set({
             color:'#00eaff',
-            status:'https://firebasestorage.googleapis.com/v0/b/squarelion-43d29.appspot.com/o/icons%2Fwait.png?alt=media&token=b1309fef-359e-4645-8806-5e408112c834',
+            status:'Waiting Approval',
             statusText:'Waiting Approval'
 
           },{merge:true})
   }
   return (
-    <img src={wait} className='style-status  extra-approval' onClick={handleData}/> 
+    <p className='style-status  extra-approval' onClick={handleData}>  Waiting Approval </p> 
   )
 }
