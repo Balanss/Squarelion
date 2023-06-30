@@ -92,7 +92,7 @@ const navigate = useNavigate()
 </div>
 </div>
 
-<h2 style={{color:'white'}}>  {successMsg} </h2> 
+<h2 style={{color:'black',backgroundColor:'ghostwhite',padding:'10px'}}>  {successMsg} </h2> 
 </form>
 
 

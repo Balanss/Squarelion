@@ -52,7 +52,7 @@ if (x.level > 0){
 <h4>{x.Name}</h4>
 <h4>User Level: {x.level}</h4>
 <form onSubmit={(e) => {handleUser(i,e)}}>
-      <input  placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/>
+    {x.level !== 11 ?   <input  placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/> : null}
 </form>
 
 </div>)

@@ -10,11 +10,15 @@ import Divider from '@mui/material/Divider';
 import sql from '../images/Logo.png'
 import Button from '@mui/material/Button';
 import PartnerLogic from '../AdminPage/PartnerLogic';
+import User from '../User';
 
 export default function Links() {
     const [partner, setPartner] = useState([]);
     const navigate = useNavigate()
-
+    const [user,setUser] = useState('')
+    const [ uuid,setUuid] = useState('')
+    const [ level,setLevel] = useState('')
+    const [isAccepted,setIsAccepted] = useState('')
 
 
 
@@ -67,8 +71,27 @@ export default function Links() {
       <List>
       {partner.map((partner,index) => (<div key={index} style={{display:'flex',alignItems:'center'}}>
 
-<h2 key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}  </h2> 
-<p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p>
+        {level === 11 ?
+        <div style={{display:'flex',alignItems:'center'}}>
+            <h2 key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>
+            <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p>
+        </div>
+        
+       :null}
+        
+        
+        
+        {level !== 11 && partner.name !== 'Test'? 
+        <div style={{display:'flex',alignItems:'center'}}>
+         <h2 key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>   
+         <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p>
+        </div>
+       
+        :null }
+
+
+
+
 
 
       </div>
@@ -84,6 +107,7 @@ export default function Links() {
 
   return (<> 
   <PartnerLogic setPartner={setPartner}/>
+  <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
     <div className=''>
 
 {['left'].map((anchor) => (

@@ -146,7 +146,7 @@ useEffect(() => {
 
        {uuid && <>
 <div className='style-nav'>
-{level === 10 && isMobile === false?  <Link to='/admindashboard' className=' nicer-style' >admin</Link> :null} 
+{level > 8 && isMobile === false?  <Link to='/admindashboard' className=' nicer-style' >admin</Link> :null} 
         <br />
   <button className='outline nicer-style' onClick={handleLogout} >Sign out</button>
         <br />

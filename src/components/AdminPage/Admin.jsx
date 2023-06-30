@@ -121,9 +121,9 @@ uploadTask.on(
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-         if ( level !== 10) {
+         if ( level < 8) {
  navigate('/')
-    } if (level === 10){
+    } if (level > 8){
       clearTimeout(timeoutId);
     }
     }, 1000);
@@ -157,7 +157,7 @@ const [switching,setSwitching] = useState(false)
 <div className='signup-main' style={{color:'white'}}>
 <User  setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
 
-{uuid !== ''  && level === 10 && isLoading === false  && <>
+{uuid !== ''  && level > 8 && isLoading === false  && <>
       
       
       <div style={{backgroundColor:'#194375',minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
