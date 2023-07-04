@@ -32,10 +32,30 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
       const [imageUrl, setImageUrl] = useState("");
       const [name,setName] = useState("")
       const [image, setImage] = useState();
+      const [posts, setPosts] = useState([]);
   
       useEffect(() =>{
           setName(localStorage.getItem('partner'))
       },[name])
+
+
+
+      useEffect(() => {
+        // Load the posts from local storage when the component mounts
+        const storedPosts = localStorage.getItem('posts');
+        if (storedPosts) {
+          setPosts(JSON.parse(storedPosts));
+        }
+      }, []);
+
+      useEffect(() => {
+        // Save the posts to local storage whenever the posts state changes
+        localStorage.setItem('posts', JSON.stringify(posts));
+      }, [posts]);
+
+
+      
+
   
       function handleSub(e){
 

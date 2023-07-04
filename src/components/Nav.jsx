@@ -149,7 +149,7 @@ const alertNumber = (alert.length > 0?alert.length:0)
 
        {uuid && <>
 <div className='style-nav'>
-{level > 8 && isMobile === false?  <Link to='/admindashboard' className=' nicer-style' >admin { alertNumber > 0 ? `(${alertNumber})`:null} </Link> :null} 
+{level > 8 && isMobile === false?  <Link to='/admindashboard' className=' nicer-style' >admin { alertNumber > 0 && level > 9 ? `(${alertNumber})`:null} </Link> :null} 
         <br />
   <button className='outline nicer-style' onClick={handleLogout} >Sign out</button>
         <br />

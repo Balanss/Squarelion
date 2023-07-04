@@ -8,6 +8,28 @@ import {Link,useNavigate} from 'react-router-dom'
 import User from '../User';
 import thumbup from '../images/thumbup.png'
 import thumbdown from '../images/thumbdown.png'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
+
+
+
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    color:'black'
+  };
+
 
 
 export default function Edit() {
@@ -93,6 +115,61 @@ function handleGoToProfileDeny(i){
     
     }
 
+    function handleGoToProfileClear(i){
+
+      userPermit.map((x,index) =>{
+      if(index === i){
+      const docRef = collection(db,'admin')
+      const colRef = doc(docRef,x.id)
+      updateDoc(colRef,{
+          request:'',
+      },{merge:true})
+      
+      
+      const dcRef = collection(db,'notInOffice')
+      const clRef = doc(dcRef,x.Name)
+      setDoc(clRef,{[x.time]:{
+          request:'',
+      }},{merge:true})  
+      }
+      })
+      
+      }
+
+
+    const [ wfhOffice,setWfhOffice ] = useState([]);
+
+    const getWfhOffice = async () => {
+        try {
+          const unsubscribe = fs.collection('notInOffice')
+            .onSnapshot((querySnapshot) => {
+              const wfhOfficeArray = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data()
+              }));
+      
+              wfhOfficeArray.sort((a, b) => a.id - b.id); // Sort the array based on the numeric ID
+      
+              setWfhOffice(wfhOfficeArray);
+            });
+      
+          return unsubscribe;
+        } catch (error) {
+          console.error('Error fetching WFH/Office data:', error);
+        }
+      };
+      
+      useEffect(() => {
+        const unsubscribe = getWfhOffice();
+      
+        // Cleanup the subscription
+      
+      }, []);
+      
+
+ 
+      
+
 
 
 function handleGoToProfilePage(i){
@@ -110,26 +187,26 @@ function handleGoToProfilePage(i){
 }
 
 
-// const [isHovered, setIsHovered] = useState(false);
+const [open, setOpen] = React.useState(false);
+const handleOpen = () => setOpen(true);
+const handleClose = () => setOpen(false);
+const [selectedUser, setSelectedUser] = useState(null);
 
-// const handleMouseEnter = () => {
-//   setIsHovered(true);
-// };
 
-// const handleMouseLeave = () => {
-//   setIsHovered(false);
-// };
+const handleClick = (user) => {
+    setSelectedUser(user);
+  };
 
 
   return (
 
 
-<>  
-<AdminLogic setUserPermit={setUserPermit}/>
+<> 
+ <AdminLogic setUserPermit={setUserPermit}/>
 <User setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
+{level > 9 && <>
 
-
-    <div className='user-settings-admin'>
+  <div className='user-settings-admin'>
     
  
     <div className='user-levels'>
@@ -139,10 +216,58 @@ function handleGoToProfilePage(i){
 if (x.level > 0){
   return (<div key={i} className='user-level-div'>
   <img src={userPfp} style={{width:'30px'}}/>
-<h4 onClick={() => handleGoToProfilePage(i)}
-// onMouseEnter={handleMouseEnter}
-// onMouseLeave={handleMouseLeave}
+<h4 onClick={() => {handleGoToProfilePage(i),handleOpen()}}
+
 className='user-name-edit'>{x.Name}</h4>
+
+
+
+
+
+<Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            
+          {wfhOffice.map((user) => (
+               <button style={{marginLeft:'10px'}}  key={user.id} onClick={() => handleClick(user)}>
+          {user.id}
+        </button>   
+        
+      
+      ))}
+  
+      {selectedUser && (
+        <div>
+          <h2>Selected User: {selectedUser.id}</h2>
+          {Object.entries(selectedUser).map(([date, userInfo]) => {
+            if (date !== 'id') {
+              const { reason, time, user } = userInfo;
+
+              return (
+                <div key={date}>
+                  <p>Reason: {reason}</p>
+                  <p>Time: {time}</p>
+                  <hr />
+                </div>
+              );
+            }
+            return null;
+          })}
+        </div>
+      )}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+           
+          </Typography>
+        </Box>
+      </Modal>
+
+
 
 <h4>User Level: {x.level}</h4>
 
@@ -154,7 +279,8 @@ className='user-name-edit'>{x.Name}</h4>
 {x.request > '' ?
 <>
 <div className='div-request-approval'>
-<h3 className='request-approval'> {x.request} </h3>
+<h3 className='request-approval' onClick={() => handleGoToProfileClear(i)}> Clear  </h3>
+<h3 className='request-approval' > {x.request}  </h3>
 <div> 
 <img src={thumbup} onClick={() => handleGoToProfile(i)}  style={{width:'40px',cursor:'pointer'}}/>
 <img src={thumbdown} onClick={() => handleGoToProfileDeny(i)}  style={{width:'40px',cursor:'pointer'}}/>
@@ -196,5 +322,12 @@ if (x.level === 0){
 
 </div>
 
-    </div> </>)
+
+
+    </div>
+</>}
+
+
+
+ </>)
 }

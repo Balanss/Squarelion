@@ -19,6 +19,7 @@ export default function Links() {
     const [ uuid,setUuid] = useState('')
     const [ level,setLevel] = useState('')
     const [isAccepted,setIsAccepted] = useState('')
+    const [stat,setStat] = useState('')
 
 
 
@@ -32,11 +33,12 @@ export default function Links() {
 
             localStorage.setItem('partner',x.name)
             localStorage.setItem('image',x.imageUrl)
+         
 
             setTimeout(() =>{
                 navigate(`/profile/${x.name}`)
                 window.location.reload()
-            },2000)
+            },500)
 
          
            
@@ -47,9 +49,12 @@ export default function Links() {
 
 
 
+
   const [state, setState] = React.useState({
     left: false,
   });
+
+
 
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -82,9 +87,11 @@ export default function Links() {
         
         
         {level !== 11 && partner.name !== 'Test'? 
+       
         <div style={{display:'flex',alignItems:'center'}}>
+           
          <h2 key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>   
-         <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p>
+         {/* <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p> */}
         </div>
        
         :null }

@@ -28,9 +28,7 @@ export default function TimeOff() {
 
     
 
-useEffect(()=>{
-  setFindIt(localStorage.getItem('AdminCheck'))
-},[])
+
 
 function handleSubmit(e){
     e.preventDefault()
@@ -95,7 +93,8 @@ function handleRequest(){
 
 }
 
-const userPro = wfh.filter(x => x.id === findIt)
+const userPro = wfh.filter(x => x.id === user)
+
 
 
 
@@ -144,7 +143,7 @@ const userPro = wfh.filter(x => x.id === findIt)
   <div className='history-inside'> 
 {userPro.map((user) => {
         return Object.entries(user).map(([date, userInfo]) => {
-          const { user:  request,reason, user,time} = userInfo; // Extract the user name and request
+          const { reason, user,time} = userInfo; // Extract the user name and request
 
           return (
             <div key={date}>

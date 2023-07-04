@@ -141,7 +141,7 @@ function handleWFH(){
 
 }
 
-console.log(showWfh)
+
 
   return (<>
   <ProfileFunctions privateChat={privateChat} setChat={setChat} setDesignerChat={setDesignerChat} setMessage={setMessage}/>

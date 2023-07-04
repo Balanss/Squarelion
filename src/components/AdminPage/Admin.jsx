@@ -173,7 +173,8 @@ const handleMouseLeave = () => {
       <div style={{backgroundColor:'#194375',minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
 <div style={{backgroundColor:'white'}}> <Nav/> </div>
 
-<div className='admin-page-btn-switch hover-container' style={{marginTop:'30px'}}  
+{level > 9 && <>
+  <div className='admin-page-btn-switch hover-container' style={{marginTop:'30px'}}  
   >
   <h1 
   onMouseEnter={handleMouseEnter}
@@ -187,9 +188,11 @@ const handleMouseLeave = () => {
   </h1> 
  
   </div>
+</>}
 
 {switching === false && <>
   < div className='style-admin-page'>
+ {level > 9 && <>
   <form onSubmit={handleSub} className='form-admindb'> 
 
 <input type="text" placeholder='ENTER PARTNER' onChange={(e) => setName(e.target.value)} className='input-admindb' />
@@ -200,6 +203,7 @@ const handleMouseLeave = () => {
 <button className='add-partner'> Add Partner </button>
 
 </form>
+ </>}
 
 <div className='partner-links'>
   
