@@ -25,6 +25,74 @@ padding-right: 0 !important;
 
 @media screen and (min-width:320px){
 
+  .dont-hide{
+    background-color: white;
+    padding: 10px;
+    color: black;
+    position: relative;
+    outline: 2px solid;
+  
+  }
+
+  .hover-container {
+    position: relative;
+  }
+  
+  .bubble-text {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+  }
+  
+  .bubble-text.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .user-name-edit{
+    border: 2px solid gold;
+    background-color: #1b4883;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .div-request-approval{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .request-approval{
+    border: 1px solid black;
+    padding: 10px;
+    background-color: gold;
+    border-radius: 5px;
+}
+
+  .hidethis{
+    display: none;
+  }
+
+  .signup-main{
+    background-color: #194375;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    inset: 0;
+    left: 0;
+    right: 0;
+  
+  }
 
   .client-pic{
     width: 140px;
@@ -318,6 +386,7 @@ padding-right: 0 !important;
     
     .signup-btn{
       margin-right: 10px;
+   
     }
     
     .sql-logo{
@@ -364,9 +433,7 @@ padding-right: 0 !important;
     
     
     .list{
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
+ 
     }
     
     
@@ -376,7 +443,8 @@ padding-right: 0 !important;
       max-height: 60vh;
       overflow: scroll;
       border: 1px solid;
-      min-height: 40vh;
+      min-height: 60vh;
+
     }
     
     
@@ -432,6 +500,20 @@ padding-right: 0 !important;
         cursor: pointer;
         margin-bottom: 40px;
     }
+
+    .usersimg{
+      width: 45px;
+    }
+
+    .clientimg{
+      width: 45px;
+    }
+
+    .switching:hover{
+      transform: scale(1.01);
+    }
+
+
     
     .user-level-admin{
     
@@ -684,16 +766,17 @@ padding-right: 0 !important;
     }
     
     .admin-links-only{
-      position: absolute;
+    
       background-color: ghostwhite;
       top: 29vh;
     }
     
     .real-admin-links{
-      position: absolute;
-      bottom: 0;
-      right: 0;
       background-color: ghostwhite;
+      width: 100vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     
     .emojiset{
@@ -709,6 +792,7 @@ padding-right: 0 !important;
       align-items: center;
       justify-content: space-around;
       width: 200px;
+     
     }
 }
 
@@ -831,6 +915,14 @@ aside.EmojiPickerReact.epr-main{
 
 @media screen and (min-width:1024px) {
 
+  .div-request-approval{
+    width: 200px;
+  }
+
+.dont-hide{
+  width: 280px;
+}
+
   .client-pic{
     width: 100px;
   }
@@ -855,7 +947,7 @@ aside.EmojiPickerReact.epr-main{
 
   .Button {
     --c:  #194375; /* the color*/
-    
+    color: black;
     box-shadow: 0 0 0 .1em inset var(--c); 
     --_g: linear-gradient(var(--c) 0 0) no-repeat;
     background: 
@@ -931,11 +1023,11 @@ aside.EmojiPickerReact.epr-main{
   }
 
   .real-admin-links {
-    top: 50vh;
-    position: absolute;
-    right: 4px;
+ 
     height: 40px;
-  
+    width: 100px;
+  width: 300px;
+  height: 100px;
 }
 
 
@@ -1433,12 +1525,16 @@ section{
 }
 
 .group-text{
-  background-color: whitesmoke;
-    width: 70vw;
-    margin: auto;
-    min-height: 50vh;
-    border: 2px solid gold;
-    margin-top: 90px;
+ color: white;
+  width: 89vw;
+  margin: auto;
+  min-height: 69vh;
+  border: 2px solid gold;
+ 
+  background-color: #474746;
+  background-image: url("https://www.transparenttextures.com/patterns/ag-square.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+   
     
 }
 
@@ -1571,6 +1667,12 @@ section{
   width: 300px;
   flex-direction: column;
   justify-content: center;
+  transform: scale(1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.user-level-div:hover{
+  transform: scale(1.02);
 }
 
 .style-meeting{
@@ -1580,6 +1682,7 @@ section{
   background-color: antiquewhite;
   padding: 10px;
   border-radius: 50px;
+
 }
 
 .list-pages{
@@ -1738,10 +1841,47 @@ bottom: 150px;
   cursor: pointer;
   background-color: white;
   color: black;
-  width: 700px;
-  margin: auto;
+  margin: 0;
   padding: 20px;
   border-radius: 5px;
   border: 4px solid gold;
+  display: flex;
+    justify-content: space-evenly;
+    height: 32px;
+    align-items: center;
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
 }
+
+.switching:hover{transform: scale(1.02);}
+
+
+
+.hover-text {
+  opacity: 0;
+  animation: fade-in 0.3s ease-in-out forwards;
+
+}
+
+.hover-container:hover .hover-text {
+  opacity: 1;
+  animation: fade-out 0.9s ease-in-out forwards;
+}
+
+
+
+
+@keyframes fade-out {
+  0% {
+    opacity: 0.5;
+  }
+
+  100%{
+    opacity: 1;
+  }
+}
+
+
+
+
 }

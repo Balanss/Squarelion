@@ -98,7 +98,7 @@ const codeToSee = '123456'
 <input type='text' placeholder='email'  onChange={e => setEmail(sanitizeInput(e.target.value))}/>
 <input type='text' placeholder='password' onChange={e => setPassword(sanitizeInput(e.target.value))} />
 <div>
- <button className='signup-btn Button' > Signup </button>
+ <button className='signup-btn Button'  > Signup </button>
 <button onClick={() => navigate('/login')} className='Button'> Login </button> 
 <div style={{marginTop:'15px'}}>
   <button onClick={handleSignIn} className='google-sign Button'>  Google sign-in <img style={{width:'30px'}} src={google} /> </button>
@@ -106,7 +106,7 @@ const codeToSee = '123456'
 
 </div>
 
-<h2 style={{color:'black',backgroundColor:'ghostwhite',padding:'10px'}}>  {successMsg} </h2> 
+<h2 style={{color:'black',padding:'10px'}}>  {successMsg} </h2> 
 </form>
 
 

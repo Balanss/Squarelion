@@ -9,6 +9,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 import {useNavigate} from 'react-router-dom'
+import AdminLogic from './AdminPage/AdminLogic'
 
 export default function Nav() {
 const [user,setUser] = useState('')
@@ -107,10 +108,12 @@ useEffect(() => {
 }, []);
 
 
-
+const [userPermit,setUserPermit] = useState([]); //
+const alert = userPermit.filter(x => x.request >= 'Awaiting Request')
+const alertNumber = (alert.length > 0?alert.length:0)
     
   return (<> 
-
+<AdminLogic setUserPermit={setUserPermit}/>
     <div className='navbar'>
       <User setUser={setUser} user={user} level={level} setLevel={setLevel} setUuid={setUuid} uuid={uuid}/>
 
@@ -146,7 +149,7 @@ useEffect(() => {
 
        {uuid && <>
 <div className='style-nav'>
-{level > 8 && isMobile === false?  <Link to='/admindashboard' className=' nicer-style' >admin</Link> :null} 
+{level > 8 && isMobile === false?  <Link to='/admindashboard' className=' nicer-style' >admin { alertNumber > 0 ? `(${alertNumber})`:null} </Link> :null} 
         <br />
   <button className='outline nicer-style' onClick={handleLogout} >Sign out</button>
         <br />

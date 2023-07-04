@@ -15,7 +15,8 @@ import { experimentalStyled as styled } from '@mui/material/styles';
 import Footer from '../Home/Footer';
 import Edit from './Edit';
 import PartnerLogic from './PartnerLogic';
-
+import usersPic from '../images/user.png';
+import client from '../images/client.png';
 
 
 
@@ -149,6 +150,15 @@ uploadTask.on(
 
 
 const [switching,setSwitching] = useState(false)
+const [isHovered, setIsHovered] = useState(false);
+
+const handleMouseEnter = () => {
+  setIsHovered(true);
+};
+
+const handleMouseLeave = () => {
+  setIsHovered(false);
+};
 
   return (
 
@@ -163,7 +173,20 @@ const [switching,setSwitching] = useState(false)
       <div style={{backgroundColor:'#194375',minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
 <div style={{backgroundColor:'white'}}> <Nav/> </div>
 
-<div className='admin-page-btn-switch' style={{marginTop:'30px'}}><h1 className='switching' onClick={() => setSwitching(switching === false ? true : false)}> {switching === false ? 'Switch to Users' : 'Switch to Partners' } </h1> </div>
+<div className='admin-page-btn-switch hover-container' style={{marginTop:'30px'}}  
+  >
+  <h1 
+  onMouseEnter={handleMouseEnter}
+  onMouseLeave={handleMouseLeave} 
+  className='switching' onClick={() => setSwitching(switching === false ? true : false)}> {switching === false ? 
+  <img className='usersimg' src={usersPic}/> : <img className='clientimg' src={client}/>}  
+   {isHovered && (
+        <p className="hover-text">{switching === false? 'Switch to users' : 'Switch to clients'}</p>
+      )}
+
+  </h1> 
+ 
+  </div>
 
 {switching === false && <>
   < div className='style-admin-page'>

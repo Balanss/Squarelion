@@ -92,14 +92,10 @@ const navigate = useNavigate()
 </div>
 </div>
 
-<h2 style={{color:'black',backgroundColor:'ghostwhite',padding:'10px'}}>  {successMsg} </h2> 
+<h2 style={{color:'black',padding:'10px'}}>  {successMsg} </h2> 
 </form>
 
 
-{/* {level === 10 ? navigate("/admindashboard") : null}
-{level === 8 ? navigate("/") : null}
-{level === 6 ? navigate("/") : null}
-{level === 2 ? navigate("/") : null} */}
 
 
 

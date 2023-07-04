@@ -7,6 +7,7 @@ import { auth, fs,db } from '../../Firebase'
 import User from '../User'
 import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
 import { useParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Button from './profileFunctions/Button'
 import PrivateChat from './profileFunctions/PrivateChat'
 import Footer from '../Home/Footer'
@@ -19,6 +20,7 @@ import WaitingForAdmin from './WaitingForAdmin'
 import Title from '../../Title'
 import ProfileFunctions from './profileFunctions/ProfileFunctions'
 import Loading from '../Loading'
+import TimeOff from './WFH/TimeOff'
 
 export default function Profile() {
 
@@ -31,6 +33,7 @@ const [ level,setLevel] = useState('waiting')
 const [ sendTo,setSendTo] = useState('')
 const [ text,setText] = useState('')
 const [privateChat,setPrivateChat] = useState('waiting')
+const navigate = useNavigate()
 
 
 
@@ -127,7 +130,18 @@ useEffect(() => {
 
 const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null);
 
+const [ showWfh,setShowWfh] = useState(false)
 
+function handleWFH(){
+
+  setTimeout(() =>{
+      navigate(`/user/TimeOff/${user}`)
+      window.location.reload()
+  },2000)
+
+}
+
+console.log(showWfh)
 
   return (<>
   <ProfileFunctions privateChat={privateChat} setChat={setChat} setDesignerChat={setDesignerChat} setMessage={setMessage}/>
@@ -144,10 +158,17 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
 
     {level > 7 ?  <>  <div className='profile'>
     <div style={{margin:'auto',backgroundColor:'white',borderBottom:'2px solid gold'}}> <Nav/> </div>
-     <div className='real-admin-links'><Links/> </div>
-    <div className='group-text'>
 
-<h2 onClick={() => setShowImportant(showImportant === true? false : true)}> {showImportant === false? 'Show Priority' : 'Show All'} </h2>
+    <div className='real-admin-links'><Links/> 
+      <button onClick={() => {setShowWfh(showWfh === false? true : false)}}> WFH </button>
+      <img className='style-meeting' src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() =>  {
+        hideList === true? setHideList(false) : setHideList(true),
+        setShowWfh(false)
+      } }/>  </div>
+    
+    <div className='group-text' style={hideList === false?{display:'none'}:{display:'block'}} >
+
+<h2 onClick={() => setShowImportant(showImportant === true? false : true)}> {showImportant === false? 'Show Priority' : 'Show All'}  </h2>
 
   {privateChat  === 'group' && <>
    
@@ -206,7 +227,7 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 </div>
 
 
-<form className='form-private' onSubmit={(e) => e.preventDefault()}>
+<form className='form-private' style={hideList === false?{display:'none'}:{display:'block'}} onSubmit={(e) => e.preventDefault()}>
     <label > {`Send message to ${displayTo} ${imp === true && displayTo === 'Group'? ' [Priority] ' : '' }`} </label>
 
     <div>
@@ -223,16 +244,18 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
    
 </form>
 
- <div className='list'  > 
+{showWfh === false && <>
+
+  <div className='list'  > 
  
- {hideList && level > 8 && <>
- <div style={{backgroundColor:'white',padding:'10px',borderRadius:'10px',color:'black'}}>
-    <h2 onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group'), setHideList(false)}} style={{cursor:'pointer'}} className='h2-noti'> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2>
-    <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer'), setHideList(false)}} style={{cursor:'pointer'}} className='h2-noti'> Designer  </h2>
+ {level > 8 && <>
+ <div className={hideList === true? 'hidethis' : 'dont-hide'}>
+    <h2 onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group'), setHideList(hideList === true? false : true)}} style={{cursor:'pointer'}} className='h2-noti'> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2>
+    <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer'),  setHideList(hideList === true? false : true)}} style={{cursor:'pointer'}} className='h2-noti'> Designer  </h2>
     
     {work.map((x,id) => {
      return <div key={id}>
-        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setTrueChat('chat'+ x.Name + user),setDisplayTo(x.Name), setHideList(false)}}> {x.Name} </h2>
+        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setTrueChat('chat'+ x.Name + user),setDisplayTo(x.Name),setHideList(hideList === true? false : true)}}> {x.Name} </h2>
      
      </div>
    
@@ -255,20 +278,21 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 
 </>}
 
-<img className='style-meeting' src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() => hideList === true? setHideList(false) : setHideList(true)}/>
+
 
 
 
  </div>
 
+</>}
+
+{showWfh === true && <>
+
+<TimeOff/>
+</>}
 
 
 
- <div>
-
-
-
- </div>
 
 
     </div>  <Footer/> </> : null}

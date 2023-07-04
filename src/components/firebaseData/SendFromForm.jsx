@@ -102,7 +102,7 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
 
   return (<>  
 {level > 8 && <>
-  <div className='above-div-send' style={{display:'flex',marginTop:'50px'}}> {level !== 10 ? null: <button onClick={handleData} className='addtotext'> <img src={addFile} style={{width:'50px',height:'50px',backgroundColor:'transparent'}}/>  </button> } 
+  <div className='above-div-send' style={{display:'flex',marginTop:'50px'}}> {level > 9 ?  <button onClick={handleData} className='addtotext'> <img src={addFile} style={{width:'50px',height:'50px',backgroundColor:'transparent'}}/>  </button> : null } 
 
 <form onSubmit={handleSub} className='designer-upload'> 
 

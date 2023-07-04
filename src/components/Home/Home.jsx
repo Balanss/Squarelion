@@ -8,6 +8,7 @@ import User from '../User'
 import Footer from './Footer'
 
 import Loading from '../Loading'
+import Title from '../../Title'
 
 
 
@@ -39,6 +40,7 @@ useEffect(()=>{
   {loading === false &&  <>
   
     <div className='home-container'><Nav  /></div>
+    <Title/>
 
 
   <div>

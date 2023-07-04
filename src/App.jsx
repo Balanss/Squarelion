@@ -7,6 +7,7 @@ import Loading from './components/Loading';
 
 
 
+
 const Signup = lazy(() => import('./components/Signup'));
 const Admin = lazy(() => import('./components/AdminPage/Admin'));
 const Login = lazy(() => import('./components/Login'));
@@ -15,6 +16,7 @@ const Recruitment = lazy(() => import('./components/Recruitment/recruitment'));
 const PartnerProgram = lazy(() => import('./components/PartnerProgram/PartnerProgram'));
 const Page = lazy(() => import('./components/Page/Page'));
 const Profile = lazy(() => import('./components/Page/Profile'));
+const WFH = lazy(() => import('./components/Page/WFH/TimeOff'));
 
 
 
@@ -33,10 +35,11 @@ function App() {
           <Route path="/admindashboard" element={<Admin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
-          <Route path="/recruitment" element={<Recruitment />} />
-          <Route path="/partnerprogram" element={<PartnerProgram />} />
+          {/* <Route path="/recruitment" element={<Recruitment />} />
+          <Route path="/partnerprogram" element={<PartnerProgram />} /> */}
           <Route path="/profile/:id" element={<Page />} />
           <Route path="/user/:id" element={<Profile />} />
+          <Route path="/user/TimeOff/:id" element={<WFH />} />
         </Routes>
       </Suspense>
  </HashRouter>
