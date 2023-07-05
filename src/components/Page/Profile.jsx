@@ -132,10 +132,10 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
 
 const [ showWfh,setShowWfh] = useState(false)
 
-function handleWFH(){
+function handleSurvey(){
 
   setTimeout(() =>{
-      navigate(`/user/TimeOff/${user}`)
+      navigate(`/user/Survey/${user}`)
       window.location.reload()
   },2000)
 
@@ -164,7 +164,11 @@ function handleWFH(){
       <img className='style-meeting' src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() =>  {
         hideList === true? setHideList(false) : setHideList(true),
         setShowWfh(false)
-      } }/>  </div>
+      } }/>  
+      
+      <button onClick={handleSurvey}> Survey </button>
+      
+      </div>
     
     <div className='group-text' style={hideList === false?{display:'none'}:{display:'block'}} >
 

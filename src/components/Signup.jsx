@@ -94,9 +94,9 @@ const codeToSee = '123456'
     <div className='signup-div'>
  
 <form className='signup-form' onSubmit={handleSubmit}>
-<input type='text' placeholder='naam'   onChange={e => setName(sanitizeInput(e.target.value))}/>
-<input type='text' placeholder='email'  onChange={e => setEmail(sanitizeInput(e.target.value))}/>
-<input type='text' placeholder='password' onChange={e => setPassword(sanitizeInput(e.target.value))} />
+<input type='text' placeholder='naam'   onChange={(e) => setName(e.target.value)}/>
+<input type='text' placeholder='email'  onChange={(e) => setEmail(e.target.value)}/>
+<input type='text' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
 <div>
  <button className='signup-btn Button'  > Signup </button>
 <button onClick={() => navigate('/login')} className='Button'> Login </button> 

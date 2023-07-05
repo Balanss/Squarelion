@@ -12,6 +12,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 
 
@@ -30,6 +36,15 @@ const style = {
     color:'black'
   };
 
+
+
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
 
 
 export default function Edit() {
@@ -198,6 +213,8 @@ const handleClick = (user) => {
   };
 
 
+  const[swap, setSwap] = useState(false)
+
   return (
 
 
@@ -206,23 +223,22 @@ const handleClick = (user) => {
 <User setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
 {level > 9 && <>
 
+
+
   <div className='user-settings-admin'>
-    
+
+  <FormGroup>
+      <FormControlLabel onClick={() => setSwap(swap === false?true:false)} control={<Switch defaultChecked />} style={{color:'black'}} label={swap === false? 'Approved users':'Un-Approved users' }/>
+    </FormGroup>
  
     <div className='user-levels'>
-    <h2>  Users that have been registered to the system </h2>
-    <div className='inside-user-levels'>
+    
+ {swap === false?    <div className='inside-user-levels'>
         {userPermit.map((x,i) => {
 if (x.level > 0){
   return (<div key={i} className='user-level-div'>
-  <img src={userPfp} style={{width:'30px'}}/>
-<h4 onClick={() => {handleGoToProfilePage(i),handleOpen()}}
-
-className='user-name-edit'>{x.Name}</h4>
-
-
-
-
+  <img className='user-pfp' src={userPfp} style={{width:'30px'}}/>
+<h4 onClick={() => {handleGoToProfilePage(i),handleOpen()}}className='user-name-edit'>{x.Name}</h4>
 
 <Modal
         open={open}
@@ -266,20 +282,17 @@ className='user-name-edit'>{x.Name}</h4>
           </Typography>
         </Box>
       </Modal>
-
-
-
-<h4>User Level: {x.level}</h4>
+<h4 className='user-level'>User Level: {x.level}</h4>
 
 <form onSubmit={(e) => {handleUser(i,e)}}>
-    {x.level !== 11 ?   <input  placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/> 
+    {x.level !== 11 ?   <input  className='user-input' placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/> 
     : null}
 
 </form>
 {x.request > '' ?
 <>
 <div className='div-request-approval'>
-<h3 className='request-approval' onClick={() => handleGoToProfileClear(i)}> Clear  </h3>
+{x.request !== 'Waiting Request' ?<h3 className='request-approval' onClick={() => handleGoToProfileClear(i)}> Clear  </h3> :null}
 <h3 className='request-approval' > {x.request}  </h3>
 <div> 
 <img src={thumbup} onClick={() => handleGoToProfile(i)}  style={{width:'40px',cursor:'pointer'}}/>
@@ -295,15 +308,10 @@ className='user-name-edit'>{x.Name}</h4>
 }
 })} 
   
-    </div>
+    </div>:
+    
 
-
-<hr className='hr'/>
-
-    </div> 
-
-<div className='user-levels-await'>
-  <h2> Users awaiting approval</h2>
+    <div className='user-levels-await'>
   <div>
    {userPermit.map((x,i) => {
 if (x.level === 0){
@@ -321,6 +329,15 @@ if (x.level === 0){
   </div>
 
 </div>
+    
+    }
+
+
+
+
+    </div> 
+
+
 
 
 

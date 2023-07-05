@@ -34,6 +34,17 @@ padding-right: 0 !important;
   
   }
 
+
+.user-settings-admin{
+  background-color: lightgray;
+}
+
+  
+  .icon-do:hover{
+    outline: 2px solid gold;
+    border-radius: 15px;
+  }
+
   .hover-container {
     position: relative;
   }
@@ -152,7 +163,7 @@ padding-right: 0 !important;
   }
 
   aside.EmojiPickerReact.epr-main{
-    width: 85vw !important;
+    /* width: 85vw !important; */
   }
 
 .style-admin-page{
@@ -459,11 +470,15 @@ padding-right: 0 !important;
       height: 100px;
       border-radius: 10px;
       border: 2px solid gold;
+      outline: 3px solid #1b4883;
     }
     
     .partner-links{
-      width: 90vw;
+      width: 85vw;
         margin: auto;
+        background-color: whitesmoke;
+        padding: 20px;
+        margin-bottom: 30px;
     }
     
     
@@ -712,7 +727,8 @@ padding-right: 0 !important;
       position: fixed;
       right: 2px;
       bottom: 2px;
-      z-index: 2;
+     
+      z-index: 10;
       transition: transform 0.3s ease;
     }
     
@@ -742,9 +758,11 @@ padding-right: 0 !important;
     
     
     .group-list{
-      flex-direction: column;
+      flex-direction: row;
       align-items: flex-start;
       display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
     }
     
     .group-text-mini{
@@ -775,7 +793,7 @@ padding-right: 0 !important;
       background-color: ghostwhite;
       width: 100vw;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-evenly;
       align-items: center;
     }
     
@@ -809,7 +827,16 @@ padding-right: 0 !important;
 }
 
 aside.EmojiPickerReact.epr-main{
-  width: 40vw !important;
+  width: 300px !important;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  overflow: scroll;
+  z-index: 1;
+  position: absolute !important;
+  height: 305px !important;
+  right: 105px;
+  
 }
 
 .tab-img{
@@ -825,10 +852,11 @@ aside.EmojiPickerReact.epr-main{
 }
 
 .user-settings-admin{
-  display: flex;
+
   justify-content: space-around;
-  background-color: #1b4883;
-  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+  background-color: lightgray;
+  /* background-image: url(https://www.transparenttextures.com/patterns/asfalt-light.png); */
+  flex-direction: column;
 }
 
 
@@ -893,14 +921,45 @@ aside.EmojiPickerReact.epr-main{
     flex-direction: row;
   }
 
+
+  .user-name-edit{
+    margin-left: 50px;
+    width: 130px;
+  }
+
+  .user-input{
+    margin-left: 50px;
+  }
+
+  .user-level{
+    margin-left: 50px;
+  }
+
+  .user-settings-admin{
+    background-color: lightgrey;
+    width: 900px;
+    margin: auto;
+    margin-top: 20px;
+  }
+
   .div-of-channel{
     color: black;
     display: flex;
     position: absolute;
     margin-top: 125px;
-    width: 700px;
+    width: 100px;
     align-items: center;
-    justify-content: space-around;
+    height: 55px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: white;
+    justify-content: flex-start;
+    margin: auto;
+    left: 75px;
+    right: 0;
+    margin-top: 125px;
   }
 
   .home-logo-text-text{
@@ -915,8 +974,22 @@ aside.EmojiPickerReact.epr-main{
 
 @media screen and (min-width:1024px) {
 
+  .bed{
+    justify-content: center !important;
+    right: 150px !important;
+  }
+
   .div-request-approval{
     width: 200px;
+    margin-left: 50px;
+  }
+
+  .request-approval{
+    padding: 2px
+  }
+
+  .user-pfp{
+    margin-left: 10px;
   }
 
 .dont-hide{
@@ -934,8 +1007,8 @@ aside.EmojiPickerReact.epr-main{
   }
 
 .admin-page-btn-switch{
-  background-color: #1b4883;
-  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+  /* background-color: #1b4883;
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png"); */
   padding-top: 30px;
   margin-top: 0px !important;
 }
@@ -973,7 +1046,7 @@ aside.EmojiPickerReact.epr-main{
 
 .front-page-logo-2nd{
   width: 250px;
-  padding:20px
+  padding:20
 }
 
 .home-3rd-banner{
@@ -996,13 +1069,13 @@ aside.EmojiPickerReact.epr-main{
   height: 50px;
 }
 
-  .inside-user-levels{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: auto;
-  }
+.inside-user-levels {
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  align-content: center;
+  align-items: center;
+}
 
   .user-levels{
     flex-direction:column
@@ -1014,7 +1087,8 @@ aside.EmojiPickerReact.epr-main{
   }
 
   .text-area{
-    width: 35vw;
+    width: 400px;
+    height: 200px;
   }
 
   .expample{
@@ -1025,8 +1099,6 @@ aside.EmojiPickerReact.epr-main{
   .real-admin-links {
  
     height: 40px;
-    width: 100px;
-  width: 300px;
   height: 100px;
 }
 
@@ -1283,6 +1355,7 @@ button:hover{
     margin: auto;
     justify-content: space-around;
     margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 
@@ -1404,8 +1477,9 @@ section{
 .input-admindb{
   height: 30px;
     text-align: center;
-    color: black;
+    color: white;
     font-weight: 800;
+    margin-top: 10px;
 }
 
 .channel-text{
@@ -1418,6 +1492,9 @@ section{
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    margin-top: 31px;
+    border: 1px solid white;
+    color:white;
 }
 
 
@@ -1461,7 +1538,9 @@ section{
   background-color: transparent ;
   border: transparent ;
   transition: transform 0.3s ease;
-  margin-right: 20px;
+  background-color: white;
+  text-align: center;
+  color: black;
 }
 
 .addtotext:hover{
@@ -1514,7 +1593,8 @@ section{
   transition: transform 0.3s ease;
 }
 
-.x-button:hover{  transform: scale(1.1);}
+.x-button:hover{  transform: scale(1.1);
+outline: transparent;}
 
 
 
@@ -1591,33 +1671,59 @@ section{
 .designer-upload{
   display: flex;
   width: 300px;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
+}
 
+
+.holds-written-content{
+  border: 3px solid;
+  position: relative;
+    right: 100px;
+    margin: auto;
+  margin-bottom: 20px;
+  max-width: 800px;
+  padding-top: 50px;
 }
 
 .above-div-send{
+  width: 100px;
+  background-color: #194375;
+  border: 3px solid gold;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 200px;
   display: flex;
-    margin-top: 50px;
-    margin-bottom: 10px;
-    width: 550px;
-    background-color: #194375;
-    border: 3px solid gold;
-    align-items: center;
-    justify-content: space-evenly;
+    flex-direction: column;
 }
+
+
 
 .main-text-side{
   display: flex;
-    flex-direction: column;
-    min-height: 600px;
-    border: 3px solid black;
-    padding: 45px;
-    width: 600px;
-    word-break: break-word;
-    align-items: center;
+  flex-direction: row;
+
+  padding: 45px;
+  width: 600px;
+  word-break: break-word;
+  align-items: flex-end;
+}
+
+.main-text-side-designer{
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+  padding: 45px;
+  width: 600px;
+  word-break: break-word;
+  align-items: flex-start;
+  position: relative;
+  right: 200px;
+  margin: auto;
+  border: 2px solid;
+  margin-bottom: 30px;
 }
 
 .holds-content{
@@ -1630,6 +1736,7 @@ section{
 }
 
 .upload1{
+  min-height: auto;
   display: flex;
   flex-direction: column;
   height: 125px;
@@ -1641,21 +1748,25 @@ section{
 .confirm-text{
   display: flex;
   align-items: center;
-  width: 556px;
+  width: 100px;
   justify-content: space-evenly;
   background-color: #194375;
-  border: 3px solid gold
+  border: 3px solid gold;
+  height: 200px;
 }
 
 .border-edit{
   border: 3px solid black;
-    padding: 45px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 600px;
-    justify-content: space-around;
-    width: 145px
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 200px;
+  justify-content: space-around;
+  width: 700px;
+  height: 200px;
+  position: relative;
+  right: 50px;
+  margin: auto;
 }
 
 
@@ -1664,11 +1775,16 @@ section{
 .user-level-div{
   display: flex;
   align-items: center;
-  width: 300px;
-  flex-direction: column;
-  justify-content: center;
+  width: 850px;
+  flex-direction: row;
+  justify-content:flex-start;
   transform: scale(1);
   transition: transform 0.3s ease-in-out;
+  min-height: auto;
+  height: 100px;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 0;
 }
 
 .user-level-div:hover{
@@ -1835,6 +1951,10 @@ bottom: 150px;
 
 .example-flex{
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: wrap;
+
 }
 
 .switching{

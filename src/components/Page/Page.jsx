@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import React from 'react'
 import Nav from '../Nav'
 import { Link, Navigate } from 'react-router-dom'
@@ -8,7 +6,6 @@ import { auth, fs,db } from '../../Firebase'
 import { useNavigate } from 'react-router-dom'
 import User from '../User'
 import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
-import Button from '../firebaseData/Button'
 import SendFromForm from '../firebaseData/SendFromForm'
 import { useParams } from 'react-router-dom'
 import Links from './Links'
@@ -35,7 +32,12 @@ import Group from '../GroupChat/Group'
 import Title from '../../Title'
 import Designer from './PageFunctions/Designer'
 import Loading from '../Loading'
-
+import view from '../images/open.png'
+// import Test from "./Test"
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 
 
@@ -245,6 +247,10 @@ const [ statusBar,setStatusBar] = useState('');
   },[round,month])
 
 
+  const [openModal, setOpenModal] = React.useState(false);
+const handleOpenModal = () => setOpenModal(true);
+const handleClose = () => setOpenModal(false);
+  
 
   return (<>
 
@@ -260,7 +266,7 @@ const [ statusBar,setStatusBar] = useState('');
 
 {level > 7 && uuid !== null && <>
 
-
+{/* <Test/> */}
 
 {level === 8 && <>
 <div className='admin-links-only-designer'> <Links/>
@@ -285,22 +291,24 @@ const [ statusBar,setStatusBar] = useState('');
  
  </div>
 
-    
+     {/* <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb' />  */}
  
 <form onSubmit={handleAdminSubmit} className='fill-in-form'>
 
-  {level > 8 ? <>  <Button qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> 
+  {level > 8 ? <>
+
     <input value={post} type="text" placeholder='Post number' onChange={(e) => setPost(e.target.value)} required className='input-admindb'/>  
-    <input type="text" placeholder='Subject' value={objective} onChange={(e) => setObjective(e.target.value)} required  className='input-admindb'/>    
-    <h3  onClick={handleClick} className='channel-text' > {type === ''? 'Type of channel' : type}</h3>
-    {open === true?<div className='div-of-channel'> <img className='img-zoom' onClick={() => setType('Facebook')} style={{cursor:'pointer',width:'30px'}}  src={facebook} alt={facebook} />
-    <img className='img-zoom' onClick={() => setType('Instagram')} style={{cursor:'pointer',width:'30px'}}  src={instagram} alt={instagram} />
-  <img className='img-zoom'  onClick={() => setType('MailChimp')}  style={{cursor:'pointer',width:'30px'}} src={mail} alt={mail} />
-  <img className='img-zoom' onClick={() => setType('LinkedIn')} style={{cursor:'pointer',width:'30px'}} src={linked} alt={linked} />
+    <input type="text" placeholder='Subject' value={objective} onChange={(e) => setObjective(e.target.value)} required  className='input-admindb'/>  
+ <h4  onClick={handleClick} className='channel-text' > {type === ''? 'Type of channel' : type}</h4>
+ {open === true?<div className='div-of-channel'> <img className='img-zoom' onClick={() => setType('Facebook')} style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}}  src={facebook} alt={facebook} />
+    <img className='img-zoom' onClick={() => setType('Instagram')} style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}}  src={instagram} alt={instagram} />
+  <img className='img-zoom'  onClick={() => setType('MailChimp')}  style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}} src={mail} alt={mail} />
+  <img className='img-zoom' onClick={() => setType('LinkedIn')} style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}} src={linked} alt={linked} />
   <p onClick={() => setType('Stories')} style={{cursor:'pointer'}}> Stories </p>  
   <input type=" text" placeholder='Other' onChange={(e) => setType(e.target.value)}    className='input-admindb'/>  </div> :null }
-    <input value={date} type="text" placeholder='day'  onChange={(e) => setDate(e.target.value)}  required className='input-admindb'/> 
-  <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb' /> </>:
+  <input value={date} type="date" placeholder='day'  onChange={(e) => setDate(e.target.value)}  required className='input-admindb'/> 
+  <button user={user} qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'> Post Content </button>
+  </>:
   
   <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb designer-month' /> } 
 
@@ -313,38 +321,84 @@ const [ statusBar,setStatusBar] = useState('');
  
   
   {/* designer sees only his tabs and not the whole page */}
-<Designer round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer}typeAnswer={typeAnswer}
+{level === 8 && <>
+
+  <Designer show={show} round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer}typeAnswer={typeAnswer}
 objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setShow}setStatusBar={setStatusBar}/>
+
+</>}
 
 
 {/* level 9 and above sees all tabs */}
 {round.map((x,i) => {  return <>
  { level > 8? 
   <div className='mapped-div' key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
-  
+<div>
+<button className='x-button' onClick={() => handleText(i)} >  <img src={view} alt={view} style={{width:'30px'}} className='icon-do'/> </button>
+  <button className='x-button ' onClick={() => {setShow(''),setObjectiveAnswer(''),setStatusBar('')}} >  <img src={cross} alt={cross} style={{width:'30px'}} className='icon-do'/> </button>
+</div>
   <p  onClick={() => {setPost(x.count),setDate(x.date),setType(x.type)}} className='same-map-text extra-styles'> {x.count}  </p>
-
-
- 
   <div className='hidden-form-div'>
- <p className='same-map-text  extra extra-styles' onClick={() => handleText(i)} style={{cursor:'pointer'}} > {x.objective}  </p>
+ <p className='same-map-text  extra extra-styles'> {x.objective}  </p>
  
 
  
    
  {show === i && <>
  <div className='holds-content'>
-  <div className='main-text-side' >
-     <img src={x.designer} style={{maxWidth:'200px',maxHeight:'200px'}} />
+  <div className='holds-written-content'>
+
+
+ <img src={x.designer} style={{maxWidth:'200px',maxHeight:'200px',cursor:'zoom-in'}}  onClick={() => handleOpenModal()}/>
+
+ <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}>
+                   
+          <img src={x.designer}   onClick={() => handleOpenModal()}   style={{maxWidth:'80vw',maxHeight:'80vh'}}/>
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {/* {!x.answer ? null :<h6 key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}}> {x.answer} </h6>}  */}
+          </Typography>
+        </Box>
+      </Modal>
+
+
+
+
+
+
+
+
+
      {!x.answer ? null :<h2 className='answer-text' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}}> {x.answer} </h2>} 
-     <SendFromForm objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
+  <div className='main-text-side' >
+
+     <SendFromForm user={user} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
   <form className='' onSubmit={handleSubmit}>
     
-<div>
+
 <textarea type="text" placeholder='enter text here'  className='text-area' value={objectiveAnswer} onChange={(e) => setObjectiveAnswer(e.target.value)}   /> 
+
+
+{/* {level > 8 ? <> <Solo  createPdf={createPdf} pdfChannels={pdfChannels} pdfCount={pdfCount} pdfObject={pdfObject} pdfDate={pdfDate}/>
+ <input type='checkbox' onClick={() => {setCreatePdf(x.answer),setPdfCount(x.count),setPdfObject(x.objective),setPdfDate(x.date),setPdfChannels(x.type)}}/> 
+      <hr />
+ </> :null} */}
+
+
+
+
+
+</form>
 <div className='confirm-text'>
 
- <button className='x-button' onClick={() => {setShow(''),setObjectiveAnswer(''),setStatusBar('')}} >  <img src={cross} alt={cross} style={{width:'30px'}}/> </button>
+
  <button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}} className='button-24' >  delete </button>
  
  {level  > 8 ?  emojiShow? <>
@@ -354,50 +408,36 @@ objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setSho
       emojiSize={30} 
       emojiStyle='google'
       theme='dark'
-     
       onEmojiClick={(e) => setObjectiveAnswer((prevAnswer) => prevAnswer + e.emoji)}
       /> </>: <h3 onClick={() => setEmojiShow(emojiShow === true?false:true)} > <AddReactionIcon className='emojiset'/> </h3> : null}
       
 </div>
 
-{level > 8 ? <> <Solo  createPdf={createPdf} pdfChannels={pdfChannels} pdfCount={pdfCount} pdfObject={pdfObject} pdfDate={pdfDate}/>
- <input type='checkbox' onClick={() => {setCreatePdf(x.answer),setPdfCount(x.count),setPdfObject(x.objective),setPdfDate(x.date),setPdfChannels(x.type)}}/> 
-      <hr />
- </> :null}
-
-</div>
-
-
-
-
-</form>
-
-
+  </div>
   </div>
 <div className='example-flex'>
    <div className='border-edit'>
-    <h2 style={{color:'black'}} className='example-style'> Example </h2>
+    {/* <h2 style={{color:'black'}} className='example-style'> Example </h2> */}
   <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <Upload1 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-
   <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx} </h2>
+  <Upload1 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
   </div>
 
 
  {x.textEx > ""?  <div className='border-edit'>
-    <h2 style={{color:'black'}} className='example-style'> Example </h2>
+  
   <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <Upload2 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+
 
   <h2  className='same'style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx1} </h2>
-  </div>:null} 
+  <Upload2 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+  </div>
+  :null} 
 
 {x.textEx1 > "" ?   <div className='border-edit'>
-    <h2 style={{color:'black'}} className='example-style'> Example </h2>
   <img src={x.exampleThree} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-
   <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
+  <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
   </div> :null}
 </div>
 

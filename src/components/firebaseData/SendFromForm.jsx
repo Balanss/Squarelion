@@ -11,7 +11,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 
 
 
-export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,page,level,setObjectiveAnswer}) {
+export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,page,level,setObjectiveAnswer,user}) {
     
     function handleData(){
      
@@ -21,6 +21,7 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
                 answer:objectiveAnswer,
                 status:'Awaiting Approval',
             color:'#00eaff',
+            user:user,
             
                
               },{merge:true})
@@ -40,18 +41,18 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
 
 
 
-      useEffect(() => {
-        // Load the posts from local storage when the component mounts
-        const storedPosts = localStorage.getItem('posts');
-        if (storedPosts) {
-          setPosts(JSON.parse(storedPosts));
-        }
-      }, []);
+      // useEffect(() => {
+      //   // Load the posts from local storage when the component mounts
+      //   const storedPosts = localStorage.getItem('posts');
+      //   if (storedPosts) {
+      //     setPosts(JSON.parse(storedPosts));
+      //   }
+      // }, []);
 
-      useEffect(() => {
-        // Save the posts to local storage whenever the posts state changes
-        localStorage.setItem('posts', JSON.stringify(posts));
-      }, [posts]);
+      // useEffect(() => {
+      //   // Save the posts to local storage whenever the posts state changes
+      //   localStorage.setItem('posts', JSON.stringify(posts));
+      // }, [posts]);
 
 
       
@@ -122,7 +123,9 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
 
   return (<>  
 {level > 8 && <>
-  <div className='above-div-send' style={{display:'flex',marginTop:'50px'}}> {level > 9 ?  <button onClick={handleData} className='addtotext'> <img src={addFile} style={{width:'50px',height:'50px',backgroundColor:'transparent'}}/>  </button> : null } 
+  <div className='above-div-send' style={{display:'flex'}}>
+     {level > 9 ?  <button onClick={handleData} className='addtotext'> 
+   Add Text Content  </button> : null } 
 
 <form onSubmit={handleSub} className='designer-upload'> 
 
@@ -135,16 +138,14 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
    
   {level === 8 && <>
   
-    <div className='above-div-send-designer' style={{display:'flex',marginTop:'50px'}}> {level !== 10 ? null: <button onClick={handleData} className='addtotext'> <img src={addFile} style={{width:'50px',height:'50px',backgroundColor:'transparent'}}/>  </button> } 
+    <div className='above-div-send-designer' style={{display:'flex',marginTop:'50px'}}> 
+   
 
 <form onSubmit={handleSub} className='designer-upload'> 
-
-
     <input type="file" onChange={handleImageChange} style={{width:'90px'}} />
-     <button> Add Design </button>
-    
-
-</form>  </div>
+     <button> Add Design Picture </button>
+</form> 
+ </div>
    </> }
 
  </> )

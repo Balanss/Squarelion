@@ -316,7 +316,7 @@ const important = message.filter(work => work.imp === imp)
 
 
     <div className='hidden-chat-box'>
-    <textarea className='' onChange={(e) => setText(e.target.value)}  placeholder='Enter' value={text} />
+    <textarea  className='' onChange={(e) => setText(e.target.value)}  placeholder={`Send Message To ${displayTo}`} value={text} />
  
     {sendTo === 'designer' ? <Button allUid={allUid} user={user} setText={setText}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
 {sendTo === 'group' ? <Button allUid={allUid} user={user} sendTo={sendTo} setText={setText}  text={text} uuid={uuid} imp={imp} />:null }

@@ -200,7 +200,7 @@ const handleMouseLeave = () => {
           Image:
           <input type="file" onChange={handleImageChange} />
         </label>
-<button className='add-partner'> Add Partner </button>
+<button className='add-partner'> Add Client </button>
 
 </form>
  </>}

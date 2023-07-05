@@ -10,7 +10,7 @@ import error from '../images/error.png'
 import wip from '../images/wip.png'
 
 
-export default function Button({objective,type,date,post,page,month,setObjective,qty}) {
+export default function Button({objective,type,date,post,page,month,setObjective,qty,user}) {
     
 const [ succ,setSucc] = useState()
 
@@ -26,7 +26,8 @@ const [ succ,setSucc] = useState()
              status: 'pending',
              color:'orange',
              statusText:'pending',
-             month:month
+             month:month,
+             user:user
            
           })
 

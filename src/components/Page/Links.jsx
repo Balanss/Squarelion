@@ -119,7 +119,7 @@ export default function Links() {
 
 {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button className='button-links' onClick={toggleDrawer(anchor, true)}>Partner</Button>
+          <Button className='button-links' onClick={toggleDrawer(anchor, true)}>Clients</Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
