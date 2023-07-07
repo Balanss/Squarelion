@@ -4,22 +4,23 @@ import txt from "../images/txt-file.png"
 function convertToTextFile(filter) {
 
 
-    let text = '';
-    filter.forEach((filter) => {
-        text += `Count: ${filter.count}\n`;
-      text += `Subject: ${filter.objective}\n`;
-      text += `Answer: ${filter.answer}\n`;
-      text += `Channel: ${filter.type}\n`;
-      text += `Date: ${filter.date}\n\n`;
-    });
+  let htmlContent = '';
+filter.forEach((filter) => {
+  htmlContent += `<p>Count: ${filter.count}</p>`;
+  htmlContent += `<p>Subject: ${filter.objective}</p>`;
+  htmlContent += `<p>Answer: ${filter.answer}</p>`;
+  htmlContent += `<p>Channel: ${filter.type}</p>`;
+  htmlContent += `<p>Date: ${filter.date}</p><br>`;
+});
 
-  const element = document.createElement('a');
-  const file = new Blob([text], { type: 'text/plain' });
-  element.href = URL.createObjectURL(file);
-  element.download = 'converted_text.txt';
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
+const element = document.createElement('a');
+const file = new Blob([htmlContent], { type: 'text/html' });
+element.href = URL.createObjectURL(file);
+element.download = 'converted_text.html';
+document.body.appendChild(element);
+element.click();
+document.body.removeChild(element);
+
 }
 
 function TxtAll ({filter}) {

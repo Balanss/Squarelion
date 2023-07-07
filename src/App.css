@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap');
 
 
-p{font-family: 'Roboto Condensed', sans-serif;font-size: clamp(1rem, 0.9643rem + 0.1786vw, 1.25rem) !important;}
+
 h2{font-family: 'Roboto Condensed', sans-serif !important;font-size: clamp(1rem, 0.9643rem + 0.1786vw, 1.25rem) !important;}
 h1{font-family: 'Roboto Condensed', sans-serif;font-size: clamp(1rem, 0.9643rem + 0.1786vw, 1.25rem) !important;}
 /* textarea{font-family: 'Roboto Condensed', sans-serif;font-size: clamp(1rem, 0.7143rem + 1.4286vw, 3rem);} */
@@ -25,13 +25,61 @@ padding-right: 0 !important;
 
 @media screen and (min-width:320px){
 
+
+.chat-container{
+  
+  display: flex;
+  flex-direction: column;
+
+}
+
   .dont-hide{
     background-color: white;
     padding: 10px;
     color: black;
     position: relative;
-    outline: 2px solid;
+    outline: 1px solid;
   
+  }
+
+  .preview{
+    display:none !important;
+  }
+
+.main-surv-div{
+  display: flex;
+  width: 90vw;
+  margin: auto;
+
+}
+
+
+  .survey-creator{
+    width: 300px;
+    margin: auto;
+    background-color: ghostwhite;
+    color: black;
+    padding: 20px;
+    border-radius: 3px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .step-1{
+    width: 200px;
+  }
+
+
+  .admin-page-btn-switch{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: #efefef;
+    color: black;
+    height: 65px;
   }
 
 
@@ -95,14 +143,12 @@ padding-right: 0 !important;
   }
 
   .signup-main{
-    background-color: #194375;
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    inset: 0;
-    left: 0;
-    right: 0;
   
+    width: 100vw;
+    min-height: 100vh;
+ position: relative;
+    background-color: #1b4883;
+  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
   }
 
   .client-pic{
@@ -167,8 +213,7 @@ padding-right: 0 !important;
   }
 
 .style-admin-page{
-  background-color: #1b4883;
-  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+
 }
 
 
@@ -449,7 +494,7 @@ padding-right: 0 !important;
     
     
     .group-text{
-      background-color: ghostwhite;
+      background-color: lightgray;
       color: black;
       max-height: 60vh;
       overflow: scroll;
@@ -522,9 +567,10 @@ padding-right: 0 !important;
 
     .clientimg{
       width: 45px;
+      cursor: pointer;
     }
 
-    .switching:hover{
+ .clientimg:hover{
       transform: scale(1.01);
     }
 
@@ -816,6 +862,15 @@ padding-right: 0 !important;
 
 @media screen and (min-width:768px){
 
+
+.chat-container{
+  
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+
+}
+
 .client-pic{
   width: 135px;
 }
@@ -921,6 +976,38 @@ aside.EmojiPickerReact.epr-main{
     flex-direction: row;
   }
 
+  .chat-container{
+  
+    display: flex;
+    margin-top: 20px;
+    flex-direction: row;
+  
+  }
+
+  .clientimg{
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  .preview{
+    display: flex !important;
+  }
+
+
+
+  .admin-page-btn-switch{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #efefef;
+    color: black;
+    position: absolute;
+    top: 101px;
+    bottom: 23px;
+    width: 100px;
+    height: auto;
+  }
 
   .user-name-edit{
     margin-left: 50px;
@@ -937,9 +1024,11 @@ aside.EmojiPickerReact.epr-main{
 
   .user-settings-admin{
     background-color: lightgrey;
-    width: 900px;
+    width: 850px;
     margin: auto;
     margin-top: 20px;
+    padding: 20px;
+    margin-left: 116px;
   }
 
   .div-of-channel{
@@ -974,6 +1063,10 @@ aside.EmojiPickerReact.epr-main{
 
 @media screen and (min-width:1024px) {
 
+
+
+ 
+
   .bed{
     justify-content: center !important;
     right: 150px !important;
@@ -993,7 +1086,13 @@ aside.EmojiPickerReact.epr-main{
   }
 
 .dont-hide{
-  width: 280px;
+  background-color: white;
+
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+
 }
 
   .client-pic{
@@ -1006,12 +1105,7 @@ aside.EmojiPickerReact.epr-main{
     top: 13vh;
   }
 
-.admin-page-btn-switch{
-  /* background-color: #1b4883;
-  background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png"); */
-  padding-top: 30px;
-  margin-top: 0px !important;
-}
+
 
 .status-awaiting{
   width: 50px;
@@ -1071,10 +1165,11 @@ aside.EmojiPickerReact.epr-main{
 
 .inside-user-levels {
   display: flex;
-  flex-direction: column;
-  width: 900px;
-  align-content: center;
+  flex-direction: row;
+  width: 800px;
   align-items: center;
+  height: 700px;
+  overflow: scroll;
 }
 
   .user-levels{
@@ -1256,11 +1351,9 @@ button:hover{
 .signup-main{
   background-color: #194375;
   width: 100vw;
-  height: 100vh;
-  position: absolute;
-  inset: 0;
-  left: 0;
-  right: 0;
+
+
+
 
 }
 
@@ -1605,15 +1698,16 @@ outline: transparent;}
 }
 
 .group-text{
- color: white;
-  width: 89vw;
+ color: black;
+  width: 50vw;
   margin: auto;
   min-height: 69vh;
   border: 2px solid gold;
  
-  background-color: #474746;
   background-image: url("https://www.transparenttextures.com/patterns/ag-square.png");
-  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
    
     
 }
@@ -1626,10 +1720,7 @@ outline: transparent;}
   align-items: center;
 }
 
-.profile{
-  background-color: rgb(25, 67, 117);
-  padding-bottom: 100px;
-}
+
 
 .form-private{
   color: white;
@@ -1708,7 +1799,7 @@ outline: transparent;}
   padding: 45px;
   width: 600px;
   word-break: break-word;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
 .main-text-side-designer{
@@ -1732,8 +1823,21 @@ outline: transparent;}
   width: 800px;
   justify-content: space-between;
   flex-direction: column;
-
+  animation-name: fadeIn;
+  animation-duration: 1.0s;
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+
+
 
 .upload1{
   min-height: auto;
@@ -1946,6 +2050,8 @@ bottom: 150px;
   color: black;
   
 }
+
+
 
 
 

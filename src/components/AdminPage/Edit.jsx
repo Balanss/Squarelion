@@ -18,6 +18,7 @@ import Paper from '@mui/material/Paper';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import AdminSurvey from './AdminSurvey';
 
 
 
@@ -331,17 +332,11 @@ if (x.level === 0){
 </div>
     
     }
-
-
-
-
     </div> 
-
-
-
-
-
     </div>
+
+
+
 </>}
 
 

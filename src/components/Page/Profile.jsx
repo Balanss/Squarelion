@@ -21,6 +21,7 @@ import Title from '../../Title'
 import ProfileFunctions from './profileFunctions/ProfileFunctions'
 import Loading from '../Loading'
 import TimeOff from './WFH/TimeOff'
+import Survey from './Survey'
 
 export default function Profile() {
 
@@ -130,16 +131,10 @@ useEffect(() => {
 
 const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null);
 
-const [ showWfh,setShowWfh] = useState(false)
+const [ showWfh,setShowWfh] = useState('')
 
-function handleSurvey(){
 
-  setTimeout(() =>{
-      navigate(`/user/Survey/${user}`)
-      window.location.reload()
-  },2000)
 
-}
 
 
 
@@ -157,22 +152,54 @@ function handleSurvey(){
 </>}
 
     {level > 7 ?  <>  <div className='profile'>
-    <div style={{margin:'auto',backgroundColor:'white',borderBottom:'2px solid gold'}}> <Nav/> </div>
 
+    
+    <div style={{margin:'auto',backgroundColor:'white',borderBottom:'2px solid gold'}}> <Nav/> </div>
+    <div className='ttt'>
+        
+        </div>
     <div className='real-admin-links'><Links/> 
-      <button onClick={() => {setShowWfh(showWfh === false? true : false)}}> WFH </button>
+      <button onClick={() => {setShowWfh('wfh')}}> WFH </button>
       <img className='style-meeting' src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() =>  {
         hideList === true? setHideList(false) : setHideList(true),
-        setShowWfh(false)
+        setShowWfh('chat')
       } }/>  
       
-      <button onClick={handleSurvey}> Survey </button>
+      <button onClick={() => setShowWfh('survey')}> Survey </button>
       
       </div>
     
-    <div className='group-text' style={hideList === false?{display:'none'}:{display:'block'}} >
+
+
+
+
+
+{showWfh === 'chat' && <>
+
+
+
+<div className='chat-container'>
+<div className='group-text'  >
 
 <h2 onClick={() => setShowImportant(showImportant === true? false : true)}> {showImportant === false? 'Show Priority' : 'Show All'}  </h2>
+
+
+<form className='form-private'  onSubmit={(e) => e.preventDefault()}>
+    <div>
+
+    <textarea onChange={(e) => setText(e.target.value)} value={text} className='textarea' placeholder= {`Send message to ${displayTo} ${imp === true && displayTo === 'Group'? ' [Priority] ' : '' }`}> 
+
+</textarea>
+<img src={mark} onClick={() => {setImp(imp === false? true : false)}} className='img-imp' style={{width:'2rem'}}/> 
+    </div>
+
+{sendTo === 'designer' ? <Button allUid={allUid}  user={user}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
+{sendTo === 'group' ? <Button allUid={allUid}setText={setText} user={user} sendTo={sendTo} text={text} uuid={uuid} imp={imp} />:null }
+{sendTo !== 'designer' && sendTo !== 'group' ?  <PrivateChat user={user}  setText ={setText} sendTo={sendTo} text={text} trueChat={trueChat} /> :null }
+  
+   
+</form>
+
 
   {privateChat  === 'group' && <>
    
@@ -231,29 +258,12 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 </div>
 
 
-<form className='form-private' style={hideList === false?{display:'none'}:{display:'block'}} onSubmit={(e) => e.preventDefault()}>
-    <label > {`Send message to ${displayTo} ${imp === true && displayTo === 'Group'? ' [Priority] ' : '' }`} </label>
 
-    <div>
-    <textarea onChange={(e) => setText(e.target.value)} value={text} className='textarea' placeholder='Enter' > 
 
-</textarea>
-<img src={mark} onClick={() => {setImp(imp === false? true : false)}} className='img-imp' style={{width:'2rem'}}/> 
-    </div>
-
-{sendTo === 'designer' ? <Button allUid={allUid}  user={user}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
-{sendTo === 'group' ? <Button allUid={allUid}setText={setText} user={user} sendTo={sendTo} text={text} uuid={uuid} imp={imp} />:null }
-{sendTo !== 'designer' && sendTo !== 'group' ?  <PrivateChat user={user}  setText ={setText} sendTo={sendTo} text={text} trueChat={trueChat} /> :null }
-  
-   
-</form>
-
-{showWfh === false && <>
-
-  <div className='list'  > 
+<div className='list'  > 
  
  {level > 8 && <>
- <div className={hideList === true? 'hidethis' : 'dont-hide'}>
+ <div className= 'dont-hide'>
     <h2 onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group'), setHideList(hideList === true? false : true)}} style={{cursor:'pointer'}} className='h2-noti'> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2>
     <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer'),  setHideList(hideList === true? false : true)}} style={{cursor:'pointer'}} className='h2-noti'> Designer  </h2>
     
@@ -287,14 +297,24 @@ return <div key={i} className='indi-group-text' onClick={() => handleDelete(x.id
 
 
  </div>
+</div>
+  
+
+
 
 </>}
 
-{showWfh === true && <>
+{showWfh === 'wfh' && <>
 
 <TimeOff/>
 </>}
 
+
+
+{showWfh === 'survey' && <>
+
+<Survey/>
+</>}
 
 
 

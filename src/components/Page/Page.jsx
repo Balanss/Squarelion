@@ -38,6 +38,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 
 
@@ -252,6 +254,20 @@ const handleOpenModal = () => setOpenModal(true);
 const handleClose = () => setOpenModal(false);
   
 
+
+
+const handleEditorChange = (value) => {
+ setObjectiveAnswer(value);
+};
+
+
+
+
+
+
+
+
+
   return (<>
 
 
@@ -345,7 +361,7 @@ objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setSho
  
    
  {show === i && <>
- <div className='holds-content'>
+ <div className={show === i?'holds-content':'no-content'}>
   <div className='holds-written-content'>
 
 
@@ -376,15 +392,23 @@ objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setSho
 
 
 
-     {!x.answer ? null :<h2 className='answer-text' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}}> {x.answer} </h2>} 
+     {!x.answer ? null :    <div  className='answer-text' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />} 
   <div className='main-text-side' >
 
      <SendFromForm user={user} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
   <form className='' onSubmit={handleSubmit}>
     
 
-<textarea type="text" placeholder='enter text here'  className='text-area' value={objectiveAnswer} onChange={(e) => setObjectiveAnswer(e.target.value)}   /> 
-
+{/* <textarea type="text" placeholder='enter text here'  className='text-area' value={objectiveAnswer} onChange={(e) => setObjectiveAnswer(e.target.value)}   />  */}
+<ReactQuill
+     value={objectiveAnswer}
+      onChange={handleEditorChange}
+      style={{color:'black',backgroundColor:'white',maxWidth:'40vw'}}
+    
+    
+    />
+      
+  
 
 {/* {level > 8 ? <> <Solo  createPdf={createPdf} pdfChannels={pdfChannels} pdfCount={pdfCount} pdfObject={pdfObject} pdfDate={pdfDate}/>
  <input type='checkbox' onClick={() => {setCreatePdf(x.answer),setPdfCount(x.count),setPdfObject(x.objective),setPdfDate(x.date),setPdfChannels(x.type)}}/> 
