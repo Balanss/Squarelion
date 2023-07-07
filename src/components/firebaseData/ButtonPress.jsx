@@ -10,7 +10,7 @@ import error from '../images/error.png'
 import wip from '../images/wip.png'
 
 
-export default function Button({objective,type,date,post,page,month,setObjective,qty,user}) {
+export default function ButtonPress({objective,type,date,post,page,month,setObjective,qty,user}) {
     
 const [ succ,setSucc] = useState()
 
@@ -60,7 +60,7 @@ fs.collection('partner').doc(page).set({
   return (<> 
 
   
-     <button onClick={handleData}> <PostAddIcon/>  </button>
+     <button onClick={handleData}> Post Content  </button>
 
    
 

@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import Nav from '../Nav'
 import { Link, Navigate } from 'react-router-dom'
@@ -40,6 +42,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import ButtonPress from '../firebaseData/ButtonPress'
 
 
 
@@ -61,6 +64,7 @@ const style = {
 
 
 
+// eslint-disable-next-line react/prop-types
 export default function Page({goTo}) {
 
   const {id} = useParams()
@@ -267,7 +271,6 @@ const handleEditorChange = (value) => {
 
 
 
-
   return (<>
 
 
@@ -307,7 +310,7 @@ const handleEditorChange = (value) => {
  
  </div>
 
-     {/* <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb' />  */}
+   
  
 <form onSubmit={handleAdminSubmit} className='fill-in-form'>
 
@@ -322,8 +325,9 @@ const handleEditorChange = (value) => {
   <img className='img-zoom' onClick={() => setType('LinkedIn')} style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}} src={linked} alt={linked} />
   <p onClick={() => setType('Stories')} style={{cursor:'pointer'}}> Stories </p>  
   <input type=" text" placeholder='Other' onChange={(e) => setType(e.target.value)}    className='input-admindb'/>  </div> :null }
-  <input value={date} type="date" placeholder='day'  onChange={(e) => setDate(e.target.value)}  required className='input-admindb'/> 
-  <button user={user} qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'> Post Content </button>
+  <input value={date} type="number" placeholder='day'  onChange={(e) => {setDate(e.target.value)}}  required className='input-admindb'/> 
+  <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb' /> 
+  <ButtonPress user={user} qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> 
   </>:
   
   <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb designer-month' /> } 
