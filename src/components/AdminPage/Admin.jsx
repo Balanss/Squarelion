@@ -19,6 +19,7 @@ import usersPic from '../images/new-arrival.png';
 import client from '../images/client.png';
 import survey from '../images/survey.png';
 import AdminSurvey from './AdminSurvey';
+import rightArrow from '../images/arrow-right.png';
 
 
 
@@ -151,8 +152,9 @@ uploadTask.on(
 
 
 
-const [switching,setSwitching] = useState('client')
+const [switching,setSwitching] = useState('Client')
 const [isHovered, setIsHovered] = useState(false);
+const [hiding,setHiding] = useState(true);
 
 const handleMouseEnter = () => {
   setIsHovered(true);
@@ -172,36 +174,44 @@ const handleMouseLeave = () => {
 {uuid !== ''  && level > 8 && isLoading === false  && <>
       
       
-      <div style={{minHeight:'100vh',display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
+      <div >
 <div style={{backgroundColor:'white'}}> <Nav/> </div>
 
 {level > 9 && <>
-  <div className='admin-page-btn-switch'>
-<img className='clientimg' src={client} onClick={( ) => setSwitching('client')}/>  
-  <img src={usersPic} className='clientimg' onClick={( ) => setSwitching('users')}/>
-  <img src={survey} className='clientimg' onClick={( ) => setSwitching('survey')}/>
+  <div className='admin-page-btn-switch' style={hiding === false ? {display:'none'} : {display:'block'}}>
+<img className='clientimg' src={client} onClick={( ) => setSwitching('Client')}/>  
+  <img src={usersPic} className='clientimg' onClick={( ) => {setSwitching('Users'),
+  setHiding(false),setTimeout(() => setHiding(true),1000)
+}}/>
+{level === 11 ?  <img src={survey} className='clientimg' onClick={( ) => setSwitching('Survey')}/> : null}
   
  
   </div>
 </>}
 
-{switching ==='client' && <>
+<div className='exper'>
+  <h1 className='admin-panel-text'> Admin Panel - {switching} Handler </h1>
+</div>
+
+{switching ==='Client' && <>
+
+
   < div className='style-admin-page'>
- {level > 9 && <>
+
+
+<div className='partner-links'>
+  
+{level > 9 && <>
   <form onSubmit={handleSub} className='form-admindb'> 
 
-<input type="text" placeholder='ENTER PARTNER' onChange={(e) => setName(e.target.value)} className='input-admindb' />
-<label>
-          Image:
+<input type="text" placeholder='ENTER CLIENT NAME' onChange={(e) => setName(e.target.value)} className='input-admindb' />
           <input type="file" onChange={handleImageChange} />
-        </label>
 <button className='add-partner'> Add Client </button>
+<img src={rightArrow} style={{width:'60px'}} />
 
 </form>
  </>}
 
-<div className='partner-links'>
-  
 <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {partner.map((partner ,index) => (
@@ -221,8 +231,14 @@ const handleMouseLeave = () => {
 }
 
 
-{switching === 'users' && <Edit/>}
-{switching === 'survey' && <AdminSurvey/>}
+
+
+
+{switching === 'Users' && <Edit/>}
+
+
+
+{switching === 'Survey'  && level === 11 && <AdminSurvey/>}
 
 
 

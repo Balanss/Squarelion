@@ -222,7 +222,7 @@ const handleClick = (user) => {
 <> 
  <AdminLogic setUserPermit={setUserPermit}/>
 <User setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
-{level > 9 && <>
+
 
 
 
@@ -337,7 +337,7 @@ if (x.level === 0){
 
 
 
-</>}
+
 
 
 

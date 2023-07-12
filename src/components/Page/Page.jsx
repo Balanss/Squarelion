@@ -11,21 +11,16 @@ import { useParams } from 'react-router-dom'
 import Links from './Links'
 import EmojiPicker from 'emoji-picker-react'
 import AddReactionIcon from '@mui/icons-material/AddReaction';
-import Stack from '@mui/material/Stack';
-import CircularProgress from '@mui/material/CircularProgress';
+
 import WaitingDesigner from '../firebaseData/WaitingDesigner'
 import WaitingApproval from '../firebaseData/WaitingApproval'
 import WaitingApproved from '../firebaseData/WaitingApproved'
-import WaitingDelete from '../firebaseData/WaitingDelete'
-import facebook from '../images/facebook.png'
-import instagram from "../images/instagram.png"
+
 import Upload1 from '../firebaseData/Upload1'
 import Upload2 from '../firebaseData/Upload2'
 import Upload3 from '../firebaseData/Upload3'
 import cross from '../images/cross.png'
-import tab from '../images/tap.png'
-import mail from '../images/mailchimp.png'
-import linked from '../images/linkedin.png'
+
 import Solo from '../Txt/Solo'
 import TxtAll from '../Txt/TxtAll'
 import Group from '../GroupChat/Group'
@@ -40,7 +35,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
+import ButtonPress from '../firebaseData/ButtonPress'
+import Inputs from './PageFunctions/Inputs'
 
 
 
@@ -163,37 +159,36 @@ setHide(false)
     setMonth(currentMonth);
   }, []);
 
-
+let notification = [];
   const [ emojiShow,setEmojiShow] = useState(false)
-  const notification = (round.filter((x) => x.statusText !== 'Approved'));
- const qty = (notification.length);
+   notification = (round.filter((x) => x.countNoti && x.statusText !== 'Approved' ));
+
+   let qty 
+  qty = (notification.length);
 
 
 
 
 
 
-
-  function handleAdminSubmit(e){
-    e.preventDefault();
-  }
+ 
  
 
   function handleDelete(i) {
     round.map((x,index) => {
       if (index === i){
         const docRef = collection(db,localStorage.getItem('partner'))
-        const colRef=doc(docRef,deletion+month );
+        const colRef=doc(docRef,x.id );
         deleteDoc(colRef);
       }
           })
 
           fs.collection('partner').doc(page).set({
-            status: qty - 1 ,
+            status: qty - 1  ,
           },{merge:true})
   }
   
-  
+
  
   const [ img , setImage ] = useState('')
   useEffect(() => {
@@ -221,12 +216,10 @@ setHide(false)
 
 
 
-  const [open, setOpen] = React.useState(false);
+  
   const [ status, setStatus ] = React.useState(false);
 
-  const handleClick = () => {
-    setOpen(open === true? false : true);
-  };
+
 
 
   function handleApprove(i){
@@ -244,6 +237,8 @@ const [ statusBar,setStatusBar] = useState('');
     const currentMonth = currentDate.toISOString().slice(0, 7); // Format: YYYY-MM
  
     setFilter(round.filter((x) => x.statusText === 'Approved' && x.month === month)); 
+  
+
    
 
   },[round,month])
@@ -259,9 +254,6 @@ const handleClose = () => setOpenModal(false);
 const handleEditorChange = (value) => {
  setObjectiveAnswer(value);
 };
-
-
-
 
 
 
@@ -301,37 +293,8 @@ const handleEditorChange = (value) => {
 
 <Group />
 <div className='content-div' >
- <div>
-
-
- 
- </div>
-
-     {/* <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb' />  */}
- 
-<form onSubmit={handleAdminSubmit} className='fill-in-form'>
-
-  {level > 8 ? <>
-
-    <input value={post} type="text" placeholder='Post number' onChange={(e) => setPost(e.target.value)} required className='input-admindb'/>  
-    <input type="text" placeholder='Subject' value={objective} onChange={(e) => setObjective(e.target.value)} required  className='input-admindb'/>  
- <h4  onClick={handleClick} className='channel-text' > {type === ''? 'Type of channel' : type}</h4>
- {open === true?<div className='div-of-channel'> <img className='img-zoom' onClick={() => setType('Facebook')} style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}}  src={facebook} alt={facebook} />
-    <img className='img-zoom' onClick={() => setType('Instagram')} style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}}  src={instagram} alt={instagram} />
-  <img className='img-zoom'  onClick={() => setType('MailChimp')}  style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}} src={mail} alt={mail} />
-  <img className='img-zoom' onClick={() => setType('LinkedIn')} style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}} src={linked} alt={linked} />
-  <p onClick={() => setType('Stories')} style={{cursor:'pointer'}}> Stories </p>  
-  <input type=" text" placeholder='Other' onChange={(e) => setType(e.target.value)}    className='input-admindb'/>  </div> :null }
-  <input value={date} type="date" placeholder='day'  onChange={(e) => setDate(e.target.value)}  required className='input-admindb'/> 
-  <button user={user} qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'> Post Content </button>
-  </>:
-  
-  <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb designer-month' /> } 
-
- </form>
-
-
-  
+  <Inputs user={user} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
+  setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
  
 
  
@@ -339,8 +302,8 @@ const handleEditorChange = (value) => {
   {/* designer sees only his tabs and not the whole page */}
 {level === 8 && <>
 
-  <Designer show={show} round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer}typeAnswer={typeAnswer}
-objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setShow}setStatusBar={setStatusBar}/>
+<Designer show={show} round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer}typeAnswer={typeAnswer}
+                objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setShow}setStatusBar={setStatusBar}/>
 
 </>}
 
@@ -395,55 +358,48 @@ objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setSho
      {!x.answer ? null :    <div  className='answer-text' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />} 
   <div className='main-text-side' >
 
-     <SendFromForm user={user} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
+<div className='above-div-send' >
+<SendFromForm user={user} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
+<button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}} className='button-24' >  delete </button>
+
+
+{level  > 8 ?  emojiShow? <>
+<h3 onClick={() => setEmojiShow(emojiShow === true?false:true)}> <AddReactionIcon  className='emojiset' /> </h3>
+<EmojiPicker  
+    setPlaceHolder='ara'
+    emojiSize={30} 
+    emojiStyle='google'
+    theme='dark'
+    onEmojiClick={(e) => setObjectiveAnswer((prevAnswer) => prevAnswer + e.emoji)}
+    /> </>: <button onClick={() => setEmojiShow(emojiShow === true?false:true)} style={{marginLeft:'10px'}} >Add Emoji </button> : null}
+</div>
+
+   
   <form className='' onSubmit={handleSubmit}>
     
 
-{/* <textarea type="text" placeholder='enter text here'  className='text-area' value={objectiveAnswer} onChange={(e) => setObjectiveAnswer(e.target.value)}   />  */}
+
+
+
 <ReactQuill
      value={objectiveAnswer}
       onChange={handleEditorChange}
-      style={{color:'black',backgroundColor:'white',maxWidth:'40vw'}}
+      style={{color:'black',backgroundColor:'white'}}
+      placeholder='Text here...'
+      className='Quill'
     
     
     />
+
       
-  
-
-{/* {level > 8 ? <> <Solo  createPdf={createPdf} pdfChannels={pdfChannels} pdfCount={pdfCount} pdfObject={pdfObject} pdfDate={pdfDate}/>
- <input type='checkbox' onClick={() => {setCreatePdf(x.answer),setPdfCount(x.count),setPdfObject(x.objective),setPdfDate(x.date),setPdfChannels(x.type)}}/> 
-      <hr />
- </> :null} */}
-
-
-
-
 
 </form>
-<div className='confirm-text'>
-
-
- <button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}} className='button-24' >  delete </button>
- 
- {level  > 8 ?  emojiShow? <>
-  <h3 onClick={() => setEmojiShow(emojiShow === true?false:true)}> <AddReactionIcon  className='emojiset' /> </h3>
-<EmojiPicker  
-      setPlaceHolder='ara'
-      emojiSize={30} 
-      emojiStyle='google'
-      theme='dark'
-      onEmojiClick={(e) => setObjectiveAnswer((prevAnswer) => prevAnswer + e.emoji)}
-      /> </>: <h3 onClick={() => setEmojiShow(emojiShow === true?false:true)} > <AddReactionIcon className='emojiset'/> </h3> : null}
-      
-</div>
-
   </div>
   </div>
 <div className='example-flex'>
    <div className='border-edit'>
-    {/* <h2 style={{color:'black'}} className='example-style'> Example </h2> */}
   <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx} </h2>
+{x.textEx !== ''? null:  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx}  </h2>}
   <Upload1 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
   </div>
 
@@ -489,11 +445,11 @@ objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setSho
 
 
 {statusBar === i? <div style={{color:'black'}} className='status-div'> 
-{level === 8 ?  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} /> : null}
+{level === 8 ?  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty}/> : null}
 {level > 8 && <>
-  <WaitingDesigner objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
-  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
-<WaitingApproved objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} />
+  <WaitingDesigner objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
+  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  />
+<WaitingApproved objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
 {/* <WaitingDelete objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} /> */}
 </>}
 

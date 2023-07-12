@@ -139,8 +139,8 @@ const userPro = wfh.filter(x => x.id === user)
 
 </div>  
 
-<div className='history'>
-  <div className='history-inside'> 
+<div className='history' style={userPro.length > 0 ? {display:'block'} : {display:'none'}}>
+  <div className='history-inside' > 
 {userPro.map((user) => {
         return Object.entries(user).map(([date, userInfo]) => {
           const { reason, user,time} = userInfo; // Extract the user name and request

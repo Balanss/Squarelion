@@ -10,12 +10,14 @@ import error from '../images/error.png'
 import wip from '../images/wip.png'
 
 
-export default function Button({objective,type,date,post,page,month,setObjective,qty,user}) {
+export default function ButtonPress({objective,type,date,post,page,month,setObjective,qty,user}) {
     
 const [ succ,setSucc] = useState()
 
     function handleData(){
      
+ 
+
          if (objective && type && date !== '' ){
           fs.collection(page).doc(post+month).set({
                 
@@ -27,7 +29,9 @@ const [ succ,setSucc] = useState()
              color:'orange',
              statusText:'pending',
              month:month,
-             user:user
+             user:user,
+            countNoti : 1,
+
            
           })
 
@@ -48,7 +52,7 @@ const [ succ,setSucc] = useState()
          }
 
 fs.collection('partner').doc(page).set({
-  status: qty - - 1,
+  status: qty - -1,
 },{merge:true})
 
       }
@@ -60,7 +64,7 @@ fs.collection('partner').doc(page).set({
   return (<> 
 
   
-     <button onClick={handleData}> <PostAddIcon/>  </button>
+     <button onClick={handleData} className='post-content'> Post Content  </button>
 
    
 

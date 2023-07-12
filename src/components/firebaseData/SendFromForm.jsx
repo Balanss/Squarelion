@@ -25,6 +25,7 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
             color:'#00eaff',
             user:user,
             
+            
                
               },{merge:true})
 
@@ -113,7 +114,7 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
 
   return (<>  
 {level > 8 && <>
-  <div className='above-div-send' style={{display:'flex'}}>
+  <div className='handlesend'>
      {level > 9 ?  <button onClick={handleData} className='addtotext'> 
    Add Text Content  </button> : null } 
 

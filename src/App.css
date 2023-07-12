@@ -26,6 +26,65 @@ padding-right: 0 !important;
 @media screen and (min-width:320px){
 
 
+  .quill{
+    
+    max-width: 290px;
+    width: 290px;
+
+  }
+
+
+  .button-24 {
+    background: #FF4742;
+    border: 1px solid #FF4742;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+  }
+
+  
+
+.exper{
+  position: relative;
+  margin-bottom: 150px;
+}
+
+.exper::before{
+  content: '';
+  position: absolute;
+  background-image: url(/Squarelion/src/components/images/circle.png);
+  height:20vh;
+  width: 100vw;
+  background-repeat: no-repeat;
+  inset: 0;
+  background-position: center
+  
+  
+}
+
+.admin-panel-text{
+  position: relative;
+  top: 70px;
+  font-size: 25px !important;
+}
+
 .chat-container{
   
   display: flex;
@@ -50,6 +109,7 @@ padding-right: 0 !important;
   display: flex;
   width: 90vw;
   margin: auto;
+  margin-bottom: 100px;
 
 }
 
@@ -80,6 +140,8 @@ padding-right: 0 !important;
     background-color: #efefef;
     color: black;
     height: 65px;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
   }
 
 
@@ -571,7 +633,9 @@ padding-right: 0 !important;
     }
 
  .clientimg:hover{
-      transform: scale(1.01);
+      transform: scale(1.02);
+      background-color: darkolivegreen;
+      border-radius: 20px;
     }
 
 
@@ -659,7 +723,15 @@ padding-right: 0 !important;
       width: 90vw;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 20px;
+      margin-top: 20px;
     }
+
+.handlesend{
+  display: flex;
+  flex-direction: column;
+}
+
     .designer-upload{
       display: flex;
       flex-direction: column;
@@ -862,6 +934,61 @@ padding-right: 0 !important;
 
 @media screen and (min-width:768px){
 
+  .realsurv{
+    max-height: 600px;
+    overflow: auto;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 700px;
+}
+
+
+.handlesend{
+  display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.quill{
+  max-width: 572px;
+    width: 572px;
+}
+
+
+.tablediv{
+  width: 58vw;
+}
+
+
+  .partner-links{
+    display: flex;
+    min-height: 500px;
+  }
+
+  .form-admindb{
+    height: 700px;
+  }
+
+  .css-i9gxme{
+    border-left: 1px solid black !important;
+  }
+
+
+  .exper{
+    margin-bottom: 180px;
+  }
+
+  .exper::before{
+    content: '';
+    position: absolute;
+    background-image: url(/Squarelion/src/components/images/circle.png);
+    height: 20vh;
+    width: 40vw;
+    background-repeat: repeat;
+    background-position: center;
+    margin: auto;
+    top: 82px; 
+  }
 
 .chat-container{
   
@@ -995,18 +1122,25 @@ aside.EmojiPickerReact.epr-main{
 
 
 
+  .ql-editor{
+    max-width: 500px !important;
+  }
+
   .admin-page-btn-switch{
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     background-color: #efefef;
     color: black;
     position: absolute;
-    top: 101px;
-    bottom: 23px;
+    top: 102px;
+    bottom: 24px;
     width: 100px;
     height: auto;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    border-top: 1px solid;
   }
 
   .user-name-edit{
@@ -1029,6 +1163,17 @@ aside.EmojiPickerReact.epr-main{
     margin-top: 20px;
     padding: 20px;
     margin-left: 116px;
+    margin-bottom: 30px;
+    min-height: 600px;
+  }
+
+  .post-content{
+    width: 120px;
+    color: white;
+    margin-left: 10px;
+    margin-top: 10px;
+    background-color: #5acd28;
+    border: 1px solid #180000;
   }
 
   .div-of-channel{
@@ -1444,11 +1589,10 @@ button:hover{
 
 .partner-links{
   display: flex;
-    width: 50vw;
-    margin: auto;
-    justify-content: space-around;
-    margin-top: 100px;
-    margin-bottom: 100px;
+  width: 80vw;
+  margin: auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
 }
 
 
@@ -1554,14 +1698,8 @@ section{
 .form-admindb{
   background-color: white;
   color: black;
-  display: flex;
   width: 800px;
   margin: auto;
-  margin-top: 100px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  height: 100px;
 }
 
 
@@ -1643,30 +1781,7 @@ section{
 .addtotext:hover{  transform: scale(1.1);}
 
 /* CSS */
-.button-24 {
-  background: #FF4742;
-  border: 1px solid #FF4742;
-  border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
-  box-sizing: border-box;
-  color: #FFFFFF;
-  cursor: pointer;
-  display: inline-block;
-  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 16px;
-  min-height: 40px;
-  outline: 0;
-  padding: 12px 14px;
-  text-align: center;
-  text-rendering: geometricprecision;
-  text-transform: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  vertical-align: middle;
-}
+
 
 .button-24:hover,
 .button-24:active {
@@ -1761,7 +1876,7 @@ outline: transparent;}
 
 .designer-upload{
   display: flex;
-  width: 300px;
+  width: 200px;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
@@ -1780,22 +1895,20 @@ outline: transparent;}
 }
 
 .above-div-send{
-  width: 100px;
+  width: 566px;
   background-color: #194375;
   border: 3px solid gold;
-  align-items: center;
   justify-content: space-evenly;
-  height: 200px;
+  height: 100px;
   display: flex;
-    flex-direction: column;
+  flex-direction: row;
 }
 
 
 
 .main-text-side{
   display: flex;
-  flex-direction: row;
-
+  flex-direction: column;
   padding: 45px;
   width: 600px;
   word-break: break-word;

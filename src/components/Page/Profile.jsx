@@ -165,7 +165,7 @@ const [ showWfh,setShowWfh] = useState('')
         setShowWfh('chat')
       } }/>  
       
-      <button onClick={() => setShowWfh('survey')}> Survey </button>
+    {level === 11?  <button onClick={() => setShowWfh('survey')}> Survey </button> : null}
       
       </div>
     

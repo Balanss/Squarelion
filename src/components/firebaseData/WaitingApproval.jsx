@@ -5,7 +5,12 @@ import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDo
 import { auth, fs,db } from '/src/Firebase.jsx'
 import {useState, useEffect} from 'react'
 import wait from '../images/wait.png'
-export default function WaitingApproval({typeAnswer,month,page}) {
+export default function WaitingApproval({typeAnswer,month,page,qty}) {
+
+
+  const [name,setName] = useState('')
+
+
     function handleData(){
      
         
@@ -15,7 +20,24 @@ export default function WaitingApproval({typeAnswer,month,page}) {
             statusText:'Waiting Approval'
 
           },{merge:true})
+
+
+          fs.collection('partner').doc(name).set({
+            status : qty 
+
+          },{merge:true})
+
+
+
+          
   }
+
+
+  useEffect(() =>{
+    setName(localStorage.getItem('partner'))
+},[name])
+
+
   return (
     <p className='style-status  extra-approval' onClick={handleData}>  Waiting Approval </p> 
   )
