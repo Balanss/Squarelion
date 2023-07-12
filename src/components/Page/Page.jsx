@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import Nav from '../Nav'
 import { Link, Navigate } from 'react-router-dom'
@@ -36,7 +38,11 @@ import Modal from '@mui/material/Modal';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ButtonPress from '../firebaseData/ButtonPress'
+<<<<<<< HEAD
 import Inputs from './PageFunctions/Inputs'
+=======
+
+>>>>>>> 0d77d989f89e644f2744a6183cd849ed7d0c7c68
 
 
 
@@ -57,6 +63,7 @@ const style = {
 
 
 
+// eslint-disable-next-line react/prop-types
 export default function Page({goTo}) {
 
   const {id} = useParams()
@@ -260,6 +267,11 @@ const handleEditorChange = (value) => {
 
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 0d77d989f89e644f2744a6183cd849ed7d0c7c68
   return (<>
 
 
@@ -293,8 +305,43 @@ const handleEditorChange = (value) => {
 
 <Group />
 <div className='content-div' >
+<<<<<<< HEAD
   <Inputs user={user} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
   setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
+=======
+ <div>
+
+
+ 
+ </div>
+
+   
+ 
+<form onSubmit={handleAdminSubmit} className='fill-in-form'>
+
+  {level > 8 ? <>
+
+    <input value={post} type="text" placeholder='Post number' onChange={(e) => setPost(e.target.value)} required className='input-admindb'/>  
+    <input type="text" placeholder='Subject' value={objective} onChange={(e) => setObjective(e.target.value)} required  className='input-admindb'/>  
+ <h4  onClick={handleClick} className='channel-text' > {type === ''? 'Type of channel' : type}</h4>
+ {open === true?<div className='div-of-channel'> <img className='img-zoom' onClick={() => setType('Facebook')} style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}}  src={facebook} alt={facebook} />
+    <img className='img-zoom' onClick={() => setType('Instagram')} style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}}  src={instagram} alt={instagram} />
+  <img className='img-zoom'  onClick={() => setType('MailChimp')}  style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}} src={mail} alt={mail} />
+  <img className='img-zoom' onClick={() => setType('LinkedIn')} style={{cursor:'pointer',width:'40px',marginTop:'10px',marginBottom:'10px'}} src={linked} alt={linked} />
+  <p onClick={() => setType('Stories')} style={{cursor:'pointer'}}> Stories </p>  
+  <input type=" text" placeholder='Other' onChange={(e) => setType(e.target.value)}    className='input-admindb'/>  </div> :null }
+  <input value={date} type="number" placeholder='day'  onChange={(e) => {setDate(e.target.value)}}  required className='input-admindb'/> 
+  <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb' /> 
+  <ButtonPress user={user} qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> 
+  </>:
+  
+  <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb designer-month' /> } 
+
+ </form>
+
+
+  
+>>>>>>> 0d77d989f89e644f2744a6183cd849ed7d0c7c68
  
 
  
