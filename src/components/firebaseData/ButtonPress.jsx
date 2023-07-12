@@ -65,7 +65,6 @@ fs.collection('partner').doc(page).set({
 
   
      <button onClick={handleData} className='post-content'> Post Content  </button>
-     <button onClick={handleData}> Post Content  </button>
 
    
 
