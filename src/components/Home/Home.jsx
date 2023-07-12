@@ -6,7 +6,6 @@ import { auth, fs,db } from '/src/Firebase.jsx'
 import useLogo from '../images/useLogo.png'
 import User from '../User'
 import Footer from './Footer'
-
 import Loading from '../Loading'
 import Title from '../../Title'
 
@@ -39,36 +38,43 @@ useEffect(()=>{
 
   {loading === false &&  <>
   
-    <div className='home-container'><Nav  /></div>
+    <div className='bg-gray-100 flex justify-center  pb-4 pt-4 border-b-yellow-500 border-solid border-2' ><Nav  /></div>
     <Title/>
 
 
-  <div>
+  <div className=''>
 
-<div className='home-logo-text'> 
-    <img src={useLogo} alt="logo" className='front-page-logo' />
-    <h2 className='home-logo-text-text'>
+<div> 
+<div className='relative before:absolute before:bg-[url("./components/images/bg/small.jpg")] before:-inset-1
+before:w-screen before:h-screen before:background-size:cover before:bg-no-repeat' >
+
+</div>
+<div className='relative'>
+<img src={useLogo} alt="logo" className='' />
+    <h2 className=''>
+    Duis lobortis consequat eros, vitae pretium ipsum ultricies quis. Nam porta massa et rutrum eleifend. Suspendisse potenti. Nulla facilisi. Ut vel feugiat magna. Fusce vitae libero arcu. Nam dignissim felis ex, 
+    nec porta nulla vehicula non. Donec urna erat,
+     pharetra ut fermentum vitae, pretium quis elit. Cras pellentesque magna nisi. </h2>
+</div>
+    
+</div>
+
+<div  className=''> 
+<img src={useLogo} alt="logo"  className=''/>
+    <h2  className=''>
     Duis lobortis consequat eros, vitae pretium ipsum ultricies quis. Nam porta massa et rutrum eleifend. Suspendisse potenti. Nulla facilisi. Ut vel feugiat magna. Fusce vitae libero arcu. Nam dignissim felis ex, 
     nec porta nulla vehicula non. Donec urna erat,
      pharetra ut fermentum vitae, pretium quis elit. Cras pellentesque magna nisi. </h2>
 </div>
 
-<div style={{backgroundColor:'#174174'}} className='home-2nd-banner'> 
-<img src={useLogo} alt="logo"  className='front-page-logo-2nd'/>
-    <h2 style={{margin:'0 auto',color:'white',marginBottom:'50px'}} className='text-info-2nd'>
+<div >
+   <div className=''> 
+    <img src={useLogo} alt="logo"  />
+    <h2 className=''>
     Duis lobortis consequat eros, vitae pretium ipsum ultricies quis. Nam porta massa et rutrum eleifend. Suspendisse potenti. Nulla facilisi. Ut vel feugiat magna. Fusce vitae libero arcu. Nam dignissim felis ex, 
     nec porta nulla vehicula non. Donec urna erat,
      pharetra ut fermentum vitae, pretium quis elit. Cras pellentesque magna nisi. </h2>
-</div>
-
-<div style={{  borderBottom: '5px solid gold'}}>
-   <div className='home-3rd-banner'> 
-    <img src={useLogo} alt="logo" style={{width:'300px',margin:'0 auto',backgroundColor:'white'}} />
-    <h2 className='home-logo-text-text'>
-    Duis lobortis consequat eros, vitae pretium ipsum ultricies quis. Nam porta massa et rutrum eleifend. Suspendisse potenti. Nulla facilisi. Ut vel feugiat magna. Fusce vitae libero arcu. Nam dignissim felis ex, 
-    nec porta nulla vehicula non. Donec urna erat,
-     pharetra ut fermentum vitae, pretium quis elit. Cras pellentesque magna nisi. </h2>
-     <Link to ='/partnerProgram' style={{paddingBottom:'10px'}}> Join us as a partner </Link>
+     <Link to ='/partnerProgram' > Join us as a partner </Link>
 </div> 
 </div>
 

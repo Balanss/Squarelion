@@ -114,20 +114,35 @@ const alertNumber = (alert.length > 0?alert.length:0)
     
   return (<> 
 <AdminLogic setUserPermit={setUserPermit}/>
-    <div className='navbar'>
-      <User setUser={setUser} user={user} level={level} setLevel={setLevel} setUuid={setUuid} uuid={uuid}/>
 
-<div > 
+ <User setUser={setUser} user={user} level={level} setLevel={setLevel} setUuid={setUuid} uuid={uuid}/>
 
+      {uuid && <>
+<div className='flex font-mono items-center justify-center  '>
+{level > 8 && isMobile === false?  <Link to='/admindashboard' className='mr-5 ' >admin { alertNumber > 0 && level > 9 ? `(${alertNumber})`:null} </Link> :null} 
+        <br />
+  <button className='mr-5' onClick={handleLogout} >Sign out</button>
+        <br />
+        <button className=''onClick={handleGo} >{userOkay}</button>
+      
+</div>
+  
+       </>}
+
+
+
+
+
+<div className='flex items-center justify-center ml-2'> 
 <Button
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        className='menu-icon'
+        className=''
       >
-     <MenuIcon  className='menu-icon'/>
+     <MenuIcon  className=''/>
       </Button>
 </div>
    
@@ -147,27 +162,17 @@ const alertNumber = (alert.length > 0?alert.length:0)
         {/* <MenuItem onClick={handleClose}>Logout</MenuItem> */}
       </Menu>
 
-       {uuid && <>
-<div className='style-nav'>
-{level > 8 && isMobile === false?  <Link to='/admindashboard' className=' nicer-style' >admin { alertNumber > 0 && level > 9 ? `(${alertNumber})`:null} </Link> :null} 
-        <br />
-  <button className='outline nicer-style' onClick={handleLogout} >Sign out</button>
-        <br />
-        <button className=' nicer-style'onClick={handleGo} >{userOkay}</button>
-      
-</div>
-  
-       </>}
+
 
        {!uuid && <> 
-       <div className='nav-notsigned'>
-            <Link to ='/login' className='nicer-style'> Login </Link>
-      <Link to ='/signup' className='nicer-style'> Signup </Link>
+       <div className=''>
+            <Link to ='/login' className=''> Login </Link>
+      <Link to ='/signup' className=''> Signup </Link>
     
        </div>
     
        
        </>}
-    </div>
+ 
     </>)
 }
