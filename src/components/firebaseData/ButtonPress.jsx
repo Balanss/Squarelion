@@ -64,11 +64,8 @@ fs.collection('partner').doc(page).set({
   return (<> 
 
   
-<<<<<<< HEAD
      <button onClick={handleData} className='post-content'> Post Content  </button>
-=======
      <button onClick={handleData}> Post Content  </button>
->>>>>>> 0d77d989f89e644f2744a6183cd849ed7d0c7c68
 
    
 

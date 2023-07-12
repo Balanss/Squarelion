@@ -38,11 +38,6 @@ import Modal from '@mui/material/Modal';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ButtonPress from '../firebaseData/ButtonPress'
-<<<<<<< HEAD
-import Inputs from './PageFunctions/Inputs'
-=======
-
->>>>>>> 0d77d989f89e644f2744a6183cd849ed7d0c7c68
 
 
 
@@ -267,11 +262,6 @@ const handleEditorChange = (value) => {
 
 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 0d77d989f89e644f2744a6183cd849ed7d0c7c68
   return (<>
 
 
@@ -305,10 +295,8 @@ const handleEditorChange = (value) => {
 
 <Group />
 <div className='content-div' >
-<<<<<<< HEAD
-  <Inputs user={user} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
+  <input user={user} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
   setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
-=======
  <div>
 
 
@@ -341,7 +329,6 @@ const handleEditorChange = (value) => {
 
 
   
->>>>>>> 0d77d989f89e644f2744a6183cd849ed7d0c7c68
  
 
  
@@ -433,9 +420,7 @@ const handleEditorChange = (value) => {
       onChange={handleEditorChange}
       style={{color:'black',backgroundColor:'white'}}
       placeholder='Text here...'
-      className='Quill'
-    
-    
+      className='Quill' 
     />
 
       
