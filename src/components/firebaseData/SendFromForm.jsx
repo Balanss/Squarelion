@@ -115,7 +115,7 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
   return (<>  
 {level > 8 && <>
   <div className='handlesend'>
-     {level > 9 ?  <button onClick={handleData} className='addtotext'> 
+     {level > 8 ?  <button onClick={handleData} className='addtotext'> 
    Add Text Content  </button> : null } 
 
 <form onSubmit={handleSub} className='designer-upload'> 
