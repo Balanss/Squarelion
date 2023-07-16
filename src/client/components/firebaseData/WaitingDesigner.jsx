@@ -17,6 +17,6 @@ export default function WaitingDesigner({typeAnswer,month,page}) {
           },{merge:true})
   }
   return (
-    <p  className='style-status  extra-designer' onClick={handleData}> For Designer </p>
+    <p  className='bg-yellow-500 p-2 mb-2 cursor-pointer' onClick={handleData}> For Designer </p>
   )
 }

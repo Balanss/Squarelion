@@ -11,16 +11,13 @@ import { useParams } from 'react-router-dom'
 import Links from './Links'
 import EmojiPicker from 'emoji-picker-react'
 import AddReactionIcon from '@mui/icons-material/AddReaction';
-
 import WaitingDesigner from '../firebaseData/WaitingDesigner'
 import WaitingApproval from '../firebaseData/WaitingApproval'
 import WaitingApproved from '../firebaseData/WaitingApproved'
-
 import Upload1 from '../firebaseData/Upload1'
 import Upload2 from '../firebaseData/Upload2'
 import Upload3 from '../firebaseData/Upload3'
 import cross from '../images/cross.png'
-
 import Solo from '../Txt/Solo'
 import TxtAll from '../Txt/TxtAll'
 import Group from '../GroupChat/Group'
@@ -47,7 +44,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -95,7 +92,6 @@ const [ pdfDate,setPdfDate] = useState('')
 e.preventDefault()
 setHide(false)
   }
-
 
   const [round, setRound] = useState([]);
  
@@ -216,31 +212,12 @@ let notification = [];
 
 
 
-  
-  const [ status, setStatus ] = React.useState(false);
-
-
-
-
-  function handleApprove(i){
-round.map((x,index) => {
-   if (statusBar === index)  {
-    setStatusBar('')
-  }
-})
-  }
-
 const [filter,setFilter] = useState('');
 const [ statusBar,setStatusBar] = useState('');
   useEffect(() => {
-    const currentDate = new Date();
-    const currentMonth = currentDate.toISOString().slice(0, 7); // Format: YYYY-MM
- 
+    // const currentDate = new Date();
+    // const currentMonth = currentDate.toISOString().slice(0, 7); // Format: YYYY-MM
     setFilter(round.filter((x) => x.statusText === 'Approved' && x.month === month)); 
-  
-
-   
-
   },[round,month])
 
 
@@ -255,21 +232,16 @@ const handleEditorChange = (value) => {
  setObjectiveAnswer(value);
 };
 
-
-
-
-
-
   return (<>
 
 
-<div className='client-page' style={{color:'white'}}>
+<div className='client-page min-h-[100vh] bg-slate-600' style={{color:'white'}}>
 
         
 {isLoading === false &&<> 
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
  <Title/>
-<div className='nav-of-partners'> <Nav/> </div>  </>}
+<div className='border-b-2 border-yellow-500 pt-10 bg-slate-800'> <Nav/> </div>  </>}
 
 
 {level > 7 && uuid !== null && <>
@@ -283,8 +255,8 @@ const handleEditorChange = (value) => {
 }
 
 {level > 8 && <>
-  <div className='admin-links-only'> <Links/> 
-  <img src={img}  className='client-pic' style={{backgroundColor:'white',marginBottom:'20px',marginTop:'20px'}}/>
+  <div className='flex flex-row justify-around items-center bg-slate-300 '> <Links/> 
+  <img src={img}  className='w-20' style={{backgroundColor:'white',marginBottom:'20px',marginTop:'20px'}}/>
   <div style={{zIndex:1}} >
   <TxtAll className='txt' filter={filter} />    
 </div>
@@ -292,7 +264,7 @@ const handleEditorChange = (value) => {
 </>}
 
 <Group />
-<div className='content-div' >
+<div className='content-div bg-slate-600' >
   <Inputs user={user} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
   setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
  
@@ -300,148 +272,45 @@ const handleEditorChange = (value) => {
  
   
   {/* designer sees only his tabs and not the whole page */}
-{level === 8 && <>
+{/* {level === 8 && <>
 
 <Designer show={show} round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer}typeAnswer={typeAnswer}
                 objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setShow}setStatusBar={setStatusBar}/>
 
-</>}
+</>} */}
 
 
 {/* level 9 and above sees all tabs */}
 {round.map((x,i) => {  return <>
  { level > 8? 
-  <div className='mapped-div' key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
-<div>
-<button className='x-button' onClick={() => handleText(i)} >  <img src={view} alt={view} style={{width:'30px'}} className='icon-do'/> </button>
-  <button className='x-button ' onClick={() => {setShow(''),setObjectiveAnswer(''),setStatusBar('')}} >  <img src={cross} alt={cross} style={{width:'30px'}} className='icon-do'/> </button>
-</div>
-  <p  onClick={() => {setPost(x.count),setDate(x.date),setType(x.type)}} className='same-map-text extra-styles'> {x.count}  </p>
-  <div className='hidden-form-div'>
- <p className='same-map-text  extra extra-styles'> {x.objective}  </p>
- 
-
- 
-   
- {show === i && <>
- <div className={show === i?'holds-content':'no-content'}>
-  <div className='holds-written-content'>
-
-
- <img src={x.designer} style={{maxWidth:'200px',maxHeight:'200px',cursor:'zoom-in'}}  onClick={() => handleOpenModal()}/>
-
- <Modal
-        open={openModal}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}>
-                   
-          <img src={x.designer}   onClick={() => handleOpenModal()}   style={{maxWidth:'80vw',maxHeight:'80vh'}}/>
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {/* {!x.answer ? null :<h6 key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}}> {x.answer} </h6>}  */}
-          </Typography>
-        </Box>
-      </Modal>
-
-
-
-
-
-
-
-
-
-     {!x.answer ? null :    <div  className='answer-text' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />} 
-  <div className='main-text-side' >
-
-<div className='above-div-send' >
-<SendFromForm user={user} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
-<button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}} className='button-24' >  delete </button>
-
-
-{level  > 8 ?  emojiShow? <>
-<h3 onClick={() => setEmojiShow(emojiShow === true?false:true)}> <AddReactionIcon  className='emojiset' /> </h3>
-<EmojiPicker  
-    setPlaceHolder='ara'
-    emojiSize={30} 
-    emojiStyle='google'
-    theme='dark'
-    onEmojiClick={(e) => setObjectiveAnswer((prevAnswer) => prevAnswer + e.emoji)}
-    /> </>: <button onClick={() => setEmojiShow(emojiShow === true?false:true)} style={{marginLeft:'10px'}} >Add Emoji </button> : null}
+  <div className='mapped-div bg-blue-900 flex-col items-center min-h-[300px] justify-evenly border-2 border-black mb-10 
+  md:flex-row md:min-h-[100px]  md:m-auto md:justify-center md:hover:scale-105 md:transition-transform md:duration-300
+  xl:w-[1000px] ' 
+   key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
+<div className='lg:flex lg:flex-col lg:justify-around lg:ml-1'>
+<button className='x-button mr-[30px] lg:mb-10' onClick={() => handleText(i)} >  <img src={view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
+  <button className='x-button ' onClick={() => {setShow(''),setObjectiveAnswer(''),setStatusBar('')}} >  <img src={cross} alt={cross} style={{width:'40px'}} className='icon-do'/> </button>
 </div>
 
-   
-  <form className='' onSubmit={handleSubmit}>
-    
+  <p  onClick={() => {setPost(x.count),setDate(x.date),setType(x.type)}} 
+  className='bg-white text-black  text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
+  md:min-w-[100px] md:h-[50px] '> 
+  {x.count}  </p>
 
-
-
-
-<ReactQuill
-     value={objectiveAnswer}
-      onChange={handleEditorChange}
-      style={{color:'black',backgroundColor:'white'}}
-      placeholder='Text here...'
-      className='Quill'
-    
-    
-    />
-
-      
-
-</form>
-  </div>
-  </div>
-<div className='example-flex'>
-   <div className='border-edit'>
-  <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
-{x.textEx !== ''? null:  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx}  </h2>}
-  <Upload1 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-  </div>
-
-
- {x.textEx > ""?  <div className='border-edit'>
-  
-  <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
-
-
-  <h2  className='same'style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx1} </h2>
-  <Upload2 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-  </div>
-  :null} 
-
-{x.textEx1 > "" ?   <div className='border-edit'>
-  <img src={x.exampleThree} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <h2 className='same' style={{color:'black',width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
-  <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-  </div> :null}
-</div>
-
-
- </div>
-
-
-
-
- <hr/>
-
-
+ <p className='bg-white text-black break-all text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
+ md:min-w-[100px] md:max-w-[300px] md:break-all md:overflow-scroll  md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
  
+  <p className='bg-white text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
+  md:min-w-[100px]  md:h-[50px]' > {x.type} </p>
+
+  <p className='bg-white text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
+  md:min-w-[100px]  md:h-[50px]'>  {month}-{x.date}  </p>
+
+  <p className=' text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5 
+  md:min-w-[100px]  md:h-[50px]' style={{backgroundColor:x.color}}> {x.status}  </p>
 
 
 
- </>} 
-
-  
-  </div>
- 
-  <p className='same-map-text extra-styles' > {x.type} </p>
-  <p className='same-map-text extra-styles'>  {month}-{x.date}  </p>
-  <p className='same-map-text extra-styles' style={{backgroundColor:x.color}}> {x.status} </p>
 
 
 {statusBar === i? <div style={{color:'black'}} className='status-div'> 
@@ -462,15 +331,127 @@ const handleEditorChange = (value) => {
  
 
 
+ 
+   
+{show === i && <>
+ <div className=''>
+  <div className='holds-written-content'>
+
+
+ <img src={x.designer} className='m-auto mt-[50px]' style={{maxWidth:'200px',maxHeight:'200px',cursor:'zoom-in'}}  onClick={() => handleOpenModal()}/>
+
+ <Modal
+        open={openModal}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className='max-w-[80vw] max-h-[80vw]  '
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}} >
+                   
+          <img src={x.designer}   onClick={() => handleOpenModal()}   style={{maxWidth:'80vw',maxHeight:'80vh',margin:'auto'}}/>
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          {/* {!x.answer ? null :<h6 key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}}> {x.answer} </h6>}  */}
+          </Typography>
+        </Box>
+      </Modal>
+
+
+     {!x.answer ? null :    <div  className='text-center break-all m-auto mt-[50px] p-8 bg-white
+     lg:w-3/4' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />} 
+  <div className='flex flex-col items-center justify-evenly h-[400px] border-b-2 border-black mb-10' >
+
+<div className='above-div-send 
+lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm' >
+<SendFromForm user={user} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
+
+<button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}} type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete Post</button>
+
+
+{level  > 8 ?  emojiShow? <>
+<h3 className='mt-10 text-yellow-300' onClick={() => setEmojiShow(emojiShow === true?false:true)}> <AddReactionIcon   /> </h3>
+<div className='absolute left-0'>
+<EmojiPicker  
+
+width='300px'
+    setPlaceHolder='ara'
+    emojiSize={30} 
+    emojiStyle='google'
+    theme='dark'
+    onEmojiClick={(e) => setObjectiveAnswer((prevAnswer) => prevAnswer + e.emoji)}
+    /> 
+</div>
+</>: <button  onClick={() => setEmojiShow(emojiShow === true?false:true)} style={{marginLeft:'40px'}} type="button" class="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> Emoji </button> : null}
+</div>
+
+   
+  <form className='' onSubmit={handleSubmit}>
+    
+
+
+
+
+<ReactQuill
+     value={objectiveAnswer}
+      onChange={handleEditorChange}
+      style={{color:'black',backgroundColor:'white'}}
+      placeholder='Text here...'
+      className='max-w-[90vw] max-h-[200px] overflow-scroll'
+    />
+
+      
+
+</form>
+
+  </div>
+  </div>
+<div className='example-flex'>
+   <div className='border-edit flex flex-col  min-h-[400px] border-2 pt-5  items-center text-white
+   lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
+  <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
+{x.textEx === ''? null:  <h2 className='same' style={{color:'white',width:'200px',wordBreak:'break-all'}}> {x.textEx}  </h2>}
+  <Upload1  objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+  </div>
+
+
+ {x.textEx > ""?  <div className='border-edit flex flex-col items-center h-[400px] border-2 pt-5
+  lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
+  
+  <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
+
+
+  <h2  className='same text-white'style={{width:'200px',wordBreak:'break-all'}}> {x.textEx1} </h2>
+  <Upload2 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+  </div>
+  :null} 
+
+{x.textEx1 > "" ?   <div className='border-edit flex flex-col items-center h-[400px] border-2 pt-5
+ lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
+  <img src={x.exampleThree} style={{maxWidth:'200px',maxHeight:'200px'}} />
+  <h2 className='same' style={{width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
+  <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+  </div> :null}
+</div>
+
+
+ </div>
+
+
+
+
+ <hr/>
+
+
+ 
+
+
+
+ </>} 
 
 
  </>
-
-
-
-
-
-
  })}
 
 

@@ -15,18 +15,12 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 
 export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,page,level,setObjectiveAnswer,user}) {
     
-    function handleData(){
-     
-        
-            fs.collection(page).doc(typeAnswer+month).set({
-                
+    function handleData(){    
+            fs.collection(page).doc(typeAnswer+month).set({ 
                 answer:objectiveAnswer,
                 status:'Awaiting Approval',
             color:'#00eaff',
-            user:user,
-            
-            
-               
+            user:user,       
               },{merge:true})
 
               setObjectiveAnswer('')
@@ -109,31 +103,33 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
         };
   
    
-
+console.log();
 
 
   return (<>  
 {level > 8 && <>
-  <div className='handlesend'>
-     {level > 8 ?  <button onClick={handleData} className='addtotext'> 
-   Add Text Content  </button> : null } 
+  <div className='handlesend flex flex-row items-center'>
+       <button onClick={handleData} class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+  <span class=" relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+  Add Text Content
+  </span>
+</button> 
 
-<form onSubmit={handleSub} className='designer-upload'> 
+<form onSubmit={handleSub} className='ml-10'> 
 
 
-    <input type="file" onChange={handleImageChange} style={{width:'90px'}} />
-     <button> Add Design </button>
-    
+    <input  className=''type="file" onChange={handleImageChange} style={{width:'100px'}} />
 
+    <button  className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Add Design</button>
 </form>  </div> </>}
    
   {level === 8 && <>
   
-    <div className='above-div-send-designer' style={{display:'flex',marginTop:'50px'}}> 
+    <div className='above-div-send-designer' > 
    
 
 <form onSubmit={handleSub} className='designer-upload'> 
-    <input type="file" onChange={handleImageChange} style={{width:'90px'}} />
+    <input type="file"  clonChange={handleImageChange} style={{width:'90px'}} />
      <button> Add Design Picture </button>
 </form> 
  </div>

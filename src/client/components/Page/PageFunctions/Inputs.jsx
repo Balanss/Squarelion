@@ -23,7 +23,10 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
 
 
   return (
-    <form onSubmit={handleAdminSubmit} className='fill-in-form'>
+    <form onSubmit={handleAdminSubmit} className='flex flex-col justify-between items-center h-[400px] bg-slate-600 pt-[20px] text-black
+    md:flex-row md:h-[130px] md:justify-evenly md:flex-wrap
+    lg:w-[90vw] lg:m-auto lg:border-2 lg:border-black lg:border-dashed lg:mt-2 lg:mb-2
+    xl:w-[1200px] xl:m-auto xl:justify-evenly xl:mt-2 xl:mb-2'>
 
     {level > 8 ? <>
   

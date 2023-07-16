@@ -98,12 +98,14 @@ export default function upload2({objectiveAnswer,typeAnswer,month,color,page,lev
    
 
 
-    <form onSubmit={handleSub} className='upload1'> 
+<form onSubmit={handleSub} className='upload1 mt-10  ml-10 flex flex-col'> 
 
 
-        <input type="file" onChange={handleImageChange} />
-        <textarea className='expample' onChange={(e) => setExample(e.target.value)} />
-         <button> Add Example </button>
+<input type="file"  onChange={handleImageChange} className='w-[100px]'/>
+<textarea placeholder='ENTER EXAMPLE' className='expample mt-5 text-black'  onChange={(e) => setExample(e.target.value)} />
+<br />
+<button  class=" mt-5 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Add Example</button>
+ 
 
 </form>
 

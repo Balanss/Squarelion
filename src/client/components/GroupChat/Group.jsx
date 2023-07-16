@@ -245,18 +245,19 @@ const important = message.filter(work => work.imp === imp)
   
     {level > 7 ?  <> 
 
-     <div className=''>
+     <div className='fixed bottom-10 left-1 z-10 '>
 
 
 
- <div className='list-pages'  > 
+ <div className='list-pages  '  > 
 
 <div className={hideList === true ? 'hidden-chat' : 'hidden-zero'}>
     {hideList && level > 7 && <>
  
  <div  className='inside-hidden-chat'>
 
- <div className='group-text-mini'>
+ <div className='bg-sky-300 p2 max-h-[50vh] overflow-y-scroll  flex flex-col-reverse
+ lg:w-[430px]'>
 
   <h2 onClick={() => setShowImportant(showImportant === true? false : true)}> {showImportant === false? 'show Important' : 'Show All'} </h2>
 
@@ -264,7 +265,7 @@ const important = message.filter(work => work.imp === imp)
      
      
     {showImportant === true ? important.map((x,id) => {
-    return  <div key={id} className='style-this-h2-smaller' onClick={() => handleDelete(x.id)} > <h2 className='style-this-h2-smaller'>  <img src={mark} style={{width:'40px',height:'40px'}}/>  {x.text} - {x.sendBy} </h2> 
+    return  <div key={id} className='' onClick={() => handleDelete(x.id)} > <h2 className='break-all'>  <img src={mark} style={{width:'40px',height:'40px'}}/>  {x.text} - {x.sendBy} </h2> 
     <img style={{width:'50px',height:'50px',cursor:'pointer'}} src={bin} onClick={(i) => handleDeleted(x.id)}/> </div> 
      }) : 
      
@@ -274,7 +275,7 @@ const important = message.filter(work => work.imp === imp)
      message.map((x,i) => {
     return <>  <div key={i} className='style-this-h2-smaller' onClick={() => handleDelete(x.id)} > 
    {/* {sum > 0  ?  <img src={x.mail} alt={x.mail} style={{width:'40px',height:'40px'}} onClick={() => handleNoti(x.id)}/> :null } */}
-    <h2 className='style-this-h2-smaller' onClick={() => handleNoti(x.id)}>  {x.imp > ""? <img src={mark} style={{width:'40px',height:'40px'}}/> :null } {x.text} - {x.sendBy} </h2> 
+    <h2 className='break-all w-3/4' onClick={() => handleNoti(x.id)}>  {x.imp > ""? <img src={mark} style={{width:'40px',height:'40px'}}/> :null } {x.text} - {x.sendBy} </h2> 
     <img style={{width:'50px',height:'50px',cursor:'pointer'}} src={bin} onClick={(i) => handleDeleted(x.id)}/>
      </div> 
      <hr style={{color:'black',width:'200px'}}/>
@@ -287,7 +288,7 @@ const important = message.filter(work => work.imp === imp)
    {designerChat.map((x,i) => {
   return <div key={i} className='style-this-h2-smaller' onClick={() => handleDelete(x.id)} > 
   
-  <h2 className='style-this-h2-smaller' onClick={() => handleNoti(x.id)}>  {x.imp > ""? <img src={mark} style={{width:'40px',height:'40px'}}/> :null } {x.text} - {x.sendBy} </h2> 
+  <h2 className=' break-all  w-3/4' onClick={() => handleNoti(x.id)}>  {x.imp > ""? <img src={mark} style={{width:'40px',height:'40px'}}/> :null } {x.text} - {x.sendBy} </h2> 
   
   <img style={{width:'50px',height:'50px',cursor:'pointer'}} src={bin} onClick={(i) => handleDeleted(x.id)}/> </div> 
 })}
@@ -299,9 +300,9 @@ const important = message.filter(work => work.imp === imp)
    
    {privateChat && <> 
  {Object.entries(chat).map(([key, value]) => (
-          <div key={key} className='chat-mini-private'>
+          <div key={key} className='pl-[5px]'>
             <h2 className='style-this-h2-smaller' >  <img src={time} style={{width:'20px',height:'20px',marginRight:'10px'}} />  {key} </h2>
-            <h2 className='style-this-h2-smaller'>  -  {value} </h2>
+            <h2 className='break-all  w-4/5 '>    {value} </h2>
            <hr style={{color:'black',width:'200px'}}/>
           </div>
         ))}
@@ -315,8 +316,8 @@ const important = message.filter(work => work.imp === imp)
  </div>
 
 
-    <div className='hidden-chat-box'>
-    <textarea  className='' onChange={(e) => setText(e.target.value)}  placeholder={`Send Message To ${displayTo}`} value={text} />
+    <div className='flex justify-around pt-10 bg-slate-800 pb-10 '>
+    <textarea  className='text-black' onChange={(e) => setText(e.target.value)}  placeholder={`Send Message To ${displayTo}`} value={text} />
  
     {sendTo === 'designer' ? <Button allUid={allUid} user={user} setText={setText}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
 {sendTo === 'group' ? <Button allUid={allUid} user={user} sendTo={sendTo} setText={setText}  text={text} uuid={uuid} imp={imp} />:null }
@@ -324,12 +325,12 @@ const important = message.filter(work => work.imp === imp)
 <img src={mark} onClick={() => {setImp(imp === false? true : false)}}   className='img-imp' style={imp === false ?{width:'40px',backgroundColor:'white'}:{width:'40px',backgroundColor:'yellow'}} /> 
     </div>
 
-<div className='group-list'>
-     {level > 8 ?  <h2  onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group')}} style={{cursor:'pointer'}} className='h2-noti elementwrapper' onDoubleClick={handleSum}> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2> : null}
-    <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer')}} style={{cursor:'pointer'}} className='h2-noti elementwrapper'> Designer  </h2>
+<div className='group-list relative z-10 bg-sky-300 pb-10 pt-4 pl-2'>
+     {level > 8 ?  <h2  onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group')}} style={{cursor:'pointer'}} className='mt-2 mb-2' onDoubleClick={handleSum}> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2> : null}
+    <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer')}} style={{cursor:'pointer'}} className='mt-2 mb-2 elementwrapper'> Designer  </h2>
     {work.map((x,id) => {
      return <div key={id} className='elementwrapper'>
-        <h2 style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setDisplayTo(x.Name),setTrueChat('chat'+ x.Name + user)}}> {x.Name} </h2>
+        <h2 className='mt-2 mb-2' style={{cursor:'pointer'}} key={id} onClick={() => {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setDisplayTo(x.Name),setTrueChat('chat'+ x.Name + user)}}> {x.Name} </h2>
   
      </div>
    

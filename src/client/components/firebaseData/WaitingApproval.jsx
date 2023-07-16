@@ -39,6 +39,6 @@ export default function WaitingApproval({typeAnswer,month,page,qty}) {
 
 
   return (
-    <p className='style-status  extra-approval' onClick={handleData}>  Waiting Approval </p> 
+    <p className='bg-sky-500 p-2 cursor-pointer' onClick={handleData}>  Waiting Approval </p> 
   )
 }

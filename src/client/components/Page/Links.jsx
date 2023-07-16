@@ -72,14 +72,15 @@ export default function Links() {
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
+      
     >
-      <List>
+      <List className='min-h-[700px] flex flex-col justify-around '>
       {partner.map((partner,index) => (<div key={index} style={{display:'flex',alignItems:'center'}}>
 
         {level === 11 ?
-        <div style={{display:'flex',alignItems:'center'}}>
-            <h2 key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>
-            <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p>
+        <div className=''>
+            <h2 className='text-2xl' key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>
+            {/* <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p> */}
         </div>
         
        :null}
@@ -88,13 +89,14 @@ export default function Links() {
         
         {level !== 11 && partner.name !== 'Test'? 
        
-        <div style={{display:'flex',alignItems:'center'}}>
+        <div className='' >
            
          <h2 key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>   
          {/* <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p> */}
         </div>
        
         :null }
+
 
 
 
@@ -115,15 +117,16 @@ export default function Links() {
   return (<> 
   <PartnerLogic setPartner={setPartner}/>
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
-    <div className=''>
+    <div className='text-white'>
 
 {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button className='button-links' onClick={toggleDrawer(anchor, true)}>Clients</Button>
+          <Button className=' !text-white' onClick={toggleDrawer(anchor, true)}>Clients</Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
+            
             
           >
             {list(anchor)}

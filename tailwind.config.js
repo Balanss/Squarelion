@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       // backgroundImage: {
+        'logo': "url('/images/logo.png')",
       //   'hero-pattern': "url('/images/bg/small.jpg')",
       //   'footer-texture': "url('/img/footer-texture.png')",
       // },

@@ -189,17 +189,6 @@ function handleGoToProfileDeny(i){
 
 
 function handleGoToProfilePage(i){
-
-// userPermit.map((x,index) =>{
-
-//     if(index === i){
-//           navigate(`/user/TimeOff/${x.Name}`)
-//         localStorage.setItem('AdminCheck',x.Name) 
-//     } 
-    
-// })
-
-   
 }
 
 
@@ -216,6 +205,8 @@ const handleClick = (user) => {
 
   const[swap, setSwap] = useState(false)
 
+
+
   return (
 
 
@@ -226,22 +217,61 @@ const handleClick = (user) => {
 
 
 
-  <div className='user-settings-admin'>
+  <div className=' bg-slate-100 p-10 grid grid-cols-1 gap-2 xl:grid-cols-3 xl:overflow-x-scroll xl:max-h-[1000px] xl:gap-1  xl:w-[1000px] xl:m-auto xl:mt-[50px] xl:ml-80' >
+  {swap === false?     userPermit.map((x,i) => { 
+    return  <div class=" 
+    w-[90vw] m-auto mb-10 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700
+    xl:w-[300px] h-[450px]">
+    <div class="flex justify-end px-4 pt-4 xl">
+        <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
+        </button>  
+    </div>
+    <div class="flex flex-col items-center pb-10 ">
+        <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src={userPfp}/>
+        <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white" onClick={() => {handleGoToProfilePage(i),handleOpen()}}> {x.Name}</h5>
+        <span class="text-sm text-gray-500 dark:text-gray-400">{x.level}</span>
+        <div class="flex mt-4 space-x-3 md:mt-6">
+            <a class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">EDIT</a>
+            
+            <form   onSubmit={(e) => {handleUser(i,e)}}>
+            {x.level !== 11 ?   <input  className='text-black' placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/> 
+    : null}</form>
+           
 
-  <FormGroup>
+
+        </div>
+    </div>
+    <div className='flex flex-col items-center pb-3'>
+{x.request > '' ?
+<>
+<div className=''>
+{x.request !== 'Waiting Request' ?<h3 className='request-approval' onClick={() => handleGoToProfileClear(i)}> Clear  </h3> :null}
+<h3 className='request-approval' > {x.request}  </h3>
+<div className='flex flex-row'> 
+<img className='mr-5' src={thumbup} onClick={() => handleGoToProfile(i)}  style={{width:'40px',cursor:'pointer'}}/>
+<img src={thumbdown} onClick={() => handleGoToProfileDeny(i)}  style={{width:'40px',cursor:'pointer'}}/>
+ </div>
+</div>
+
+</>
+:null}
+</div>
+
+    
+</div>
+
+
+
+    }) :null }
+
+
+<FormGroup>
       <FormControlLabel onClick={() => setSwap(swap === false?true:false)} control={<Switch defaultChecked />} style={{color:'black'}} label={swap === false? 'Approved users':'Un-Approved users' }/>
     </FormGroup>
- 
-    <div className='user-levels'>
-    
- {swap === false?    <div className='inside-user-levels'>
-        {userPermit.map((x,i) => {
-if (x.level > 0){
-  return (<div key={i} className='user-level-div'>
-  <img className='user-pfp' src={userPfp} style={{width:'30px'}}/>
-<h4 onClick={() => {handleGoToProfilePage(i),handleOpen()}}className='user-name-edit'>{x.Name}</h4>
+    </div>
 
-<Modal
+
+    <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -283,60 +313,6 @@ if (x.level > 0){
           </Typography>
         </Box>
       </Modal>
-<h4 className='user-level'>User Level: {x.level}</h4>
-
-<form onSubmit={(e) => {handleUser(i,e)}}>
-    {x.level !== 11 ?   <input  className='user-input' placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/> 
-    : null}
-
-</form>
-{x.request > '' ?
-<>
-<div className='div-request-approval'>
-{x.request !== 'Waiting Request' ?<h3 className='request-approval' onClick={() => handleGoToProfileClear(i)}> Clear  </h3> :null}
-<h3 className='request-approval' > {x.request}  </h3>
-<div> 
-<img src={thumbup} onClick={() => handleGoToProfile(i)}  style={{width:'40px',cursor:'pointer'}}/>
-<img src={thumbdown} onClick={() => handleGoToProfileDeny(i)}  style={{width:'40px',cursor:'pointer'}}/>
- </div>
-</div>
-
-</>
-:null}
-
-
-</div>)
-}
-})} 
-  
-    </div>:
-    
-
-    <div className='user-levels-await'>
-  <div>
-   {userPermit.map((x,i) => {
-if (x.level === 0){
-  return (<div key={i} className='user-level-div'>
-  <img src={userPfp} style={{width:'30px'}}/>
-<h1 >{x.Name}</h1>
-<h1> User Level: {x.level}</h1>
-<form onSubmit={(e) => {handleUser(i,e)}}>
-      <input  placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/>
-</form>
-
-</div>)
-} 
-})}  
-  </div>
-
-</div>
-    
-    }
-    </div> 
-    </div>
-
-
-
 
 
 
