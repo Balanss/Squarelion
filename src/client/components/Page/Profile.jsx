@@ -22,6 +22,14 @@ import ProfileFunctions from './profileFunctions/ProfileFunctions'
 import Loading from '../Loading'
 import TimeOff from './WFH/TimeOff'
 import Survey from './Survey'
+import IN from '../images/in.png';
+import homeBtn from '../images/home-button.png';
+import client from '../images/client.png';
+import survey from '../images/survey.png';
+import admin from '../images/admin.png';
+import wfh from '../images/wfh.png';
+import userPfp from "../images/user.png"
+import Cal from './Calendar/Cal'
 
 export default function Profile() {
 
@@ -134,7 +142,12 @@ const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accu
 const [ showWfh,setShowWfh] = useState('')
 const [ panel,setPanel] = useState(false)
 
-
+const handleLogout = () => {
+  auth.signOut().then(() => {
+    navigate('/')
+    window.location.reload()
+  })
+};
 
 
 
@@ -168,20 +181,26 @@ const [ panel,setPanel] = useState(false)
          <li>
             <a href='/' 
             className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg className="w-[40px] h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-                  <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
-                  <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
-               </svg>
+               <img className='w-[40px]' src={homeBtn} />
                <span className="ml-3">Home</span>
             </a>
          </li>
+
+         <li>
+            <Link to='/admindashboard'  className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+               <img className='w-[40px]' src={admin} />
+               <span className="flex-1 ml-3 whitespace-nowrap" >ADMIN</span>
+            </Link>
+         </li>
+
          <li>
             <a  
              className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-             
+              <img className='w-[40px]' src={client} />  
                <span className="flex-1 ml-3 whitespace-nowrap ">  <Links/> </span>
             </a>
          </li>
+
          <li>
             <a 
             className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" 
@@ -195,8 +214,10 @@ const [ panel,setPanel] = useState(false)
                </span>   
             </a>
          </li>
+
          <li>
             <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => {setShowWfh('wfh'),setPanel(true)}} >
+              <img className='w-[40px]' src={wfh} />
                <span className="flex-1 ml-3 whitespace-nowrap">
                 WFH request
                </span>   
@@ -205,20 +226,24 @@ const [ panel,setPanel] = useState(false)
 
          <li>
             <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-            
+            <img className='w-[40px]' src={userPfp} />
                <span className="flex-1 ml-3 whitespace-nowrap">{user}</span>
             </a>
          </li>
+
          <li>
-            <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-               <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
-               </svg>
+            <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={handleLogout} >
+               <img className='w-[40px]' src={IN} />
                <span className="flex-1 ml-3 whitespace-nowrap" >Sign Out</span>
             </a>
          </li>
 <l1>
   
+
+
+<Cal/>
+
+
 {level > 8 && showWfh ==='chat' && <>
 
 <div className= 'pt-200px'>

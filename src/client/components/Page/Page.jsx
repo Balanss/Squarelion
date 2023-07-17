@@ -34,6 +34,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ButtonPress from '../firebaseData/ButtonPress'
 import Inputs from './PageFunctions/Inputs'
+import Cal from './Calendar/Cal'
 
 
 
@@ -302,10 +303,10 @@ const handleEditorChange = (value) => {
  md:min-w-[200px] md:max-w-[300px] md:break-all  md:p-[10px]   md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
  
   <p className='bg-white text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
-  md:min-w-[100px] md:p-[10px]  md:h-[50px]' > {x.type} </p>
+  md:min-w-[120px] md:p-[10px]  md:h-[50px]' > {x.type} </p>
 
   <p className='bg-white text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
-  md:min-w-[100px] md:p-[10px] md:h-[50px]'>  {month}-{x.date}  </p>
+  md:min-w-[120px] md:p-[10px] md:h-[50px]'>  {month}-{x.date}  </p>
 
   <p className=' text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5 
   md:min-w-[110px] md:p-[10px] md:h-[50px]' style={{backgroundColor:x.color}}> {x.status}  </p>

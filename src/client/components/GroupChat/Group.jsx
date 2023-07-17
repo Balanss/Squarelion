@@ -256,7 +256,7 @@ const important = message.filter(work => work.imp === imp)
  
  <div  className='inside-hidden hidden lg:block lg:flex '>
 
- <div className='  bg-sky-300 p2 max-h-[50vh] overflow-y-scroll  md:flex flex-col-reverse
+ <div className='  bg-slate-800 p2 max-h-[50vh] overflow-y-scroll  md:flex flex-col-reverse
  lg:w-[430px]'>
 
   <h2 onClick={() => setShowImportant(showImportant === true? false : true)}> {showImportant === false? 'show Important' : 'Show All'} </h2>
@@ -328,7 +328,7 @@ const important = message.filter(work => work.imp === imp)
  </div>
 
 
-<div className='group-list relative z-10 bg-sky-300 pb-10 pt-4 pl-2 border-l-black border-2'>
+<div className='group-list relative z-10 bg-slate-700 pb-10 pt-4 pl-2 border-l-black border-2'>
      {level > 8 ?  <h2  onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group')}} style={{cursor:'pointer'}} className='mt-2 mb-2' onDoubleClick={handleSum}> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2> : null}
     <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer')}} style={{cursor:'pointer'}} className='mt-2 mb-2 elementwrapper'> Designer  </h2>
     {work.map((x,id) => {

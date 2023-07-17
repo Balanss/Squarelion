@@ -13,12 +13,14 @@ import Footer from '../Home/Footer';
 import Edit from './Edit';
 import PartnerLogic from './PartnerLogic';
 import usersPic from '../images/new-arrival.png';
-
+import IN from '../images/in.png';
+import homeBtn from '../images/home-button.png';
 import client from '../images/client.png';
 import survey from '../images/survey.png';
 import AdminSurvey from './AdminSurvey';
 import rightArrow from '../images/arrow-right.png';
 import userPfp from "../images/user.png"
+import SidePanel from './SidePanel';
 
 
 
@@ -142,31 +144,8 @@ uploadTask.on(
 
 
 const [switching,setSwitching] = useState('Client')
-const [isHovered, setIsHovered] = useState(false);
-const [hiding,setHiding] = useState(true);
-
-const handleMouseEnter = () => {
-  setIsHovered(true);
-};
-
-const handleMouseLeave = () => {
-  setIsHovered(false);
-};
 
 
-const handleLogout = () => {
-  auth.signOut().then(() => {
-    navigate('/')
-    window.location.reload()
-  })
-};
-
-function handleGoPfP(){
-        localStorage.setItem('user',user)
-        setTimeout(() =>{
-            navigate(`/user/${user}`)
-        },1000)
-}
 
 const [isMobile, setIsMobile] = useState(false);
 useEffect(() => {
@@ -195,82 +174,14 @@ useEffect(() => {
 <div>
 
 <div className=''>  {isMobile && level > 8? <Nav/>:null} </div>
-{/* dashboard menu */}
 
-<aside id="cta-button-sidebar" 
-className="fixed top-0 left-0 z-40 w-1/5 h-screen transition-transform -translate-x-full sm:translate-x-0"
- aria-label="Sidebar">
-   <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-      <ul className="space-y-2 font-medium">
-         <li>
-            <a  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg className="w-[40px] h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-                  <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
-                  <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
-               </svg>
-               <span className="ml-3">Dashboard</span>
-            </a>
-         </li>
-         <li>
-            <a href='/'
-             className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg className="w-[40px] h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-                  <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
-                  <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
-               </svg>
-               <span className="ml-3">Home</span>
-            </a>
-         </li>
-         <li>
-            <a 
-             className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" 
-             onClick={( ) => setSwitching('Client')}>
-            <img className='w-[40px]' src={client} />  
-               <span className="flex-1 ml-3 whitespace-nowrap">  CLIENTS  </span>
-            </a>
-         </li>
-         <li>
-            <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={( ) => {setSwitching('Users'),
-        setHiding(false),setTimeout(() => setHiding(true),1000)
-           }}>
-            <img src={usersPic} className='w-[40px]' />
-               <span className="flex-1 ml-3 whitespace-nowrap">
-                USERS
-               </span>
-              
-            </a>
-         </li>
-         <li className='transform transition-transform ease-in hover:scale-105 cursor-pointer'>
-           {level === 11 ? <> <a onClick={( ) => setSwitching('Survey')}  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-              <img src={survey} className='w-[40px]' /> 
-              <span className="flex-1 ml-3 whitespace-nowrap">SURVEY</span>
-            </a>  </> : null}
-         </li>
-         <li>
-            <a onClick={handleGoPfP}  className="
-            transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-              <img src={userPfp} className='w-[40px]' />
-               <span className="flex-1 ml-3 whitespace-nowrap">{user}</span>
-            </a>
-         </li>
-         <li>
-            <a 
-            className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={handleLogout}>
-               <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3"/>
-               </svg>
-               <span className="flex-1 ml-3 whitespace-nowrap" >Sign Out</span>
-            </a>
-         </li>
+<SidePanel Level = {level} user={user} switching={switching} setSwitching={setSwitching}/>
 
-      </ul>
-
-   </div>
-</aside>
 {switching === 'Client' && <div 
 className="p-4 w-4/5">
    <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 w-[300px]
-   md:w-[700px] md:overflow-y-hidden md:ml-[100px]
+   md:w-[500px] md:overflow-y-hidden md:ml-[100px]
+   lg:w-[700px]
    xl:w-[900px]
     ">
    <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
@@ -290,7 +201,8 @@ className="p-4 w-4/5">
       </div>
 
       <div className=" bg-gray-50 dark:bg-gray-800">
-        <div className='grid grid-rows-3 grid-cols-3 gap-4 pt-10 pl-10
+        <div className='lg:grid lg:grid-rows-3 lg:grid-cols-3 lg:gap-4 pt-10 pl-10 lg:max-h-[90vh]
+        sm:max-h-[500px] sm:overflow-scroll
         '>
         {partner.map((partner ,index) => (
         <>
