@@ -94,17 +94,13 @@ uploadTask.on(
   };
 
   function handleGo(index){
-
     partner.map((x,i) => { 
         if (i === index){
-
             localStorage.setItem('partner',x.name)
             localStorage.setItem('image',x.imageUrl)
-            
-
             setTimeout(() =>{
                 navigate(`/profile/${x.name}`)
-            },2000)
+            },1000)
            
         }
     })
@@ -165,7 +161,7 @@ const handleLogout = () => {
   })
 };
 
-function handleGo(){
+function handleGoPfP(){
         localStorage.setItem('user',user)
         setTimeout(() =>{
             navigate(`/user/${user}`)
@@ -251,7 +247,7 @@ className="fixed top-0 left-0 z-40 w-1/5 h-screen transition-transform -translat
             </a>  </> : null}
          </li>
          <li>
-            <a onClick={handleGo}  className="
+            <a onClick={handleGoPfP}  className="
             transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
               <img src={userPfp} className='w-[40px]' />
                <span className="flex-1 ml-3 whitespace-nowrap">{user}</span>

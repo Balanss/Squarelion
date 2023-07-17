@@ -117,7 +117,7 @@ export default function Links() {
   return (<> 
   <PartnerLogic setPartner={setPartner}/>
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
-    <div className='text-white'>
+    <div className='text-white '>
 
 {['left'].map((anchor) => (
         <React.Fragment key={anchor}>

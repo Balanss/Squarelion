@@ -255,7 +255,8 @@ const handleEditorChange = (value) => {
 }
 
 {level > 8 && <>
-  <div className='flex flex-row justify-around items-center bg-slate-300 '> <Links/> 
+  <div className='flex flex-row justify-around items-center bg-slate-300 '> 
+  <div className='bg-slate-700'><Links/>  </div>
   <img src={img}  className='w-20' style={{backgroundColor:'white',marginBottom:'20px',marginTop:'20px'}}/>
   <div style={{zIndex:1}} >
   <TxtAll className='txt' filter={filter} />    
@@ -287,36 +288,36 @@ const handleEditorChange = (value) => {
   md:flex-row md:min-h-[100px]  md:m-auto md:justify-center md:hover:scale-105 md:transition-transform md:duration-300
   xl:w-[1000px] ' 
    key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
-<div className='lg:flex lg:flex-col lg:justify-around lg:ml-1'>
-<button className='x-button mr-[30px] lg:mb-10' onClick={() => handleText(i)} >  <img src={view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
-  <button className='x-button ' onClick={() => {setShow(''),setObjectiveAnswer(''),setStatusBar('')}} >  <img src={cross} alt={cross} style={{width:'40px'}} className='icon-do'/> </button>
+<div className='lg:flex lg:flex-row  lg:mr-10'>
+<button className='x-button mr-[30px] transition-transform transform-gpu hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
+  <button className='x-button transition-transform transform-gpu hover:scale-110 hover:bg-white hover:rounded-3xl' onClick={() => {setShow(''),setObjectiveAnswer(''),setStatusBar('')}} >  <img src={cross} alt={cross} style={{width:'40px'}} className='icon-do'/> </button>
 </div>
 
   <p  onClick={() => {setPost(x.count),setDate(x.date),setType(x.type)}} 
   className='bg-white text-black  text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
-  md:min-w-[100px] md:h-[50px] '> 
+  md:min-w-[100px] md:h-[50px] md:p-[10px]  '> 
   {x.count}  </p>
 
  <p className='bg-white text-black break-all text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
- md:min-w-[100px] md:max-w-[300px] md:break-all md:overflow-scroll  md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
+ md:min-w-[200px] md:max-w-[300px] md:break-all  md:p-[10px]   md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
  
   <p className='bg-white text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
-  md:min-w-[100px]  md:h-[50px]' > {x.type} </p>
+  md:min-w-[100px] md:p-[10px]  md:h-[50px]' > {x.type} </p>
 
   <p className='bg-white text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
-  md:min-w-[100px]  md:h-[50px]'>  {month}-{x.date}  </p>
+  md:min-w-[100px] md:p-[10px] md:h-[50px]'>  {month}-{x.date}  </p>
 
   <p className=' text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5 
-  md:min-w-[100px]  md:h-[50px]' style={{backgroundColor:x.color}}> {x.status}  </p>
+  md:min-w-[110px] md:p-[10px] md:h-[50px]' style={{backgroundColor:x.color}}> {x.status}  </p>
 
 
 
 
 
-{statusBar === i? <div style={{color:'black'}} className='status-div'> 
+{statusBar === i? <div style={{color:'black'}} className='status-div ml-[10px]'> 
 {level === 8 ?  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty}/> : null}
 {level > 8 && <>
-  <WaitingDesigner objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
+  <WaitingDesigner objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty}  />
   <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  />
 <WaitingApproved objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
 {/* <WaitingDelete objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} /> */}
@@ -334,8 +335,8 @@ const handleEditorChange = (value) => {
  
    
 {show === i && <>
- <div className=''>
-  <div className='holds-written-content'>
+ <div className='lg:w-[1000px] m-auto border-2 border-black bg-slate-700'>
+  <div className='holds-written-content '>
 
 
  <img src={x.designer} className='m-auto mt-[50px]' style={{maxWidth:'200px',maxHeight:'200px',cursor:'zoom-in'}}  onClick={() => handleOpenModal()}/>
@@ -460,9 +461,9 @@ width='300px'
       </div>
 </>}
 
-{isLoading === true &&  <>
+{/* {isLoading === true &&  <>
 <Loading />
-      </>}
+      </>} */}
 
 
 

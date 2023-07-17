@@ -254,12 +254,22 @@ const important = message.filter(work => work.imp === imp)
 <div className={hideList === true ? 'hidden-chat' : 'hidden-zero'}>
     {hideList && level > 7 && <>
  
- <div  className='inside-hidden-chat'>
+ <div  className='inside-hidden hidden lg:block lg:flex '>
 
- <div className='bg-sky-300 p2 max-h-[50vh] overflow-y-scroll  flex flex-col-reverse
+ <div className='  bg-sky-300 p2 max-h-[50vh] overflow-y-scroll  md:flex flex-col-reverse
  lg:w-[430px]'>
 
   <h2 onClick={() => setShowImportant(showImportant === true? false : true)}> {showImportant === false? 'show Important' : 'Show All'} </h2>
+
+  <div className='flex justify-around pt-10 bg-slate-800 pb-10 '>
+    <textarea  className='text-black' onChange={(e) => setText(e.target.value)}  placeholder={`Send Message To ${displayTo}`} value={text} />
+ 
+    {sendTo === 'designer' ? <Button allUid={allUid} user={user} setText={setText}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
+{sendTo === 'group' ? <Button allUid={allUid} user={user} sendTo={sendTo} setText={setText}  text={text} uuid={uuid} imp={imp} />:null }
+{sendTo !== 'designer' && sendTo !== 'group' ?  <PrivateChat user={user} setText={setText}  sendTo={sendTo} text={text} trueChat={trueChat} />  :null }
+<img src={mark} onClick={() => {setImp(imp === false? true : false)}}   className='img-imp' style={imp === false ?{width:'40px',backgroundColor:'white'}:{width:'40px',backgroundColor:'yellow'}} /> 
+    </div>
+
 
     {privateChat  === 'group' && <>
      
@@ -312,20 +322,13 @@ const important = message.filter(work => work.imp === imp)
    </>}
 
 
+  
+
 
  </div>
 
 
-    <div className='flex justify-around pt-10 bg-slate-800 pb-10 '>
-    <textarea  className='text-black' onChange={(e) => setText(e.target.value)}  placeholder={`Send Message To ${displayTo}`} value={text} />
- 
-    {sendTo === 'designer' ? <Button allUid={allUid} user={user} setText={setText}  sendTo={sendTo} text={text} uuid={uuid} imp={imp} /> :null }
-{sendTo === 'group' ? <Button allUid={allUid} user={user} sendTo={sendTo} setText={setText}  text={text} uuid={uuid} imp={imp} />:null }
-{sendTo !== 'designer' && sendTo !== 'group' ?  <PrivateChat user={user} setText={setText}  sendTo={sendTo} text={text} trueChat={trueChat} />  :null }
-<img src={mark} onClick={() => {setImp(imp === false? true : false)}}   className='img-imp' style={imp === false ?{width:'40px',backgroundColor:'white'}:{width:'40px',backgroundColor:'yellow'}} /> 
-    </div>
-
-<div className='group-list relative z-10 bg-sky-300 pb-10 pt-4 pl-2'>
+<div className='group-list relative z-10 bg-sky-300 pb-10 pt-4 pl-2 border-l-black border-2'>
      {level > 8 ?  <h2  onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group')}} style={{cursor:'pointer'}} className='mt-2 mb-2' onDoubleClick={handleSum}> Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2> : null}
     <h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer')}} style={{cursor:'pointer'}} className='mt-2 mb-2 elementwrapper'> Designer  </h2>
     {work.map((x,id) => {
@@ -339,16 +342,25 @@ const important = message.filter(work => work.imp === imp)
 
 
 
+
+
+
  </div>
   
  </>} 
+
+
+
+
+
 </div>
 
 
 
 
 
-<img className='meeting-bg' src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() => hideList === true? setHideList(false) : setHideList(true)}/>
+<img className='meeting-bg  hidden lg:block
+transition-transform transform-gpu hover:scale-110 hover:bg-slate-50 hover:rounded-lg' src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() => hideList === true? setHideList(false) : setHideList(true)}/>
 
  </div>
 

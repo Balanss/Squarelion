@@ -34,6 +34,6 @@ export default function WaitingApproved({typeAnswer,month,page,qty}) {
 console.log(qty)
 
   return (
-    <p className='bg-green-500 mt-2 mb-2 p-2 cursor-pointer' onClick={handleData}>  Approved </p> 
+    <p className='bg-green-500 mt-2 mb-2 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}>  Approved </p> 
   )
 }
