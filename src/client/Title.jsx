@@ -8,6 +8,7 @@ export default function Title({}) {
   const [user,setUser] = useState('')
   const [uuid,setUuid] = useState('')
   const [ level,setLevel] = useState('')
+  // const [sum,setSum] = useState(null)
 
   const [message, setMessage] = useState([]);
         const getMessage = async () => {
@@ -37,27 +38,23 @@ export default function Title({}) {
            
           }, []); 
 
-          const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null);
+
+          const sum = ( message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null))
+
+          useEffect(() => {
+    
+
+            if (sum === null || isNaN(sum) || sum === 0) {
+              document.title = `Squarelion Agency`;
+            } else {
+              document.title = `Squarelion Agency (${sum})`;
+            }
+          }, [sum]);
 
 
-
-
-    useEffect(() => {
-
-      console.log('a')
-        // if (sum === null){
-        //   document.getElementById('myHead').innerHTML = `Squarelion Agency`;
-        // } else if (sum === 0){
-        //   document.getElementById('myHead').innerHTML = `Squarelion Agency`;
-        // } else if(sum === 'NaN'){
-        //   document.getElementById('myHead').innerHTML = `Squarelion Agency`;
-        // }
         
-        // else {
-        //   document.getElementById('myHead').innerHTML = `Squarelion Agency (${sum})`;
-        // }
-      }, [sum]);
 
+    
 
       return <User setUser={setUser} user={user} setUuid={setUuid} setLevel={setLevel} />
    

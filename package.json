@@ -41,6 +41,7 @@
     "react-pdf": "^7.1.3",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.14.1",
+    "tw-daterange": "^1.1.25",
     "vite-express": "^0.9.1"
   },
   "devDependencies": {

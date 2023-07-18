@@ -11,12 +11,12 @@ export default function WaitingDesigner({typeAnswer,month,page}) {
         
         fs.collection(page).doc(typeAnswer+month).set({
             color:'gold',
-            status:'Waiting Designer',
+            status:'Designer',
             statusText:'Designer'
 
           },{merge:true})
   }
   return (
-    <p  className='bg-yellow-500 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}> For Designer </p>
+    <p  className='bg-yellow-500 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}> Designer </p>
   )
 }

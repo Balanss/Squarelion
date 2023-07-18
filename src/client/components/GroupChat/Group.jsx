@@ -360,7 +360,8 @@ const important = message.filter(work => work.imp === imp)
 
 
 <img className='meeting-bg  hidden lg:block
-transition-transform transform-gpu hover:scale-110 hover:bg-slate-50 hover:rounded-lg' src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() => hideList === true? setHideList(false) : setHideList(true)}/>
+transition-transform transform-gpu hover:scale-110 hover:bg-slate-50 hover:rounded-lg'
+ src={meeting} style={{cursor:'pointer',width:'50px',height:'50px'}} onClick={() => hideList === true? setHideList(false) : setHideList(true)}/>
 
  </div>
 

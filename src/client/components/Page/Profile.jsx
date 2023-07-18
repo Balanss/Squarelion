@@ -12,7 +12,6 @@ import Button from './profileFunctions/Button'
 import PrivateChat from './profileFunctions/PrivateChat'
 import Footer from '../Home/Footer'
 import bin from '../images/bin.png'
-import meeting from '../images/meeting.png'
 import time from '../images/time.png'
 import mark from "../images/important.png"
 import Links from './Links'
@@ -22,14 +21,9 @@ import ProfileFunctions from './profileFunctions/ProfileFunctions'
 import Loading from '../Loading'
 import TimeOff from './WFH/TimeOff'
 import Survey from './Survey'
-import IN from '../images/in.png';
-import homeBtn from '../images/home-button.png';
-import client from '../images/client.png';
-import survey from '../images/survey.png';
-import admin from '../images/admin.png';
-import wfh from '../images/wfh.png';
-import userPfp from "../images/user.png"
 import Cal from './Calendar/Cal'
+import ShowDate from './Calendar/ShowDate'
+import Panel from './Panel/Panel'
 
 export default function Profile() {
 
@@ -42,7 +36,7 @@ const [ level,setLevel] = useState('waiting')
 const [ sendTo,setSendTo] = useState('')
 const [ text,setText] = useState('')
 const [privateChat,setPrivateChat] = useState('waiting')
-const navigate = useNavigate()
+
 
 
 
@@ -85,6 +79,7 @@ const [chat, setChat] = useState('');
 const [trueChat,setTrueChat] = useState()   
 const [hideList,setHideList] = useState(false)
 const [displayTo,setDisplayTo] = useState('')
+const [pan,setPan] = useState(false)
 
 
     const allUid = (work.map(x => x.Name))
@@ -139,15 +134,22 @@ useEffect(() => {
 
 const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null);
 
-const [ showWfh,setShowWfh] = useState('')
-const [ panel,setPanel] = useState(false)
+const [ showWfh,setShowWfh] = useState('start')
 
-const handleLogout = () => {
-  auth.signOut().then(() => {
-    navigate('/')
-    window.location.reload()
-  })
-};
+const [isMobile, setIsMobile] = useState(false);
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 650);
+  };
+
+  handleResize(); // Call the function initially to set the initial state
+
+  window.addEventListener('resize', handleResize); // Add event listener for window resize
+
+  return () => {
+    window.removeEventListener('resize', handleResize); // Clean up the event listener on component unmount
+  };
+}, []);
 
 
 
@@ -165,127 +167,43 @@ const handleLogout = () => {
 </div>
 </>}
 
-<button onClick={() => setPanel(panel === true ? false : true)} data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+
+
+<button onClick={() => setPan(pan === true ? false : true)} data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
   
    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+      <path clipRule="evenodd" fillRule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
    </svg>
 </button>
 <div className='flex flex-col sm:flex-row min-h-[100vh] bg-slate-500' >
 
-    <aside id="cta-button-sidebar" className={panel ? " w-full sm:w-1/5 fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0" :
-  "fixed top-0 left-0 z-40 w-64 h-screen transition-transform  sm:translate-x-0"  } aria-label="Sidebar">
-   <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-      <ul className="space-y-2 font-medium">
 
-         <li>
-            <a href='/' 
-            className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <img className='w-[40px]' src={homeBtn} />
-               <span className="ml-3">Home</span>
-            </a>
-         </li>
+{pan === true && isMobile === true &&<>
+  <Panel level={level} showWfh={showWfh} setShowWfh={setShowWfh} user={user} hideList={hideList}
+ setHideList={setHideList} sum={sum} work={work} setSendTo={setSendTo} setDisplayTo={setDisplayTo} setPrivateChat={setPrivateChat} setTrueChat={setTrueChat}
+ pan={pan} setPan={setPan}/> </>}
 
-         <li>
-            <Link to='/admindashboard'  className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-               <img className='w-[40px]' src={admin} />
-               <span className="flex-1 ml-3 whitespace-nowrap" >ADMIN</span>
-            </Link>
-         </li>
-
-         <li>
-            <a  
-             className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
-              <img className='w-[40px]' src={client} />  
-               <span className="flex-1 ml-3 whitespace-nowrap ">  <Links/> </span>
-            </a>
-         </li>
-
-         <li>
-            <a 
-            className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" 
-            onClick={() =>  {
-           hideList === true? setHideList(false) : setHideList(true),
-           setShowWfh('chat'),setPanel('false')
-  } }>
-            <img className='style-meeting' src={meeting} style={{cursor:'pointer',width:'40px'}} />  
-               <span className="flex-1 ml-3 whitespace-nowrap text-white">
-                Chat
-               </span>   
-            </a>
-         </li>
-
-         <li>
-            <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => {setShowWfh('wfh'),setPanel(true)}} >
-              <img className='w-[40px]' src={wfh} />
-               <span className="flex-1 ml-3 whitespace-nowrap">
-                WFH request
-               </span>   
-            </a>
-         </li>
-
-         <li>
-            <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-            <img className='w-[40px]' src={userPfp} />
-               <span className="flex-1 ml-3 whitespace-nowrap">{user}</span>
-            </a>
-         </li>
-
-         <li>
-            <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={handleLogout} >
-               <img className='w-[40px]' src={IN} />
-               <span className="flex-1 ml-3 whitespace-nowrap" >Sign Out</span>
-            </a>
-         </li>
-<l1>
-  
-
-
-<Cal/>
-
-
-{level > 8 && showWfh ==='chat' && <>
-
-<div className= 'pt-200px'>
-<h2 onClick={() => {setSendTo('group'),setDisplayTo('Group'),setPrivateChat('group') ,setPanel(true), setHideList(hideList === true? false : true)}} style={{cursor:'pointer'}}
- className='bg-slate-400 mt-2 p-2 mr-2 rounded-sm xl lg:w-[180px] transform transition-transform ease-in hover:scale-105 cursor-pointer '>
-   Group  <p style={{fontSize:'14px',color:'red'}}> {sum > 0? sum : ''} </p></h2>
-<h2 onClick={() => {setSendTo('designer'),setDisplayTo('designer'),setPrivateChat('designer'),setPanel(true),  setHideList(hideList === true? false : true)}} style={{cursor:'pointer'}}
-  className='bg-slate-400 p-2 mt-2 mr-2 rounded-sm lg:w-[180px] transform transition-transform ease-in hover:scale-105 cursor-pointer' > Designer  </h2>
-
-{work.map((x,id) => {
- return <div key={id} className='pt-2'>
-    <p  className='bg-slate-400 p-2 mr-2 rounded-sm lg:w-[180px] transform transition-transform ease-in hover:scale-105 cursor-pointer '
-    style={{cursor:'pointer'}} key={id} onClick={() =>
-     {setSendTo( 'chat'+ user + x.Name),setPrivateChat('chat'+ user + x.Name),setPanel(true),
-     setTrueChat('chat'+ x.Name + user),setDisplayTo(x.Name),setHideList(hideList === true? false : true)}}> {x.Name} </p>
- </div>
-
-})}
-</div>
-
-</>}
-</l1>
-      </ul>
-
-   </div>
-</aside>
-
+{ isMobile === false &&<>
+  <Panel level={level} showWfh={showWfh} setShowWfh={setShowWfh} user={user} hideList={hideList}
+ setHideList={setHideList} sum={sum} work={work} setSendTo={setSendTo} setDisplayTo={setDisplayTo} setPrivateChat={setPrivateChat} setTrueChat={setTrueChat}
+ pan={pan} setPan={setPan}/> </>}
 
 
 {level > 7 ?  <>  <div className='w-full sm:w-4/5 md:absolute right-0 max-h-[90vh] '>
 
-    
-
-
+  
 {/* <div className='real-admin-links'> 
 
 {level === 11?  <button onClick={() => setShowWfh('survey')}> Survey </button> : null}
   
   </div> */}
 
-
-
+{showWfh === 'start' && (
+  <div className='lg:w-5/5 lg:flex lg:flex-row lg:items-center' >
+  <Cal/>
+  <ShowDate/>
+  </div>
+)}
 
 
 

@@ -16,8 +16,8 @@ export default function WaitingApproval({typeAnswer,month,page,qty}) {
         
         fs.collection(page).doc(typeAnswer+month).set({
             color:'#00eaff',
-            status:'Waiting Approval',
-            statusText:'Waiting Approval'
+            status:'Waiting',
+            statusText:'Approval'
 
           },{merge:true})
 
@@ -40,6 +40,6 @@ export default function WaitingApproval({typeAnswer,month,page,qty}) {
 
   return (
     <p className='bg-sky-500 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110
-    ' onClick={handleData}>  Waiting Approval </p> 
+    ' onClick={handleData}>  Waiting  </p> 
   )
 }
