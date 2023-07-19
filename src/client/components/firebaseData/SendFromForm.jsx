@@ -18,7 +18,7 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
     function handleData(){    
             fs.collection(page).doc(typeAnswer+month).set({ 
                 answer:objectiveAnswer,
-                status:'Awaiting Approval',
+                status:'Waiting',
             color:'#00eaff',
             user:user,       
               },{merge:true})

@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{Suspense} from 'react'
 import Nav from '../Nav'
 import {useState, useEffect} from 'react'
 import { auth, fs,db } from '../../Firebase'
@@ -28,6 +28,7 @@ import Modal from '@mui/material/Modal';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Inputs from './PageFunctions/Inputs'
+import Examples from './Page/Examples'
 
 
 
@@ -49,12 +50,11 @@ const style = {
 
 
 
-export default function Page({goTo}) {
+export default function Page() {
 
   const {id} = useParams()
   const [hide,setHide] = useState(false)
   const [color,setColor] = useState('orange')
-  const [ placeHolder,setPlaceHolder] = useState('')
   const [user,setUser] = useState('')
   const [ uuid,setUuid] = useState('')
   const [ level,setLevel] = useState('')
@@ -62,7 +62,7 @@ export default function Page({goTo}) {
   const [ show,setShow] = useState('')
   const [ page,setPage] = useState('')
   const [ deletion,setDeletion] = useState('')
-  const [ design,setDesign] = useState('')
+  const [round, setRound] = useState([]);
   const navigate = useNavigate()
 
 
@@ -90,7 +90,7 @@ e.preventDefault()
 setHide(false)
   }
 
-  const [round, setRound] = useState([]);
+  
  
 
 const getRound = async () => {
@@ -123,14 +123,7 @@ const getRound = async () => {
   
   useEffect(() => {
     const unsubscribe = getRound();
-  
-    // Cleanup the subscription
-   
   }, [page]);
-
-
-  
-
 
   function handleText(i ) {
     round.map((x,index) => {
@@ -211,8 +204,6 @@ let notification = [];
 const [filter,setFilter] = useState('');
 const [ statusBar,setStatusBar] = useState('');
   useEffect(() => {
-    // const currentDate = new Date();
-    // const currentMonth = currentDate.toISOString().slice(0, 7); // Format: YYYY-MM
     setFilter(round.filter((x) => x.statusText === 'Approved' && x.month === month)); 
   },[round,month])
 
@@ -227,6 +218,11 @@ const handleClose = () => setOpenModal(false);
 const handleEditorChange = (value) => {
  setObjectiveAnswer(value);
 };
+
+
+
+
+
 
   return (<>
 
@@ -331,9 +327,9 @@ const handleEditorChange = (value) => {
 
 
  
-   
+<Suspense fallback={<div>Loading...</div>}>
 {show === i && level > 8 && <>
- <div className='lg:w-[1000px] m-auto border-2 border-black bg-slate-700'>
+ <div className='lg:w-[800px] m-auto border-2 border-black bg-slate-700'>
   <div className='holds-written-content '>
 
 
@@ -397,7 +393,7 @@ width='300px'
       onChange={handleEditorChange}
       style={{color:'black',backgroundColor:'white'}}
       placeholder='Text here...'
-      className='max-w-[90vw] max-h-[200px] overflow-scroll'
+      className='max-w-[90vw] lg:max-w-[500px] max-h-[200px] overflow-scroll'
     />
 
       
@@ -414,31 +410,34 @@ width='300px'
   </div>
   </div>
 <div className='example-flex'>
-   <div className='border-edit flex flex-col  min-h-[400px] border-2 pt-5  items-center text-white
-   lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
-  <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
-{x.textEx === ''? null:  <h2 className='same' style={{color:'white',width:'200px',wordBreak:'break-all'}}> {x.textEx}  </h2>}
-  <Upload1  objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-  </div>
-
-
- {x.textEx > ""?  <div className='border-edit flex flex-col items-center h-[400px] border-2 pt-5
-  lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
-  
-  <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
-
-
-  <h2  className='same text-white'style={{width:'200px',wordBreak:'break-all'}}> {x.textEx1} </h2>
-  <Upload2 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-  </div>
-  :null} 
-
-{x.textEx1 > "" ?   <div className='border-edit flex flex-col items-center h-[400px] border-2 pt-5
- lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
-  <img src={x.exampleThree} style={{maxWidth:'200px',maxHeight:'200px'}} />
-  <h2 className='same' style={{width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
-  <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-  </div> :null}
+<div className='border-edit flex flex-col  min-h-[400px] border-2 pt-5  items-center text-white
+          lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
+         <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
+       {x.textEx === ''? null:  <h2 className='same' style={{color:'white',width:'200px',wordBreak:'break-all'}}> {x.textEx}  </h2>}
+         <Upload1  objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+         </div>
+       
+       
+        {x.textEx > ""?  <div className='border-edit flex flex-col items-center h-[400px] border-2 pt-5
+         lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
+         
+         <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
+       
+       
+         <h2  className='same text-white'style={{width:'200px',wordBreak:'break-all'}}> {x.textEx1} </h2>
+         <Upload2 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+         </div>
+         :null} 
+       
+       {x.textEx1 > "" ?   <div className='border-edit flex flex-col items-center h-[400px] border-2 pt-5
+        lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
+         <img src={x.exampleThree} style={{maxWidth:'200px',maxHeight:'200px'}} />
+         <h2 className='same' style={{width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
+         <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
+         </div> :null}   
+{/* <Examples round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}
+    setTypeAnswer={setTypeAnswer }typeAnswer={typeAnswer} objectiveAnswer={objectiveAnswer} month={month} color={color}
+    page={page} setShow={setShow} setStatusBar={setStatusBar} show={show} statusBar={statusBar} user={user} qty={qty}/> */}
 </div>
 
 
@@ -455,6 +454,10 @@ width='300px'
 
 
  </>} 
+  
+    </Suspense>
+   
+
 
 
  </>
