@@ -7,7 +7,8 @@ import survey from '../images/survey.png';
 import AdminSurvey from './AdminSurvey';
 import rightArrow from '../images/arrow-right.png';
 import userPfp from "../images/user.png"
-import { useNavigate} from 'react-router-dom';
+import { useNavigate,Link} from 'react-router-dom';
+import { auth, fs,db } from '/src/client/Firebase.jsx'
 
 export default function SidePanel({level,user,switching,setSwitching}) {
     const navigate = useNavigate()
@@ -49,11 +50,11 @@ export default function SidePanel({level,user,switching,setSwitching}) {
                 </a>
              </li>
              <li>
-                <a href='/'
+                <Link to='/'
                  className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                    <img src={homeBtn} className='w-[40px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' />
                    <span className="ml-3">Home</span>
-                </a>
+                </Link>
              </li>
              <li>
                 <a 
@@ -63,7 +64,7 @@ export default function SidePanel({level,user,switching,setSwitching}) {
                    <span className="flex-1 ml-3 whitespace-nowrap">  CLIENTS  </span>
                 </a>
              </li>
-             <li>
+ {level > 9 ?             <li>
                 <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={( ) => {setSwitching('Users'),
             setHiding(false),setTimeout(() => setHiding(true),1000)
                }}>
@@ -73,7 +74,7 @@ export default function SidePanel({level,user,switching,setSwitching}) {
                    </span>
                   
                 </a>
-             </li>
+             </li> : null}
              <li className='transform transition-transform ease-in hover:scale-105 cursor-pointer'>
                {level === 11 ? <> <a onClick={( ) => setSwitching('Survey')}  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                   <img src={survey} className='w-[40px]' /> 

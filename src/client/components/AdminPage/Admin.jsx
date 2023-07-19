@@ -176,7 +176,7 @@ useEffect(() => {
 
 <div className=''>  {isMobile && level > 8? <Nav/>:null} </div>
 
-<SidePanel Level = {level} user={user} switching={switching} setSwitching={setSwitching}/>
+<SidePanel level={level} user={user} switching={switching} setSwitching={setSwitching}/>
 
 {switching === 'Client' && 
 <div 

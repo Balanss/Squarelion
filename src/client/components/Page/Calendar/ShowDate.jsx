@@ -63,7 +63,7 @@ const currentDateElement = cDate.filter(item => item.id.slice(0,10) >= currentDa
 
 
   return (
-    <div className='flex flex-col lg:max-w-[300px] max-h-[700px]    overflow-scroll'> 
+    <div className='max-h-[400px] flex flex-col lg:max-w-[300px] md:max-h-[700px]    overflow-scroll'> 
     {currentDateElement.map((x,id) => {return   <div key={id} className="note bg-gray-100 mt-4 p-4 rounded mr-3 pb-6 mb-10">
       <p> {x.id.slice(0,10)} </p>
     <p className="text-sm font-bold mb-2">Note: {x.note}</p>

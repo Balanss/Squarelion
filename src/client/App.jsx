@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState,useEffect } from 'react'
 import React, { lazy, Suspense } from 'react';
-// import './App.css'
+
 import { HashRouter,Routes,Route } from 'react-router-dom'
 import Loading from './components/Loading';
 

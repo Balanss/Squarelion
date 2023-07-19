@@ -69,9 +69,9 @@ const navigate = useNavigate()
     <div>
 <User  setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
 <Nav/>
-<div className='fixed w-[100%] h-[100%] bg-sky-100'>
+<div className='fixed w-[100%] h-[100%] bg-sky-100 '>
   <div className=''>
-    <div className='bottom-[300px] absolute inset-0 flex items-center justify-center flex-col sm:flex-row'>
+    <div className='bottom-[250px] absolute inset-0 flex items-center justify-center flex-col sm:flex-row pt-10'>
     <div>
   <img src={logo} className='h-[300px] w-[300px] sm:h-[500px] sm:w-[500px]' />
  </div>
