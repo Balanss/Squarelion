@@ -217,21 +217,18 @@ const handleClick = (user) => {
 
 
 
-  <div className=' bg-slate-100 p-10 grid grid-cols-1 gap-2 xl:grid-cols-3 xl:overflow-x-scroll xl:max-h-[1000px] xl:gap-1  xl:w-[1000px] xl:m-auto xl:mt-[50px] xl:ml-80' >
+  <div className='  m-auto p-10 grid grid-cols-1 gap-2    md:w-4/5  xl:w-4/5' >
   {swap === false?     userPermit.map((x,i) => { 
-    return  <div class=" 
-    w-[90vw] m-auto mb-10 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700
-    xl:w-[300px] h-[450px]">
-    <div class="flex justify-end px-4 pt-4 xl">
-        <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
-        </button>  
-    </div>
-    <div class="flex flex-col items-center pb-10 ">
-        <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src={userPfp}/>
-        <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white" onClick={() => {handleGoToProfilePage(i),handleOpen()}}> {x.Name}</h5>
-        <span class="text-sm text-gray-500 dark:text-gray-400">{x.level}</span>
-        <div class="flex mt-4 space-x-3 md:mt-6">
-            <a class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">EDIT</a>
+    return  <div className=" 
+    m-auto md:min-w-[350px] mb-10 p-10  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700
+    h-[350px]  lg:h-[200px] lg:w-[700px]" key={i}>
+
+    <div className="flex flex-col items-center pb-10 lg:flex lg:flex-row lg:items-center lg:justify-center ">
+        <img className="w-6 h-6 mb-3 rounded-full shadow-lg lg:mr-10" src={userPfp}/>
+        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white lg:mr-5" onClick={() => {handleGoToProfilePage(i),handleOpen()}}> {x.Name}</h5>
+        <span className="text-sm text-gray-500 dark:text-gray-400 lg:mr-5">{x.level}</span>
+        <div className="flex mt-4 space-x-3 md:mt-6  lg:mt-0">
+            <a className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 lg:mr-5">EDIT</a>
             
             <form   onSubmit={(e) => {handleUser(i,e)}}>
             {x.level !== 11 ?   <input  className='text-black' placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/> 

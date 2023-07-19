@@ -120,27 +120,29 @@ return (<>
         {uuid && <>
   <div className='flex font-mono items-center justify-center sm:w-[400px]  sm:items-center sm:m-auto sm:justify-around '>
 
+  <span className=" mr-5 relative px-5 py-3 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group">
+<span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-yellow-600 group-hover:w-full ease"></span>
+<span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-yellow-600 group-hover:w-full ease"></span>
+<span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
+<span className="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
+<span className="absolute inset-0 w-full h-full duration-300 delay-300 bg-sky-900 opacity-0 group-hover:opacity-100"></span>
+<span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">     <button className='text-center text-sm cursor-pointer '  onClick={handleLogout} >Sign out</button>   </span>
+</span>
+
+<br/>
+
 {level > 8 && isMobile === false ?   <span className="relative px-5 py-3 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group">
 <span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-yellow-600 group-hover:w-full ease"></span>
 <span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-yellow-600 group-hover:w-full ease"></span>
 <span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
 <span className="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
 <span className="absolute inset-0 w-full h-full duration-300 delay-300 bg-sky-900 opacity-0 group-hover:opacity-100"></span>
-<span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">    <Link to='/admindashboard' className='mr-5 cursor-pointer' > ADMIN { alertNumber > 0 && level > 9 ? `(${alertNumber})`:null} </Link>  </span>
+<span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">    <Link to='/admindashboard' className=' text-center text-sm cursor-pointer flex' > ADMIN { alertNumber > 0 && level > 9 ? `(${alertNumber})`:null} </Link>  </span>
 </span>: null}
 
 <br/>
 
-<span className="relative px-5 py-3 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group">
-<span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-yellow-600 group-hover:w-full ease"></span>
-<span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-yellow-600 group-hover:w-full ease"></span>
-<span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
-<span className="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
-<span className="absolute inset-0 w-full h-full duration-300 delay-300 bg-sky-900 opacity-0 group-hover:opacity-100"></span>
-<span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">     <button className='mr-5' onClick={handleLogout} >Sign out</button>   </span>
-</span>
 
-<br/>
 
 <span className="relative ml-5 px-5 py-3 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group">
 <span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-yellow-600 group-hover:w-full ease"></span>
@@ -149,7 +151,7 @@ return (<>
 <span className="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
 <span className="absolute inset-0 w-full h-full duration-300 delay-300 bg-sky-900 opacity-0 group-hover:opacity-100"></span>
 <span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">   
-          <button className=''onClick={handleGo} >{userOkay}</button>  </span>
+          <button className='text-center text-sm 'onClick={handleGo} >{userOkay}</button>  </span>
 </span>
       
  

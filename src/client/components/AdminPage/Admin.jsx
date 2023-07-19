@@ -169,6 +169,7 @@ useEffect(() => {
 <User  setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
 <div className='bg-slate-400 min-h-[100vh] flex flex-col items-center justify-between' style={{color:'white'}}>
 {/* <div style={{backgroundColor:'white'}}> <Nav/> </div> */}
+
  {uuid !== ''  && level > 8 && isLoading === false  && <>  
 <div>
 <div>
@@ -177,7 +178,8 @@ useEffect(() => {
 
 <SidePanel Level = {level} user={user} switching={switching} setSwitching={setSwitching}/>
 
-{switching === 'Client' && <div 
+{switching === 'Client' && 
+<div 
 className="p-4 w-4/5">
    <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 w-[300px]
    md:w-[500px] md:overflow-y-hidden md:ml-[100px]
@@ -190,15 +192,19 @@ className="p-4 w-4/5">
           ">
          {level > 9 && <>
   <form onSubmit={handleSub} className=' flex flex-col items-center'> 
-
 <input type="text" placeholder='ENTER CLIENT ' onChange={(e) => setName(e.target.value)} className='w-[160px] mb-[15px]' />
           <input type="file" className='w-[100px] mt-[15px]' onChange={handleImageChange} />
           <br />
-<button className='mt-[15px]'> Add Client </button>
+          <div className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200">
+          Add Client
+        </div>
+
 </form>
  </>}   
          </div>
       </div>
+
+
 
       <div className=" bg-gray-50 dark:bg-gray-800">
         <div className='lg:grid lg:grid-rows-3 lg:grid-cols-3 lg:gap-4 pt-10 pl-10 lg:max-h-[90vh]
@@ -206,14 +212,18 @@ className="p-4 w-4/5">
         '>
         {partner.map((partner ,index) => (
         <>
-        <div key={index} className='p-10  flex  justify-center w-[170px] md:w-[170px] 
-        md:max-w-[200px] xl:w-[auto]  xl:max-w-[auto] mt-15 mb-5 bg-white rounded-sm' >
-        {level === 11?     <img  
-        className='transform transition-transform ease-in hover:scale-105 cursor-pointer w-[170px] xl:max-w-[170px] xl:h-[170px]' src={partner.imageUrl} onClick={() => { handleGo(index)}}   /> : null }
-          {level !== 11 && partner.name !== 'Test'?    <img  className='partner-image' src={partner.imageUrl}  onClick={() => { handleGo(index)}}   /> : null}
+        <div key={index} className='p-10  mt-15 mb-5 flex  justify-center w-[180px] md:w-[180px] md:h-[180px]
+           lg:mt-0 lg:mb-5   bg-white rounded-sm' >
+
+         <button onClick={() => { handleGo(index)}}
+          disabled={level !== 11 && partner.name === 'Test'?true : false} className={level !== 11 && partner.name === 'Test'? 'opacity-20' : 'opacity-100'}>   <img  
+        className='transform transition-transform ease-in hover:scale-105 cursor-pointer w-[100px] ' src={partner.imageUrl}    />  </button> 
+        
         </div> 
         </>
         ))}
+
+   
 </div>
   </div>
 
@@ -228,17 +238,7 @@ className="p-4 w-4/5">
 {switching === 'Users' && <Edit/>}
 {switching === 'Survey'  && level === 11 && <AdminSurvey/>}
 </div>
-
-
-
-
-
-
-  {isLoading === true &&  <>
- <Loading/>
-      </>}
-
-      </>}
+ </>}
 
 
       
@@ -247,6 +247,10 @@ className="p-4 w-4/5">
 
 <div className='text-black overflow-hidden  '>    <Footer/> </div>
 
+
+{isLoading === true &&  <>
+ <Loading/>
+      </>}
     
       </> )
 }

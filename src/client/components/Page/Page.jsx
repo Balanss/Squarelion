@@ -1,16 +1,14 @@
 import React from 'react'
 import Nav from '../Nav'
-import { Link, Navigate } from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import { auth, fs,db } from '../../Firebase'
 import { useNavigate } from 'react-router-dom'
 import User from '../User'
-import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
+import {collection,deleteDoc,doc} from "firebase/firestore";
 import SendFromForm from '../firebaseData/SendFromForm'
 import { useParams } from 'react-router-dom'
 import Links from './Links'
 import EmojiPicker from 'emoji-picker-react'
-import AddReactionIcon from '@mui/icons-material/AddReaction';
 import WaitingDesigner from '../firebaseData/WaitingDesigner'
 import WaitingApproval from '../firebaseData/WaitingApproval'
 import WaitingApproved from '../firebaseData/WaitingApproved'
@@ -23,18 +21,14 @@ import TxtAll from '../Txt/TxtAll'
 import Group from '../GroupChat/Group'
 import Title from '../../Title'
 import Designer from './PageFunctions/Designer'
-import Loading from '../Loading'
 import view from '../images/open.png'
-// import Test from "./Test"
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import ButtonPress from '../firebaseData/ButtonPress'
 import Inputs from './PageFunctions/Inputs'
-import Cal from './Calendar/Cal'
+
 
 
 
@@ -88,6 +82,8 @@ const [ pdfCount,setPdfCount] = useState('')
 const [ pdfObject,setPdfObject] = useState('')
 const [ pdfChannels,setPdfChannels] = useState('')
 const [ pdfDate,setPdfDate] = useState('')
+const [isChecked, setIsChecked] = useState(false);
+
 
   function handleSubmit(e) {
 e.preventDefault()
@@ -97,33 +93,32 @@ setHide(false)
   const [round, setRound] = useState([]);
  
 
-  const getRound = async () => {
-    setPage(localStorage.getItem('partner'));
-    try {
-      const unsubscribe = fs.collection(page)
-        .onSnapshot((querySnapshot) => {
-          const roundArray = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data()
-          }));
-  
-          roundArray.sort((a, b) => {
-            // Extract the numeric part from the IDs
-            const idA = parseInt(a.id.split('-')[0]);
-            const idB = parseInt(b.id.split('-')[0]);
-  
-            return idA - idB; // Sort the array based on the numeric IDs
-          });
-  
-          setRound(roundArray);
+const getRound = async () => {
+  setPage(localStorage.getItem('partner'));
+  try {
+    const unsubscribe = fs.collection(page)
+      .onSnapshot(async (querySnapshot) => {
+        const roundArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+        roundArray.sort((a, b) => {
+          const idA = parseInt(a.id.split('-')[0]);
+          const idB = parseInt(b.id.split('-')[0]);
+
+          return idA - idB;
         });
-  
-      return unsubscribe;
-    } 
-    catch (error) {
-      null;
-    }
-  };
+
+        setRound(roundArray);
+      });
+
+    return unsubscribe;
+  } 
+  catch (error) {
+    console.error(error);
+  }
+};
   
   
   useEffect(() => {
@@ -247,7 +242,7 @@ const handleEditorChange = (value) => {
 
 {level > 7 && uuid !== null && <>
 
-{/* <Test/> */}
+
 
 {level === 8 && <>
 <div className='admin-links-only-designer text-center mt-10'> <Links/>
@@ -365,7 +360,7 @@ const handleEditorChange = (value) => {
 
      {!x.answer ? null :    <div  className='text-center break-all m-auto mt-[50px] p-8 bg-white
      lg:w-3/4' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />} 
-  <div className='flex flex-col items-center justify-evenly h-[400px] border-b-2 border-black mb-10' >
+  <div className='flex flex-col items-center justify-evenly h-[400px] border-b-2 border-black ' >
 
 <div className='above-div-send 
 lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm' >
@@ -407,7 +402,14 @@ width='300px'
 
       
 
+
 </form>
+
+<div className='flex items-baseline'>
+<input type='checkbox'  checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setCreatePdf(x.answer)}} className='mr-2' />
+<Solo createPdf={createPdf} pdfCount={pdfCount} pdfDate={pdfDate} pdfObject={pdfObject} pdfChannels={pdfChannels}  isChecked={isChecked} />
+</div>
+
 
   </div>
   </div>
@@ -445,7 +447,7 @@ width='300px'
 
 
 
- <hr/>
+
 
 
  
@@ -463,14 +465,6 @@ width='300px'
     
       </div>
 </>}
-
-{/* {isLoading === true &&  <>
-<Loading />
-      </>} */}
-
-
-
-
     </div>
   
     </>

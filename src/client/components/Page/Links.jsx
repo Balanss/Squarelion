@@ -76,35 +76,14 @@ export default function Links() {
     >
       <List className='min-h-[700px] flex flex-col justify-around '>
       {partner.map((partner,index) => (<div key={index} style={{display:'flex',alignItems:'center'}}>
-
-        {level === 11 ?
-        <div className=''>
-            <h2 className='text-2xl' key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>
-            {/* <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p> */}
-        </div>
-        
-       :null}
-        
-        
-        
-        {level !== 11 && partner.name !== 'Test'? 
-       
-        <div className='' >
+        <button  onClick={() => { handleGo(index)}} 
+        className={level !== 11 && partner.name === 'Test'? 'opacity-20' : 'opacity-100'}   disabled={level !== 11 && partner.name === 'Test'?true : false}  key={index}>
            
-         <h2 key={index} onClick={() => { handleGo(index)}} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>   
+         <h2 key={index} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>   
          {/* <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p> */}
-        </div>
+        </button>
        
-        :null }
-
-
-
-
-
-
-
       </div>
-
 ))}
       </List>
       <Divider />
