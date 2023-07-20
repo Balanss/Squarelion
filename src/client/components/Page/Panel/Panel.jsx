@@ -27,9 +27,9 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
 
 
   return (
-    <aside id="cta-button-sidebar" className={panel ? " w-full sm:w-1/5 fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0" :
+    <aside id="cta-button-sidebar" className={panel ? " bg-blue-700 w-full sm:w-1/5 fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0" :
     "fixed top-0 left-0 z-40 w-64 h-screen transition-transform  sm:translate-x-0"  } aria-label="Sidebar">
-     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-blue-900">
+     <div className="h-full px-3 py-4 overflow-y-auto dark:text-yellow-800 dark:bg-blue-900">
         <ul className="space-y-2 font-medium">
   
            <li>
