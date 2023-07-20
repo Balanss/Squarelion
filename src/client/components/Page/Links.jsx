@@ -79,7 +79,7 @@ export default function Links() {
         <button  onClick={() => { handleGo(index)}} 
         className={level !== 11 && partner.name === 'Test'? 'opacity-20' : 'opacity-100'}   disabled={level !== 11 && partner.name === 'Test'?true : false}  key={index}>
            
-         <h2 key={index} style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>   
+         <h2 key={index}  style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>   
          {/* <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p> */}
         </button>
        
