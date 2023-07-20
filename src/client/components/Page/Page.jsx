@@ -29,6 +29,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Inputs from './PageFunctions/Inputs'
 import Examples from './Page/Examples'
+import Loading from '../Loading'
 
 
 
@@ -184,19 +185,8 @@ let notification = [];
 
   useEffect(() => {
     if (level === 0 && uuid > ''){
-      setIsLoading(true);
-    navigate('/')
-    } else {
-       const timeoutId = setTimeout(() => {
-      setIsLoading(false);
-    }, 500);
-     return () => {
-      clearTimeout(timeoutId);
-    };
-    }
-   
-
-   
+      setIsLoading(true);    navigate('/')
+    } 
   }, [level]);
 
 
@@ -220,7 +210,21 @@ const handleEditorChange = (value) => {
 };
 
 
+const [isVisible, setIsVisible] = useState(true);
+const [zIndex, setZIndex] = useState(0);
 
+useEffect(() => {
+  // Set the highest z-index value when the component is mounted
+  setZIndex(9999);
+
+  // After 500ms, set the visibility to false (display none)
+  const timeout = setTimeout(() => {
+    setIsVisible(false);
+  }, 900);
+
+  // Clean up the timeout when the component is unmounted
+  return () => clearTimeout(timeout);
+}, []);
 
 
 
@@ -230,10 +234,17 @@ const handleEditorChange = (value) => {
 <div className='client-page min-h-[100vh] bg-slate-600' style={{color:'white'}}>
 
         
-{isLoading === false &&<> 
+
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
  <Title/>
-<div className='border-b-2 border-yellow-500 pt-10 bg-slate-800'> <Nav/> </div>  </>}
+<div className='border-b-2 border-yellow-500 pt-10 bg-slate-800'> <Nav/> </div>  
+
+<div
+      className={`absolute inset-0 ${isVisible ? 'block' : 'hidden'}`}
+      style={{ zIndex, backgroundColor: 'white' }}
+    >
+    <Loading/>
+    </div>
 
 
 {level > 7 && uuid !== null && <>

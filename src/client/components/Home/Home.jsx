@@ -24,18 +24,6 @@ export default function Home() {
     const [uuid,setUuid] = useState('')
 
     
-const [loading,setLoading] = useState(true)
-
-useEffect(()=>{
-  setTimeout(()=>{
-    setLoading(false)
-  },500)
-},[])
-
-
-
-
-
 
 useEffect(() => {
   // Send count to server whenever it changes
@@ -49,12 +37,37 @@ useEffect(() => {
 }, [user]);
 
 
+
+const [isVisible, setIsVisible] = useState(true);
+const [zIndex, setZIndex] = useState(0);
+
+useEffect(() => {
+  // Set the highest z-index value when the component is mounted
+  setZIndex(9999);
+
+  // After 500ms, set the visibility to false (display none)
+  const timeout = setTimeout(() => {
+    setIsVisible(false);
+  }, 800);
+
+  // Clean up the timeout when the component is unmounted
+  return () => clearTimeout(timeout);
+}, []);
+
+
   return (<> 
 
 
 
-  {loading === false &&  <>
+
   
+    <div
+      className={`absolute inset-0 ${isVisible ? 'block' : 'hidden'}`}
+      style={{ zIndex, backgroundColor: 'white' }}
+    >
+    <Loading/>
+    </div>
+
     <div className='bg-gray-100 flex justify-center  pb-4 pt-4 border-b-yellow-500 border-solid border-2 flex-col' ><Nav  /></div>
     <Title/>
     <User setUser={setUser} user={user} level={level} setLevel={setLevel} setUuid={setUuid} uuid={uuid}/>
@@ -111,12 +124,11 @@ Do you want to maximize your return on investment for your marketing and brand c
   </div>
 
 
-  </>} 
+ 
 
 
-  {loading === true &&  <>
-       <Loading/>
-      </>}
+
+
    
   </>  )
 }

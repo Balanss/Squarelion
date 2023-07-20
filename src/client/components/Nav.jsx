@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useMemo} from 'react'
 import {Link } from 'react-router-dom'
 import User from './User'
 import { auth, fs,db } from '/src/client/Firebase.jsx'
@@ -12,11 +12,12 @@ import {useNavigate} from 'react-router-dom'
 import AdminLogic from './AdminPage/AdminLogic'
 
 export default function Nav() {
-const [user,setUser] = useState('')
+const [user,setUser] = useState(0)
 const [ level,setLevel] = useState('')
 const [uuid,setUuid] = useState('')
 const [ userOkay,setUserOkay] = useState('')
 const navigate= useNavigate()
+
 
 
 const handleLogout = () => {
@@ -74,8 +75,7 @@ const getRound = async () => {
 
 
 useEffect(() => {
-  const unsubscribe = getRound();
-
+getRound();
   // Cleanup the subscription
  
 }, []);
@@ -111,11 +111,18 @@ useEffect(() => {
 const [userPermit,setUserPermit] = useState([]); //
 const alert = userPermit.filter(x => x.request >= 'Awaiting Request')
 const alertNumber = (alert.length > 0?alert.length:0)
+
+
+const memoizedLevel = useMemo(() => level, [level]);
+
+
+
     
 return (<> 
   <AdminLogic setUserPermit={setUserPermit}/>
   
    <User setUser={setUser} user={user} level={level} setLevel={setLevel} setUuid={setUuid} uuid={uuid}/>
+   
   
         {uuid && <>
   <div className='flex font-mono items-center justify-center sm:w-[400px]  sm:items-center sm:m-auto sm:justify-around '>
@@ -137,7 +144,7 @@ return (<>
 <span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
 <span className="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
 <span className="absolute inset-0 w-full h-full duration-300 delay-300 bg-sky-900 opacity-0 group-hover:opacity-100"></span>
-<span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">    <Link to='/admindashboard' className=' text-center text-sm cursor-pointer flex' > ADMIN { alertNumber > 0 && level > 9 ? `(${alertNumber})`:null} </Link>  </span>
+<span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">    <Link to='/admindashboard' className=' text-center text-sm cursor-pointer flex' > ADMIN { alertNumber > 0 && memoizedLevel  > 9 ? `(${alertNumber})`:null} </Link>  </span>
 </span>: null}
 
 <br/>

@@ -33,7 +33,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
         <ul className="space-y-2 font-medium">
   
            <li>
-              <Link href='/' 
+              <Link to='/' 
               className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                  <img className='w-[40px]' src={homeBtn} />
                  <span className="ml-3">Home</span>

@@ -134,7 +134,7 @@ uploadTask.on(
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(timeoutId);
@@ -161,6 +161,12 @@ useEffect(() => {
     window.removeEventListener('resize', handleResize); // Clean up the event listener on component unmount
   };
 }, []);
+
+
+
+
+
+
 
   return (
 
@@ -207,7 +213,7 @@ className="p-4 w-4/5">
 
 
       <div className=" bg-gray-50 dark:bg-gray-800">
-        <div className='lg:grid lg:grid-rows-3 lg:grid-cols-3 lg:gap-4 pt-10 pl-10 lg:max-h-[90vh]
+        <div className='lg:grid lg:grid-rows-3 lg:grid-cols-3 lg:gap-4 pt-10 pl-10 lg:max-h-[95vh]
         sm:max-h-[500px] sm:overflow-scroll
         '>
         {partner.map((partner ,index) => (

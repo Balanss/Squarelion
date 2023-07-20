@@ -1,8 +1,8 @@
 import React from 'react'
-import {useState, useEffect} from 'react'
+import {useState, useEffect,useMemo} from 'react'
 import { auth, fs } from '../Firebase'
 
-export default function User({user,setUser,setUuid,setLevel}) {
+export default function User({user,setUser,setUuid,setLevel,level}) {
  
 
     function GetUserUid() {
@@ -47,6 +47,7 @@ export default function User({user,setUser,setUuid,setLevel}) {
       
       const admin = GetCurrentUser();
      
+
      
 
     
