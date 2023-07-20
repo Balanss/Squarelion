@@ -71,7 +71,7 @@ const navigate = useNavigate()
 <Nav/>
 <div className='fixed w-[100%] h-[100%] bg-sky-100 '>
   <div className=''>
-    <div className='bottom-[20vh] absolute inset-0 flex items-center justify-center flex-col sm:flex-row pt-[10vh]'>
+    <div className='bottom-[250px] absolute inset-0 flex items-center justify-center flex-col sm:flex-row pt-20'>
     <div>
   <img src={logo} className='h-[300px] w-[300px] sm:h-[500px] sm:w-[500px]' />
  </div>

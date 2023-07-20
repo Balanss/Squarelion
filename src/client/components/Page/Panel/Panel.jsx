@@ -29,7 +29,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   return (
     <aside id="cta-button-sidebar" className={panel ? " w-full sm:w-1/5 fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0" :
     "fixed top-0 left-0 z-40 w-64 h-screen transition-transform  sm:translate-x-0"  } aria-label="Sidebar">
-     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-blue-900">
         <ul className="space-y-2 font-medium">
   
            <li>
@@ -49,9 +49,9 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
            </li>
   
            <li>
-             {level > 8 ?  <Link to='/admindashboard'  className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+             {level > 8 ?  <Link to='/admindashboard'  className="  transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
                  <img className='w-[40px]' src={admin} />
-                 <span className="flex-1 ml-3 whitespace-nowrap" >ADMIN</span>
+                 <span className="flex-1 ml-3 whitespace-nowrap text-gray-900 rounded-lg  dark:text-white" >ADMIN</span>
               </Link> : null}
            </li>
   
@@ -59,7 +59,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
               <a  
                className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
                 <img className='w-[40px]' src={client} />  
-                 <span className="flex-1 ml-3 whitespace-nowrap ">  <Links/> </span>
+                 <span className="flex-1 ml-3 whitespace-nowrap text-black  dark:text-white ">  <Links/> </span>
               </a>
            </li>
   
