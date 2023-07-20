@@ -27,7 +27,7 @@ export default function Home() {
 
 useEffect(() => {
   // Send count to server whenever it changes
-  axios.post('/api/logCount', { user })
+  axios.post('/', { user })
     .then(response => {
       console.log(response.data); // Log the response from the server if needed
     })

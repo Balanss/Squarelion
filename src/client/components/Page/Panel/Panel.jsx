@@ -87,16 +87,16 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
            </li>
   
            <li>
-              <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
               <img className='w-[40px]' src={userPfp} />
-                 <span className="flex-1 ml-3 whitespace-nowrap">{user}</span>
+                 <span className="flex-1 ml-3 whitespace-nowrap text-white">{user}</span>
               </a>
            </li>
   
            <li>
-              <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={handleLogout} >
+              <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={handleLogout} >
                  <img className='w-[40px]' src={IN} />
-                 <span className="flex-1 ml-3 whitespace-nowrap" >Sign Out</span>
+                 <span className="flex-1 ml-3 whitespace-nowrap text-white" >Sign Out</span>
               </a>
            </li>
   <l1>
