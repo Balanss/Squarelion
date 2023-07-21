@@ -225,10 +225,11 @@ const handleClick = (user) => {
 
     <div className="flex flex-col items-center pb-10 lg:flex lg:flex-row lg:items-center lg:justify-center ">
         <img className="w-6 h-6 mb-3 rounded-full shadow-lg lg:mr-10" src={userPfp}/>
-        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white lg:mr-5" onClick={() => {handleGoToProfilePage(i),handleOpen()}}> {x.Name}</h5>
+        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white lg:mr-5"  > {x.Name}</h5>
         <span className="text-sm text-gray-500 dark:text-gray-400 lg:mr-5">{x.level}</span>
         <div className="flex mt-4 space-x-3 md:mt-6  lg:mt-0">
-            <a className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 lg:mr-5">EDIT</a>
+            <h3 className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 lg:mr-5"
+            onClick={() => {handleGoToProfilePage(i),handleOpen()}}>  EDIT</h3>
             
             <form   onSubmit={(e) => {handleUser(i,e)}}>
             {x.level !== 11 ?   <input  className='text-black' placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/> 
@@ -241,9 +242,9 @@ const handleClick = (user) => {
     <div className='flex flex-col items-center pb-3'>
 {x.request > '' ?
 <>
-<div className=''>
-{x.request !== 'Waiting Request' ?<h3 className='request-approval' onClick={() => handleGoToProfileClear(i)}> Clear  </h3> :null}
-<h3 className='request-approval' > {x.request}  </h3>
+<div className=' lg:flex lg:flex-row '>
+{x.request !== 'Waiting Request' ?<h3 className='request-approval mr-5 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center  2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ' onClick={() => handleGoToProfileClear(i)}> Clear  </h3> :null}
+<h3 className='request-approval mr-5 bg-slate-900  p-2 rounded-lg text-white' > {x.request}  </h3>
 <div className='flex flex-row'> 
 <img className='mr-5' src={thumbup} onClick={() => handleGoToProfile(i)}  style={{width:'40px',cursor:'pointer'}}/>
 <img src={thumbdown} onClick={() => handleGoToProfileDeny(i)}  style={{width:'40px',cursor:'pointer'}}/>

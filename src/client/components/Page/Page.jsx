@@ -30,6 +30,7 @@ import 'react-quill/dist/quill.snow.css';
 import Inputs from './PageFunctions/Inputs'
 import Examples from './Page/Examples'
 import Loading from '../Loading'
+import Memo from './Memo/Memo'
 
 
 
@@ -285,6 +286,9 @@ useEffect(() => {
 
 </>}
 
+<div>
+  <Memo page={page} round={round}/>
+</div>
 
 {/* level 9 and above sees all tabs */}
 {round.map((x,i) => {  return <>
@@ -369,7 +373,7 @@ useEffect(() => {
      lg:w-3/4' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />} 
   <div className='flex flex-col items-center justify-evenly h-[400px] border-b-2 border-black ' >
 
-<div className='above-div-send 
+<div className='above-div-send flex flex-col items-center
 lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm' >
 <SendFromForm user={user} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
 
@@ -378,7 +382,7 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm' >
 
 {level  > 8 ?  emojiShow? <>
 <h3 className='"text-gray-900 text-black bg-gradient-to-r  from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"' onClick={() => setEmojiShow(emojiShow === true?false:true)}> Emoji </h3>
-<div className='absolute left-0'>
+<div className='  absolute left-0 '>
 <EmojiPicker  
 
 width='300px'
@@ -389,7 +393,7 @@ width='300px'
     onEmojiClick={(e) => setObjectiveAnswer((prevAnswer) => prevAnswer + e.emoji)}
     /> 
 </div>
-</>: <button  onClick={() => setEmojiShow(emojiShow === true?false:true)} style={{marginLeft:'40px'}}  className="text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> Emoji </button> : null}
+</>: <button  onClick={() => setEmojiShow(emojiShow === true?false:true)} style={{marginLeft:'40px'}}  className=" hidden lg:block text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> Emoji </button> : null}
 </div>
 
    

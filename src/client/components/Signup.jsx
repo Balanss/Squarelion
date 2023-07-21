@@ -91,9 +91,9 @@ const codeToSee = '123456'
 
     <div className='bottom-[250px] absolute inset-0 flex items-center justify-center flex-col sm:flex-row mt-10'>
  <div>
-  <img src={logo} className='h-[300px] w-[300px] sm:h-[500px] sm:w-[500px]' />
+  <img src={logo} className='h-[0] w-[0] sm:h-[375px] sm:w-[375px]' />
  </div>
-<form className='flex flex-col h-[400px] items-center justify-around w-[300px] bg-slate-600 sm:h-[500px] sm:w-[500px]' onSubmit={handleSubmit}>
+<form className='flex flex-col h-[400px] items-center justify-around w-[300px] bg-slate-600 sm:h-[375px] sm:w-[375px]' onSubmit={handleSubmit}>
 <input type='text' className='mt-10 bt-10' placeholder='naam'   onChange={(e) => setName(e.target.value)}/>
 <input type='text' placeholder='email'  onChange={(e) => setEmail(e.target.value)}/>
 <input type='text' placeholder='password' onChange={(e) => setPassword(e.target.value)} />

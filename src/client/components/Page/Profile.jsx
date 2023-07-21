@@ -189,7 +189,7 @@ useEffect(() => {
  pan={pan} setPan={setPan}/> </>}
 
 
-{level > 7 ?  <>  <div className='w-full sm:w-4/5 md:absolute right-0 max-h-[90vh] '>
+{level > 7 ?  <>  <div className='w-full sm:w-4/5 md:absolute right-0 max-h-[90vh]  '>
 
   
 {/* <div className='real-admin-links'> 
@@ -199,7 +199,7 @@ useEffect(() => {
   </div> */}
 
 {showWfh === 'start' && (
-  <div className='lg:w-5/5 lg:flex lg:flex-row lg:items-center' >
+  <div className='lg:w-5/5 xl:w-[1100px] flex flex-col items-center  ' >
   <Cal/>
   <ShowDate/>
   </div>

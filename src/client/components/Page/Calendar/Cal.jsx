@@ -74,7 +74,7 @@ const checkIfNotesAndCDateAreEqual = () => {
 
 
   return (
-    <div className=" mx-auto px-4 py-8 lg:w-[40vw]">
+    <div className=" mx-auto px-4 py-8 w-[300px]  lg:w-[40vw] ">
      
       <div className="calendar-container mb-8">
       <Calendar

@@ -29,12 +29,12 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   return (
     <aside id="cta-button-sidebar" className={panel ? " w-full sm:w-1/5 fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0" :
     "fixed top-0 left-0 z-40 w-64 h-screen transition-transform  sm:translate-x-0"  } aria-label="Sidebar">
-     <div className="h-full px-3 py-4 overflow-y-auto bg-blue-900 dark:bg-blue-900">
+     <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800">
         <ul className="space-y-2 font-medium">
   
            <li>
               <Link to='/' 
-              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                  <img className='w-[40px]' src={homeBtn} />
                  <span className="ml-3">Home</span>
               </Link>
@@ -42,14 +42,14 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   
            <li>
               <a onClick={() => {setShowWfh('start'),setPan(pan === false?true:false)}} 
-              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                  <img className='w-[40px]' src={schedule} />
                  <span className="ml-3">CALENDAR</span>
               </a>
            </li>
   
            <li>
-             {level > 8 ?  <Link to='/admindashboard'  className="  transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+             {level > 8 ?  <Link to='/admindashboard'  className="  transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
                  <img className='w-[40px]' src={admin} />
                  <span className="flex-1 ml-3 whitespace-nowrap  rounded-lg  dark:text-white" >ADMIN</span>
               </Link> : null}
@@ -57,7 +57,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   
            <li>
               <a  
-               className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2   rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+               className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
                 <img className='w-[40px]' src={client} />  
                  <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white ">  <Links/> </span>
               </a>
@@ -65,7 +65,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   
            <li>
               <a 
-              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" 
+              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" 
               onClick={() =>  {
              hideList === true? setHideList(false) : setHideList(true),
              setShowWfh('chat'),setPanel('false')
@@ -78,7 +78,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
            </li>
   
            <li>
-              <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => {setShowWfh('wfh'),setPanel(true)}} >
+              <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => {setShowWfh('wfh'),setPanel(true)}} >
                 <img className='w-[40px]' src={wfh} />
                  <span className="flex-1 ml-3 whitespace-nowrap">
                   WFH request
