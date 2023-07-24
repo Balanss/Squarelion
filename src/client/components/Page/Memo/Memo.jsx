@@ -56,6 +56,12 @@ const handleHover = () => {
 };
 
 
+function handleDelete(item,id){
+  const docRef = collection(db,localStorage.getItem('partner'))
+  const colRef=doc(docRef,item.id);
+  deleteDoc(colRef);
+}
+
 
   return (
     <>
@@ -89,11 +95,11 @@ const handleHover = () => {
     
     
     <div className='mt-10 h-[50vh] overflow-scroll overflow-x-hidden'>
-    {a.map((item) => (
+    {a.map((item,id) => (
           <ol className=" border-l relative ml-5  bg-slate-800 w-4/5 flex items-center justify-start lg:w-2/5 " key={item.id}>                  
     <li className="mb-10 p-2 ml-6">            
         <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-            <svg className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" onClick={() => { handleDelete(item,id)}}>
                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
             </svg>
         </span>
