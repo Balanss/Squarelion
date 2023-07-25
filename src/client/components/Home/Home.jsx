@@ -25,16 +25,16 @@ export default function Home() {
 
     
 
-    useEffect(() => {
-      // Send user data to the server whenever it changes
-      axios.post('http://localhost:5173/', { user })
-        .then(response => {
-          console.log(response.data); // Log the response from the server if needed
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }, [user]);
+    // useEffect(() => {
+    //   // Send user data to the server whenever it changes
+    //   axios.post('http://localhost:5173/', { user })
+    //     .then(response => {
+    //       console.log(response.data); // Log the response from the server if needed
+    //     })
+    //     .catch(error => {
+    //       console.error(error);
+    //     });
+    // }, [user]);
     
 
 

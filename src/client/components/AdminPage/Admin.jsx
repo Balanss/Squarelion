@@ -219,7 +219,7 @@ className="p-4 w-4/5">
         {partner.map((partner ,index) => (
         <>
         <div key={index} className='p-10  mt-15 mb-5 flex  justify-center w-[180px] md:w-[180px] md:h-[180px]
-              rounded-sm' >
+              rounded-md bg-transparent hover:bg-white transition duration-1000 ' >
 
          <button onClick={() => { handleGo(index)}}
           disabled={level !== 11 && partner.name === 'Test'?true : false} className={level !== 11 && partner.name === 'Test'? 'opacity-20' : 'opacity-100'}>   <img  

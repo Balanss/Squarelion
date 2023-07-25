@@ -175,7 +175,7 @@ useEffect(() => {
       <path clipRule="evenodd" fillRule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
    </svg>
 </button>
-<div className='flex flex-col sm:flex-row min-h-[100vh] bg-slate-500' >
+<div className='flex flex-col sm:flex-row   bg-slate-500' >
 
 
 {pan === true && isMobile === true &&<>
@@ -189,17 +189,13 @@ useEffect(() => {
  pan={pan} setPan={setPan}/> </>}
 
 
-{level > 7 ?  <>  <div className='w-full sm:w-4/5 md:absolute right-0 max-h-[90vh]  '>
+{level > 7 ?  <>  <div className='w-full sm:w-4/5 lg:w-full md:absolute right-0 bg-slate-500   '>
 
   
-{/* <div className='real-admin-links'> 
 
-{level === 11?  <button onClick={() => setShowWfh('survey')}> Survey </button> : null}
-  
-  </div> */}
 
 {showWfh === 'start' && (
-  <div className='lg:w-5/5 xl:w-[1100px] flex flex-col items-center  ' >
+  <div className='lg:w-5/5 xl:w-[1100px] xl:m-auto flex flex-col items-center bg-slate-500  ' >
   <Cal/>
   <ShowDate/>
   </div>
@@ -331,9 +327,7 @@ return <div key={i} className='flex flex-col items-center' onClick={() => handle
 </div>  </> : null}
 </div>
  
-    {/* <div className='absolute bottom-0 '>
-      <Footer/> 
-    </div> */}
+
 
 
 

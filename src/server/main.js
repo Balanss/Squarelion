@@ -6,17 +6,17 @@ const app = express();
 
 app.use(express.json());
 
-ViteExpress.config({ mode: "production" })
+
 
 let serverCount = 0; // Server-side count
 let serverName = ''; // Server-side name
 
-app.post('http://localhost:5173/', (req, res) => {
-  const { user } = req.body;
-  serverCount = user; // Update the server-side count
-  console.log(`now logged successfully: ${user}`);
-  res.send( user );
-});
+// app.post('http://localhost:5173/', (req, res) => {
+//   const { user } = req.body;
+//   serverCount = user; // Update the server-side count
+//   console.log(`now logged successfully: ${user}`);
+//   res.send( user );
+// });
 
 
 

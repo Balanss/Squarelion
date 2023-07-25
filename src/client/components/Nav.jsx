@@ -133,7 +133,7 @@ return (<>
 <span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
 <span className="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
 <span className="absolute inset-0 w-full h-full duration-300 delay-300 bg-sky-900 opacity-0 group-hover:opacity-100"></span>
-<span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">     <button className='text-center text-sm cursor-pointer '  onClick={handleLogout} >Sign out</button>   </span>
+<span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">     <button className='text-center text-sm cursor-pointer w-[70px] '  onClick={handleLogout} >Sign out</button>   </span>
 </span>
 
 <br/>
@@ -158,7 +158,7 @@ return (<>
 <span className="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
 <span className="absolute inset-0 w-full h-full duration-300 delay-300 bg-sky-900 opacity-0 group-hover:opacity-100"></span>
 <span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">   
-          <button className='text-center text-sm 'onClick={handleGo} >{userOkay}</button>  </span>
+          <button className='text-center text-sm 'onClick={handleGo} >{userOkay.slice(0,10)}..</button>  </span>
 </span>
       
  
