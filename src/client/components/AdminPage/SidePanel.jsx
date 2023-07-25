@@ -41,56 +41,56 @@ export default function SidePanel({level,user,switching,setSwitching}) {
     <aside id="cta-button-sidebar" 
     className="fixed top-0 left-0 z-40 w-1/5 h-screen transition-transform -translate-x-full sm:translate-x-0"
      aria-label="Sidebar">
-       <div className="h-full px-3 py-4 overflow-y-auto  bg-gray-50 dark:bg-gray-800">
+       <div className="h-full px-3 py-4 overflow-y-auto   dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
              <li>
-                <a  className="flex items-center p-2  text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <a  className="flex items-center p-2   rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
                   
                    <span className="ml-3">Dashboard</span>
                 </a>
              </li>
              <li>
                 <Link to='/'
-                 className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                   <img src={homeBtn} className='w-[40px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' />
-                   <span className="ml-3 text-gray-900 rounded-lg dark:text-white">Home</span>
+                 className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
+                   <img src={homeBtn} className='w-[40px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover: dark:group-hover:text-white' />
+                   <span className="ml-3  rounded-lg dark:text-white">Home</span>
                 </Link>
              </li>
              <li>
                 <a 
-                 className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" 
+                 className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" 
                  onClick={( ) => setSwitching('Client')}>
                 <img className='w-[40px]' src={client} />  
-                   <span className="flex-1 ml-3 whitespace-nowrap text-gray-900 rounded-lg dark:text-white">  CLIENTS  </span>
+                   <span className="flex-1 ml-3 whitespace-nowrap  rounded-lg dark:text-white">  CLIENTS  </span>
                 </a>
              </li>
  {level > 9 ?             <li>
-                <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={( ) => {setSwitching('Users'),
+                <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" onClick={( ) => {setSwitching('Users'),
             setHiding(false),setTimeout(() => setHiding(true),1000)
                }}>
                 <img src={usersPic} className='w-[40px]' />
-                   <span className="flex-1 ml-3 whitespace-nowrap text-gray-900 rounded-lg dark:text-white">
+                   <span className="flex-1 ml-3 whitespace-nowrap  rounded-lg dark:text-white">
                     USERS
                    </span>
                   
                 </a>
              </li> : null}
              <li className='transform transition-transform ease-in hover:scale-105 cursor-pointer'>
-               {level === 11 ? <> <a onClick={( ) => setSwitching('Survey')}  className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               {level === 11 ? <> <a onClick={( ) => setSwitching('Survey')}  className="flex items-center p-2  rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
                   <img src={survey} className='w-[40px]' /> 
-                  <span className="flex-1 ml-3 whitespace-nowrap text-gray-900 rounded-lg dark:text-white">SURVEY</span>
+                  <span className="flex-1 ml-3 whitespace-nowrap  rounded-lg dark:text-white">SURVEY</span>
                 </a>  </> : null}
              </li>
              <li>
                 <a onClick={handleGoPfP}  className="
-                transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
                   <img src={userPfp} className='w-[40px]' />
                    <span className="flex-1 ml-3 whitespace-nowrap">{user}</span>
                 </a>
              </li>
              <li>
-                <a className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={handleLogout}>
-                <img src={IN} className='w-[40px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' />
+                <a className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" onClick={handleLogout}>
+                <img src={IN} className='w-[40px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover: dark:group-hover:text-white' />
     
                    <span className="flex-1 ml-3 whitespace-nowrap" >Sign Out</span>
                    
