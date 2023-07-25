@@ -11,7 +11,7 @@ ViteExpress.config({ mode: "production" })
 let serverCount = 0; // Server-side count
 let serverName = ''; // Server-side name
 
-app.post('/', (req, res) => {
+app.post('https://balanss.github.io/', (req, res) => {
   const { user } = req.body;
   serverCount = user; // Update the server-side count
   console.log(`now logged successfully: ${user}`);
