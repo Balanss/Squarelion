@@ -192,7 +192,7 @@ className="p-4 w-4/5">
    lg:w-[700px]
    xl:w-[900px]
     ">
-   <div className="flex items-center justify-center h-48 mb-4 rounded b dark:bg-gray-800">
+   <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
          <div  className=" text-center text-2l
           text-gray-400 dark:text-gray-500 flex flex-col h-[150px] justify-around
           ">
@@ -212,14 +212,14 @@ className="p-4 w-4/5">
 
 
 
-      <div className="  dark:bg-gray-800">
+      <div className=" bg-gray-50 dark:bg-gray-800">
         <div className='lg:grid lg:grid-rows-3 lg:grid-cols-3 lg:gap-4 pt-10 pl-10 lg:max-h-[100vh]
         sm:max-h-[500px] sm:overflow-scroll
         '>
         {partner.map((partner ,index) => (
         <>
         <div key={index} className='p-10  mt-15 mb-5 flex  justify-center w-[180px] md:w-[180px] md:h-[180px]
-              rounded-md bg-transparent hover:bg-white transition duration-1000 ' >
+             bg-white rounded-sm' >
 
          <button onClick={() => { handleGo(index)}}
           disabled={level !== 11 && partner.name === 'Test'?true : false} className={level !== 11 && partner.name === 'Test'? 'opacity-20' : 'opacity-100'}>   <img  
