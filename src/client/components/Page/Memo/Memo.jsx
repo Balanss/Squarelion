@@ -66,7 +66,7 @@ function handleDelete(item,id){
   return (
     <>
           <div
-        className="fixed bottom-0 right-0 p-4 bg-blue-500 text-white cursor-pointer transition-opacity"
+        className="fixed bottom-0 right-[45vw] p-4 bg-blue-500 text-white cursor-pointer transition-opacity"
         onClick={handleHover}
         
       >

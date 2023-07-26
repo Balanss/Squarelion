@@ -228,11 +228,39 @@ useEffect(() => {
 
 
 
+useEffect(() => {
+  const script = document.createElement("script");
+script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
+  script.async = true;
+  script.onload = () => {
+    window.botpressWebChat.init({
+      "composerPlaceholder": "Chat with Purry",
+      "botConversationDescription": "This chatbot was built surprisingly fast with Botpress",
+      "botId": "498de6e3-0e15-497c-806c-49c018a16816",
+      "hostUrl": "https://cdn.botpress.cloud/webchat/v0",
+      "messagingUrl": "https://messaging.botpress.cloud",
+      "clientId": "498de6e3-0e15-497c-806c-49c018a16816",
+      "botName": "Purry",
+      useSessionStorage: true,
+      showPoweredBy: true,
+    
+    });
+  };
+
+  document.body.appendChild(script);
+
+  return () => {
+    document.body.removeChild(script);
+  };
+}, []);
+
+
+
   return (<>
 
 
 <div className='client-page min-h-[100vh] bg-slate-600' style={{color:'white'}}>
-
+<div id="botpress-webchat"></div>
         
 
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
