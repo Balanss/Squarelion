@@ -256,6 +256,8 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
 
 
 
+
+
   return (<>
 
 
@@ -332,7 +334,7 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
   <p  onClick={() => {setPost(x.count),setDate(x.date),setType(x.type)}} 
   className='bg-white text-black  text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
   md:min-w-[100px] md:h-[50px] md:p-[10px]  '> 
-  {x.count}  </p>
+  {x.count}   </p>
 
  <p className='bg-white text-black break-all text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
  md:min-w-[200px] md:max-w-[300px] md:break-all  md:p-[10px]   md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
@@ -447,7 +449,7 @@ width='300px'
 </form>
 
 <div className='flex items-baseline'>
-<input type='checkbox'  checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setCreatePdf(x.answer)}} className='mr-2' />
+<input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setCreatePdf(x.answer)}} className='mr-2' />
 <Solo createPdf={createPdf} pdfCount={pdfCount} pdfDate={pdfDate} pdfObject={pdfObject} pdfChannels={pdfChannels}  isChecked={isChecked} />
 </div>
 

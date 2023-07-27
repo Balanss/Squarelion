@@ -28,7 +28,7 @@ function Solo({ createPdf, pdfCount, pdfDate, pdfObject, pdfChannels,isChecked }
   return (
     <div style={{marginTop:'40px'}}>
    
-      <button  disabled={isChecked === true? false : true}  className='download-solo' onClick={handleDownload}>Download Text File</button>
+      <button  disabled={isChecked === true? false : true}  className='download-solo pb-4 mb-4' onClick={handleDownload}>Download Text File</button>
     </div>
   );
 }
