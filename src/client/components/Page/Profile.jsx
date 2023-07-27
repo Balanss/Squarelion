@@ -195,7 +195,7 @@ useEffect(() => {
 
 
 {showWfh === 'start' && (
-  <div className='lg:w-5/5 xl:w-[1100px] xl:m-auto flex flex-col items-center bg-slate-500  ' >
+  <div className='lg:w-5/5 xl:w-[1100px] lg:min-h-[100vh] xl:m-auto flex flex-col items-center bg-slate-500  ' >
   <Cal/>
   <ShowDate/>
   </div>

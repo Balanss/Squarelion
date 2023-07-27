@@ -319,7 +319,7 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
 
 {/* level 9 and above sees all tabs */}
 {round.map((x,i) => {  return <>
- { level > 8? 
+ { level > 8 ? 
   <div className='mapped-div bg-blue-900 flex-col items-center min-h-[300px] justify-evenly border-2 border-black mb-10 
   md:flex-row md:min-h-[100px]  md:m-auto md:justify-center md:hover:scale-105 md:transition-transform md:duration-300
   xl:w-[1000px] ' 

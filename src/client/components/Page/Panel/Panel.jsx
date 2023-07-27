@@ -31,7 +31,6 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
     "fixed top-0 left-0 z-40 w-64 h-screen transition-transform  sm:translate-x-0"  } aria-label="Sidebar">
      <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800">
         <ul className="space-y-2 font-medium">
-  
            <li>
               <Link to='/' 
               className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">

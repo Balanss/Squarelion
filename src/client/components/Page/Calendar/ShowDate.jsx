@@ -83,70 +83,79 @@ const handleOpenModal = () => setOpenModal(true);
 const handleClose = () => setOpenModal(false);
 
 
+const [openAccordionIndex, setOpenAccordionIndex] = useState(null);
+
+
+const toggleAccordion = (id) => {
+  setOpenAccordionIndex((prevIndex) => (prevIndex === id ? null : id));
+};
+
+
+
+
 
   return (
-    <div className=' break-all flex flex-col lg:flex lg:flex-row lg:justify-start lg:flex-wrap lg:w-[600px]'> 
-    {currentDateElement.map((x,id) => {return   <div key={id} 
-    className= {`text-xl ${x.checked ? 'bg-green-700 mt-4 p-4 rounded mr-3 pb-6 mb-10 border-2 border-solid border-gray-600 '
-     :   ' mt-4 p-4 rounded mr-3 pb-6 mb-10  bg-white border-2 border-solid border-gray-600'}`}    >
-      <p onClick={() => handleOpenModal()}> {x.id.slice(0,10)} </p>
-    <p className="text-sm  mb-2">Note: {x.note}</p>
- 
-
- 
-
-
- <Modal
-        open={openModal}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className='max-w-[80vw] max-h-[80vw]  '
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}} >
-                   
-                   <button className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={(() => {
+    <>
+       <div className=' break-all flex flex-col lg:flex lg:flex-row  lg:flex-wrap lg:w-[600px] lg:justify-end'> 
+    {currentDateElement.map((x,id) => 
+    {return    <div>
+     
+        <div key={x.id} data-accordion={openAccordionIndex === id ? 'arcOpen' : ''} >
+          <h2>
+            <button
+              type="button"
+              className={`flex items-center justify-between w-full p-5 font-medium text-left text-black border border-b-0 mb-3 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700  ${x.checked===true? 'bg-green-700':'bg-white'} ${openAccordionIndex === id ? 'arcOpen' : ''}`}
+              onClick={() => toggleAccordion(id)}
+              aria-expanded={openAccordionIndex === id}
+              aria-controls={`accordion-arcOpen-body-${x.id}`}
+            >
+              <span className="flex items-center">{x.id.slice(0, 10)} </span>
+              <svg
+                data-accordion-icon
+                className={`w-3 h-3 rotate-180 shrink-0 ${openAccordionIndex === id ? 'arcOpen' : ''}`}
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
+              </svg>
+            </button>
+          </h2>
+          <div
+            id={`accordion-arcOpen-body-${x.id}`}
+            className={`p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900 } ${openAccordionIndex === id ? '' : 'hidden'}`}
+            aria-labelledby={`accordion-arcOpen-heading-${x.id}`}
+          >
+            <p className="text-white dark:text-white">Note: {x.note}</p>
+            <button className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={(() => {
   const docRef = collection(db,'calendar');
   const colRef = doc(docRef,x.id);
   deleteDoc(colRef,x.note,{merge:true});
 })}> Delete</button>
 
 <div className="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
-<input  className='ml-10 cursor-pointer' type='radio' checked={x.checked === true?true:false} onClick={() => {
+<input  className='ml-10 cursor-pointer' type='radio' readOnly checked={x.checked === true?true:false} onClick={() => {
   const docRef = collection(db,'calendar');
   const colRef = doc(docRef,x.id);
   setDoc(colRef,{checked:true},{merge:true});
 }}  /> 
-<label for="bordered-radio-2" className="w-full py-2 ml-2 text-sm font-medium  text-black dark:text-black">Mark as Done  </label>
+<label htmlFor="bordered-radio-2" className="w-full py-2 ml-2 text-sm font-medium  text-white dark:text-white">Mark as Done  </label>
 </div>
 
 
-  <p className='text-3xl cursor-pointer f mb-2' onClick={() => handleClick(x,id)}> + </p>
+  <p className='text-3xl cursor-pointer f mb-2 text-white' onClick={() => handleClick(x,id)}> + </p>
 <input placeholder='ADD EXTRA NOTE'   className='w-full bg-gray-200 mt-5 cursor-pointer'  onChange={(e) => setExtra(e.target.value)}  />
-
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {/* {!x.answer ? null :<h6 key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}}> {x.answer} </h6>}  */}
-          </Typography>
-        </Box>
-      </Modal>
-
-
-
-
-     </div>}
-
-
-
-
-
-
-
-   
-   )}
-    
+          </div>
+        </div>
+      
     </div>
+
+     })}
+    
+    </div> 
+    </>
+
   )
 }
 
