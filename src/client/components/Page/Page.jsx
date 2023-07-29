@@ -30,6 +30,7 @@ import 'react-quill/dist/quill.snow.css';
 import Inputs from './PageFunctions/Inputs'
 import Loading from '../Loading'
 import Memo from './Memo/Memo'
+import '/src/client/index.css'
 
 
 
@@ -262,7 +263,7 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
 
 
 <div className='client-page min-h-[100vh] bg-slate-600' style={{color:'white'}}>
-<div id="botpress-webchat"></div>
+
         
 
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
@@ -297,9 +298,13 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
    </div>
 </>}
 
+<div className='fixed bottom-0 items-end flex z-50 '>
 <Group />
-<div className="content-div bg-slate-600 
-{{level === 8? 'h-80px' 'w-[90px]' p-10 }}" >
+<Memo page={page} round={round}/>
+<div id="botpress-webchat"></div>
+</div>
+
+<div className="content-div bg-slate-600 pb-10" >
   <Inputs user={user} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
   setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
  
@@ -315,15 +320,11 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
 
 </>}
 
-<div>
-  <Memo page={page} round={round}/>
-</div>
-
 {/* level 9 and above sees all tabs */}
 {round.map((x,i) => {  return <>
  { level > 8 ? 
-  <div className='mapped-div bg-blue-900 flex-col items-center min-h-[300px] justify-evenly border-2 border-black mb-10 
-  md:flex-row md:min-h-[100px]  md:m-auto md:justify-center md:hover:scale-105 md:transition-transform md:duration-300
+  <div className='mapped-div bg-blue-900 flex-col items-center min-h-[300px]  justify-evenly border-2 border-black mb-10 
+  md:flex-row md:min-h-[100px]  md:m-auto md:justify-center md:hover:scale-105 md:transition-transform md:duration-300 lg:w-[95vw]
   xl:w-[1000px] ' 
    key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
 <div className='lg:flex lg:flex-row  lg:mr-10'>
@@ -332,20 +333,20 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
 </div>
 
   <p  onClick={() => {setPost(x.count),setDate(x.date),setType(x.type)}} 
-  className='bg-white text-black  text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
+  className='bg-white text-black  text-[18px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
   md:min-w-[100px] md:h-[50px] md:p-[10px]  '> 
   {x.count}   </p>
 
  <p className='bg-white text-black break-all text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
  md:min-w-[200px] md:max-w-[300px] md:break-all  md:p-[10px]   md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
  
-  <p className='bg-white text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
+  <p className='bg-white text-black text-[15px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
   md:min-w-[120px] md:p-[10px]  md:h-[50px]' > {x.type} </p>
 
-  <p className='bg-white text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
+  <p className='bg-white text-black text-[15px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
   md:min-w-[120px] md:p-[10px] md:h-[50px]'>  {month}-{x.date}  </p>
 
-  <p className=' text-black text-[20px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5 
+  <p className=' text-black text-[15px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5 
   md:min-w-[110px] md:p-[10px] md:h-[50px]' style={{backgroundColor:x.color}}> {x.status}  </p>
 
 

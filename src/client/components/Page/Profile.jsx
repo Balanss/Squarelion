@@ -206,9 +206,9 @@ useEffect(() => {
 {showWfh === 'chat' && <>
 
 
-<div className='bg-slate-100  min-h-[500px] max-h-[95vh]  '  >
+<div className='bg-slate-100   min-h-[500px]   md:flex md:justify-center '  >
 <h2 onClick={() => setShowImportant(showImportant === true? false : true)}> {showImportant === false? 'Show Priority' : 'Show All'}  </h2>
-<div className='min-h-[700px] max-h-[700px] overflow-x-scroll p-10'>
+<div className='min-h-[90vh] max-h-[90vh] overflow-y-auto overflow-x-hidden p-10 '>
 {privateChat  === 'group' && <>
 
 
@@ -259,7 +259,7 @@ return <div key={i} className='flex flex-col items-center' onClick={() => handle
 
 
 
-<form className='flex  justify-around flex-col md:justify-end border-t-2 border-black pt-[10px] pb-[10px] lg:fixed lg:bottom-0 lg:w-4/5 lg:bg-slate-800'  onSubmit={(e) => e.preventDefault()}>
+<form className='flex fixed right-0 left-0 bottom-0 justify-around flex-col md:justify-end border-t-2 border-black pt-[10px] pb-[10px] lg:fixed lg:bottom-0 lg:w-full bg-slate-800'  onSubmit={(e) => e.preventDefault()}>
 <div className='flex flex-row items-center justify-around mb-10 lg:w-[300px] lg:pb-[20px] lg:m-auto'>
 
 <textarea onChange={(e) => setText(e.target.value)} value={text} className='textarea' placeholder= {`Send message to ${displayTo} ${imp === true && displayTo === 'Group'? ' [Priority] ' : '' }`}> 
@@ -309,10 +309,10 @@ return <div key={i} className='flex flex-col items-center' onClick={() => handle
 
 </>}
 
-{showWfh === 'wfh' && <>
+{/* {showWfh === 'wfh' && <>
 
 <TimeOff/>
-</>}
+</>} */}
 
 
 

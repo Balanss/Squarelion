@@ -75,12 +75,12 @@ export default function SidePanel({level,user,switching,setSwitching}) {
                   
                 </a>
              </li> : null}
-             <li className='transform transition-transform ease-in hover:scale-105 cursor-pointer'>
+             {/* <li className='transform transition-transform ease-in hover:scale-105 cursor-pointer'>
                {level === 11 ? <> <a onClick={( ) => setSwitching('Survey')}  className="flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
                   <img src={survey} className='w-[40px]' /> 
                   <span className="flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">SURVEY</span>
                 </a>  </> : null}
-             </li>
+             </li> */}
              <li>
                 <a onClick={handleGoPfP}  className="
                 transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group">

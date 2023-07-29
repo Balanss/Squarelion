@@ -221,7 +221,7 @@ const handleClick = (user) => {
   {swap === false?     userPermit.map((x,i) => { 
     return  <div className=" 
     m-auto md:min-w-[350px] mb-10 p-10  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700
-    h-[350px]  lg:h-[200px] lg:w-[700px]" key={i}>
+    h-[350px]  lg:h-[120px] lg:w-[700px]" key={i}>
 
     <div className="flex flex-col items-center pb-10 lg:flex lg:flex-row lg:items-center lg:justify-center ">
         <img className="w-6 h-6 mb-3 rounded-full shadow-lg lg:mr-10" src={userPfp}/>
@@ -264,7 +264,7 @@ const handleClick = (user) => {
 
 
 <FormGroup>
-      <FormControlLabel onClick={() => setSwap(swap === false?true:false)} control={<Switch defaultChecked />} style={{color:'black'}} label={swap === false? 'Approved users':'Un-Approved users' }/>
+      <FormControlLabel onClick={() => setSwap(swap === false?true:false)} className='w-[300px]' control={<Switch defaultChecked />} style={{color:'black'}} label={swap === false? 'Approved users':'Un-Approved users' }/>
     </FormGroup>
     </div>
 

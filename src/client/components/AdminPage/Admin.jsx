@@ -269,7 +269,7 @@ className="p-4 w-4/5">
 </div>
 
 {switching === 'Users' && <Edit/>}
-{switching === 'Survey'  && level === 11 && <AdminSurvey/>}
+{/* {switching === 'Survey'  && level === 11 && <AdminSurvey/>} */}
 </div>
  </>}
 
