@@ -123,7 +123,7 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
 
   return (<>  
 {level > 8 && <>
-  <div className='handlesend flex flex-row items-center mb-5'>
+  <div className='handlesend flex flex-row items-center gap-2'>
        <button onClick={handleData} className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
   <span className=" relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
   Add Text Content
@@ -132,12 +132,13 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
 
 
 {!isMobile?
- <form onSubmit={handleSub} className='ml-10'> 
+ <form onSubmit={handleSub} className='ml-10 lg:flex lg:gap-2'> 
 
 
-<input  className=''type="file" onChange={handleImageChange} style={{width:'100px'}} />
+<input  className='sm:mr-4' type="file" onChange={handleImageChange} style={{width:'100px'}} />
 
-<button  className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Add Design</button>
+<button  className="text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700
+lg:w-[120px]">Add Design</button>
 </form> : null}
 
 

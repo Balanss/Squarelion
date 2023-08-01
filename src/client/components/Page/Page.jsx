@@ -31,6 +31,7 @@ import Inputs from './PageFunctions/Inputs'
 import Loading from '../Loading'
 import Memo from './Memo/Memo'
 import '/src/client/index.css'
+import Bot from './Bot/Bot'
 
 
 
@@ -260,31 +261,7 @@ useEffect(() => {
 
 
 
-useEffect(() => {
-  const script = document.createElement("script");
-script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
-  script.async = true;
-  script.onload = () => {
-    window.botpressWebChat.init({
-      "composerPlaceholder":import.meta.env.VITE_composerPlaceholder,
-      "botConversationDescription": import.meta.env.VITE_botConversationDescription,
-      "botId": import.meta.env.VITE_botId,
-      "hostUrl":import.meta.env.VITE_hostUrl,
-      "messagingUrl": import.meta.env.VITE_messagingUrl,
-      "clientId": import.meta.env.VITE_clientId,
-      "botName": import.meta.env.VITE_botName,
-      useSessionStorage: true,
-      showPoweredBy: true,
-    
-    });
-  };
 
-  document.body.appendChild(script);
-
-  return () => {
-    document.body.removeChild(script);
-  };
-}, []);
 
 
 
@@ -316,6 +293,10 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
 {level === 8 && <>
 <div className='admin-links-only-designer text-center mt-10'> <Links/>
 <img src={img}  className='client-pic flex items-center m-auto' style={{backgroundColor:'white',marginBottom:'40px',marginTop:'20px'}}/>  </div>
+
+<div className='fixed bottom-0 items-end flex z-50 '>
+<Group />
+</div>
 </>
 }
 
@@ -327,13 +308,16 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
   <TxtAll className='txt' filter={filter} />    
 </div>
    </div>
-</>}
 
-<div className='fixed bottom-0 items-end flex z-50 '>
+   <div className='fixed bottom-0 items-end flex z-50 '>
 <Group />
 <Memo page={page} round={round}/>
-<div id="botpress-webchat"></div>
+<Bot/>
 </div>
+
+</>}
+
+
 
 <div className="content-div bg-slate-600 pb-10" >
   <Inputs user={user} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
@@ -436,7 +420,7 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
   <div className='flex flex-col items-center justify-evenly h-[400px] border-b-2 border-black ' >
 
 <div className='above-div-send flex flex-col items-center
-lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm lg:mt-10 lg:mb-5' >
+lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm lg:mt-10 lg:mb-5 lg:flex-row lg:gap-10' >
 <SendFromForm user={user} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
 
 
@@ -457,7 +441,7 @@ width='300px'
 </div>
 </>: <button  onClick={() => setEmojiShow(emojiShow === true?false:true)} style={{marginLeft:'40px'}}  className=" hidden lg:block lg:mt-2 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> Emoji </button> : null}
 
-<button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}}  className=" ml-5 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 lg:mt-4">Delete Post</button>
+<button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}}  className=" lg:mt-2 text-white  bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete </button>
 
 </div>
 
