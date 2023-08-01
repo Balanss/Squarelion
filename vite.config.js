@@ -6,5 +6,5 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base:'https://Balanss.github.io/Squarelion',
   plugins: [react()],
-  
+
 })

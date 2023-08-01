@@ -1,17 +1,24 @@
 import React,{useState, useEffect} from 'react'
-import {collection,deleteDoc,doc,setDoc} from "firebase/firestore";
+import {collection,deleteDoc,doc,setDoc,updateDoc} from "firebase/firestore";
 import { auth, fs,db } from '../../../Firebase'
+import editPic from '/src/client/components/images/edit.png';
+import bin from '/src/client/components/images/bin-2.png'
 
 export default function Memo(round) {
 
 const [val,setVal] = useState('')
 const [ text,setText] = useState('')
 const [memo,setMemo] = useState([])
+const [edit,setEdit] = useState('')
+const[comment,setComment] = useState('')
+const [showEdit,setShowEdit] = useState(false)
+const [editComment,setEditComment] = useState('')
+const [ showEditComment,setShowEditComment] = useState(false)
 
 function handleSubmit(e){
     const docRef = collection(db,localStorage.getItem('partner'))
     const colRef=doc(docRef,text);
-    setDoc(colRef,{'comment':val} ,{merge:true});
+    setDoc(colRef,{'comment':val,'title':val} ,{merge:true});
     e.preventDefault()
     setVal('')
     setText('')
@@ -62,7 +69,17 @@ function handleDelete(item,id){
   const docRef = collection(db,localStorage.getItem('partner'))
   const colRef=doc(docRef,item.id);
   deleteDoc(colRef);
+ 
 }
+
+function handleEdit(item,id){
+  setShowEdit(showEdit === true ? false : true );
+}
+
+function handleEditComment(item,id){
+  setShowEditComment(showEditComment === true ? false : true );
+}
+
 
 
   return (
@@ -82,7 +99,7 @@ function handleDelete(item,id){
 <div className=' left-0 top-0 bg-slate-700 text-black w-[100vw] h-[100vh] absolute z-60 opacity-75  '> </div>
 
 <form  onSubmit={handleSubmit} className='relative bg-slate-700'>
-  <div class="mb-6">
+  <div className="mb-6">
 
   </div>
   <div className="mb-6 pt-4 text-center">
@@ -100,14 +117,34 @@ function handleDelete(item,id){
     {a.map((item,id) => (
           <ol className=" border-l relative ml-5  bg-slate-800 w-4/5 flex items-center justify-start lg:w-2/5 " key={item.id}>                  
     <li className="mb-10 p-2 ml-6">            
-        <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-            <svg className="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" onClick={() => { handleDelete(item,id)}}>
-                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-            </svg>
+        <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900 cursor-pointer" onClick={() => { handleDelete(item,id)}}>
+         <img src={bin}/>
         </span>
-        <h3 className="flex py-2  items-center mb-1 text-lg font-semibold text-white dark:text-white break-all"> {item.id} </h3>
+        <h3 className="flex py-2  items-center mb-1 text-lg font-semibold text-white dark:text-white break-all"> {item.title} <img  className='ml-3 w-[30px] bg-white rounded-md cursor-pointer' onClick={() => { handleEdit(item,id)}}  src={editPic} /> </h3>
+{showEdit && ( <div>
+  <input type='text' onChange={(e) => setEdit(e.target.value)} placeholder='EDIT MEMO TITLE' className='text-black mr-4' />
+  <button className='bg-blue-700 text-white px-3 py-2 rounded-md'
+  onClick={() => {
+      const docRef = collection(db,localStorage.getItem('partner'))
+      const colRef=doc(docRef,item.id);
+     updateDoc(colRef,{title:edit} ,{merge:true});
+  }}>Submit</button>
+</div>
+  
+)}
        
-        <p className="mb-4 text-base font-normal break-all text-gray-200 dark:text-gray-200">{item.comment}</p>
+        <p className="mb-4 text-base font-normal break-all text-gray-200 dark:text-gray-200">{item.comment}  <img  className='ml-3 w-[30px] bg-white rounded-md cursor-pointer' onClick={() => { handleEditComment(item,id)}}  src={editPic} /> </p>
+        {showEditComment && ( <div>
+  <input type='text' onChange={(e) => setComment(e.target.value)} placeholder='EDIT MEMO COMMENT' className='text-black mr-4' />
+  <button className='bg-blue-700 text-white px-3 py-2 rounded-md'
+  onClick={() => {
+      const docRef = collection(db,localStorage.getItem('partner'))
+      const colRef=doc(docRef,item.id);
+     updateDoc(colRef,{comment:comment} ,{merge:true});
+  }}>Submit</button>
+</div>
+  
+)}
  
     </li>
 

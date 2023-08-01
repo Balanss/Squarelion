@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import { auth, fs,db } from '../../Firebase'
 import { useNavigate } from 'react-router-dom'
 import User from '../User'
-import {collection,deleteDoc,doc} from "firebase/firestore";
+import {collection,deleteDoc,doc,updateDoc} from "firebase/firestore";
 import SendFromForm from '../firebaseData/SendFromForm'
 import { useParams } from 'react-router-dom'
 import Links from './Links'
@@ -37,18 +37,31 @@ import '/src/client/index.css'
 
 
 
+
+
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  
+
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
 
+const styleBar = {
+  position: 'absolute',
+  top: '100%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+
+};
 
 
 
@@ -76,6 +89,10 @@ export default function Page() {
  const [month,setMonth] = useState('')
  const [ objectiveAnswer,setObjectiveAnswer] = useState('')
  const [ typeAnswer,setTypeAnswer] = useState('')
+ const[subject,setSubject] = useState('')
+ const [editMonth,setEditMonth] = useState('waiting')
+ const [editDetails,setEditDetails] = useState('')
+ const [ forPost,setForPost] = useState('')
 // 
 
 //------------ pdf creation
@@ -128,14 +145,25 @@ const getRound = async () => {
   }, [page]);
 
   function handleText(i ) {
-    round.map((x,index) => {
-      if (i === index){
-        setShow(i)
-        setTypeAnswer(x.count)
-        setDeletion(x.count)
-        setStatusBar(i)
-      } 
-    })
+if(show !== ''){
+  round.map((x,index) => {
+    if (i === index){
+      setShow('')
+      setTypeAnswer('')
+      setDeletion('')
+      setStatusBar('')
+    } 
+  })
+}else {
+  round.map((x,index) => {
+    if (i === index){
+      setShow(i)
+      setTypeAnswer(x.count)
+      setDeletion(x.count)
+      setStatusBar(i)
+    } 
+  })
+}
   }
 
 
@@ -203,6 +231,9 @@ const [ statusBar,setStatusBar] = useState('');
 const handleOpenModal = () => setOpenModal(true);
 const handleClose = () => setOpenModal(false);
   
+const [openModalBar, setOpenModalBar] = React.useState(false);
+const handleOpenModalBar = () => setOpenModalBar(true);
+const handleCloseBar = () => setOpenModalBar(false);
 
 
 
@@ -327,12 +358,13 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
   md:flex-row md:min-h-[100px]  md:m-auto md:justify-center md:hover:scale-105 md:transition-transform md:duration-300 lg:w-[95vw]
   xl:w-[1000px] ' 
    key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
-<div className='lg:flex lg:flex-row  lg:mr-10'>
-<button className='x-button mr-[30px] transition-transform transform-gpu hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
-  <button className='x-button transition-transform transform-gpu hover:scale-110 hover:bg-white hover:rounded-3xl' onClick={() => {setShow(''),setObjectiveAnswer(''),setStatusBar('')}} >  <img src={cross} alt={cross} style={{width:'40px'}} className='icon-do'/> </button>
+<div className='md:flex md:flex-row  lg:mr-10'>
+<button className='x-button lg:mr-10  transition-transform transform-gpu hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={show >''? cross :view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
+<button   className='bg-blue-400 text-white px-3 py-2 rounded-md ml-3 hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl'   onClick={() => {setPost(x.count),setDate(x.date),setType(x.type),setSubject(x.objective), handleOpenModalBar(),setEditMonth(x.date)}} > Edit </button>
+
 </div>
 
-  <p  onClick={() => {setPost(x.count),setDate(x.date),setType(x.type)}} 
+  <p  
   className='bg-white text-black  text-[18px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
   md:min-w-[100px] md:h-[50px] md:p-[10px]  '> 
   {x.count}   </p>
@@ -359,7 +391,7 @@ script.src="https://cdn.botpress.cloud/webchat/v0/inject.js";
   <WaitingDesigner objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty}  />
   <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  />
 <WaitingApproved objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
-{/* <WaitingDelete objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} /> */}
+
 </>}
 
   
@@ -458,7 +490,7 @@ width='300px'
   </div>
   </div>
 <div className='example-flex'>
-<div className='border-edit flex flex-col  min-h-[400px] border-2 pt-5  items-center text-white
+<div className='border-edit flex flex-col  min-h-[400px]  pt-5  items-center text-white
           lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
          <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
        {x.textEx === ''? null:  <h2 className='same' style={{color:'white',width:'200px',wordBreak:'break-all'}}> {x.textEx}  </h2>}
@@ -466,7 +498,7 @@ width='300px'
          </div>
        
        
-        {x.textEx > ""?  <div className='border-edit flex flex-col items-center h-[400px] border-2 pt-5
+        {x.textEx > ""?  <div className='border-edit flex flex-col items-center h-[400px]  pt-5
          lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
          
          <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
@@ -477,15 +509,13 @@ width='300px'
          </div>
          :null} 
        
-       {x.textEx1 > "" ?   <div className='border-edit flex flex-col items-center h-[400px] border-2 pt-5
+       {x.textEx1 > "" ?   <div className='border-edit flex flex-col items-center h-[400px]  pt-5
         lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
          <img src={x.exampleThree} style={{maxWidth:'200px',maxHeight:'200px'}} />
          <h2 className='same' style={{width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
          <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
          </div> :null}   
-{/* <Examples round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}
-    setTypeAnswer={setTypeAnswer }typeAnswer={typeAnswer} objectiveAnswer={objectiveAnswer} month={month} color={color}
-    page={page} setShow={setShow} setStatusBar={setStatusBar} show={show} statusBar={statusBar} user={user} qty={qty}/> */}
+
 </div>
 
 
@@ -511,6 +541,35 @@ width='300px'
  </>
  })}
 
+<Modal
+        open={openModalBar}
+        onClose={handleCloseBar}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className='max-w-[80vw] max-h-[80vw]  '
+      >
+        <Box sx={styleBar} className='lg:!top-[50%] 0' >
+          <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}  className='flex flex-col gap-5' >
+                   
+          <h2    style={{maxWidth:'80vw',maxHeight:'80vh',margin:'auto'}}> Click any of the text to change post details. </h2>
+         <p className='cursor-pointer' onClick={() =>  {setEditDetails(post),setForPost('count')}}> Edit Count : {post} </p>
+         <p className='cursor-pointer' onClick={() => {setEditDetails(subject),setForPost('objective')}}> Edit Subject : {subject} </p>
+         <p className='cursor-pointer' onClick={() => {setEditDetails(type),setForPost('type')}}> Edit Type : {type} </p>
+         <p className='cursor-pointer ' onClick={() => {setEditDetails(editMonth),setForPost('date')}}> Edit Date : {editMonth} </p>
+         <input type="text" className='border-2 border-black  ' placeholder={`Editing ${editDetails}`} onChange={(e) => setEditDetails(e.target.value)} />
+         <button  className='bg-blue-700 text-white px-3 py-2 rounded-md ml-3' 
+         onClick={() => {{ 
+          const docRef = collection(db,page)
+          const colRef=doc(docRef,post+month );
+          const data = {
+            [forPost]: editDetails,
+          };
+          updateDoc(colRef,data,{merge:true});
+         } handleCloseBar()}}
+          > Submit </button>
+ </Typography>
+        </Box>
+      </Modal>
 
 
     

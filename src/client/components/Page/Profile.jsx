@@ -24,6 +24,7 @@ import Survey from './Survey'
 import Cal from './Calendar/Cal'
 import ShowDate from './Calendar/ShowDate'
 import Panel from './Panel/Panel'
+import Docs from './Docs'
 
 export default function Profile() {
 
@@ -309,17 +310,17 @@ return <div key={i} className='flex flex-col items-center' onClick={() => handle
 
 </>}
 
-{/* {showWfh === 'wfh' && <>
+{showWfh === 'Docs' && <>
 
-<TimeOff/>
-</>} */}
+<Docs/>
+</>}
 
 
 
-{showWfh === 'survey' && <>
+{/* {showWfh === 'survey' && <>
 
 <Survey/>
-</>}
+</>} */}
 
 
 
