@@ -9,25 +9,24 @@ export default {
     extend: {
       // backgroundImage: {
         'logo': "url('/images/logo.png')",
+        
       //   'hero-pattern': "url('/images/bg/small.jpg')",
       //   'footer-texture': "url('/img/footer-texture.png')",
       // },
-      theme: {
-        maxWidth: {
-          '1/2': '50%',
-        },
         screens: {
           'tablet': '640px',
           // => @media (min-width: 640px) { ... }
-    
-          'laptop': '1024px',
-          // => @media (min-width: 1024px) { ... }
-    
-          'desktop': '1280px',
+           'laptop':'800px',
+           'cal':'1000px',
+
+          'desktop': '810px',
           // => @media (min-width: 1280px) { ... }
+          
+
         },
-      }
+      
     },
   },
+
   plugins: [],
 }

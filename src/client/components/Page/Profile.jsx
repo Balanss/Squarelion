@@ -140,7 +140,7 @@ const [ showWfh,setShowWfh] = useState('start')
 const [isMobile, setIsMobile] = useState(false);
 useEffect(() => {
   const handleResize = () => {
-    setIsMobile(window.innerWidth < 650);
+    setIsMobile(window.innerWidth < 767);
   };
 
   handleResize(); // Call the function initially to set the initial state
@@ -197,8 +197,8 @@ useEffect(() => {
 
 {showWfh === 'start' && (
   <div className='lg:w-5/5 xl:w-[1100px] lg:min-h-[100vh] xl:m-auto flex flex-col items-center bg-slate-500  ' >
-  <Cal/>
-  <ShowDate/>
+  <Cal user={user}/>
+  {/* <ShowDate/> */}
   </div>
 )}
 

@@ -31,8 +31,10 @@ import Inputs from './PageFunctions/Inputs'
 import Loading from '../Loading'
 import Memo from './Memo/Memo'
 import '/src/client/index.css'
-import Bot from './Bot/Bot'
-
+// import Bot from './Bot/Bot'
+import Demo from './Demo/Demo'
+import Sure from '../firebaseData/Sure'
+import { format } from 'date-fns';
 
 
 
@@ -104,6 +106,10 @@ const [ pdfChannels,setPdfChannels] = useState('')
 const [ pdfDate,setPdfDate] = useState('')
 const [isChecked, setIsChecked] = useState(false);
 
+const [replyAi,setReplyAi] = useState('')
+const [ whatDoUWant,setWhatDoUWant] = useState('')
+const [showExample,setShowExample] = useState(false)
+
 
   function handleSubmit(e) {
 e.preventDefault()
@@ -146,6 +152,7 @@ const getRound = async () => {
   }, [page]);
 
   function handleText(i ) {
+ 
 if(show !== ''){
   round.map((x,index) => {
     if (i === index){
@@ -153,6 +160,7 @@ if(show !== ''){
       setTypeAnswer('')
       setDeletion('')
       setStatusBar('')
+      
     } 
   })
 }else {
@@ -162,10 +170,14 @@ if(show !== ''){
       setTypeAnswer(x.count)
       setDeletion(x.count)
       setStatusBar(i)
+      setSubject(x.objective)
     } 
   })
 }
   }
+
+
+  
 
 
 
@@ -173,10 +185,15 @@ if(show !== ''){
     const currentDate = new Date();
     const currentMonth = currentDate.toISOString().slice(0, 7); // Format: YYYY-MM
     setMonth(currentMonth);
-  }, []);
+
+
+  
+  },[] );
+
+
 
 let notification = [];
-  const [ emojiShow,setEmojiShow] = useState(false)
+  
    notification = (round.filter((x) => x.countNoti && x.statusText !== 'Approved' ));
 
    let qty 
@@ -303,6 +320,7 @@ useEffect(() => {
 {level > 8 && <>
   <div className='flex flex-row justify-around items-center bg-slate-300 '> 
   <div className='bg-slate-700'><Links/>  </div>
+  <Demo round={round} page={page}/>
   <img src={img}  className='w-20' style={{backgroundColor:'white',marginBottom:'20px',marginTop:'20px'}}/>
   <div style={{zIndex:1}} >
   <TxtAll className='txt' filter={filter} />    
@@ -312,7 +330,7 @@ useEffect(() => {
    <div className='fixed bottom-0 items-end flex z-50 '>
 <Group />
 <Memo page={page} round={round}/>
-<Bot/>
+{/* <Bot/> */}
 </div>
 
 </>}
@@ -339,11 +357,11 @@ useEffect(() => {
 {round.map((x,i) => {  return <>
  { level > 8 ? 
   <div className='mapped-div bg-blue-900 flex-col items-center min-h-[300px]  justify-evenly border-2 border-black mb-10 
-  md:flex-row md:min-h-[100px]  md:m-auto md:justify-center md:hover:scale-105 md:transition-transform md:duration-300 lg:w-[95vw]
+  laptop:flex-row  md:min-h-[100px]  md:m-auto md:justify-center md:hover:scale-105 md:flex-col md:transition-transform md:duration-300 lg:w-[95vw]
   xl:w-[1000px] ' 
    key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
-<div className='md:flex md:flex-row  lg:mr-10'>
-<button className='x-button lg:mr-10  transition-transform transform-gpu hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={show >''? cross :view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
+<div className='flex md:flex-row md:mr-3 lg:flex-row items-center lg:mr-10 laptop:flex-col laptop:items-center'>
+<button className='x-button lg:mr-10 mt-2 mb-4  transition-transform transform-gpu hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
 <button   className='bg-blue-400 text-white px-3 py-2 rounded-md ml-3 hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl'   onClick={() => {setPost(x.count),setDate(x.date),setType(x.type),setSubject(x.objective), handleOpenModalBar(),setEditMonth(x.date)}} > Edit </button>
 
 </div>
@@ -353,8 +371,8 @@ useEffect(() => {
   md:min-w-[100px] md:h-[50px] md:p-[10px]  '> 
   {x.count}   </p>
 
- <p className='bg-white text-black break-all text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
- md:min-w-[200px] md:max-w-[300px] md:break-all  md:p-[10px]   md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
+ <p className='bg-white text-black break-word text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
+ md:min-w-[200px] md:max-w-[300px] md:break-word  md:p-[10px]   md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
  
   <p className='bg-white text-black text-[15px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
   md:min-w-[120px] md:p-[10px]  md:h-[50px]' > {x.type} </p>
@@ -417,53 +435,51 @@ useEffect(() => {
 
      {!x.answer ? null :    <div  className='text-center break-all m-auto mt-[50px] p-8 bg-white
      lg:w-3/4' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />} 
-  <div className='flex flex-col items-center justify-evenly h-[400px] border-b-2 border-black ' >
+  <div className='flex flex-col items-center justify-evenly  border-b-2 border-black ' >
+
+  <section className='text-center mt-20'>
+  <h1 className='lg:mt-3 lg:mb-3 lg:text-3xl'> Choose an option </h1>
+  <button onClick={() => setWhatDoUWant('AI')} className='lg:mr-5 cursor-pointer lg:mt-2 text-white  bg-sky-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>  AI Content </button>
+  <button onClick={() => setWhatDoUWant('YOU')} className='cursor-pointer  lg:mt-2 text-white  bg-sky-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2' > Write Content </button>
+</section>
+
+{whatDoUWant > '' && <>
 
 <div className='above-div-send flex flex-col items-center
-lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm lg:mt-10 lg:mb-5 lg:flex-row lg:gap-10' >
-<SendFromForm user={user} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
+lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10' >
 
+{whatDoUWant === 'AI' && <>
+<Sure setReplyAi={setReplyAi} setObjectiveAnswer={setObjectiveAnswer} objectiveAnswer={objectiveAnswer} subject={subject} page={page}  user={user} typeAnswer={typeAnswer} month={month}/>
+</>}
 
+{whatDoUWant === 'YOU' && <>
 
-
-{level  > 8 ?  emojiShow? <>
-<h3 className='"text-gray-900 text-black bg-gradient-to-r  from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"' onClick={() => setEmojiShow(emojiShow === true?false:true)}> Emoji </h3>
-<div className='  absolute left-0 '>
-<EmojiPicker  
-
-width='300px'
-    setPlaceHolder='ara'
-    emojiSize={30} 
-    emojiStyle='google'
-    theme='dark'
-    onEmojiClick={(e) => setObjectiveAnswer((prevAnswer) => prevAnswer + e.emoji)}
-    /> 
-</div>
-</>: <button  onClick={() => setEmojiShow(emojiShow === true?false:true)} style={{marginLeft:'40px'}}  className=" hidden lg:block lg:mt-2 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> Emoji </button> : null}
-
+<SendFromForm user={user} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
 <button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}}  className=" lg:mt-2 text-white  bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete </button>
 
+
+</>}
+
 </div>
 
-   
-  <form className='' onSubmit={handleSubmit}>
-    
+</>}
 
 
+{whatDoUWant > '' && <>
 
-
+<form className='' onSubmit={handleSubmit}>
 <ReactQuill
      value={objectiveAnswer}
       onChange={handleEditorChange}
       style={{color:'black',backgroundColor:'white'}}
       placeholder='Text here...'
-      className='max-w-[90vw] lg:max-w-[500px] max-h-[200px] overflow-scroll'
+      className='max-w-[90vw] lg:max-w-[500px]  overflow-scroll'
     />
-
-      
-
-
 </form>
+
+</>}
+   
+
 
 <div className='flex items-baseline'>
 <input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setCreatePdf(x.answer)}} className='mr-2' />
@@ -473,6 +489,15 @@ width='300px'
 
   </div>
   </div>
+
+
+  <section className='text-center  mt-5 mb-5'>
+  <button onClick={() => setShowExample(showExample === 'Yes'?'No':'Yes')} className='lg:mr-5 cursor-pointer lg:mt-2 text-white  bg-sky-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'> {showExample === 'Yes'?'Hide example':'Show example'} </button>
+</section>
+
+
+{showExample === 'Yes' && <>
+
 <div className='example-flex'>
 <div className='border-edit flex flex-col  min-h-[400px]  pt-5  items-center text-white
           lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
@@ -501,6 +526,8 @@ width='300px'
          </div> :null}   
 
 </div>
+
+</>}
 
 
  </div>

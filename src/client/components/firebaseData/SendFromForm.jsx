@@ -6,6 +6,7 @@ import { auth, fs,db } from '/src/client/Firebase.jsx'
 import {useState, useEffect} from 'react'
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import addFile from '../images/add-file.png'
+import EmojiPicker from 'emoji-picker-react'
 
 
 
@@ -13,9 +14,49 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 
 
 
-export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,page,level,setObjectiveAnswer,user}) {
+export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,page,level,setObjectiveAnswer,user,subject}) {
     
-    function handleData(){    
+  const [ emojiShow,setEmojiShow] = useState(false)
+
+
+
+  const sendToZapier = async (payload) => {
+    const zapierURL =import.meta.env.VITE_ZAP_NAME_IDK;
+    try {
+      const response = await fetch(zapierURL, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify(payload),
+      });
+      const resp = await response.json();
+      console.log(resp);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+
+  async function handleData(){
+  
+     const leadData = {
+      answer:objectiveAnswer,
+      contentToSheet:subject,
+     };
+
+     try {
+       await sendToZapier(leadData);
+       // Additional code to execute after sending data to Zapier, if needed
+     } catch (error) {
+       console.log(error);
+     }
+
+
+     setTimeout(() => {
+       setObjectiveAnswer('')
+     },1000)
+
+
+
             fs.collection(page).doc(typeAnswer+month).set({ 
                 answer:objectiveAnswer,
                 status:'Waiting',
@@ -23,10 +64,8 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
             user:user,       
               },{merge:true})
 
-              setObjectiveAnswer('')
-      }
-
-
+ }
+  
       const [imageUrl, setImageUrl] = useState("");
       const [name,setName] = useState("")
       const [image, setImage] = useState();
@@ -130,6 +169,21 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
   </span>
 </button> 
 
+{level  > 8 ?  emojiShow? <>
+<h3 className='"text-gray-900 text-black bg-gradient-to-r  from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"' onClick={() => setEmojiShow(emojiShow === true?false:true)}> Emoji </h3>
+<div className='  absolute left-0 '>
+
+<EmojiPicker  
+
+width='300px'
+    setPlaceHolder='ara'
+    emojiSize={30} 
+    emojiStyle='google'
+    theme='dark'
+    onEmojiClick={(e) => setObjectiveAnswer((prevAnswer) => prevAnswer + e.emoji)}
+    /> 
+</div>
+</>: <button  onClick={() => setEmojiShow(emojiShow === true?false:true)} style={{marginLeft:'40px'}}  className=" hidden lg:block lg:mt-2 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> Emoji </button> : null}
 
 {!isMobile?
  <form onSubmit={handleSub} className='ml-10 lg:flex lg:gap-2'> 
