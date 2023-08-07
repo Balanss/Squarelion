@@ -194,7 +194,7 @@ Post Content
 md:mt-5'>
 
 <h1 > Use AI to make the content right away?</h1>
-<button disabled={objective || date || post || type  === ''? true : false}
+<button disabled={objective  === ''? true : false}
  className={`${objective  === ''? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'} mb-4 mt-4 mr-3 w-35 bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-blue-600 hover:bg-ble-500 hover:text-black shadow-md py-2 px-6 inline-flex items-center' 
  `}
   onClick={() => {handleAI()}} >  Yes </button>
