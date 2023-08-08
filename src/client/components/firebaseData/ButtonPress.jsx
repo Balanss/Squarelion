@@ -18,6 +18,8 @@ export default function ButtonPress({objective,type,date,post,page,month,setObje
   const [ doubleCheck,setDoubleCheck] = useState(false)
   const [ timer,setTimer] = useState('waiting')
   const [ aiReply,setAiReply] = useState('')
+  const [ hoverYes,setHoverYes] = useState('')
+  const [ hoverNo,setHoverNo] = useState('')
     
 const [ succ,setSucc] = useState()
 
@@ -162,7 +164,20 @@ useEffect(() => {
         return () => clearInterval(interval);
       }, [aiReply]);
 
-   
+  const handleMouseEnter =  () => {
+    setHoverYes('Once clicked this will generate the ai to create the content, and the button will be loading, once the button is done loading click on the post content button')
+  };
+
+  const handleMouseLeave =  () => {
+    setHoverYes('')
+  };
+
+
+
+
+
+
+ 
 
   return (<> 
 
@@ -186,26 +201,32 @@ Post Content
 </button>}
 
   </section>
-
-
+ 
+ 
+ 
 <section >
 
 <div className='lg:flex lg:flex-wrap lg:items-center lg:flex-row lg:w-[300px] lg:justify-evenly gap-1 text-center bg-slate-400 shadow-md text-black font-bold mb-10 p-2
 md:mt-5'>
 
 <h1 > Use AI to make the content right away?</h1>
-<button disabled={objective  === ''? true : false}
+<button disabled={objective   === ''? true : false}
  className={`${objective  === ''? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer'} mb-4 mt-4 mr-3 w-35 bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-blue-600 hover:bg-ble-500 hover:text-black shadow-md py-2 px-6 inline-flex items-center' 
  `}
-  onClick={() => {handleAI()}} >  Yes </button>
+  onClick={() => {handleAI()}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >  Yes </button>
 
-<button className='cursor-pointer   w-35 bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-red-500 hover:border-red-600 hover:bg-red-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center' 
-onClick={handleData}>  No </button>
 
 </div>
 
 
+
+
+
 </section>
+
+{hoverYes > '' ? <div className='fixed bottom-0 bg-white text-black z-[1000] w-full h-20 text-center'>
+<h3 className='mt-5 font-serif text-xl'> {hoverYes} </h3>
+</div> : null}
 
 
 {/* <div class="absolute  inset-0 h-screen bg-opacity-50 bg-gray-500">
