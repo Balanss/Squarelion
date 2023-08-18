@@ -86,6 +86,7 @@ export default function Page() {
 
   //------------------------------------------ under lifts state to button for firebase
  const [ objective,setObjective] = useState('')
+ const [ uniqueId,setUniqueId] = useState('')
  const [type,setType] = useState('')
  const [ date,setDate] = useState('')
  const [ post,setPost] = useState('')
@@ -94,6 +95,7 @@ export default function Page() {
  const [ typeAnswer,setTypeAnswer] = useState('')
  const[subject,setSubject] = useState('')
  const [editMonth,setEditMonth] = useState('waiting')
+ const [editUid,setEditUid] = useState('waiting')
  const [editDetails,setEditDetails] = useState('')
  const [ forPost,setForPost] = useState('')
 // 
@@ -109,6 +111,7 @@ const [isChecked, setIsChecked] = useState(false);
 const [replyAi,setReplyAi] = useState('')
 const [ whatDoUWant,setWhatDoUWant] = useState('')
 const [showExample,setShowExample] = useState(false)
+const [youSure ,setYouSure] = useState('')
 
 
   function handleSubmit(e) {
@@ -171,13 +174,17 @@ if(show !== ''){
       setDeletion(x.count)
       setStatusBar(i)
       setSubject(x.objective)
+      setPost(x.count)
+      setUniqueId(x.unid)
+      setDate(x.date)
+      setObjectiveAnswer(x.answer)
+    setType(x.type)
     } 
   })
 }
   }
 
 
-  
 
 
 
@@ -204,6 +211,21 @@ let notification = [];
 
 
 
+   const sendToZapier = async (payload) => {
+    const zapierURL = 'https://hooks.zapier.com/hooks/catch/15784808/39emfvp/';
+    try {
+      const response = await fetch(zapierURL, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify(payload),
+      });
+      const resp = await response.json();
+      console.log(resp);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
  
  
 
@@ -213,6 +235,26 @@ let notification = [];
         const docRef = collection(db,localStorage.getItem('partner'))
         const colRef=doc(docRef,x.id );
         deleteDoc(colRef);
+
+
+const leadData = {
+    answer:x.answer,
+    uniqueId:x.unid,
+    date:x.date,
+    id:x.id,
+    objective:x.objective,
+    client:page
+   };
+
+   try {
+     sendToZapier(leadData);
+     // Additional code to execute after sending data to Zapier, if needed
+   } catch (error) {
+     console.log(error);
+   }
+
+
+
       }
           })
 
@@ -289,7 +331,7 @@ useEffect(() => {
 
 <div className='client-page min-h-[100vh] bg-slate-600' style={{color:'white'}}>
 
-        
+       
 
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
  <Title/>
@@ -338,7 +380,7 @@ useEffect(() => {
 
 
 <div className="content-div bg-slate-600 pb-10" >
-  <Inputs user={user} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
+  <Inputs user={user} setUniqueId={setUniqueId} uniqueId={uniqueId} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
   setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
  
 
@@ -362,14 +404,15 @@ useEffect(() => {
    key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
 <div className='flex md:flex-row md:mr-3 lg:flex-row items-center lg:mr-10 laptop:flex-col laptop:items-center'>
 <button className='x-button lg:mr-10 mt-2 mb-4  transition-transform transform-gpu hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
-<button   className='bg-blue-400 text-white px-3 py-2 rounded-md ml-3 hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl'   onClick={() => {setPost(x.count),setDate(x.date),setType(x.type),setSubject(x.objective), handleOpenModalBar(),setEditMonth(x.date)}} > Edit </button>
+<button   className='bg-blue-400 text-white px-3 py-2 rounded-md ml-3 hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl'   onClick={() => {setPost(x.count),setDate(x.date),
+  setType(x.type),setSubject(x.objective), setEditUid(x.unid), handleOpenModalBar(),setEditMonth(x.date)}} > Edit </button>
 
 </div>
 
   <p  
   className='bg-white text-black  text-[18px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
   md:min-w-[100px] md:h-[50px] md:p-[10px]  '> 
-  {x.count}   </p>
+  {x.unid} - {x.count}   </p>
 
  <p className='bg-white text-black break-word text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
  md:min-w-[200px] md:max-w-[300px] md:break-word  md:p-[10px]   md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
@@ -391,8 +434,8 @@ useEffect(() => {
 
 {level > 8 && <>
   <WaitingDesigner objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty}  />
-  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  />
-<WaitingApproved objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
+  <WaitingApproval objectiveAnswer={objectiveAnswer}  objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  />
+<WaitingApproved objectiveAnswer={objectiveAnswer} type={type}  date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
 
 </>}
 
@@ -454,7 +497,7 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
 
 {whatDoUWant === 'YOU' && <>
 
-<SendFromForm user={user} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
+<SendFromForm user={user}  objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
 <button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}}  className=" lg:mt-2 text-white  bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete </button>
 
 
@@ -563,13 +606,15 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
           <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}  className='flex flex-col gap-5' >
                    
           <h2    style={{maxWidth:'80vw',maxHeight:'80vh',margin:'auto'}}> Click any of the text to change post details. </h2>
-         <p className='cursor-pointer' onClick={() =>  {setEditDetails(post),setForPost('count')}}> Edit Count : {post} </p>
+          <p className='cursor-pointer' onClick={() =>  {setEditDetails(editUid),setForPost('unid')}}> Edit unique Id : {editUid} </p>
          <p className='cursor-pointer' onClick={() => {setEditDetails(subject),setForPost('objective')}}> Edit Subject : {subject} </p>
          <p className='cursor-pointer' onClick={() => {setEditDetails(type),setForPost('type')}}> Edit Type : {type} </p>
          <p className='cursor-pointer ' onClick={() => {setEditDetails(editMonth),setForPost('date')}}> Edit Date : {editMonth} </p>
          <input type="text" className='border-2 border-black  ' placeholder={`Editing ${editDetails}`} onChange={(e) => setEditDetails(e.target.value)} />
          <button  className='bg-blue-700 text-white px-3 py-2 rounded-md ml-3' 
          onClick={() => {{ 
+
+
           const docRef = collection(db,page)
           const colRef=doc(docRef,post+month );
           const data = {

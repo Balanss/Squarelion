@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import ButtonPress from '../../firebaseData/ButtonPress'
 
-export default function Inputs({setPost,setObjective,setDate,setType,setMonth,user,qty,page,post,objective,date,level,type,month,}) {
+export default function Inputs({setPost,setObjective,setDate,setType,setMonth,user,qty,page,post,objective,date,level,type,month,uniqueId,setUniqueId}) {
 
   const [ sure,setSure]= useState('')
 
@@ -27,13 +27,13 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
     " >
 
     {level > 8 ? <>
-  
-      <input value={post} type="text" placeholder='Post number' onChange={(e) => setPost(e.target.value)} required className='input-admindb  border-2 border-black'/>  
+   <input value={uniqueId} type="text" placeholder='Post number ID' onChange={(e) => setUniqueId(e.target.value)} required className='input-admindb  border-2 border-black'/>  
+      <input value={post} type="number" placeholder='Post number' onChange={(e) => setPost(e.target.value)} required className='input-admindb  border-2 border-black'/>  
       <input type="text" placeholder='Subject' value={objective} onChange={(e) => setObjective(e.target.value)} required  className='input-admindb  border-2 border-black'/> 
     <input type=" text" placeholder='Type in Channel' list='suggestions' onChange={(e) => setType(e.target.value)}    className='input-admindb border-2 border-black'/>
     <input value={date} type="number" placeholder='day'  onChange={(e) => {setDate(e.target.value)}}  required className='input-admindb  border-2 border-black'/> 
     <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb  border-2 border-black' /> 
-    <ButtonPress user={user} qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> 
+    <ButtonPress user={user} uniqueId={uniqueId} qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> 
     <datalist id="suggestions">
         <option value="Facebook" />
         <option value="Instagram" />

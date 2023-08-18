@@ -5,7 +5,7 @@ import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDo
 import { auth, fs,db } from '/src/client/Firebase.jsx'
 import {useState, useEffect} from 'react'
 import approved from '../images/approved.png'
-export default function WaitingApproved({typeAnswer,month,page,qty}) {
+export default function WaitingApproved({typeAnswer,month,page,qty,objective,type,date,post,subject,uniqueId,aiReply,user,objectiveAnswer,monthInWords}) {
 
 
   const [name,setName] = useState('')
@@ -14,7 +14,27 @@ export default function WaitingApproved({typeAnswer,month,page,qty}) {
 },[name])
 
 
-    function handleData(){
+const sendToZapier = async (payload) => {
+  const zapierURL = 'https://hooks.zapier.com/hooks/catch/15784808/39evxr4/';
+  try {
+    const response = await fetch(zapierURL, {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(payload),
+    });
+    const resp = await response.json();
+    console.log(resp);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+
+console.log(objectiveAnswer)
+
+   async function handleData(){    
+
+
         fs.collection(page).doc(typeAnswer+month).set({
             color:'green',
             status:'Approved',
@@ -29,11 +49,41 @@ export default function WaitingApproved({typeAnswer,month,page,qty}) {
 
           },{merge:true})
 
+
+       
+            const leadData = {
+             date:date,
+             uniqueId:uniqueId,
+              type: type,
+              objective: objective,
+               count: post,
+               status: 'approved',
+               color:'green',
+               statusText:'approved',
+               month:month,
+               user:user,
+              countNoti : 1,
+              client:page,
+              content:subject,
+              channel:type,
+              answer:objectiveAnswer,
+            
+        
+            };
+        
+            try {
+              await sendToZapier(leadData);
+              // Additional code to execute after sending data to Zapier, if needed
+            } catch (error) {
+              console.log(error);
+            }
+          
+
   }
 
 
 
   return (
-    <p className='bg-green-500 mt-2 mb-2 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}>  Approved </p> 
+    <button className='bg-green-500 mt-2 mb-2 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}>  Approved </button> 
   )
 }

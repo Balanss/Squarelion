@@ -53,20 +53,20 @@ const callEndpoint = async (inputData) => {
 
 
 
-  const sendToZapier = async (payload) => {
-    const zapierURL = import.meta.env.VITE_ZAP;
-    try {
-      const response = await fetch(zapierURL, {
-        method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify(payload),
-      });
-      const resp = await response.json();
-      console.log(resp);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const sendToZapier = async (payload) => {
+  //   const zapierURL = 'https://hooks.zapier.com/hooks/catch/15784808/39emfvp/';
+  //   try {
+  //     const response = await fetch(zapierURL, {
+  //       method: 'POST',
+  //       mode: 'cors',
+  //       body: JSON.stringify(payload),
+  //     });
+  //     const resp = await response.json();
+  //     console.log(resp);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
 
 
@@ -74,22 +74,21 @@ const callEndpoint = async (inputData) => {
 
   async function handleData(){
 if(inputOne > ''){
-  const leadData = {
-    answer:objectiveAnswer,
-    contentToSheet:subject,
-   };
+  // const leadData = {
+  //   answer:objectiveAnswer,
+  //   contentToSheet:subject,
+  //   client:page
+  //  };
 
-   try {
-     await sendToZapier(leadData);
-     // Additional code to execute after sending data to Zapier, if needed
-   } catch (error) {
-     console.log(error);
-   }
+  //  try {
+  //    await sendToZapier(leadData);
+  //    // Additional code to execute after sending data to Zapier, if needed
+  //  } catch (error) {
+  //    console.log(error);
+  //  }
 
 
-   setTimeout(() => {
-     setObjectiveAnswer('')
-   },1000)
+ 
 
 
 
@@ -99,11 +98,16 @@ if(inputOne > ''){
           color:'#00eaff',
           user:user,       
             },{merge:true})
+
+              setTimeout(() => {
+     setObjectiveAnswer('')
+   },2000)
 } else {console.log('error no content')}
 
  }
 
 
+ 
 
 
   return (

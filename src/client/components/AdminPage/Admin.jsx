@@ -8,7 +8,6 @@ import { useNavigate} from 'react-router-dom';
 import User from '../User';
 import Nav from '../Nav';
 import Loading from '../Loading';
-
 import Footer from '../Home/Footer';
 import Edit from './Edit';
 import PartnerLogic from './PartnerLogic';
@@ -31,15 +30,32 @@ export default function Admin() {
     const [partner, setPartner] = useState([]);
 
 
+
+
+    const sendToZapier = async (payload) => {
+      const zapierURL = 'https://hooks.zapier.com/hooks/catch/15784808/39lgxy1/'
+      try {
+        const response = await fetch(zapierURL, {
+          method: 'POST',
+          mode: 'cors',
+          body: JSON.stringify(payload),
+        });
+        const resp = await response.json();
+        console.log(resp);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+
 function handleSub(e){
     e.preventDefault()
-const docRef = collection(db,'partner')
-const colRef = doc(docRef,name)
+// const docRef = collection(db,'partner')
+// const colRef = doc(docRef,name)
+// setDoc(colRef,{name:name},{merge:true})
 
-setDoc(colRef,{name:name},{merge:true})
 
-
-const storageRef = ref(getStorage(), `products/${'partners'}/${image.name}`);
+const storageRef = ref(getStorage(), `products/${'partners'}/${image}`);
 
 // Upload the file to the bucket
 const uploadTask = uploadBytesResumable(storageRef, image);
@@ -68,13 +84,26 @@ uploadTask.on(
 
 
     setDoc(colRef,  {imageUrl: downloadURL,
-      name:name ,
+      name:name,
       status:0,
     
 
     },{merge:true})
 
-  },{merge:true}
+    const leadData = {
+      name:name,
+    }
+
+    try {
+      await sendToZapier(leadData);
+      // Additional code to execute after sending data to Zapier, if needed
+    } catch (error) {
+      console.log(error);
+    }
+
+  
+
+  }
 );
 
 }
@@ -98,9 +127,6 @@ uploadTask.on(
         }
     })
   }
-
-
-
 
 
 
@@ -202,9 +228,9 @@ className="p-4 w-4/5">
 <input type="text" placeholder='ENTER CLIENT ' onChange={(e) => setName(e.target.value)} className='w-[160px] mb-[15px]' />
           <input type="file" className='w-[100px] mt-[15px]' onChange={handleImageChange} />
           <br />
-          <div className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200">
+          <button className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200">
           Add Client
-        </div>
+        </button>
 
 </form>
  </>}   
