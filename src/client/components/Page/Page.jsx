@@ -212,7 +212,7 @@ let notification = [];
 
 
    const sendToZapier = async (payload) => {
-    const zapierURL = 'https://hooks.zapier.com/hooks/catch/15784808/39emfvp/';
+    const zapierURL = import.meta.env.VITE_ZAP_DELETE;
     try {
       const response = await fetch(zapierURL, {
         method: 'POST',

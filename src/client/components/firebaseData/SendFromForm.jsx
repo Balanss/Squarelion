@@ -20,29 +20,10 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
 
 
 
-  // const sendToZapier = async (payload) => {
-  //   const zapierURL ='https://hooks.zapier.com/hooks/catch/15784808/39emfvp/';
-  //   try {
-  //     const response = await fetch(zapierURL, {
-  //       method: 'POST',
-  //       mode: 'cors',
-  //       body: JSON.stringify(payload),
-  //     });
-  //     const resp = await response.json();
-  //     console.log(resp);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+  
 
 
   async function handleData(){
-
-
-
-    
-
-
 
             fs.collection(page).doc(typeAnswer+month).set({ 
                 answer:objectiveAnswer,
