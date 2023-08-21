@@ -29,7 +29,7 @@ function convertToTextFile({ createPdf, pdfCount, pdfDate, pdfObject, pdfChannel
 
 
   const sendToZapier = async (payload) => {
-    const zapierURL = import.meta.env.vite_ZAP_SEND_PDF;
+    const zapierURL = import.meta.env.VITE_ZAP_SEND_PDF;
     try {
       const response = await fetch(zapierURL, {
         method: 'POST',
