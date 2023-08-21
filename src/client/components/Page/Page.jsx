@@ -98,6 +98,8 @@ export default function Page() {
  const [editUid,setEditUid] = useState('waiting')
  const [editDetails,setEditDetails] = useState('')
  const [ forPost,setForPost] = useState('')
+ const [imageUrl,setImageUrl] = useState('')
+ const [ boosting,setBoosting] = useState('0')
 // 
 
 //------------ pdf creation
@@ -179,6 +181,7 @@ if(show !== ''){
       setDate(x.date)
       setObjectiveAnswer(x.answer)
     setType(x.type)
+    setBoosting(x.boosting)
     } 
   })
 }
@@ -351,10 +354,10 @@ useEffect(() => {
 
 {level === 8 && <>
 <div className='admin-links-only-designer text-center mt-10'> <Links/>
-<img src={img}  className='client-pic flex items-center m-auto' style={{backgroundColor:'white',marginBottom:'40px',marginTop:'20px'}}/>  </div>
+<img src={img}  className='client-pic flex items-center m-auto w-40' style={{backgroundColor:'white',marginBottom:'40px',marginTop:'20px'}}/>  </div>
 
 <div className='fixed bottom-0 items-end flex z-50 '>
-<Group />
+{/* <Group /> */}
 </div>
 </>
 }
@@ -362,15 +365,15 @@ useEffect(() => {
 {level > 8 && <>
   <div className='flex flex-row justify-around items-center bg-slate-300 '> 
   <div className='bg-slate-700'><Links/>  </div>
-  <Demo round={round} page={page}/>
+  {/* <Demo round={round} page={page}/> */}
   <img src={img}  className='w-20' style={{backgroundColor:'white',marginBottom:'20px',marginTop:'20px'}}/>
   <div style={{zIndex:1}} >
-  <TxtAll className='txt' filter={filter} />    
+  {/* <TxtAll className='txt' filter={filter} />     */}
 </div>
    </div>
 
    <div className='fixed bottom-0 items-end flex z-50 '>
-<Group />
+{/* <Group /> */}
 <Memo page={page} round={round}/>
 {/* <Bot/> */}
 </div>
@@ -380,7 +383,7 @@ useEffect(() => {
 
 
 <div className="content-div bg-slate-600 pb-10" >
-  <Inputs user={user} setUniqueId={setUniqueId} uniqueId={uniqueId} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
+  <Inputs user={user} boosting={boosting} setBootsing={setBoosting} setUniqueId={setUniqueId} uniqueId={uniqueId} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
   setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
  
 
@@ -390,7 +393,7 @@ useEffect(() => {
 {level === 8 && <>
 
 <Designer show={show} round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer}typeAnswer={typeAnswer}
-                objectiveAnswer={typeAnswer}month={month}color={color}page={page}setShow={setShow}setStatusBar={setStatusBar} user={user} qty={qty}/>
+              objectiveAnswer={typeAnswer} month={month} color={color} page={page} setShow={setShow} statusBar={statusBar} name={name} setStatusBar={setStatusBar} user={user} qty={qty}/>
                  
 
 </>}
@@ -410,12 +413,12 @@ useEffect(() => {
 </div>
 
   <p  
-  className='bg-white text-black  text-[18px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
+  className='bg-white text-black  text-[14px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
   md:min-w-[100px] md:h-[50px] md:p-[10px]  '> 
   {x.unid} - {x.count}   </p>
 
  <p className='bg-white text-black break-word text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
- md:min-w-[200px] md:max-w-[300px] md:break-word  md:p-[10px]   md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
+ md:min-w-[200px] md:max-w-[200px] md:break-word  md:p-[10px]   md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
  
   <p className='bg-white text-black text-[15px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
   md:min-w-[120px] md:p-[10px]  md:h-[50px]' > {x.type} </p>
@@ -434,8 +437,8 @@ useEffect(() => {
 
 {level > 8 && <>
   <WaitingDesigner objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty}  />
-  <WaitingApproval objectiveAnswer={objectiveAnswer}  objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  />
-<WaitingApproved objectiveAnswer={objectiveAnswer} type={type}  date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
+  <WaitingApproval objectiveAnswer={objectiveAnswer}  objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  setShow={setShow} />
+<WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
 
 </>}
 
@@ -525,10 +528,12 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
 
 
 <div className='flex items-baseline'>
-<input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setCreatePdf(x.answer)}} className='mr-2' />
-<Solo createPdf={createPdf} pdfCount={pdfCount} pdfDate={pdfDate} pdfObject={pdfObject} pdfChannels={pdfChannels}  isChecked={isChecked} />
-</div>
+<input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setImageUrl(x.designer), setBoosting(x.boosting), setCreatePdf(x.answer)}} className='mr-2' />
+<Solo createPdf={createPdf} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />
 
+
+</div>
+<h1 className='text-2xl mb-5' > Boosting : {x.boosting}</h1>
 
   </div>
   </div>

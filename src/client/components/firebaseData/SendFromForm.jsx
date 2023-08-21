@@ -166,18 +166,7 @@ lg:w-[120px]">Add Design</button>
 
 
  </div> </>}
-   
-  {level === 8 && <>
-  
-    <div className='above-div-send-designer' > 
-   
 
-<form onSubmit={handleSub} className='designer-upload'> 
-    <input type="file"  clonChange={handleImageChange} style={{width:'90px'}} />
-     <button> Add Design Picture </button>
-</form> 
- </div>
-   </> }
 
  </> )
 }

@@ -5,7 +5,7 @@ import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDo
 import { auth, fs,db } from '/src/client/Firebase.jsx'
 import {useState, useEffect} from 'react'
 import wait from '../images/wait.png'
-export default function WaitingApproval({typeAnswer,month,page,qty}) {
+export default function WaitingApproval({typeAnswer,month,page,qty,setShow}) {
 
 
   const [name,setName] = useState('')
@@ -27,6 +27,9 @@ export default function WaitingApproval({typeAnswer,month,page,qty}) {
 
           },{merge:true})
 
+          setShow('')
+         
+       
 
 
           

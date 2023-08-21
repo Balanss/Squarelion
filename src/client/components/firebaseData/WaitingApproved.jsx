@@ -5,7 +5,7 @@ import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDo
 import { auth, fs,db } from '/src/client/Firebase.jsx'
 import {useState, useEffect} from 'react'
 import approved from '../images/approved.png'
-export default function WaitingApproved({typeAnswer,month,page,qty,objective,type,date,post,subject,uniqueId,aiReply,user,objectiveAnswer,monthInWords}) {
+export default function WaitingApproved({typeAnswer,month,page,qty,objective,type,date,post,subject,uniqueId,aiReply,user,objectiveAnswer,monthInWords,boosting}) {
 
 
   const [name,setName] = useState('')
@@ -67,6 +67,7 @@ console.log(objectiveAnswer)
               content:subject,
               channel:type,
               answer:objectiveAnswer,
+              boosting:boosting,
             
         
             };

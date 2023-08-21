@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import ButtonPress from '../../firebaseData/ButtonPress'
 
-export default function Inputs({setPost,setObjective,setDate,setType,setMonth,user,qty,page,post,objective,date,level,type,month,uniqueId,setUniqueId}) {
+export default function Inputs({setPost,setObjective,setDate,setType,setMonth,user,qty,page,post,objective,date,level,type,month,uniqueId,setUniqueId,boosting,setBootsing}) {
 
   const [ sure,setSure]= useState('')
 
@@ -20,8 +20,8 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
 
 
   return (
-    <form onSubmit={handleAdminSubmit} className=" flex flex-col justify-between items-center h-[400px] bg-slate-600 pt-[20px] text-black
-    md:flex-row md:h-[200px] laptop:h-[250px] md:justify-evenly md:flex-wrap
+    <form onSubmit={handleAdminSubmit} className=" flex flex-col justify-between items-center h-[500px] bg-slate-600 pt-[20px] text-black
+    md:flex-row md:h-[300px] laptop:h-[350px] md:justify-evenly md:flex-wrap
     lg:w-[90vw] lg:m-auto lg:border-2 lg:border-black lg:border-dashed lg:mt-2 lg:mb-2
     xl:w-[1200px] xl:m-auto xl:justify-evenly xl:mt-2 xl:mb-2
     " >
@@ -33,7 +33,8 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
     <input type=" text" placeholder='Type in Channel' list='suggestions' onChange={(e) => setType(e.target.value)}    className='input-admindb border-2 border-black'/>
     <input value={date} type="number" placeholder='day'  onChange={(e) => {setDate(e.target.value)}}  required className='input-admindb  border-2 border-black'/> 
     <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb  border-2 border-black' /> 
-    <ButtonPress user={user} uniqueId={uniqueId} qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> 
+    <input type='text' placeholder='boosting'  value={boosting} onChange={(e) => setBootsing(e.target.value)} /> 
+    <ButtonPress user={user} uniqueId={uniqueId} boosting={boosting}  qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> 
     <datalist id="suggestions">
         <option value="Facebook" />
         <option value="Instagram" />

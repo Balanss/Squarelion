@@ -12,7 +12,7 @@ import { format } from 'date-fns';
 import axios from 'axios'
 
 
-export default function ButtonPress({objective,type,date,post,page,month,setObjective,qty,user,uniqueId}) {
+export default function ButtonPress({objective,type,date,post,page,month,setObjective,qty,user,uniqueId,boosting}) {
 
 
   const [ doubleCheck,setDoubleCheck] = useState(false)
@@ -74,6 +74,7 @@ useEffect(() => {
       channel:type,
       monthInWords:monthInWords,
       answer:aiReply,
+      boosting: '$' + boosting
     
 
     };
