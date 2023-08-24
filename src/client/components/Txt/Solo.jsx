@@ -84,8 +84,13 @@ function convertToTextFile({ createPdf, pdfCount, pdfDate, pdfObject, pdfChannel
 
   return (
     <div style={{marginTop:'40px'}}>
-   
-      <button  disabled={isChecked === true? false : true}  className='download-solo pb-10 mb-10' onClick={handleDownload}>Send To PDF</button>
+
+<button disabled={isChecked === true? false : true} onClick={handleDownload} className="relative cursor-pointer inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+  <span className=" relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+{isChecked !== true? 'Waiting for Checkmark ' : 'Send To PDF'}
+  </span>
+</button> 
+
     </div>
   );
 }

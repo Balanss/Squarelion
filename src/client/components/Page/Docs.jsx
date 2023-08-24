@@ -52,32 +52,12 @@ export default function Docs() {
 
 
     <h1 className='text-3xl mt-5' > 3. Adding a New Note </h1>
-<p className='mt-5 indent-5 font-bold leading-relaxed lg:w-3/4 lg:m-auto lg:mt-2 break-word'>1. To add a new note, simply click on the desired date on the calendar. A note editor will appear, allowing you to input your task details and notes.</p>
-<img src={doc3} className='mt-10 pb-5'/>
-<p className='mt-5 indent-5 font-bold leading-relaxed lg:w-3/4 lg:m-auto lg:mt-2 break-word'> 2. Type your task or note into the input field provided. You can include any relevant information, such as priority, or additional details.</p>
-<p className='mt-5 indent-5 font-bold leading-relaxed lg:w-3/4 lg:m-auto lg:mt-2 break-word'> 3. After completing the note, click on the "+" icon to save it. The new note will be added to the calendar, appearing alongside any existing notes for that date. </p>
+<p className='mt-5 indent-5 font-bold leading-relaxed lg:w-3/4 lg:m-auto lg:mt-2 break-word'>1. To add a new note, simply fill in the time and date , the title for the note and the description </p>
 <img src={doc4}  className='mt-10 pb-5'/>
 
 
 
-    <h1 className='text-3xl mt-5' > 4. Marking Tasks as Completed </h1>
-    <h2 className='mt-5 indent-5 font-bold leading-relaxed lg:w-3/4 lg:m-auto lg:mt-2 '>
-    When you have finished a task, click on the small circle associated with the note on the calendar. The card will turn green, indicating that the task has been completed.
-    </h2>
-    <img src={doc5}  alt={doc5} className='mt-10   md:mt-10 '/>
-
-
-    <h1 className='text-3xl mt-5' > 5. Deleting Notes </h1>
-    <h2 className='mt-5 indent-5 font-bold leading-relaxed lg:w-3/4 lg:m-auto lg:mt-2 '>
-    To remove a note entirely, click on the "Delete" option associated with the note on the calendar.
-    </h2>
-
-
-
-    <h1 className='text-3xl mt-5' > 6. Automatic Removal of Expired Notes </h1>
-    <h2 className='mt-5 indent-5 font-bold leading-relaxed  lg:w-3/4 lg:m-auto lg:mt-5'>
-    When the due date of a note has passed, the system will automatically remove the note from inside the card.
-    </h2>
+   
 
     <h1 className='text-3xl mt-5' > 7. Accessing the Clients Tab </h1>
     <h2 className='mt-5 indent-5 font-bold leading-relaxed  lg:w-3/4 lg:m-auto lg:mt-5'>  To access the Clients Tab, look for the "Clients" option on the side panel of your user profile page. Click on it to open a small window that displays all your SQL clients. </h2>

@@ -231,14 +231,6 @@ md:mt-5'>
 </div> : null}
 
 
-{/* <div class="absolute  inset-0 h-screen bg-opacity-50 bg-gray-500">
-
-  <div class=" w-[400px]  p-8 bg-white shadow-md">
-
-    <h1 class="text-2xl font-bold w-[400px]">{aiReply}</h1>
-
-  </div>
-</div> */}
 
 
 

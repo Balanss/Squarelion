@@ -14,7 +14,7 @@ export default function Sure({setReplyAi,setObjectiveAnswer,objectiveAnswer,subj
  import.meta.env.VITE_STACK_API; // gilmonpurry
 
 const headers = {
-  Authorization: `Bearer ${import.meta.env.VITE_STACK}`, // hide 2182b0ed-c2bc-4b88-959e-2351817e3648
+  Authorization: `Bearer ${import.meta.env.VITE_STACK}`, // 
   'Content-Type': 'application/json'
 };
 
@@ -33,6 +33,7 @@ const callEndpoint = async (inputData) => {
 
 
   const [inputOne, setInputOne] = useState('');
+  const [ btnOff,setBtnOff] = useState(false);
 
 
   const handleClick = async () => {
@@ -44,53 +45,25 @@ const callEndpoint = async (inputData) => {
     } catch (error) {
       console.error(error);
     }
+
+
   };
+
+  function handleButton(){
+    setBtnOff(true);
+
+    setTimeout(() => {
+      setBtnOff(false);
+    },6000)
+    
+  }
 
   const handleInputChange = (event) => {
     setInputOne(event.target.value);
   };
 
-
-
-
-  // const sendToZapier = async (payload) => {
-  //   const zapierURL = 'https://hooks.zapier.com/hooks/catch/15784808/39emfvp/';
-  //   try {
-  //     const response = await fetch(zapierURL, {
-  //       method: 'POST',
-  //       mode: 'cors',
-  //       body: JSON.stringify(payload),
-  //     });
-  //     const resp = await response.json();
-  //     console.log(resp);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
-
-
-
-
   async function handleData(){
 if(inputOne > ''){
-  // const leadData = {
-  //   answer:objectiveAnswer,
-  //   contentToSheet:subject,
-  //   client:page
-  //  };
-
-  //  try {
-  //    await sendToZapier(leadData);
-  //    // Additional code to execute after sending data to Zapier, if needed
-  //  } catch (error) {
-  //    console.log(error);
-  //  }
-
-
- 
-
-
 
           fs.collection(page).doc(typeAnswer+month).set({ 
               answer:objectiveAnswer,
@@ -107,16 +80,35 @@ if(inputOne > ''){
  }
 
 
- 
+ const [ hoverYes,setHoverYes] = useState('')
+
+
+
+const handleMouseEnter =  () => {
+  setHoverYes('Note : Once the button is pressed for " AI Response " it will take a few seconds for the ai to post your message in the textfield')
+};
+
+const handleMouseLeave =  () => {
+  setHoverYes('')
+};
+
 
 
   return (
     <div className='lg:w-[600px] lg:flex lg:flex-row lg:items-center lg:justify-around'>
       <input type="text" value={inputOne} onChange={handleInputChange} className='text-black mr-[6px] lg:mr-4' placeholder='Write prompt here'/>
-      <button onClick={handleClick}
-              className="w-35  bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-blue-600 hover:bg-blue-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
-              <span class="mx-auto">AI Response</span>
+      <button onClick={() => { handleClick(),handleButton()}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} disabled={btnOff === true ? true : false} 
+              className={` ${btnOff? 'opacity-50 cursor-not-allowed w-35  bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-blue-600 hover:bg-blue-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center"'  :
+               'opacity-100 cursor-pointer w-35  bg-white tracking-wide text-gray-800 font-bold rounded border-b-2 border-blue-500 hover:border-blue-600 hover:bg-blue-500 hover:text-white shadow-md py-2 px-6 inline-flex items-center"'}`}>
+              <span className="mx-auto">AI Response</span>
             </button>
+
+
+            {hoverYes > '' ? <div className='fixed bottom-0 bg-white text-black z-[1000] w-full h-20 text-center'>
+<h3 className='mt-5 font-serif text-xl'> {hoverYes} </h3>
+</div> : null}
+
+
 
       <button onClick={handleData} className="relative inline-flex items-center justify-center p-0.5  mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
   <span className=" relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">

@@ -528,7 +528,7 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
 
 
 <div className='flex items-baseline'>
-<input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setImageUrl(x.designer), setBoosting(x.boosting), setCreatePdf(x.answer)}} className='mr-2' />
+<input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setImageUrl(x.designer), setBoosting(x.boosting), setCreatePdf(x.answer)}} className='mr-2 cursor-pointer' />
 <Solo createPdf={createPdf} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />
 
 
