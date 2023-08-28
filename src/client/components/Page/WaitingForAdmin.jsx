@@ -14,16 +14,12 @@ const [level,setLevel] = useState('')
 <div style={{backgroundColor:'ghostwhite'}}>
     <Nav/>
 </div>
-<div className='profiletextwait'>
-<h2> Hello {user}, Currently you are waiting approval from an admin </h2>
+<div className='profiletextwait mt-10'>
+<h2 className='text-center mb-10 text-2xl'> Hello {user}, Currently you are waiting approval from an admin </h2>
 <img src={useLogo} alt="logo"  style={{margin:'0 auto',}} className='sql-logo'/>
-<h3> Sed dapibus tellus at tempor feugiat. Nullam id vehicula lacus.
-     Aliquam erat volutpat. Vestibulum fermentum hendrerit odio, 
-     non blandit metus ullamcorper vel. Nulla sed magna diam. Vestibulum 
-     semper arcu augue, et facilisis leo ornare nec. Maecenas dictum metus vel 
-     enim ultrices efficitur. </h3>
+
 </div>
-<Footer/>
+
     </div>
   )
 }

@@ -179,12 +179,12 @@ useEffect(() => {
 <div className='flex flex-col sm:flex-row   bg-slate-500' >
 
 
-{pan === true && isMobile === true &&<>
+{pan === true && isMobile === true && level > 7 &&<>
   <Panel level={level} showWfh={showWfh} setShowWfh={setShowWfh} user={user} hideList={hideList}
  setHideList={setHideList} sum={sum} work={work} setSendTo={setSendTo} setDisplayTo={setDisplayTo} setPrivateChat={setPrivateChat} setTrueChat={setTrueChat}
  pan={pan} setPan={setPan}/> </>}
 
-{ isMobile === false &&<>
+{ isMobile === false && level > 7 &&<>
   <Panel level={level} showWfh={showWfh} setShowWfh={setShowWfh} user={user} hideList={hideList}
  setHideList={setHideList} sum={sum} work={work} setSendTo={setSendTo} setDisplayTo={setDisplayTo} setPrivateChat={setPrivateChat} setTrueChat={setTrueChat}
  pan={pan} setPan={setPan}/> </>}

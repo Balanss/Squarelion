@@ -34,65 +34,11 @@ const CalendarWithNotes = ({user}) => {
   const [ timeDate, setTimeDate] = useState('');
   const [ title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [btnTitle, setBtnTitle] = useState('Submit');
 
 
   const [cDate, setCDate] = useState([]);
 
-//   const getWork = async () => {
-//     try {
-//       const unsubscribe = fs.collection('calendar')
-//         .onSnapshot((querySnapshot) => {
-//           const cDateArray = querySnapshot.docs.map((doc) => ({
-//             id: doc.id,
-//             ...doc.data()
-//           }));
-
-//           cDateArray.sort((a, b) => a.id - b.id); // Sort the array based on the numeric ID
-
-//           setCDate(cDateArray);
-//         });
-
-//       return unsubscribe;
-//     } catch (error) {
-//       console.error('Error fetching work data:', error);
-//     }
-//   };
-
-//   useEffect(() => {
-//     const unsubscribe = getWork();
-//   }, []);
-
-
-
-
-
-
-// const checkIfNotesAndCDateAreEqual = () => {
-//   const dateISO = cDate.id; // Get the date in ISO string format from cDate
-//   return notes[dateISO] === cDate.note; // Compare the note value for the date in both objects
-// };
-
-
-
-
-//   const handleDateChange = (date) => {
-//     setSelectedDate(date);
-//   };
-
-//   const handleAddNote = () => {
-//     const note = prompt('Enter your note:');
-//     if (note) {
-//       setNotes((prevNotes) => ({
-//         ...prevNotes,
-//         [selectedDate.toISOString()]: note,
-//       }));
-
-//       const docRef = collection(db,'calendar');
-//       const colRef = doc(docRef,selectedDate.toISOString());
-//       setDoc(colRef,{note:note},{merge:true});
-
-//     }
-//   };
 
 const sendToZapier = async (payload) => {
   const zapierURL = import.meta.env.VITE_ZAP_SEND_CAL; // SQL TO ZAP TO GOOGLE Calendar
@@ -130,6 +76,16 @@ async function handleSubmit(e){
     setDescription('')
     setTitle('');
    } , 1500);
+
+   setBtnTitle('Submitted.. Page will be updated')
+
+   setTimeout(() => {
+    // This code will run after 2 seconds
+    window.location.reload(); // Refresh the page
+    setBtnTitle('Submit');
+  }, 2000); // 2000 milliseconds = 2 seconds
+  
+
 }
 
 const handleEditorChange = (value) => {
@@ -153,48 +109,9 @@ const handleEditorChange = (value) => {
       placeholder='Detailed Text here...'
       className='max-w-[90vw] lg:max-w-[500px]  '    
     />
-  <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer'>Submit</button>
+  <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer'>  {btnTitle}   </button>
 </form>  
 </div>
-
-
-      {/* <div className="calendar-container mb-8">
-      <Calendar
-        onChange={handleDateChange}
-        className='lg:!w-[700px]'
-        value={selectedDate}
-        tileContent={({ date, view }) => {
-          // Check if the date is in the past
-          const currentDate = new Date();
-          if (date < currentDate) {
-            return null; // If the date is in the past, don't display the note indicator
-          }
-
-          // Check if there is a note for the date in cDate
-          if (view === 'month') {
-            const dateISO = date.toISOString();
-            const hasNote = cDate.some(item => item.id === dateISO);
-            if (hasNote) {
-              return <p className="note-indicator">●</p>;
-            }
-          }
-          return null;
-        }}
-      />
-      </div>
-      
-      {selectedDate && (
-        <div className="note-editor">
-          <button
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
-            onClick={() => {handleAddNote(),setId(selectedDate.toISOString());}}
-          >
-            Add Note
-          </button>
-        </div>
-      )} */}
-
-
     </div>
   );
 };

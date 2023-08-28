@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 import {useState,useEffect} from 'react'
-import { useNavigate} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -47,6 +47,19 @@ export default function Links() {
 
   }
 
+  function handleGoLink(index){
+
+    partner.map((x,i) => { 
+        if (i === index){
+
+            localStorage.setItem('partner',x.name)
+            localStorage.setItem('image',x.imageUrl)   
+        }
+    })
+
+  }
+
+
 
 
 
@@ -66,6 +79,11 @@ export default function Links() {
   };
 
 
+
+ 
+
+
+
   const list = (anchor) => (
     <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
@@ -75,16 +93,28 @@ export default function Links() {
       
     >
       <List className='min-h-[700px] flex flex-col justify-around '>
-      {partner.map((partner,index) => (<div key={index} style={{display:'flex',alignItems:'center'}}>
-        <button  onClick={() => { handleGo(index)}} 
-        className={level !== 11 && partner.name === 'Test'? 'opacity-20' : 'opacity-100'}   disabled={level !== 11 && partner.name === 'Test'?true : false}  key={index}>
-           
-         <h2 key={index}  style={{cursor:'pointer',marginLeft:'20px'}} > {partner.name}   </h2>   
-         {/* <p style={{color:'red',marginLeft:'10px'}}> {partner.status !== 0 ? partner.status:null}</p> */}
-        </button>
-       
-      </div>
+      {partner.map((partner, index) => (
+  <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+    <button
+      onClick={() => {
+        handleGo(index);
+      }}
+      className={`${
+        level !== 11 && partner.name === 'Test' ? 'opacity-20' : 'opacity-100'
+      } hover:bg-blue-700 p-2 rounded-e-md hover:text-white`} // Add the hover:bg-blue-500 class for the hover effect
+      disabled={level !== 11 && partner.name === 'Test' ? true : false}
+      key={index}
+    >
+      <Link key={index} to={`/profile/${partner.name}`} onContextMenu={() => { handleGoLink(index)}} style={{ cursor: 'pointer', marginLeft: '20px' }}>
+        {partner.name}
+      </Link>
+      {/* <p style={{ color: 'red', marginLeft: '10px' }}>
+        {partner.status !== 0 ? partner.status : null}
+      </p> */}
+    </button>
+  </div>
 ))}
+
       </List>
       <Divider />
       <img src={sql} className='logo' />
