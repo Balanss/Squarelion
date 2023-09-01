@@ -99,7 +99,7 @@ export default function Page() {
  const [editDetails,setEditDetails] = useState('')
  const [ forPost,setForPost] = useState('')
  const [imageUrl,setImageUrl] = useState('')
- const [ boosting,setBoosting] = useState('0')
+ const [ boosting,setBoosting] = useState('')
 // 
 
 //------------ pdf creation
@@ -403,12 +403,23 @@ useEffect(() => {
  { level > 8 ? 
   <div className='mapped-div bg-blue-900 flex-col items-center min-h-[300px]  justify-evenly border-2 border-black mb-10 
   laptop:flex-row  md:min-h-[100px]  md:m-auto md:justify-center md:hover:scale-105 md:flex-col md:transition-transform md:duration-300 lg:w-[95vw]
-  xl:w-[1000px] ' 
+  xl:w-[1250px] ' 
    key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
 <div className='flex md:flex-row md:mr-3 lg:flex-row items-center lg:mr-10 laptop:flex-col laptop:items-center'>
-<button className='x-button lg:mr-10 mt-2 mb-4  transition-transform transform-gpu hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
+<button className='x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
 <button   className='bg-blue-400 text-white px-3 py-2 rounded-md ml-3 hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl'   onClick={() => {setPost(x.count),setDate(x.date),
   setType(x.type),setSubject(x.objective), setEditUid(x.unid), handleOpenModalBar(),setEditMonth(x.date)}} > Edit </button>
+
+  <button  className='text-2xl bg-red-400 text-white px-3 py-2 rounded-md ml-5 hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl'
+   readOnly onClick={() => {
+    const docRef = collection(db,page)
+    const colRef=doc(docRef,x.count+x.month );
+    updateDoc(colRef,{priority: x.priority === 'Prio'? 'No': 'Prio' },{merge:true});
+
+
+  }} >  ! </button>
+
+
 
 </div>
 
@@ -425,6 +436,10 @@ useEffect(() => {
 
   <p className='bg-white text-black text-[15px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
   md:min-w-[120px] md:p-[10px] md:h-[50px]'>  {month}-{x.date}  </p>
+
+<p className={`text-[15px] border-2 border-black min-w-[70px] text-center rounded-sm mt-5 mb-5 ${
+      x.priority === 'Prio' ? 'bg-red-500 text-white' : 'bg-white text-black'
+    } md:min-w-[70px] md:p-[10px] md:h-[50px]`}>  {x.priority} </p>
 
   <p className=' text-black text-[15px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5 
   md:min-w-[110px] md:p-[10px] md:h-[50px]' style={{backgroundColor:x.color}}> {x.status}  </p>
