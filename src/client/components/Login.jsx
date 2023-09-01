@@ -38,7 +38,7 @@ if (email && password !== ''){
       setSuccessMsg("");
       navigate("/")
     },2000)
-  }).catch(error => setErrorMsg(error.message))
+  }).catch(error =>console.log('error'))
 
   }
 }
