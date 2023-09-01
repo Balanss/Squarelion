@@ -203,7 +203,7 @@ useEffect(() => {
 <div className='bg-slate-400 min-h-[100vh] flex flex-col items-center justify-between' style={{color:'white'}}>
 {/* <div style={{backgroundColor:'white'}}> <Nav/> </div> */}
 
- {uuid !== ''  && level > 8 && isLoading === false  && <>  
+ {uuid !== ''  && level > 9 && isLoading === false  && <>  
 <div>
 <div>
 

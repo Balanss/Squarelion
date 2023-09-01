@@ -77,13 +77,13 @@ async function handleSubmit(e){
     setTitle('');
    } , 1500);
 
-   setBtnTitle('Submitted.. Page will be updated')
+   setBtnTitle('Submitted.. Page after you refresh')
 
    setTimeout(() => {
     // This code will run after 2 seconds
-    window.location.reload(); // Refresh the page
+   
     setBtnTitle('Submit');
-  }, 2000); // 2000 milliseconds = 2 seconds
+  }, 3000); // 2000 milliseconds = 2 seconds
   
 
 }

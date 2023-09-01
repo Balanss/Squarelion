@@ -48,7 +48,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
            </li>
   
            <li>
-             {level > 8 ?  <Link to='/admindashboard'  className="  transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
+             {level > 9 ?  <Link to='/admindashboard'  className="  transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
                  <img className='w-[40px]' src={admin} />
                  <span className="flex-1 ml-3 whitespace-nowrap  rounded-lg  dark:text-white" >ADMIN</span>
               </Link> : null}
