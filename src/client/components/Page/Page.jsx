@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import { auth, fs,db } from '../../Firebase'
 import { useNavigate } from 'react-router-dom'
 import User from '../User'
-import {collection,deleteDoc,doc,updateDoc} from "firebase/firestore";
+import {collection,deleteDoc,doc,updateDoc,setDoc} from "firebase/firestore";
 import SendFromForm from '../firebaseData/SendFromForm'
 import { useParams } from 'react-router-dom'
 import Links from './Links'
@@ -408,7 +408,7 @@ useEffect(() => {
 <div className='flex md:flex-row md:mr-3 lg:flex-row items-center lg:mr-10 laptop:flex-col laptop:items-center'>
 <button className='x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
 <button   className='bg-blue-400 text-white px-3 py-2 rounded-md ml-3 hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl'   onClick={() => {setPost(x.count),setDate(x.date),
-  setType(x.type),setSubject(x.objective), setEditUid(x.unid), handleOpenModalBar(),setEditMonth(x.date)}} > Edit </button>
+  setType(x.type),setSubject(x.objective), setEditUid(x.unid), handleOpenModalBar(),setEditMonth(x.date),setBoosting(x.boosting)}} > Edit </button>
 
   <button  className='text-2xl bg-red-400 text-white px-3 py-2 rounded-md ml-5 hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl'
    readOnly onClick={() => {
@@ -640,9 +640,42 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
           const data = {
             [forPost]: editDetails,
           };
-          updateDoc(colRef,data,{merge:true});
+          setDoc(colRef,data,{merge:true});
          } handleCloseBar()}}
           > Submit </button>
+
+
+<p className='cursor-pointer' onClick={() =>  {setEditDetails(editUid),setForPost('unid')}}> Edit Post Count : {post} </p>
+<input type="text" className='border-2 border-black  ' placeholder='Editing Post Count!' onChange={(e) => setEditDetails(e.target.value)} />
+<button  className='bg-blue-700 text-white px-3 py-2 rounded-md ml-3' 
+         onClick={() => {{ 
+
+
+          const docRef = collection(db,page)
+          const colRef=doc(docRef,editDetails+month );
+      
+          setDoc(colRef,{
+            client:page,
+            color:'orange',
+            count:editDetails,
+            date:date,
+            month:month,
+            objective:subject,
+            priority:'No',
+            status:'pending',
+            type:type,
+            unid:editUid,
+            boosting:boosting,
+          },{merge:true});
+
+
+          const docR = collection(db,page)
+          const colR = doc(docR,post+month)
+          deleteDoc(colR);
+
+         } handleCloseBar()}}
+          > Submit For Count </button>
+
  </Typography>
         </Box>
       </Modal>
