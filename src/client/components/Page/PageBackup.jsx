@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import { auth, fs,db } from '../../Firebase'
 import { useNavigate } from 'react-router-dom'
 import User from '../User'
-import {collection,deleteDoc,doc,updateDoc,setDoc,addDoc} from "firebase/firestore";
+import {collection,deleteDoc,doc,updateDoc,setDoc} from "firebase/firestore";
 import SendFromForm from '../firebaseData/SendFromForm'
 import { useParams } from 'react-router-dom'
 import Links from './Links'
@@ -156,9 +156,6 @@ const getRound = async () => {
     const unsubscribe = getRound();
   }, [page]);
 
-
-  const [pri,setPri] = useState('')
-
   function handleText(i ) {
  
 if(show !== ''){
@@ -168,7 +165,6 @@ if(show !== ''){
       setTypeAnswer('')
       setDeletion('')
       setStatusBar('')
-      setPri('')
       
     } 
   })
@@ -186,7 +182,6 @@ if(show !== ''){
       setObjectiveAnswer(x.answer)
     setType(x.type)
     setBoosting(x.boosting)
-    setPri(x.priority)
     } 
   })
 }
@@ -334,15 +329,11 @@ useEffect(() => {
 
 
 
-
-
-
   return (<>
 
 
 <div className='client-page min-h-[100vh] bg-slate-600' style={{color:'white'}}>
 
-{/* <button onClick={handleTest}> click me </button> */}
        
 
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
@@ -365,7 +356,9 @@ useEffect(() => {
 <div className='admin-links-only-designer text-center mt-10'> <Links/>
 <img src={img}  className='client-pic flex items-center m-auto w-40' style={{backgroundColor:'white',marginBottom:'40px',marginTop:'20px'}}/>  </div>
 
-
+<div className='fixed bottom-0 items-end flex z-50 '>
+{/* <Group /> */}
+</div>
 </>
 }
 
@@ -380,9 +373,9 @@ useEffect(() => {
    </div>
 
    <div className='fixed bottom-0 items-end flex z-50 '>
-
+{/* <Group /> */}
 <Memo page={page} round={round}/>
-
+{/* <Bot/> */}
 </div>
 
 </>}
@@ -458,7 +451,7 @@ useEffect(() => {
 {statusBar === i? <div style={{color:'black'}} className='status-div ml-[10px]'> 
 
 {level > 8 && <>
-  <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
+  <WaitingDesigner objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty}  />
   <WaitingApproval objectiveAnswer={objectiveAnswer}  objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  setShow={setShow} />
 <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
 
@@ -551,7 +544,7 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
 
 <div className='flex items-baseline'>
 <input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setImageUrl(x.designer), setBoosting(x.boosting), setCreatePdf(x.answer)}} className='mr-2 cursor-pointer' />
-<Solo createPdf={createPdf} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />
+<Solo createPdf={createPdf} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />
 
 
 </div>

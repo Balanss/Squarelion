@@ -1,31 +1,7 @@
 import React from 'react';
 
-function convertToTextFile({ createPdf, pdfCount, pdfDate, pdfObject, pdfChannels, isChecked }) {
 
-
-
-
-
-
-
-//   let htmlContent = '';
-//   htmlContent +=  `Count: ${pdfCount}\n`;
-//    htmlContent +=  `Subject: ${pdfObject}\n`;
-//    htmlContent +=  `Answer: ${createPdf}\n`;
-//    htmlContent +=  `Channel: ${pdfChannels}\n`;
-//    htmlContent +=  `Date: ${pdfDate}\n\n`;
-
-  
-//   const element = document.createElement('a');
-//   const file = new Blob([htmlContent], { type: 'text/html' });
-//   element.href = URL.createObjectURL(file);
-//   element.download = 'converted_text.html';
-//   document.body.appendChild(element);
-//   element.click();
-//   document.body.removeChild(element);
- }
-
- function Solo({ createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,boosting}) {
+ function Solo({ createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,boosting,post,subject,round}) {
 
 
   const sendToZapier = async (payload) => {
@@ -45,9 +21,23 @@ function convertToTextFile({ createPdf, pdfCount, pdfDate, pdfObject, pdfChannel
 
 
 
+console.log(round[0])
+  const handleDownload = async() => {
 
-  const handleDownload = () => {
 
+    // async function handleTest(){
+    //   try {
+    //     await Promise.all(
+    //       round.map(async (data) => {
+    //         await addDoc(collection(db, 'Testing'), data);
+    //       })
+    //     );
+    //     console.log('Data sent to Firebase successfully.');
+    //   } catch (error) {
+    //     console.error('Error sending data to Firebase:', error);
+    //   }
+    // }
+    
 
     const currentDate = new Date();
 
@@ -62,13 +52,45 @@ function convertToTextFile({ createPdf, pdfCount, pdfDate, pdfObject, pdfChannel
     const leadData = {
     
       postID:uniqueId,
-       channel: type,
-       textContent: createPdf,
-        month:month,
+      //  channel: type,
+      //  textContent: createPdf,
+      //   month:month,
        name:page,
        postDate:postDate,
-       images:imageUrl,
-       boosting:boosting,
+      //  images:imageUrl,
+      //  boosting:boosting,
+      //  subject:subject,
+        post:round[0],
+        post2:round[1],
+        post3:round[2],
+        post4:round[3],
+        post5:round[4],
+        post6:round[5],
+        post7:round[6],
+        post8:round[7],
+        post9:round[8],
+        post10:round[9],
+        post11:round[10],
+        post12:round[11],
+        post13:round[12],
+        post14:round[13],
+        post15:round[14],
+        post16:round[15],
+        post17:round[16],
+        post18:round[17],
+        post19:round[18],
+        post20:round[19],
+        post21:round[20],
+        post22:round[21],
+        post23:round[22],
+        post24:round[23],
+        post25:round[24],
+        post26:round[25],
+        post27:round[26],
+        post28:round[27],
+        post29:round[28],
+        post30:round[29],
+
      };
  
      try {

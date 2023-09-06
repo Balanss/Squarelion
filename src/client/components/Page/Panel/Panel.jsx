@@ -11,6 +11,7 @@ import meeting from '../../images/meeting.png'
 import { Link, useNavigate } from 'react-router-dom'
 import Links from '../Links';
 import { auth, fs,db } from '../../../Firebase'
+import Designer from '../../Designer/Designer';
 
 export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideList,sum,work,setSendTo,setDisplayTo,setPrivateChat,setTrueChat,setPan,pan}) {
 
@@ -61,7 +62,14 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
                  <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white ">  <Links/> </span>
               </a>
            </li>
-  
+
+           <li>
+           <Link to ='/designer' 
+               className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
+                <img className='w-[40px]' src={client} />  
+                 <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white ">  Designer </span>
+              </Link>
+           </li>
            <li>
               <a 
               className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" 
