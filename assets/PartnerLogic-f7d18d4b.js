@@ -1,0 +1,1 @@
+import{r as c,f as i}from"./index-0152fa2a.js";function f({setPartner:o}){const a=async()=>{try{return i.collection("partner").onSnapshot(e=>{const n=e.docs.map(r=>({id:r.id,...r.data()}));n.sort((r,s)=>r.id-s.id),o(n)})}catch(t){console.error("Error fetching partner data:",t)}};c.useEffect(()=>{a()},[])}export{f as P};
