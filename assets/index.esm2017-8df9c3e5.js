@@ -1,4 +1,4 @@
-import{r as Ka}from"./index-901347ae.js";/**
+import{r as Ka}from"./index-aaa0d744.js";/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -4856,7 +4856,7 @@ This typically indicates that your device does not have a healthy Internet conne
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */function YN(n){QN(n,(e,t)=>new Yv(e,t,new GN)),n.registerVersion(qN,jN)}YN(St);const XN={apiKey:"AIzaSyDmeCKj1u6joV57Opj22FUUvQCbgaW7qtI",authDomain:"squarelion-43d29.firebaseapp.com",projectId:"squarelion-43d29",storageBucket:"squarelion-43d29.appspot.com",messagingSenderId:"171439211836",appId:"1:171439211836:web:5aba3918d87876d0d84a39",measurementId:"G-9S8TZFG63M"},tw=St.initializeApp(XN);DT(tw);const $f=St.auth(),JN=St.firestore(),f1=XR(tw);St.firestore();new it;const p1=new St.auth.GoogleAuthProvider;function m1({user:n,setUser:e,setUuid:t,setLevel:r,level:i}){function s(){const[a,c]=Ka.useState(null);return Ka.useEffect(()=>{$f.onAuthStateChanged(u=>{u&&(c(u.uid),t(u.uid))})},[]),a}s();function o(){return Ka.useEffect(()=>{$f.onAuthStateChanged(a=>{a?JN.collection("admin").doc(a.uid).get().then(c=>{e(c.data().Name),localStorage.setItem("user",c.data().Name),r(c.data().level)}):e(null)})},[n]),n}o()}/**
+ */function YN(n){QN(n,(e,t)=>new Yv(e,t,new GN)),n.registerVersion(qN,jN)}YN(St);const XN={apiKey:"AIzaSyDmeCKj1u6joV57Opj22FUUvQCbgaW7qtI",authDomain:"squarelion-43d29.firebaseapp.com",projectId:"squarelion-43d29",storageBucket:"squarelion-43d29.appspot.com",messagingSenderId:"171439211836",appId:"1:171439211836:web:5aba3918d87876d0d84a39",measurementId:"G-9S8TZFG63M"},tw=St.initializeApp(XN);DT(tw);const $f=St.auth(),JN=St.firestore(),f1=XR(tw);St.firestore();new it;const p1=new St.auth.GoogleAuthProvider;function m1({user:n,setUser:e,setUuid:t,setLevel:r}){function i(){const[o,a]=Ka.useState(null);return Ka.useEffect(()=>{$f.onAuthStateChanged(c=>{c&&(a(c.uid),t(c.uid))})},[]),o}i();function s(){return Ka.useEffect(()=>{$f.onAuthStateChanged(o=>{o?JN.collection("admin").doc(o.uid).get().then(a=>{e(a.data().Name),localStorage.setItem("user",a.data().Name),r(a.data().level)}):e(null)})},[n]),n}s()}/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -5210,4 +5210,4 @@ Content-Type: `+u.contentType+`\r
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */const Iw="storage";function g1(n,e,t){return n=C(n),e1(n,e,t)}function y1(n){return n=C(n),t1(n)}function v1(n,e){return n=C(n),s1(n,e)}function w1(n=Qo(),e){n=C(n);const r=dn(n,Iw).getImmediate({identifier:e}),i=Xf("storage");return i&&a1(r,...i),r}function a1(n,e,t,r={}){o1(n,e,t,r)}function c1(n,{instanceIdentifier:e}){const t=n.getProvider("app").getImmediate(),r=n.getProvider("auth-internal"),i=n.getProvider("app-check-internal");return new Nh(t,r,i,e,Mt)}function u1(){Je(new Ve(Iw,c1,"PUBLIC").setMultipleInstances(!0)),Se(Kf,Hf,""),Se(Kf,Hf,"esm2017")}u1();export{UN as G,m1 as U,Nv as _,$f as a,zo as b,Uf as c,f1 as d,w1 as e,JN as f,p1 as g,y1 as h,kN as i,Ff as m,v1 as r,g1 as u,NN as y};
+ */const Iw="storage";function g1(n,e,t){return n=C(n),e1(n,e,t)}function y1(n){return n=C(n),t1(n)}function v1(n,e){return n=C(n),s1(n,e)}function w1(n=Qo(),e){n=C(n);const r=dn(n,Iw).getImmediate({identifier:e}),i=Xf("storage");return i&&a1(r,...i),r}function a1(n,e,t,r={}){o1(n,e,t,r)}function c1(n,{instanceIdentifier:e}){const t=n.getProvider("app").getImmediate(),r=n.getProvider("auth-internal"),i=n.getProvider("app-check-internal");return new Nh(t,r,i,e,Mt)}function u1(){Je(new Ve(Iw,c1,"PUBLIC").setMultipleInstances(!0)),Se(Kf,Hf,""),Se(Kf,Hf,"esm2017")}u1();export{UN as G,m1 as U,Nv as _,$f as a,zo as b,kN as c,f1 as d,Uf as e,JN as f,p1 as g,w1 as h,y1 as i,Ff as m,v1 as r,g1 as u,NN as y};
