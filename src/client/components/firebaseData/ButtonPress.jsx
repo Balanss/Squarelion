@@ -74,7 +74,7 @@ useEffect(() => {
       channel:type,
       monthInWords:monthInWords,
       answer:aiReply,
-      boosting: '$' + boosting,
+      boosting: boosting === '' ? 0 : boosting,
       Priority:'No'
     
 

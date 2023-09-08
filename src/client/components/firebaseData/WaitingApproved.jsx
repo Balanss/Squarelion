@@ -30,7 +30,7 @@ const sendToZapier = async (payload) => {
 };
 
 
-console.log(objectiveAnswer)
+
 
    async function handleData(){    
 

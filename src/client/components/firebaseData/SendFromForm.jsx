@@ -26,7 +26,8 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
   async function handleData(){
 
             fs.collection(page).doc(typeAnswer+month).set({ 
-                answer:objectiveAnswer,
+                answer:objectiveAnswer.slice(3,-4),
+                answerOnWeb:objectiveAnswer,
                 status:'Waiting',
             color:'#00eaff',
             user:user,  
@@ -34,6 +35,8 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
               },{merge:true})
 
  }
+
+
   
       const [imageUrl, setImageUrl] = useState("");
       const [name,setName] = useState("")

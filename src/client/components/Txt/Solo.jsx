@@ -21,7 +21,7 @@ import React from 'react';
 
 
 
-console.log(round[0])
+
   const handleDownload = async() => {
 
 
@@ -52,7 +52,7 @@ console.log(round[0])
     const leadData = {
     
       postID:uniqueId,
-      //  channel: type,
+       channel: type,
       //  textContent: createPdf,
       //   month:month,
        name:page,

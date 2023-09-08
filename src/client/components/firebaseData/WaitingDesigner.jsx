@@ -8,7 +8,7 @@ import design from '../images/graphic-designer.png'
 
 export default function WaitingDesigner({typeAnswer,month,page,post,objectiveAnswer,color,boosting,uniqueId,user,type,subject,img,date,pri}) {
 
-console.log(post)
+
 
     function handleData(){
      

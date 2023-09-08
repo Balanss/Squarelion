@@ -8,7 +8,6 @@ import {collection,deleteDoc,doc,updateDoc,setDoc,addDoc} from "firebase/firesto
 import SendFromForm from '../firebaseData/SendFromForm'
 import { useParams } from 'react-router-dom'
 import Links from './Links'
-import EmojiPicker from 'emoji-picker-react'
 import WaitingDesigner from '../firebaseData/WaitingDesigner'
 import WaitingApproval from '../firebaseData/WaitingApproval'
 import WaitingApproved from '../firebaseData/WaitingApproved'
@@ -34,7 +33,7 @@ import '/src/client/index.css'
 // import Bot from './Bot/Bot'
 import Demo from './Demo/Demo'
 import Sure from '../firebaseData/Sure'
-import { format } from 'date-fns';
+
 
 
 
@@ -228,7 +227,7 @@ let notification = [];
         body: JSON.stringify(payload),
       });
       const resp = await response.json();
-      console.log(resp);
+     
     } catch (e) {
       console.log(e);
     }
@@ -332,7 +331,7 @@ useEffect(() => {
 
 
 
-
+console.log(objectiveAnswer)
 
 
 
@@ -375,7 +374,7 @@ useEffect(() => {
   {/* <Demo round={round} page={page}/> */}
   <img src={img}  className='w-20' style={{backgroundColor:'white',marginBottom:'20px',marginTop:'20px'}}/>
   <div style={{zIndex:1}} >
-  {/* <TxtAll className='txt' filter={filter} />     */}
+  <TxtAll className='txt' filter={filter}  createPdf={createPdf} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />    
 </div>
    </div>
 
