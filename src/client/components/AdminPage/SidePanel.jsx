@@ -81,6 +81,15 @@ export default function SidePanel({level,user,switching,setSwitching}) {
                   <span className="flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">Docs</span>
                 </a> 
              </li>
+
+
+             <li className='transform transition-transform ease-in hover:scale-105 cursor-pointer'>
+               <a onClick={( ) => setSwitching('SQL')}  className="flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
+                  <img src={survey} className='w-[40px]' /> 
+                  <span className="flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">Sql Properties</span>
+                </a> 
+             </li>
+
              <li>
                 <a onClick={handleGoPfP}  className="
                 transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group">

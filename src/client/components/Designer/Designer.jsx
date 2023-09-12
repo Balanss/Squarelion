@@ -98,15 +98,15 @@ const handleImageChange = (e) => {
     designerData.map((designer,index) => {
       if (id === index){
      
-        console.log('success')
+        console.log('success',designer.post)
  
         const docRef = collection(db,designer.page)
         const colRef = doc(docRef,designer.post+designer.month)
         updateDoc(colRef,{designer:designer.designer,hide:true,color:'#00eaff',status:'Design Done',StatusText:'Design Done'},{merge:true})
 
          const docR = collection(db,'DesignerPage')
-         const colR = doc(docR,designer.post+designer.month)
-         updateDoc(colR,{hide:true},{merge:true})
+         const colR = doc(docR,designer.post+designer.month+designer.page)
+         deleteDoc(colR)
 
 
 
@@ -138,7 +138,7 @@ const handleImageChange = (e) => {
 
     <section>
       {designerData.map((designer,id) => (
-     designer.hide === true ? null :    <div key={id}  className='flex flex-row items-center justify-end '> 
+     designer.hide === true ? null :    <div key={id}  className='flex flex-row items-center justify-end border-black border-b-2 mb-8'> 
         <img src={designer.img} className='w-[50px] h-[50px] rounded-md mr-4' />
      <p className='text-black  bg-white text-md border-black border-2 p-2'> Post: {designer.post} </p>
      <p className='text-black  bg-white text-md border-black border-2 p-2'> Date : {designer.date}-{designer.month} </p>

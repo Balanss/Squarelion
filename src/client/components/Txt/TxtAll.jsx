@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import txt from "../images/txt-file.png"
 
 
@@ -92,11 +92,13 @@ function TxtAll ({createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,b
     
   };
 
+  const[hover,setHover]=useState('')
 
 
   return (
     <div>
-      <img src={txt} alt={txt} onClick={handleDownload} className='w-20' style={{ cursor: "pointer"}}/>
+      <img src={txt} alt={txt} onClick={handleDownload}  onMouseLeave={() => setHover('')} onMouseEnter={() => {setHover('Send to google Docs')}} className='w-10' style={{ cursor: "pointer"}}/>
+    <p className=' absolute top-30 text-black bg-white pl-3 pr-3'>  {hover}</p>
     </div>
   );
 }

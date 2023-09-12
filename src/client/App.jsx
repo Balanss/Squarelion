@@ -9,6 +9,7 @@ import Loading from './components/Loading';
 
 
 
+
 const Signup = lazy(() => import('./components/Signup'));
 const Admin = lazy(() => import('./components/AdminPage/Admin'));
 const Login = lazy(() => import('./components/Login'));
@@ -18,7 +19,8 @@ const PartnerProgram = lazy(() => import('./components/PartnerProgram/PartnerPro
 const Page = lazy(() => import('./components/Page/Page'));
 const Profile = lazy(() => import('./components/Page/Profile'));
 const Survey = lazy(() => import('./components/Page/Survey'));
-
+const Designer = lazy(() => import('./components/Designer/Designer'));
+const Prop = lazy(() => import('./components/AdminPage/SqlProperties'));
 
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
           <Route path="/profile/:id" element={<Page />} />
           <Route path="/user/:id" element={<Profile />} />
           <Route path="/user/survey/:id" element={<Survey  />} />
+          <Route path="/designer" element={<Designer  />} />
+          {/* <Route path="/sql-properties" element={<Prop  />} /> */}
         </Routes>
       </Suspense>
  </HashRouter>

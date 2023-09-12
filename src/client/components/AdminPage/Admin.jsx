@@ -13,6 +13,7 @@ import Edit from './Edit';
 import PartnerLogic from './PartnerLogic';
 import SidePanel from './SidePanel';
 import Docs from './Docs';
+import SqlProperties from './SqlProperties';
 
 
 
@@ -282,6 +283,7 @@ className="p-4 w-4/5">
 
 {switching === 'Users' && <Edit/>}
 {switching === 'Docs'  && level === 11 && <Docs/>}
+{switching === 'SQL'  && level === 11 && <SqlProperties/>}
 </div>
  </>}
 
