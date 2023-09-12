@@ -80,130 +80,8 @@ function handleUser(i,e){
 
 
 
-function handleGoToProfile(i){
-
-userPermit.map((x,index) =>{
-
-if(index === i){
-
-const docRef = collection(db,'admin')
-const colRef = doc(docRef,x.id)
-
-updateDoc(colRef,{
-    request:'Accepted',
-},{merge:true})
-
-
-
-const dcRef = collection(db,'notInOffice')
-const clRef = doc(dcRef,x.Name)
-setDoc(clRef,{[x.time]:{
-    request:'Accepted',
-}},{merge:true})
-
-
-
-}
-})
-
-}
-
-
-
-function handleGoToProfileDeny(i){
-
-    userPermit.map((x,index) =>{
-    if(index === i){
-    const docRef = collection(db,'admin')
-    const colRef = doc(docRef,x.id)
-    updateDoc(colRef,{
-        request:'Denied',
-    },{merge:true})
-    
-    
-    const dcRef = collection(db,'notInOffice')
-    const clRef = doc(dcRef,x.Name)
-    setDoc(clRef,{[x.time]:{
-        request:'Denied',
-    }},{merge:true})  
-    }
-    })
-    
-    }
-
-    function handleGoToProfileClear(i){
-
-      userPermit.map((x,index) =>{
-      if(index === i){
-      const docRef = collection(db,'admin')
-      const colRef = doc(docRef,x.id)
-      updateDoc(colRef,{
-          request:'',
-      },{merge:true})
-      
-      
-      const dcRef = collection(db,'notInOffice')
-      const clRef = doc(dcRef,x.Name)
-      setDoc(clRef,{[x.time]:{
-          request:'',
-      }},{merge:true})  
-      }
-      })
-      
-      }
-
-
-    const [ wfhOffice,setWfhOffice ] = useState([]);
-
-    const getWfhOffice = async () => {
-        try {
-          const unsubscribe = fs.collection('notInOffice')
-            .onSnapshot((querySnapshot) => {
-              const wfhOfficeArray = querySnapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data()
-              }));
-      
-              wfhOfficeArray.sort((a, b) => a.id - b.id); // Sort the array based on the numeric ID
-      
-              setWfhOffice(wfhOfficeArray);
-            });
-      
-          return unsubscribe;
-        } catch (error) {
-          console.error('Error fetching WFH/Office data:', error);
-        }
-      };
-      
-      useEffect(() => {
-        const unsubscribe = getWfhOffice();
-      
-        // Cleanup the subscription
-      
-      }, []);
-      
-
- 
-      
-
-
-
-function handleGoToProfilePage(i){
-}
-
-
-const [open, setOpen] = React.useState(false);
-const handleOpen = () => setOpen(true);
-const handleClose = () => setOpen(false);
-const [selectedUser, setSelectedUser] = useState(null);
-
-
-const handleClick = (user) => {
-    setSelectedUser(user);
-  };
-
-
   const[swap, setSwap] = useState(false)
+
 
 
 
@@ -216,102 +94,51 @@ const handleClick = (user) => {
 
 
 
+    <div className="relative  m-auto ml-[7%] mt-10">
+    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" className="px-6 py-3">
+                     Name
+                </th>
+                <th scope="col" className="px-6 py-3">
+                   Level
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    INPUT HERE
+                </th>
+            </tr>
+        </thead>
+        <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+            {userPermit.map((x,i) => {
+                
+                return <tr key={i}>
+                    
+                    <td className="px-6 py-4">
+                       
+                        <div className="flex items-center space-x-3">
 
-  <div className='  m-auto p-10 grid grid-cols-1 gap-2    md:w-4/5  xl:w-4/5' >
-  {swap === false?     userPermit.map((x,i) => { 
-    return  <div className=" 
-    m-auto md:min-w-[350px] mb-10 p-10  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700
-    h-[350px]  lg:h-[120px] lg:w-[700px]" key={i}>
-
-    <div className="flex flex-col items-center pb-10 lg:flex lg:flex-row lg:items-center lg:justify-center ">
-        <img className="w-6 h-6 mb-3 rounded-full shadow-lg lg:mr-10" src={userPfp}/>
-        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white lg:mr-5"  > {x.Name}</h5>
-        <span className="text-sm text-gray-500 dark:text-gray-400 lg:mr-5">{x.level}</span>
-        <div className="flex mt-4 space-x-3 md:mt-6  lg:mt-0">
-            <h3 className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 lg:mr-5"
-            onClick={() => {handleGoToProfilePage(i),handleOpen()}}>  EDIT</h3>
-            
-            <form   onSubmit={(e) => {handleUser(i,e)}}>
+                            <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-blue-500 to-blue-600"></div>
+                            <span>{x.Name}</span>
+                        </div>
+                    </td>
+                    <td className="px-6 py-4">
+                        <div className="text-gray-500 dark:text-gray-400">{x.level}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                    <form   onSubmit={(e) => {handleUser(i,e)}}>
             {x.level !== 11 ?   <input  className='text-black' placeholder='EDIT USER' onChange={(e) => setValue(e.target.value)}/> 
     : null}</form>
-           
-
-
+                    </td>
+                </tr>
+            })}
+        </tbody>
+        </table>
         </div>
-    </div>
-    <div className='flex flex-col items-center pb-3'>
-{x.request > '' ?
-<>
-<div className=' lg:flex lg:flex-row '>
-{x.request !== 'Waiting Request' ?<h3 className='request-approval mr-5 text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center  2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ' onClick={() => handleGoToProfileClear(i)}> Clear  </h3> :null}
-<h3 className='request-approval mr-5 bg-slate-900  p-2 rounded-lg text-white' > {x.request}  </h3>
-<div className='flex flex-row'> 
-<img className='mr-5' src={thumbup} onClick={() => handleGoToProfile(i)}  style={{width:'40px',cursor:'pointer'}}/>
-<img src={thumbdown} onClick={() => handleGoToProfileDeny(i)}  style={{width:'40px',cursor:'pointer'}}/>
- </div>
-</div>
 
-</>
-:null}
-</div>
-
-    
-</div>
-
-
-
-    }) :null }
-
-
-<FormGroup>
+        <FormGroup>
       <FormControlLabel onClick={() => setSwap(swap === false?true:false)} className='w-[300px]' control={<Switch defaultChecked />} style={{color:'black'}} label={swap === false? 'Approved users':'Un-Approved users' }/>
     </FormGroup>
-    </div>
-
-
-    <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            
-          {wfhOffice.map((user) => (
-               <button style={{marginLeft:'10px'}}  key={user.id} onClick={() => handleClick(user)}>
-          {user.id}
-        </button>   
-        
-      
-      ))}
-  
-      {selectedUser && (
-        <div>
-          <h2>Selected User: {selectedUser.id}</h2>
-          {Object.entries(selectedUser).map(([date, userInfo]) => {
-            if (date !== 'id') {
-              const { reason, time, user } = userInfo;
-
-              return (
-                <div key={date}>
-                  <p>Reason: {reason}</p>
-                  <p>Time: {time}</p>
-                  <hr />
-                </div>
-              );
-            }
-            return null;
-          })}
-        </div>
-      )}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-           
-          </Typography>
-        </Box>
-      </Modal>
-
 
 
 
