@@ -85,6 +85,6 @@ const sendToZapier = async (payload) => {
 
 
   return (
-    <button className='bg-green-500 mt-2 mb-2 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}>  Approved </button> 
+    <button className='bg-green-500  w-[30vw] m-auto  mt-2 mb-2 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}>  Approved </button> 
   )
 }

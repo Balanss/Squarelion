@@ -25,6 +25,7 @@ import Cal from './Calendar/Cal'
 import ShowDate from './Calendar/ShowDate'
 import Panel from './Panel/Panel'
 import Docs from './Docs'
+import Version from '../../Version/Version'
 
 export default function Profile() {
 
@@ -158,6 +159,7 @@ useEffect(() => {
   return (<>
   <ProfileFunctions privateChat={privateChat} setChat={setChat} setDesignerChat={setDesignerChat} setMessage={setMessage}/>
   <Title/>
+  <Version/>
   <User setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
 
   

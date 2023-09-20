@@ -44,7 +44,7 @@ function App() {
           <Route path="/user/:id" element={<Profile />} />
           <Route path="/user/survey/:id" element={<Survey  />} />
           <Route path="/designer" element={<Designer  />} />
-          {/* <Route path="/sql-properties" element={<Prop  />} /> */}
+          <Route path="/sqlProp" element={<Prop  />} />
         </Routes>
       </Suspense>
  </HashRouter>

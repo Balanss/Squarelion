@@ -1,77 +1,30 @@
 import React,{useState,useEffect} from 'react'
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import { auth, fs,db } from '../../Firebase'
-import { collection,doc,setDoc,query,where,onSnapshot ,updateDoc, deleteDoc} from "firebase/firestore";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import SqlPropInfo from './SqlPropInfo';
-import Users from '../User';
 import User from '../User';
-import { set } from 'date-fns';
+import Nav from '../Nav';
+import SqlMedia from './SqlProp/SqlMedia';
+import SqlDomein from './SqlProp/SqlDomein';
+import SqlHosting from './SqlProp/SqlHosting';
+import Version from '../../Version/Version'
 
 
 
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-  
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-
-export default function SqlProperties() {
+export default function SqlProperties({}) {
 
 
     const [ Name,setName] = useState('')
     const[Email,setEmail] = useState('')
-    const [ammount,setAmmount] = useState('')
-    const [domeinName,setDomeinName] = useState('')
-    const [expireDate,setExpireDate] = useState('')
-    const [startDate,setStartDate] = useState('')
-    const [ term,setTerm] = useState('')
-    const [ info,setInfo] = useState('')
-    const [info2,setInfo2] = useState('')
-    const [show,setShow] = useState(false)
-    const [ message,setMessage] = useState('')
-    const [edit,setEdit] = useState('waitingg')
-    const [updated,setUpdated] = useState('waiting')
-    const [confirm,setConfirm] = useState(false)
-    const [showSecret,setShowSecret] = useState(false)
-    const [sendToModal,setSendToModal] = useState('')
-    const [sendToModal2,setSendToModal2] = useState('')
+    const [view,setView] = useState('')
+    const [show2,setShow2] = useState(false)
+    const [level,setLevel] = useState('')
+    const [uuid,setUuid] = useState('')
+    const [user,setUser] = useState('')
+    const [password,setPassword] = useState('')
+    const [isLoading,setIsLoading] = useState(false)
+  
 
-    function handleClick(){
-        setShow(true)
-    }
 
-    function handleSubmit(e){
-        e.preventDefault()
-        const docRef = collection(db,'sqlProperties')
-        const colRef = doc(docRef,Name)
-        setDoc(colRef,{Name:Name,Email:Email,ammount:ammount,domeinName:domeinName,expireDate:expireDate,StartDate:startDate,info:info,info2:info2,term:term},{merge:true})
-        setMessage('Added')
-        
-        setTimeout(() => {
-            setShow(false)
-            setMessage('')
-            setName('')
-            setEmail('')
-            setAmmount('')
-            setDomeinName('')
-            setExpireDate('')
-            setStartDate('')
-            setTerm('')
-            setInfo('')
-            setInfo2('')
-
-        }, 2000);
-    }
 
 
     const [data,setData] = useState([])
@@ -108,202 +61,114 @@ export default function SqlProperties() {
         }, []);
 
 
-        const [show2,setShow2] = useState(false)
-    
-        const [editText,setEditText] = useState('')
-        function handleEdit(){
-            setShow2(true)
+
+        const sendToZapier = async (payload) => {
+          const zapierURL = import.meta.env.VITE_MAIL_AUTH;
+          try {
+            const response = await fetch(zapierURL, {
+              method: 'POST',
+              mode: 'cors',
+              body: JSON.stringify(payload),
+            });
+            const resp = await response.json();
+            console.log(resp);
+          } catch (e) {
+            console.log(e);
+          }
+        };
+
+useEffect(() => {
+  setTimeout(() => {
+    setIsLoading(true)
+  }
+  , 5000);
+}
+, []);
+
+        useEffect(() => {
+        if (isLoading === true && uuid && level > 9){
+      console.log('success')
+        } 
+        if (isLoading === true && uuid && level < 10){
+          const leadData = {
+            user: user === ''? "unkown user" : user,
+            Logged: `${user === ""? "unkown user":user} Logged in to the Admin Page at ${new Date().toLocaleString()}`
+          };
+        
+          const sendLeadData = async () => {
+            try {
+              await sendToZapier(leadData);
+              // Additional code to execute after sending data to Zapier, if needed
+            } catch (error) {
+              console.log(error);
+            }
+          };
+        
+          sendLeadData(); // Call the async function
         }
+         if ( isLoading === true && !uuid){
 
-   function handleEditSecret(){
-       setShowSecret(true)
-   }
+          const leadData = {
+            user: user === ''? "unkown user" : user,
+            Logged: `${user === ""? "unkown user":user} Logged in to the Admin Page at ${new Date().toLocaleString()}`
+          };
+        
+          const sendLeadData = async () => {
+            try {
+              await sendToZapier(leadData);
+              // Additional code to execute after sending data to Zapier, if needed
+            } catch (error) {
+              console.log(error);
+            }
+          };
+        
+          sendLeadData(); // Call the async function
 
-   const [level,setLevel] = useState('')
-   const [uuid,setUuid] = useState('')
-   const [user,setUser] = useState('')
+        }
+        }, [isLoading]);
+       
 
+      return(
+            <>
+            
+            <div className='bg-slate-600 w-full h-screen'>
+              <Version/>
+            <User level={level}  setLevel={setLevel} setUuid={setUuid} setUser={setUser}/>
+                <div className='bg-slate-800'>
+                <Nav/>
+                </div>
 
-   //for tomorrow add zapier notifications to charlotte and kriss and add good security key and hide to env or db
+        
 
-  return (
-    <div className='flex flex-col items-end  m-auto w-[80%] '>
-<User  setLevel={setLevel} setUuid={setUuid} setUser={setUser}/>
-{level > 9 && <>
-    <section>
-  <div>
-        <h1 className='mt-10 text-5xl mb-10 '>
-        SQL Property Details
-    </h1>
-  </div>
-
-    <div className='text-center'>
-        <button onClick={handleClick} className='bg-blue-500 hover:bg-blue-800 hover:border-yellow-500 border-2 text-white font-bold py-2 px-4 rounded'> ADD </button>
-        <Modal
-            open={show}
-            onClose={() => setShow(false)}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                    <form className='flex flex-col ' onSubmit={handleSubmit}>
-                        <input type='text' placeholder='Name' className='border-2 border-gray-300 rounded-md p-2 mt-5' onChange={(e) => setName(e.target.value)} />
-                        <input type='text' placeholder='Email' className='border-2 border-gray-300 rounded-md p-2 mt-5' onChange={(e) => setEmail(e.target.value)} />
-                        <input type='text' placeholder='Amount' className='border-2 border-gray-300 rounded-md p-2 mt-5' onChange={(e) => setAmmount(e.target.value)} />
-                        <input type='text' placeholder='Domein Name' className='border-2 border-gray-300 rounded-md p-2 mt-5' onChange={(e) => setDomeinName(e.target.value)} />
-                        <input type='text' placeholder='Start Date' className='border-2 border-gray-300 rounded-md p-2 mt-5' onChange={(e) => setStartDate(e.target.value)} />
-                        <input type='text' placeholder='Term Length' className='border-2 border-gray-300 rounded-md p-2 mt-5' onChange={(e) => setTerm(e.target.value)} />
-                        <input type='text' placeholder='Expire Date' className='border-2 border-gray-300 rounded-md p-2 mt-5' onChange={(e) => setExpireDate(e.target.value)} />
-                        <input type='text' placeholder='Info-Login' className='border-2 border-gray-300 rounded-md p-2 mt-5' onChange={(e) => setInfo(e.target.value)} />
-                        <input type='text' placeholder='Info-Email' className='border-2 border-gray-300 rounded-md p-2 mt-5' onChange={(e) => setInfo2(e.target.value)} />
-                        <button className='border-2 border-gray-300 rounded-md p-2 mt-5 bg-blue-500 hover:bg-blue-700'>Submit</button>
-                      <h2 className='mt-5 text-center'>  {message} </h2>
-                    </form>
-                </Typography>
-            </Box>
-        </Modal>
-    </div>
+<section className=''>
+<div className=" rounded-md shadow-sm text-center mt-10 mb-5" role="group">
+  <button onClick={() =>setView('Social Media')}  className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+    Social Media
+  </button>
+ <button onClick={() =>setView('Domain')} className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+    Domain
+    </button>
+    <button onClick={() =>setView('Hosting Information')} className="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+    Hosting Information
+    </button>
+</div>
 </section>
 
-
-
-
-<div className="relative overflow-x-auto m-auto ml-[7%] mt-10">
-    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" className="px-6 py-3">
-                     Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Contact Email
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Domein 
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Start Date
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Term Length
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Expiry Date
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Info
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Amount
-                </th>
-                <th scope="col" className="px-6 py-3 " >  
-                  Delete
-                </th>
-
-            </tr>
-        </thead>
-        <tbody>
-     {data.map((x,id) => (
-      <tr key={id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-
-      <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" >
-          {x.Name}
-      </th>
-      <td className="text-[16px] cursor-pointer  hover:bg-blue-700 " onClick={() => {
-      setEdit(x.Name), setEditText('Email'), handleEdit()
-      }} >
-          {x.Email}
-      </td>
-      <td className="px-6 py-4 cursor-pointer  hover:bg-blue-700 " onClick={() => {
-      setEdit(x.Name),setEditText('domeinName'), handleEdit()
-      }}>
-         <a href={`https://${x.domeinName}`} target='_blank' rel="noreferrer"> Link </a>
-      </td>
-      <td className="text-[16px] cursor-pointer  hover:bg-blue-700 " onClick={() => {
-      setEdit(x.Name), setEditText('term'), handleEdit()
-      }}>
-          {x.term}
-      </td>
-      <td className="text-[16px] cursor-pointer  hover:bg-blue-700 " onClick={() => {
-      setEdit(x.Name), setEditText('StartDate'), handleEdit()
-      }}>
-          {x.StartDate}
-      </td>
-      <td className="text-[16px] cursor-pointer  hover:bg-blue-700 " onClick={() => {
-      setEdit(x.Name), setEditText('expireDate'), handleEdit()
-      }}>
-          {x.expireDate}
-      </td>
-
-      <td className="text-[16px] cursor-pointer  hover:bg-blue-700 " onClick={() => {
-      setEdit(x.Name),setEditText('info'), setSendToModal(x.info),setSendToModal2(x.info2), handleEditSecret()
-      }}>
-        Enter KEY
-      </td>
-      <td className="px-6 py-4 cursor-pointer  hover:bg-blue-700 " onClick={() => {
-      setEdit(x.Name), setEditText('ammount'), handleEdit()
-      }}>
-          {x.ammount}
-      </td>
-    <td>
-        <button className='border-2 text-white border-gray-300 rounded-md p-2  bg-red-500 hover:bg-red-700 ' onClick={() => {
-            const docRef = collection(db,'sqlProperties')
-            const colRef = doc(docRef,x.Name)
-            deleteDoc(colRef)
-            setMessage('Deleted')
-            setTimeout(() => {
-                setMessage('')
-            }, 2000);
-        }}> Delete</button>
-    </td>
-      
- <SqlPropInfo setShowSecret={setShowSecret} setUpdated={setUpdated} updated={updated} sendToModal={sendToModal} sendToModal2={sendToModal2}
-  showSecret={showSecret} edit={edit} editText={editText} setMessage={setMessage} setEdit={setEdit} confirm={confirm} setConfirm={setConfirm} message={message}/>
-
-{/* 
-this modal views all other topics but info */}
- <Modal
-     open={show2}
-     onClose={() => setShow2(false)}
-     aria-labelledby="modal-modal-title"
-     aria-describedby="modal-modal-description"
- >
-     <Box sx={style}>
-         <Typography id="modal-modal-title" variant="h6" component="h2">
-             <form className='flex flex-col ' onSubmit={(e) => e.preventDefault()}>
-                <input type='text' placeholder={editText} className='border-2 border-gray-300 rounded-md p-2 mt-5' onChange={(e) => setUpdated(e.target.value)} />
-                 <button className='border-2 border-gray-300 rounded-md p-2 mt-5 bg-blue-500 hover:bg-blue-700 ' 
-                 onClick={()=> {
-                     const docRef = collection(db,'sqlProperties')
-                     const colRef = doc(docRef,edit)
-                     updateDoc(colRef,{[editText]:updated})
-                     setMessage('Updated')
-                     setTimeout(() => {
-                         setShow2(false)
-                         setMessage('')
-                         setEdit('')
-                         setUpdated('')
-                     }, 2000);
-                 }}> Update</button>
-             </form>
-             <br/>
-             {message}
-         </Typography>
-     </Box>
- </Modal>
-
-
-      </tr>
-      ))}     
-        </tbody>
-    </table>
+<div>
+    {view !== 'Social Media'? null : <SqlMedia setName={setName} Name={Name} Email={Email} setEmail={setEmail}/>}
+    {view !== 'Domain'? null : <SqlDomein setName={setName} Name={Name} Email={Email} setEmail={setEmail}/>}
+    {view !== 'Hosting Information'? null : <SqlHosting setName={setName} Name={Name} Email={Email} setEmail={setEmail}/>}
 </div>
-</>}
 
 
-    </div>
-  )
+                </div>
+
+           </>
+
+
+      )
+    
+       
 }
 
 

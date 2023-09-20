@@ -8,12 +8,11 @@ import { Link, useNavigate} from 'react-router-dom';
 import User from '../User';
 import Nav from '../Nav';
 import Loading from '../Loading';
-import Footer from '../Home/Footer';
 import Edit from './Edit';
 import PartnerLogic from './PartnerLogic';
 import SidePanel from './SidePanel';
 import Docs from './Docs';
-import SqlProperties from './SqlProperties';
+import Version from '../../Version/Version'
 
 
 
@@ -230,19 +229,30 @@ useEffect(() => {
 
   const timer = setTimeout(() => {
     setImgLoading(false);
-  }, 1500);
+  }, 500);
 
   return () => clearTimeout(timer);
 }, []);
 
+const [imgLoading2,setImgLoading2] = useState(true)
+useEffect (() => {
+  const timer = setTimeout(() => {
+    setImgLoading2(false);
+  }, 1000);
+
+  return () => clearTimeout(timer);
+}
+,[])
 
 
 
   return (
 
     <> 
+    <Version/>
 <PartnerLogic partner={partner} setPartner={setPartner}/>
 <User  setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
+
 <div className='bg-slate-400 min-h-[100vh] flex flex-col items-center justify-between' style={{color:'white'}}>
 
 
@@ -256,7 +266,7 @@ useEffect(() => {
 
 {switching === 'Client' && 
 <div 
-className="p-4 w-4/5">
+className="p-4 md:w-4/5 md:ml-[20%]">
    <div className="">
    <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
          <div  className=" text-center text-2l
@@ -276,10 +286,11 @@ className="p-4 w-4/5">
          </div>
       </div>
 
-      <div className='table-split flex flex-row'> 
+      <div className='table-split lg:flex lg:flex-row'> 
       
       {imgLoading?  
-<div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div> </div>  :<div className="relative  m-auto ml-[7%] mt-10 w-[400px]">
+<div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div> </div>  :
+<div className="relative  m-auto ml-[7%] mt-10 w-[400px]">
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -298,6 +309,7 @@ className="p-4 w-4/5">
  
  <tr key={index}>
    <td className="px-6 py-4">
+  
        <div className="flex items-center space-x-3">
            <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-blue-500 to-blue-600"></div>
            <span>{x.name}</span>   
@@ -308,7 +320,14 @@ className="p-4 w-4/5">
          <button onClick={() => { handleGoRight(index) }}
        disabled={level !== 11 && x.name === 'Test' ? true : false}
        className={level !== 11 && x.name === 'Test' ? 'opacity-20' : 'opacity-100 '}>
-<img src={x.imageUrl} style={{width:'600px'}}  /> 
+
+<div className="flex items-center justify-center  rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+    {imgLoading2 === false ? null :<div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>}
+    <img src={x.imageUrl}  className={`sm:w-[100px] md:w-[200px] lg:w-[500px] ${imgLoading2 ? 'hidden' : 'visible'}`} />
+</div>
+
+
+
          </button>
         </div>
    </td>
@@ -316,7 +335,9 @@ className="p-4 w-4/5">
 ))}
 
 </tbody>
-</div>}
+</div>
+
+}
 {/* here ends left side of table */}
 
 
@@ -351,7 +372,10 @@ className="p-4 w-4/5">
          <button onClick={() => { handleGoRight(index) }}
        disabled={level !== 11 && x.name === 'Test' ? true : false}
        className={level !== 11 && x.name === 'Test' ? 'opacity-20' : 'opacity-100 '}>
-<img src={x.imageUrl} style={{width:'600px'}}  /> 
+<div className="flex items-center justify-center  rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+    {imgLoading2 === false ? null :<div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>}
+    <img src={x.imageUrl} className={`sm:w-[100px] md:w-[200px] lg:w-[500px] ${imgLoading2 ? 'hidden' : 'visible'}`} />
+</div>
          </button>
         </div>
    </td>
@@ -363,38 +387,6 @@ className="p-4 w-4/5">
 
 </div>
 
-
-            
-
-      {/* <div className=" bg-gray-800 dark:bg-gray-800">
-      <div className='lg:grid lg:grid-rows-3 lg:grid-cols-3 lg:gap-4 pt-10 pl-10 lg:max-h-[100vh] sm:max-h-[500px] sm:overflow-scroll'>
-       
-  {partner.map((partner, index) => (
-    <div key={partner.id} className='p-10 mt-15 mb-5 flex justify-center w-[180px] md:w-[180px] md:h-[180px] bg-transparent hover:bg-white transition duration-1000 rounded-sm'>
-      <button
-
-      >
-        <div className="relative">
-          {imgLoading && (
-          
-           
-        
-          )}
-          <img
-            className={`transform transition-transform ease-in hover:scale-105 cursor-pointer w-[100px] ${imgLoading ? 'opacity-0' : 'opacity-100'}`}
-            src={partner.imageUrl}
-            alt="Partner Image"
-          />
-        </div>
-      </button>
-    </div>
-  ))}
-</div>
-
-  </div> */}
-
-  
-
    </div>
 </div>}
 
@@ -403,7 +395,7 @@ className="p-4 w-4/5">
 
 {switching === 'Users' && <Edit/>}
 {switching === 'Docs'  && level === 11 && <Docs/>}
-{switching === 'SQL'  && level > 9 && <SqlProperties/>}
+
 </div>
  </>}
 

@@ -53,24 +53,24 @@ export default function SidePanel({level,user,switching,setSwitching}) {
              <li>
                 <Link to='/'
                  className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
-                   <img src={homeBtn} className='w-[40px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white' />
-                   <span className="ml-3 text-white rounded-lg dark:text-white">Home</span>
+                   <img src={homeBtn} className='md:w-[30px] lg:w-[40px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white' />
+                   <span className=" md:text-sm lg:text-md ml-3 text-white rounded-lg dark:text-white">Home</span>
                 </Link>
              </li>
              <li>
                 <a 
                  className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" 
                  onClick={( ) => setSwitching('Client')}>
-                <img className='w-[40px]' src={client} />  
-                   <span className="flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">  CLIENTS  </span>
+                <img className='md:w-[30px] lg:-[40px]' src={client} />  
+                   <span className=" md:text-sm lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">  CLIENTS  </span>
                 </a>
              </li>
  {level > 9 ?             <li>
                 <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" onClick={( ) => {setSwitching('Users'),
             setHiding(false),setTimeout(() => setHiding(true),1000)
                }}>
-                <img src={usersPic} className='w-[40px]' />
-                   <span className="flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">
+                <img src={usersPic} className='md:w-[30px] lg:-[40px]' />
+                   <span className="md:text-sm lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">
                     USERS
                    </span>
                   
@@ -78,24 +78,24 @@ export default function SidePanel({level,user,switching,setSwitching}) {
              </li> : null}
              <li className='transform transition-transform ease-in hover:scale-105 cursor-pointer'>
                <a onClick={( ) => setSwitching('Docs')}  className="flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
-                  <img src={survey} className='w-[40px]' /> 
-                  <span className="flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">Docs</span>
+                  <img src={survey} className='md:w-[30px] lg:-[40px]' /> 
+                  <span className="md:text-sm lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">Docs</span>
                 </a> 
              </li>
 
 
            {level > 9?   <li className='transform transition-transform ease-in hover:scale-105 cursor-pointer'>
-               <a onClick={( ) => setSwitching('SQL')}  className="flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
-                  <img src={sqlProps} className='w-[40px]' /> 
-                  <span className="flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">Sql Properties</span>
+               <a onClick={( ) => setSwitching('')}  className="flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
+                  <img src={sqlProps} className='w-[30px]' /> 
+                  <Link to='/sqlProp' className="md:text-sm lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">Sql Properties</Link>
                 </a> 
              </li> : null}
 
              <li>
                 <a onClick={handleGoPfP}  className="
                 transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group">
-                  <img src={userPfp} className='w-[40px]' />
-                   <span className="flex-1 ml-3 whitespace-nowrap">{user}</span>
+                  <img src={userPfp} className='md:w-[30px] lg:-[40px]' />
+                   <span className="md:text-sm lg:text-md flex-1 ml-3 whitespace-nowrap">{user}</span>
                 </a>
              </li>
              <li>

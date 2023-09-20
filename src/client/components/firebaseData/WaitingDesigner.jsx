@@ -20,7 +20,6 @@ export default function WaitingDesigner({typeAnswer,month,page,post,objectiveAns
             month:month,
             page:page,
             post:post,
-            color:color,
           date:date,
             uniqueId:uniqueId,
             user:user,
@@ -44,6 +43,6 @@ export default function WaitingDesigner({typeAnswer,month,page,post,objectiveAns
 
   }
   return (
-    <p  className='bg-yellow-500 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}> Designer </p>
+    <p  className='bg-yellow-500 w-[30vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}> Designer </p>
   )
 }

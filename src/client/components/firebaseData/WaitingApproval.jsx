@@ -42,7 +42,7 @@ export default function WaitingApproval({typeAnswer,month,page,qty,setShow}) {
 
 
   return (
-    <p className='bg-sky-500 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110
+    <p className='bg-sky-500 w-[30vw] m-auto  p-2 cursor-pointer transition-transform transform-gpu hover:scale-110
     ' onClick={handleData}>  Waiting  </p> 
   )
 }

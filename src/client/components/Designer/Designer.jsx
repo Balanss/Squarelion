@@ -107,7 +107,7 @@ const handleImageChange = (e) => {
          const docR = collection(db,'DesignerPage')
          const colR = doc(docR,designer.post+designer.month+designer.page)
          deleteDoc(colR)
-
+ setImageUrl('')
 
 
       } else {
@@ -120,7 +120,7 @@ const handleImageChange = (e) => {
  
   const [button, setButton] = useState(false)
 
-  // add a tailwind zoom in on the view button
+console.log(imageUrl)
 
   return (
    <>
@@ -150,11 +150,11 @@ const handleImageChange = (e) => {
 
      <form onSubmit={() => {handleSub(id)}} className='designer-upload  mr-5 ml-4'> 
 <input type="file" className='mb-5 mr-5'  onChange={handleImageChange} style={{width:'90px'}} />
-<button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
-<span className=" relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-Upload Image
-</span>
-</button> 
+{imageUrl === '' ? null : <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"  type='submit'>
+  <span className=" relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+    Click to Upload Image
+    </span>
+    </button>}
 </form> 
 
 <div >
@@ -162,7 +162,7 @@ Upload Image
 {designer.designer === undefined ? null : 
 <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"  onClick={() => {handleSend(id)}}>
 <span className=" relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-Done
+Complete Design
 </span>
 </button> }
 
@@ -196,7 +196,7 @@ Done
      >
        <Box sx={style}>
          <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}} >
-          <h1> {content} </h1>  
+           {content} 
         <img src={image}/>
          </Typography>
 

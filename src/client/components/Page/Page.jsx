@@ -11,13 +11,9 @@ import Links from './Links'
 import WaitingDesigner from '../firebaseData/WaitingDesigner'
 import WaitingApproval from '../firebaseData/WaitingApproval'
 import WaitingApproved from '../firebaseData/WaitingApproved'
-import Upload1 from '../firebaseData/Upload1'
-import Upload2 from '../firebaseData/Upload2'
-import Upload3 from '../firebaseData/Upload3'
 import cross from '../images/cross.png'
 import Solo from '../Txt/Solo'
 import TxtAll from '../Txt/TxtAll'
-import Group from '../GroupChat/Group'
 import Title from '../../Title'
 import Designer from './PageFunctions/Designer'
 import view from '../images/open.png'
@@ -33,6 +29,8 @@ import '/src/client/index.css'
 // import Bot from './Bot/Bot'
 import Demo from './Demo/Demo'
 import Sure from '../firebaseData/Sure'
+import { ShowChart } from '@mui/icons-material'
+import Version from '../../Version/Version'
 
 
 
@@ -53,6 +51,18 @@ const style = {
   p: 4,
 };
 
+const styleNew = {
+  position: 'absolute',
+  top: '50%',
+  bottom:'0',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 const styleBar = {
   position: 'absolute',
   top: '100%',
@@ -62,6 +72,7 @@ const styleBar = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
+  
 
 };
 
@@ -99,6 +110,9 @@ export default function Page() {
  const [ forPost,setForPost] = useState('')
  const [imageUrl,setImageUrl] = useState('')
  const [ boosting,setBoosting] = useState('')
+ const [title,setTitle] = useState('')
+ 
+const [showRound,setShowRound] = useState()
 // 
 
 //------------ pdf creation
@@ -123,6 +137,9 @@ setHide(false)
   
  
 
+
+
+
 const getRound = async () => {
   setPage(localStorage.getItem('partner'));
   try {
@@ -141,6 +158,8 @@ const getRound = async () => {
         });
 
         setRound(roundArray);
+
+      
       });
 
     return unsubscribe;
@@ -150,10 +169,11 @@ const getRound = async () => {
   }
 };
   
+
   
   useEffect(() => {
     const unsubscribe = getRound();
-  }, [page]);
+  }, [page,showRound]);
 
 
   const [pri,setPri] = useState('')
@@ -235,6 +255,7 @@ let notification = [];
 
  
  
+  const [deleteDPage,setDeleteDPage] = useState('')
 
   function handleDelete(i) {
     round.map((x,index) => {
@@ -242,6 +263,10 @@ let notification = [];
         const docRef = collection(db,localStorage.getItem('partner'))
         const colRef=doc(docRef,x.id );
         deleteDoc(colRef);
+
+        const dcRef = collection(db,'DesignerPage')
+        const clRef=doc(dcRef,x.id+x.client );
+        deleteDoc(clRef);
 
 
 const leadData = {
@@ -325,14 +350,41 @@ useEffect(() => {
   return () => clearTimeout(timeout);
 }, []);
 
+function handleEditted(i) {
+
+  if(title === 'count'){
+
+    const docRef = collection(db,page)
+    const colRef=doc(docRef,editDetails+month );
+
+    setDoc(colRef,{
+      client:page,
+      color:'orange',
+      count:editDetails,
+      date:date,
+      month:month,
+      objective:objective,
+      priority:'No',
+      status:'pending',
+      type:type,
+      unid:uniqueId,
+      boosting:boosting,
+    },{merge:true});
 
 
+    const docR = collection(db,page)
+    const colR = doc(docR,post+month)
+    deleteDoc(colR);
 
+  } else {
+  const docRef = collection(db,page)
+  const colRef=doc(docRef,post+month );
+  updateDoc(colRef,{[title]: editDetails },{merge:true});
+  }
 
+handleCloseBar()
 
-
-console.log(objectiveAnswer)
-
+}
 
 
 
@@ -340,11 +392,8 @@ console.log(objectiveAnswer)
 
 
 <div className='client-page min-h-[100vh] bg-slate-600' style={{color:'white'}}>
-
-{/* <button onClick={handleTest}> click me </button> */}
-       
-
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
+  <Version/>
  <Title/>
 <div className='border-b-2 border-yellow-500 pt-10 bg-slate-800'> <Nav/> </div>  
 
@@ -396,91 +445,105 @@ console.log(objectiveAnswer)
  
   
   {/* designer sees only his tabs and not the whole page */}
-{level === 8 && <>
+{/* {level === 8 && <>
 
 <Designer show={show} round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer}typeAnswer={typeAnswer}
               objectiveAnswer={typeAnswer} month={month} color={color} page={page} setShow={setShow} statusBar={statusBar} name={name} setStatusBar={setStatusBar} user={user} qty={qty}/>
                  
 
-</>}
+</>} */}
 
 {/* level 9 and above sees all tabs */}
-{round.map((x,i) => {  return <>
- { level > 8 ? 
-  <div className='mapped-div bg-blue-900 flex-col items-center min-h-[300px]  justify-evenly border-2 border-black mb-10 
-  laptop:flex-row  md:min-h-[100px]  md:m-auto md:justify-center md:hover:scale-105 md:flex-col md:transition-transform md:duration-300 lg:w-[95vw]
-  xl:w-[1250px] ' 
-   key={i} style={x.month === month ? {display:'flex'} :{display:'none'}}> 
-<div className='flex md:flex-row md:mr-3 lg:flex-row items-center lg:mr-10 laptop:flex-col laptop:items-center'>
-<button className='x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
-<button   className='bg-blue-400 text-white px-3 py-2 rounded-md ml-3 hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl'   onClick={() => {setPost(x.count),setDate(x.date),
-  setType(x.type),setSubject(x.objective), setEditUid(x.unid), handleOpenModalBar(),setEditMonth(x.date),setBoosting(x.boosting)}} > Edit </button>
 
-  <button  className='text-2xl bg-red-400 text-white px-3 py-2 rounded-md ml-5 hover:scale-110 hover:border-white hover:border-2 hover:rounded-xl'
-   readOnly onClick={() => {
+{/* <section>
+<div className='flex flex-row justify-center items-center gap-5 mt-10'>
+  <button onClick={() => {setShowRound('.slice(0,14')}}> Show 1-10 post </button>
+  <button onClick={() => {setShowRound('.slice(15,31')}}> Show  11-20 post </button>
+  <button onClick={() => {setShowRound(round.slice(20,29))}}> Show  21-30 post </button>
+  </div>
+</section> */}
+
+<Suspense fallback={<div>Loading...</div>}>
+  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+            <th scope="col" className="px-6 py-3">
+                    Status
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Unique Id
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Post
+                </th>
+                <th scope="col" className="px-6 py-3">
+                   Subject
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Channel
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Day
+                </th>
+     
+                <th scope="col" className="px-6 py-3">
+                   Prio
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    View
+                </th>
+            </tr>
+        </thead>
+        {round.map((x,i) => {  return <>
+
+        <thead>
+        <tr className="bg-white border-b border-gray-200 dark:bg-gray-700 dark:border-gray-800" key={i}>
+                 <td className='text-black   text-center rounded-sm font-medium' style={{backgroundColor:x.color}} >
+                 {x.status}
+            </td>
+
+            <td className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-400" onClick={() => {setForPost(x.unid),handleOpenModalBar(),setPost(x.count),setTitle('unid')}}>
+                {x.unid}
+            </td>
+            <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" onClick={() => {setUniqueId(x.unid),setForPost(x.count),handleOpenModalBar(),setPost(x.count),setTitle('count'),setDate(x.date),setObjective(x.objective),setType(x.type)}}>
+                {x.count}
+            </td>
+            <td className="px-6  cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" onClick={() => {setForPost(x.objective),handleOpenModalBar(),setPost(x.count),setTitle('objective')}}>
+                {x.objective}
+                
+            </td>
+            <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" onClick={() => {setForPost(x.type),handleOpenModalBar(),setPost(x.count),setTitle('type')}}>
+                {x.type}
+            </td>
+            <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" onClick={() => {setForPost(x.date),handleOpenModalBar(),setPost(x.count),setTitle('date')}}>
+                {month}-{x.date}
+            </td>
+
+            <td  className={` px-6   ${ x.priority === 'Prio' ? 'bg-red-600 text-white ' : 'text-gray-500 dark:text-gray-400'}`} > 
+               <button onClick={() => {
     const docRef = collection(db,page)
     const colRef=doc(docRef,x.count+x.month );
     updateDoc(colRef,{priority: x.priority === 'Prio'? 'No': 'Prio' },{merge:true});
-
-
-  }} >  ! </button>
-
-
-
-</div>
-
-  <p  
-  className='bg-white text-black  text-[14px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
-  md:min-w-[100px] md:h-[50px] md:p-[10px]  '> 
-  {x.unid} - {x.count}   </p>
-
- <p className='bg-white text-black break-word text-[20px] min-w-[200px] text-center border-2 border-black rounded-sm mt-5 mb-5
- md:min-w-[200px] md:max-w-[200px] md:break-word  md:p-[10px]   md:h-[50px] md:text-sm md:overflow-x-hidden'> {x.objective}  </p>
- 
-  <p className='bg-white text-black text-[15px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
-  md:min-w-[120px] md:p-[10px]  md:h-[50px]' > {x.type} </p>
-
-  <p className='bg-white text-black text-[15px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5
-  md:min-w-[120px] md:p-[10px] md:h-[50px]'>  {month}-{x.date}  </p>
-
-<p className={`text-[15px] border-2 border-black min-w-[70px] text-center rounded-sm mt-5 mb-5 ${
-      x.priority === 'Prio' ? 'bg-red-500 text-white' : 'bg-white text-black'
-    } md:min-w-[70px] md:p-[10px] md:h-[50px]`}>  {x.priority} </p>
-
-  <p className=' text-black text-[15px] border-2 border-black min-w-[200px] text-center rounded-sm mt-5 mb-5 
-  md:min-w-[110px] md:p-[10px] md:h-[50px]' style={{backgroundColor:x.color}}> {x.status}  </p>
-
-
-
-
-
-{statusBar === i? <div style={{color:'black'}} className='status-div ml-[10px]'> 
-
-{level > 8 && <>
-  <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
-  <WaitingApproval objectiveAnswer={objectiveAnswer}  objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  setShow={setShow} />
-<WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
-
-</>}
-
+  }} 
+ >{x.priority}</button> 
+            </td>
+            <td className="px-6  whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                <button className='x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-[0.90]  hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
+            </td>
+        </tr>
+        </thead>
   
-  </div> : null}
-
-   </div>:null
-
-}
- 
 
 
- 
-<Suspense fallback={<div>Loading...</div>}>
-{show === i && level > 8 && <>
+        <Modal  open={show === i} onClose={() => handleText(i)}  aria-labelledby="modal-modal-title"aria-describedby="modal-modal-description"className='overflow-auto'>
+        <Box sx={styleNew} className='lg:!top-[50%] 0' >
+              <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}  className='flex flex-col gap-5' >
+              {show === i && level > 7 && <>
  <div className='lg:w-[800px] m-auto border-2 border-black bg-slate-700'>
   <div className='holds-written-content '>
-
-
  <img src={x.designer} className='m-auto mt-[50px]' style={{maxWidth:'200px',maxHeight:'200px',cursor:'zoom-in'}}  onClick={() => handleOpenModal()}/>
 
+{/* this views content img */}
  <Modal
         open={openModal}
         onClose={handleClose}
@@ -493,9 +556,6 @@ console.log(objectiveAnswer)
                    
           <img src={x.designer}   onClick={() => handleOpenModal()}   style={{maxWidth:'80vw',maxHeight:'80vh',margin:'auto'}}/>
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {/* {!x.answer ? null :<h6 key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}}> {x.answer} </h6>}  */}
-          </Typography>
         </Box>
       </Modal>
 
@@ -505,8 +565,8 @@ console.log(objectiveAnswer)
   <div className='flex flex-col items-center justify-evenly  border-b-2 border-black ' >
 
   <section className='text-center mt-20'>
-  <h1 className='lg:mt-3 lg:mb-3 lg:text-3xl'> Choose an option </h1>
-  <button onClick={() => setWhatDoUWant('AI')} className='lg:mr-5 cursor-pointer lg:mt-2 text-white  bg-sky-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>  AI Content </button>
+  <h1 className='lg:mt-3 lg:mb-3 lg:text-3xl text-white'> Choose an option </h1>
+{level > 8 ?   <button onClick={() => setWhatDoUWant('AI')} className='lg:mr-5 cursor-pointer lg:mt-2 text-white  bg-sky-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>  AI Content </button> : null}
   <button onClick={() => setWhatDoUWant('YOU')} className='cursor-pointer  lg:mt-2 text-white  bg-sky-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2' > Write Content </button>
 </section>
 
@@ -515,14 +575,15 @@ console.log(objectiveAnswer)
 <div className='above-div-send flex flex-col items-center
 lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10' >
 
-{whatDoUWant === 'AI' && <>
+{whatDoUWant === 'AI'  && <>
 <Sure setReplyAi={setReplyAi} setObjectiveAnswer={setObjectiveAnswer} objectiveAnswer={objectiveAnswer} subject={subject} page={page}  user={user} typeAnswer={typeAnswer} month={month}/>
 </>}
 
 {whatDoUWant === 'YOU' && <>
 
 <SendFromForm user={user}  objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
-<button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}}  className=" lg:mt-2 text-white  bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete </button>
+
+{level > 9 ?<button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}}  className=" lg:mt-2 text-white  bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete </button> :null}
 
 
 </>}
@@ -532,7 +593,7 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
 </>}
 
 
-{whatDoUWant > '' && <>
+{whatDoUWant > '' && level > 8 && <>
 
 <form className='' onSubmit={handleSubmit}>
 <ReactQuill
@@ -547,79 +608,41 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
 </>}
    
 
-
+{level > 8 ? 
 <div className='flex items-baseline'>
 <input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setImageUrl(x.designer), setBoosting(x.boosting), setCreatePdf(x.answer)}} className='mr-2 cursor-pointer' />
 <Solo createPdf={createPdf} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />
+</div> : null}
 
-
+{level > 8 ? <h1 className='text-2xl mb-5 text-white' > Boosting : {x.boosting}</h1> : null}
 </div>
-<h1 className='text-2xl mb-5' > Boosting : {x.boosting}</h1>
-
   </div>
-  </div>
-
-
-  <section className='text-center  mt-5 mb-5'>
-  <button onClick={() => setShowExample(showExample === 'Yes'?'No':'Yes')} className='lg:mr-5 cursor-pointer lg:mt-2 text-white  bg-sky-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'> {showExample === 'Yes'?'Hide example':'Show example'} </button>
-</section>
-
-
-{showExample === 'Yes' && <>
-
-<div className='example-flex'>
-<div className='border-edit flex flex-col  min-h-[400px]  pt-5  items-center text-white
-          lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
-         <img src={x.exampleOne} style={{maxWidth:'200px',maxHeight:'200px'}} />
-       {x.textEx === ''? null:  <h2 className='same' style={{color:'white',width:'200px',wordBreak:'break-all'}}> {x.textEx}  </h2>}
-         <Upload1  objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-         </div>
-       
-       
-        {x.textEx > ""?  <div className='border-edit flex flex-col items-center h-[400px]  pt-5
-         lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
-         
-         <img src={x.exampleTwo} style={{maxWidth:'200px',maxHeight:'200px'}} />
-       
-       
-         <h2  className='same text-white'style={{width:'200px',wordBreak:'break-all'}}> {x.textEx1} </h2>
-         <Upload2 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-         </div>
-         :null} 
-       
-       {x.textEx1 > "" ?   <div className='border-edit flex flex-col items-center h-[400px]  pt-5
-        lg:flex-row-reverse lg:justify-evenly lg:min-h-[100px]'>
-         <img src={x.exampleThree} style={{maxWidth:'200px',maxHeight:'200px'}} />
-         <h2 className='same' style={{width:'200px',wordBreak:'break-all'}}> {x.textEx2} </h2>
-         <Upload3 objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level}/>
-         </div> :null}   
-
-</div>
-
-</>}
-
-
+  <div className='text-black'>
+ <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
+          <WaitingApproval objectiveAnswer={objectiveAnswer}  objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  setShow={setShow} />
+       {level > 8 ?  <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
+      : null} 
+        </div>
  </div>
-
-
-
-
-
-
-
- 
-
-
-
  </>} 
+                
+              </Typography>
+        </Box>
+      </Modal>
+        
+        </>     
+      })
+
+
+        }
+        </table>
+
+
   
     </Suspense>
    
 
 
-
- </>
- })}
 
 <Modal
         open={openModalBar}
@@ -630,58 +653,9 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
       >
         <Box sx={styleBar} className='lg:!top-[50%] 0' >
           <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}  className='flex flex-col gap-5' >
-                   
-          <h2    style={{maxWidth:'80vw',maxHeight:'80vh',margin:'auto'}}> Click any of the text to change post details. </h2>
-          <p className='cursor-pointer' onClick={() =>  {setEditDetails(editUid),setForPost('unid')}}> Edit unique Id : {editUid} </p>
-         <p className='cursor-pointer' onClick={() => {setEditDetails(subject),setForPost('objective')}}> Edit Subject : {subject} </p>
-         <p className='cursor-pointer' onClick={() => {setEditDetails(type),setForPost('type')}}> Edit Type : {type} </p>
-         <p className='cursor-pointer ' onClick={() => {setEditDetails(editMonth),setForPost('date')}}> Edit Date : {editMonth} </p>
-         <input type="text" className='border-2 border-black  ' placeholder={`Editing ${editDetails}`} onChange={(e) => setEditDetails(e.target.value)} />
-         <button  className='bg-blue-700 text-white px-3 py-2 rounded-md ml-3' 
-         onClick={() => {{ 
-
-
-          const docRef = collection(db,page)
-          const colRef=doc(docRef,post+month );
-          const data = {
-            [forPost]: editDetails,
-          };
-          setDoc(colRef,data,{merge:true});
-         } handleCloseBar()}}
-          > Submit </button>
-
-
-<p className='cursor-pointer' onClick={() =>  {setEditDetails(editUid),setForPost('unid')}}> Edit Post Count : {post} </p>
-<input type="text" className='border-2 border-black  ' placeholder='Editing Post Count!' onChange={(e) => setEditDetails(e.target.value)} />
-<button  className='bg-blue-700 text-white px-3 py-2 rounded-md ml-3' 
-         onClick={() => {{ 
-
-
-          const docRef = collection(db,page)
-          const colRef=doc(docRef,editDetails+month );
-      
-          setDoc(colRef,{
-            client:page,
-            color:'orange',
-            count:editDetails,
-            date:date,
-            month:month,
-            objective:subject,
-            priority:'No',
-            status:'pending',
-            type:type,
-            unid:editUid,
-            boosting:boosting,
-          },{merge:true});
-
-
-          const docR = collection(db,page)
-          const colR = doc(docR,post+month)
-          deleteDoc(colR);
-
-         } handleCloseBar()}}
-          > Submit For Count </button>
-
+          <p className='cursor-pointer'> Edit {title} : {forPost} </p>
+         <input type="text" className='border-2 border-black  ' placeholder={`Editing ${forPost}`} onChange={(e) => setEditDetails(e.target.value)} />
+         <button  className='bg-blue-700 text-white px-3 py-2 rounded-md ml-3'  onClick={() => {handleEditted()}}> Submit </button>
  </Typography>
         </Box>
       </Modal>
