@@ -1,1 +1,0 @@
-import{r as c}from"./index-0438859f.js";import{f as i}from"./index.esm2017-efb5d827.js";function u({setPartner:n}){const a=async()=>{try{return i.collection("partner").onSnapshot(e=>{const o=e.docs.map(r=>({id:r.id,...r.data()}));o.sort((r,s)=>r.id-s.id),n(o)})}catch(t){console.error("Error fetching partner data:",t)}};c.useEffect(()=>{a()},[])}export{u as P};
