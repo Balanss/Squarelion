@@ -437,7 +437,7 @@ handleCloseBar()
 
 
 
-<div className="content-div bg-slate-600 pb-10" >
+<div className="content-div bg-slate-600 pb-10 overflow-x-scroll overflow-y-hidden"  >
   <Inputs user={user} boosting={boosting} setBootsing={setBoosting} setUniqueId={setUniqueId} uniqueId={uniqueId} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
   setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
  
