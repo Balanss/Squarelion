@@ -437,7 +437,7 @@ handleCloseBar()
 
 
 
-<div className="content-div bg-slate-600 pb-10 overflow-x-scroll overflow-y-hidden"  >
+<div className="content-div bg-slate-600 pb-10 "  >
   <Inputs user={user} boosting={boosting} setBootsing={setBoosting} setUniqueId={setUniqueId} uniqueId={uniqueId} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
   setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
  
@@ -496,7 +496,7 @@ handleCloseBar()
         </thead>
         {round.map((x,i) => {  return <>
 
-        <thead>
+      {x.month === month?   <thead>
         <tr className="bg-white border-b border-gray-200 dark:bg-gray-700 dark:border-gray-800" key={i}>
                  <td className='text-black   text-center rounded-sm font-medium' style={{backgroundColor:x.color}} >
                  {x.status}
@@ -509,7 +509,7 @@ handleCloseBar()
                 {x.count}
             </td>
             <td className="px-6  cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" onClick={() => {setForPost(x.objective),handleOpenModalBar(),setPost(x.count),setTitle('objective')}}>
-                {x.objective}
+                { x.objective.length > 50 ? x.objective.slice(0,50) + '...' : x.objective}
                 
             </td>
             <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" onClick={() => {setForPost(x.type),handleOpenModalBar(),setPost(x.count),setTitle('type')}}>
@@ -531,7 +531,7 @@ handleCloseBar()
                 <button className='x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-[0.90]  hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
             </td>
         </tr>
-        </thead>
+        </thead>:null}
   
 
 
