@@ -5,6 +5,7 @@ import { auth, fs,db } from '../../../Firebase'
 import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import Schedule from './Schedule';
 
 
 
@@ -13,19 +14,24 @@ const GoogleCalendar = () => {
   return (
     <iframe
       src={import.meta.env.VITE_CAL}
-     className='w-[95vw] md:w-[57vw]  h-[400px] h-min-[400px] cal:w-[65vw] cal:h-[65vh] '
-   
-     
-      frameBorder="0"
-      scrolling="no"
+     className='w-[95vw] md:w-[50vw]  h-[400px] h-min-[400px] cal:w-[40vw] cal:h-[65vh]  m-auto'
+
       title="Google Calendar"
     ></iframe>
   );
 };
 
+const LoadingDiv = () => {
+return(
+  <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+  <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>
+</div>
+)
+}
 
 
-const CalendarWithNotes = ({user}) => {
+
+const CalendarWithNotes = ({user,level}) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [notes, setNotes] = useState({});
   const [id,setId] = useState('');
@@ -92,12 +98,20 @@ const handleEditorChange = (value) => {
   setDescription(value);
  };
 
-  return (
-    <div className=" px-4 py-8 md:m-auto  md:w-[40vw] ">
-       <GoogleCalendar />
+ const [calLoading,setCalLoading] = useState(true)
 
-<div className=''>
-<form onSubmit={handleSubmit} className='mt-20 gap-5 flex flex-col items-center '>
+ useEffect(() => {
+  setTimeout(() => {
+    setCalLoading(false)
+  }
+  , 900);
+  
+}
+, []);
+
+  return ( <>  
+<section className='cal:flex md:ml-[20%] gap-5 mt-10'>
+<form onSubmit={handleSubmit} className='mt-10 mr-2 gap-5 flex flex-col items-center mb-2 '>
   
   <input type="datetime-local" onChange={e => setFromDate(e.target.value)} value={fromDate} />
  
@@ -109,11 +123,26 @@ const handleEditorChange = (value) => {
       placeholder='Detailed Text here...'
       className='max-w-[90vw] lg:max-w-[500px]  '    
     />
-  <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer'>  {btnTitle}   </button>
+  <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer relative'>  {btnTitle}   </button>
 </form>  
+
+{calLoading !== false ? <LoadingDiv /> : null}
+      <GoogleCalendar />
+</section>
+
+
+    <div className=" px-4 py-8 md:m-auto  md:w-[40vw] ">
+<div className='mt-5'>
+
+
+{level > 8 ?   <Schedule user={user} /> : null}
 </div>
     </div>
-  );
+
+    <div className="flex flex-col md:flex-row md:justify-center md:items-center md:space-x-8">  
+  
+    </div>
+</>  );
 };
 
 export default CalendarWithNotes;

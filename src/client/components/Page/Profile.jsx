@@ -7,22 +7,13 @@ import { auth, fs,db } from '../../Firebase'
 import User from '../User'
 import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
 import { useParams } from 'react-router-dom'
-import { Link, useNavigate } from 'react-router-dom'
-import Button from './profileFunctions/Button'
-import PrivateChat from './profileFunctions/PrivateChat'
-import Footer from '../Home/Footer'
-import bin from '../images/bin.png'
-import time from '../images/time.png'
-import mark from "../images/important.png"
-import Links from './Links'
 import WaitingForAdmin from './WaitingForAdmin'
 import Title from '../../Title'
 import ProfileFunctions from './profileFunctions/ProfileFunctions'
 import Loading from '../Loading'
-import TimeOff from './WFH/TimeOff'
-import Survey from './Survey'
+
 import Cal from './Calendar/Cal'
-import ShowDate from './Calendar/ShowDate'
+
 import Panel from './Panel/Panel'
 import Docs from './Docs'
 import Version from '../../Version/Version'
@@ -198,9 +189,9 @@ useEffect(() => {
 
 
 {showWfh === 'start' && (
-  <div className='lg:w-5/5 xl:w-[1100px] lg:min-h-[100vh] xl:m-auto flex flex-col items-center bg-slate-500  ' >
-  <Cal user={user}/>
-  {/* <ShowDate/> */}
+  <div className='laptopL:!w-5/5 xl:w-[1100px] lg:min-h-[100vh] xl:m-auto flex flex-col items-center bg-slate-500  ' >
+  <Cal user={user} level={level}/>
+
   </div>
 )}
 
@@ -215,10 +206,6 @@ useEffect(() => {
 
 
 
-{/* {showWfh === 'survey' && <>
-
-<Survey/>
-</>} */}
 
 
 

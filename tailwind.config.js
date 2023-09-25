@@ -17,6 +17,7 @@ export default {
           'tablet': '640px',
           // => @media (min-width: 640px) { ... }
            'laptop':'800px',
+           'laptopL':"1024px",
            'cal':'1000px',
 
           'desktop': '810px',

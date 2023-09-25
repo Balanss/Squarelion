@@ -238,7 +238,7 @@ const [imgLoading2,setImgLoading2] = useState(true)
 useEffect (() => {
   const timer = setTimeout(() => {
     setImgLoading2(false);
-  }, 1000);
+  }, 1500);
 
   return () => clearTimeout(timer);
 }
