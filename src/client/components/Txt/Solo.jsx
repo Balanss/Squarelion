@@ -1,7 +1,7 @@
 import React from 'react';
 
 
- function Solo({ createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,boosting,post,subject}) {
+ function Solo({ createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,boosting,post,subject,setIsChecked}) {
 
 
   const sendToZapier = async (payload) => {
@@ -55,6 +55,10 @@ import React from 'react';
      } catch (error) {
        console.log(error);
      }
+
+     setTimeout(() => {
+      setIsChecked(false)
+    } , 1000);
 
   };
 

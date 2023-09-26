@@ -125,8 +125,7 @@ const [isChecked, setIsChecked] = useState(false);
 
 const [replyAi,setReplyAi] = useState('')
 const [ whatDoUWant,setWhatDoUWant] = useState('')
-const [showExample,setShowExample] = useState(false)
-const [youSure ,setYouSure] = useState('')
+
 
 
   function handleSubmit(e) {
@@ -139,6 +138,7 @@ setHide(false)
 
 
 
+  const [viewer,setViewer] = useState('10')
 
 const getRound = async () => {
   setPage(localStorage.getItem('partner'));
@@ -157,10 +157,19 @@ const getRound = async () => {
           return idA - idB;
         });
 
-        setRound(roundArray);
-
+        const halfLength = Math.ceil(roundArray.length / 2);
+        const firstSlice = roundArray.slice(0, halfLength);
+        const secondSlice = roundArray.slice(halfLength);
       
-      });
+        if (viewer === '10') {
+          setRound(firstSlice);
+        } else if (viewer === '20') {
+          setRound(secondSlice);
+        } else if (viewer === 'all') {
+          setRound(roundArray);
+        }
+      }
+      );
 
     return unsubscribe;
   } 
@@ -173,7 +182,7 @@ const getRound = async () => {
   
   useEffect(() => {
     const unsubscribe = getRound();
-  }, [page,showRound]);
+  }, [page,showRound,viewer]);
 
 
   const [pri,setPri] = useState('')
@@ -388,10 +397,11 @@ handleCloseBar()
 
 
 
+
   return (<>
 
 
-<div className='client-page min-h-[100vh] bg-slate-600' style={{color:'white'}}>
+<div className='client-page min-h-[100vh] bg-slate-600 overflow-auto' style={{color:'white'}}>
   <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
   <Version/>
  <Title/>
@@ -441,27 +451,12 @@ handleCloseBar()
   <Inputs user={user} boosting={boosting} setBootsing={setBoosting} setUniqueId={setUniqueId} uniqueId={uniqueId} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
   setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
  
+<section className='mb-5'>
+  <button onClick={() => setViewer('all')} className='bg-sky-500 text-white px-3 py-2 rounded-md ml-3'> View All</button>
+  <button onClick={() => {setViewer('10')}} className='bg-sky-500 text-white px-3 py-2 rounded-md ml-3' >First Half </button>
+  <button onClick={() => {setViewer('20')}} className='bg-sky-500 text-white px-3 py-2 rounded-md ml-3' > Second Half </button>
 
- 
-  
-  {/* designer sees only his tabs and not the whole page */}
-{/* {level === 8 && <>
-
-<Designer show={show} round={round} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer}typeAnswer={typeAnswer}
-              objectiveAnswer={typeAnswer} month={month} color={color} page={page} setShow={setShow} statusBar={statusBar} name={name} setStatusBar={setStatusBar} user={user} qty={qty}/>
-                 
-
-</>} */}
-
-{/* level 9 and above sees all tabs */}
-
-{/* <section>
-<div className='flex flex-row justify-center items-center gap-5 mt-10'>
-  <button onClick={() => {setShowRound('.slice(0,14')}}> Show 1-10 post </button>
-  <button onClick={() => {setShowRound('.slice(15,31')}}> Show  11-20 post </button>
-  <button onClick={() => {setShowRound(round.slice(20,29))}}> Show  21-30 post </button>
-  </div>
-</section> */}
+</section>
 
 <Suspense fallback={<div>Loading...</div>}>
   <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -611,7 +606,7 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
 {level > 8 ? 
 <div className='flex items-baseline'>
 <input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setImageUrl(x.designer), setBoosting(x.boosting), setCreatePdf(x.answer)}} className='mr-2 cursor-pointer' />
-<Solo createPdf={createPdf} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />
+<Solo createPdf={createPdf} setIsChecked={setIsChecked} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />
 </div> : null}
 
 {level > 8 ? <h1 className='text-2xl mb-5 text-white' > Boosting : {x.boosting}</h1> : null}
@@ -631,14 +626,14 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
       </Modal>
         
         </>     
-      })
+    
+  })
 
 
         }
         </table>
 
 
-  
     </Suspense>
    
 

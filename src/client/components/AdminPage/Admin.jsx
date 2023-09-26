@@ -15,6 +15,29 @@ import Docs from './Docs';
 import Version from '../../Version/Version'
 
 
+function HamburgerButton({ onClick }) {
+  return (
+    <button
+      className="block md:hidden text-white focus:outline-none"
+      onClick={onClick}
+    >
+      <svg
+        className="h-6 w-6 fill-current"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>Menu</title>
+        <path
+          d="M4 6h16M4 12h16M4 18h16"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  );
+}
 
 
 
@@ -53,7 +76,7 @@ export default function Admin() {
 
 
     const sendToZapier = async (payload) => {
-      const zapierURL = 'https://hooks.zapier.com/hooks/catch/15784808/39lgxy1/'
+      const zapierURL = import.meta.env. VITE_A_M_P;
       try {
         const response = await fetch(zapierURL, {
           method: 'POST',
@@ -70,11 +93,6 @@ export default function Admin() {
 
 function handleSub(e){
     e.preventDefault()
-// const docRef = collection(db,'partner')
-// const colRef = doc(docRef,name)
-// setDoc(colRef,{name:name},{merge:true})
-
-
 const storageRef = ref(getStorage(), `products/${'partners'}/${image}`);
 
 // Upload the file to the bucket
@@ -244,7 +262,7 @@ useEffect (() => {
 }
 ,[])
 
-
+const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
 
@@ -253,154 +271,145 @@ useEffect (() => {
 <PartnerLogic partner={partner} setPartner={setPartner}/>
 <User  setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
 
-<div className='bg-slate-400 min-h-[100vh] flex flex-col items-center justify-between' style={{color:'white'}}>
+<div className='bg-slate-400 min-h-screen flex flex-col items-center justify-between' style={{color:'white'}}>
+  {uuid !== ''  && level > 9 && isLoading === false  && <>  
+    <div>
+      <div>
+        <div className=''>  
+          {isMobile && level > 8? <Nav/>:null} 
+        </div>
+        <SidePanel level={level} user={user} switching={switching} setSwitching={setSwitching}/>
+        {switching === 'Client' && 
+          <div className="p-4 md:w-4/5 md:ml-[20%]">
+            <div className="">
+              <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
+                <div  className=" text-center text-2l text-gray-400 dark:text-gray-500 flex flex-col h-[150px] justify-around">
+                  {level > 9 && 
+                    <>
+                      <form onSubmit={handleSub} className=' flex flex-col items-center'> 
+                        <input type="text" placeholder='ENTER CLIENT ' onChange={(e) => setName(e.target.value)} className='w-[160px] mb-[15px]' />
+                        <input type="file" className='w-[100px] mt-[15px]' onChange={handleImageChange} />
+                        <br />
+                        <button className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200">
+                          Add Client
+                        </button>
+                      </form>
+                    </>
+                  }   
+                </div>
+              </div>
+              <div className='table-split lg:flex lg:flex-row'> 
+                {imgLoading?  
+                  <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> 
+                    <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+                      loading...
+                    </div> 
+                  </div>  :
+                  <div className="relative  m-auto ml-[7%] mt-10 w-full lg:w-[400px]">
+                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                          <th scope="col" className="px-6 py-3">
+                            Name
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Icon
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                        {leftColumnElements.map((x, index) => (
+                          <tr key={index}>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center space-x-3">
+                                <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-blue-500 to-blue-600"></div>
+                                <span>{x.name}</span>   
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="text-gray-500 dark:text-gray-400 cursor-pointer hover:scale-110">
+                                <button onClick={() => { handleGoLeft(index) }}
+                                  disabled={level !== 11 && x.name === 'Test' ? true : false}
+                                  className={level !== 11 && x.name === 'Test' ? 'opacity-20' : 'opacity-100 '}>
 
+                                  <div className="flex items-center justify-center  rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                                    {imgLoading2 === false ? null :
+                                      <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+                                        loading...
+                                      </div>
+                                    }
+                                    <img src={x.imageUrl}  className={`xs:w-[100px] md:w-[100px] lg:w-[500px] ${imgLoading2 ? 'hidden' : 'visible'}`} />
+                                  </div>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                }
+                {/* here ends left side of table */}
+                {/* here beginds right side of table */}
+                {imgLoading?  
+                  <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> 
+                    <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+                      loading...
+                    </div> 
+                  </div>  :
+                  <div className="relative  m-auto ml-[7%] mt-10 w-full lg:w-[400px]">
+                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                          <th scope="col" className="px-6 py-3">
+                            Name
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Icon
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                        {rightColumnElements.map((x, index) => (
+                          <tr key={index}>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center space-x-3">
+                                <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-blue-500 to-blue-600"></div>
+                                <span>{x.name}</span>   
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="text-gray-500 dark:text-gray-400 cursor-pointer hover:scale-110">
+                                <button onClick={() => { handleGoRight(index) }}
+                                  disabled={level !== 11 && x.name === 'Test' ? true : false}
+                                  className={level !== 11 && x.name === 'Test' ? 'opacity-20' : 'opacity-100 '}>
 
- {uuid !== ''  && level > 9 && isLoading === false  && <>  
-<div>
-<div>
-
-<div className=''>  {isMobile && level > 8? <Nav/>:null} </div>
-
-<SidePanel level={level} user={user} switching={switching} setSwitching={setSwitching}/>
-
-{switching === 'Client' && 
-<div 
-className="p-4 md:w-4/5 md:ml-[20%]">
-   <div className="">
-   <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-         <div  className=" text-center text-2l
-          text-gray-400 dark:text-gray-500 flex flex-col h-[150px] justify-around
-          ">
-         {level > 9 && <>
-  <form onSubmit={handleSub} className=' flex flex-col items-center'> 
-<input type="text" placeholder='ENTER CLIENT ' onChange={(e) => setName(e.target.value)} className='w-[160px] mb-[15px]' />
-          <input type="file" className='w-[100px] mt-[15px]' onChange={handleImageChange} />
-          <br />
-          <button className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200">
-          Add Client
-        </button>
-
-</form>
- </>}   
-         </div>
+                                  <div className="flex items-center justify-center  rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                                    {imgLoading2 === false ? null :
+                                      <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+                                        loading...
+                                      </div>
+                                    }
+                                    <img src={x.imageUrl} className={`xs:w-[100px] md:w-[100px] lg:w-[500px] ${imgLoading2 ? 'hidden' : 'visible'}`} />
+                                  </div>
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        }
+        {switching === 'Users' && <Edit/>}
+        {switching === 'Docs'  && level === 11 && <Docs/>}
       </div>
-
-      <div className='table-split lg:flex lg:flex-row'> 
-      
-      {imgLoading?  
-<div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div> </div>  :
-<div className="relative  m-auto ml-[7%] mt-10 w-[400px]">
-    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" className="px-6 py-3">
-                     Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                   Icon
-                </th>
-            </tr>
-        </thead>
-      </table>
-<tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-
-{leftColumnElements.map((x, index) => (
- 
- <tr key={index}>
-   <td className="px-6 py-4">
-  
-       <div className="flex items-center space-x-3">
-           <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-blue-500 to-blue-600"></div>
-           <span>{x.name}</span>   
-       </div>
-   </td>
-   <td className="px-6 py-4">
-       <div className="text-gray-500 dark:text-gray-400 cursor-pointer hover:scale-110">
-         <button onClick={() => { handleGoRight(index) }}
-       disabled={level !== 11 && x.name === 'Test' ? true : false}
-       className={level !== 11 && x.name === 'Test' ? 'opacity-20' : 'opacity-100 '}>
-
-<div className="flex items-center justify-center  rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-    {imgLoading2 === false ? null :<div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>}
-    <img src={x.imageUrl}  className={`sm:w-[100px] md:w-[200px] lg:w-[500px] ${imgLoading2 ? 'hidden' : 'visible'}`} />
-</div>
-
-
-
-         </button>
-        </div>
-   </td>
-</tr>
-))}
-
-</tbody>
-</div>
-
-}
-{/* here ends left side of table */}
-
-
-{/* here beginds right side of table */}
-{imgLoading?  
-<div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div> </div>  :<div className="relative  m-auto ml-[7%] mt-10 w-[400px]">
-    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-                <th scope="col" className="px-6 py-3">
-                     Name
-                </th>
-                <th scope="col" className="px-6 py-3">
-                   Icon
-                </th>
-            </tr>
-        </thead>
-      </table>
-<tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-
-{rightColumnElements.map((x, index) => (
- 
- <tr key={index}>
-   <td className="px-6 py-4">
-       <div className="flex items-center space-x-3">
-           <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-blue-500 to-blue-600"></div>
-           <span>{x.name}</span>   
-       </div>
-   </td>
-   <td className="px-6 py-4">
-       <div className="text-gray-500 dark:text-gray-400 cursor-pointer hover:scale-110">
-         <button onClick={() => { handleGoRight(index) }}
-       disabled={level !== 11 && x.name === 'Test' ? true : false}
-       className={level !== 11 && x.name === 'Test' ? 'opacity-20' : 'opacity-100 '}>
-<div className="flex items-center justify-center  rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
-    {imgLoading2 === false ? null :<div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>}
-    <img src={x.imageUrl} className={`sm:w-[100px] md:w-[200px] lg:w-[500px] ${imgLoading2 ? 'hidden' : 'visible'}`} />
-</div>
-         </button>
-        </div>
-   </td>
-</tr>
-))}
-
-</tbody>
-</div>}
-
-</div>
-
-   </div>
-</div>}
-
-
-</div>
-
-{switching === 'Users' && <Edit/>}
-{switching === 'Docs'  && level === 11 && <Docs/>}
-
-</div>
- </>}
-
-
-      
+    </div>
+  </>}
 </div>
    
 
