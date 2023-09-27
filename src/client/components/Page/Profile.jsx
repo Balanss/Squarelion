@@ -9,7 +9,7 @@ import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDo
 import { useParams } from 'react-router-dom'
 import WaitingForAdmin from './WaitingForAdmin'
 import Title from '../../Title'
-import ProfileFunctions from './profileFunctions/ProfileFunctions'
+
 import Loading from '../Loading'
 
 import Cal from './Calendar/Cal'
@@ -67,56 +67,21 @@ const [privateChat,setPrivateChat] = useState('waiting')
 
         
 const [message, setMessage] = useState([]);
-const [designerChat, setDesignerChat] = useState([]); 
-const [chat, setChat] = useState('');
 const [trueChat,setTrueChat] = useState()   
 const [hideList,setHideList] = useState(false)
 const [displayTo,setDisplayTo] = useState('')
 const [pan,setPan] = useState(false)
 
 
-    const allUid = (work.map(x => x.Name))
-const handleDeleted = (id) => {
-   
-    const docRef = collection(db,privateChat);
-    const colRef = doc(docRef, id);
-    deleteDoc(colRef)
-      .then(() => {
-        console.log('Document successfully deleted!');
-      })
-      .catch((error) => {
-        console.error('Error removing document:', error);
-      });
-
-
-    };
 
 
 
-function handleNoti(id){
- 
-  const docRef = collection(db,'group');
-  const colRef = doc(docRef, id);
-  updateDoc(colRef,{[user]:0 },{merge: true})
- }
 
 
-const handleDelete = (id) => {
-    const docRef = doc(db, 'group', id);
-    const fieldToUpdate = { new:'Read' };
 
-    updateDoc(docRef, fieldToUpdate)
-      .then(() => {
-        console.log('Field successfully updated');
-      })
-      .catch((error) => {
-        null
-      });
-  };
 
 const [loading,setLoading] = useState(false)
-const [ imp,setImp] = useState(false)
-const [showImportant,setShowImportant] = useState(false)
+
 
 useEffect(() => {
   setTimeout(() => {
@@ -148,7 +113,7 @@ useEffect(() => {
 
 
   return (<>
-  <ProfileFunctions privateChat={privateChat} setChat={setChat} setDesignerChat={setDesignerChat} setMessage={setMessage}/>
+
   <Title/>
   <Version/>
   <User setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />

@@ -56,7 +56,7 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
 {level < 9 ? null : <>
   <th scope="row" className="px-1 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                <input value={uniqueId} type="text" placeholder=' Unique ID' onChange={(e) => setUniqueId(e.target.value)} required className='input-admindb  border-2 border-black w-[100px]'/>  
+                <input value={uniqueId} type="text" placeholder=' Unique ID' onChange={(e) => setUniqueId(e.target.value)} required className='input-admindb text-black border-2 border-black w-[100px]'/>  
                 </th>
                 <td className="px-1 py-1">
                 <input value={post} type="number" placeholder='Post number' onChange={(e) => setPost(e.target.value)} required className='input-admindb  border-2 border-black w-[100px]' />  

@@ -80,10 +80,18 @@ export default function Schedule({ user }) {
   };
 
   // Add a function to refresh data from Firebase when needed
+  const [btnDisabled, setBtnDisabled] = useState(false);
   const refreshData = () => {
     // Clear the cached data
     localStorage.removeItem('cachedData');
     fetchData();
+    alert('Data refreshed successfully  ');
+setBtnDisabled(true);
+
+    // Enable the refresh button after 30 seconds
+    setTimeout(() => {
+      setBtnDisabled(false);
+    }, 3000);
   };
   
   
@@ -95,7 +103,7 @@ export default function Schedule({ user }) {
   return (
     <>
 <section className="flex justify-center ">
-<button onMouseLeave={() => setOnhover(false)} onMouseEnter={() => setOnhover(true)} onClick={refreshData} className="bg-slate-600  outline hover:outline-2 outline-slate-400 text-white px-4 py-2 rounded-md mt-5 mb-10">Refresh Data</button>
+<button disabled={btnDisabled} onMouseLeave={() => setOnhover(false)} onMouseEnter={() => setOnhover(true)} onClick={refreshData} className="bg-slate-600  outline hover:outline-2 outline-slate-400 text-white px-4 py-2 rounded-md mt-5 mb-10">Refresh Data</button>
 {onhover && <p className="text-white absolute mt-16 ">Updates to current workflow</p>}
 </section>
 

@@ -13,10 +13,11 @@ import '../../App.css'
 
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import Stories from '../Page/Stories';
 
 
 
-export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,page,level,setObjectiveAnswer,user,subject}) {
+export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,page,level,setObjectiveAnswer,user,subject,type,post}) {
     
   const [ emojiShow,setEmojiShow] = useState(false)
 
@@ -209,7 +210,7 @@ width='300px'
 </div>
 </>: <button  onClick={() => setEmojiShow(emojiShow === true?false:true)} style={{marginLeft:'40px'}}  className=" hidden lg:block lg:mt-2 text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> Emoji </button> : null}
 
-{!isMobile?
+{!isMobile? <> 
  <form onSubmit={handleSub} className='ml-10 lg:flex lg:gap-2'> 
 <label className="custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700
 lg:w-[120px]">
@@ -217,7 +218,12 @@ lg:w-[120px]">
     Upload Image
 </label>
 
-</form> : null}
+
+
+</form> 
+
+{type === "Stories" ? <Stories user={user} post={post} type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer} /> : null}
+</>: null}
 
 
  </div> </>}

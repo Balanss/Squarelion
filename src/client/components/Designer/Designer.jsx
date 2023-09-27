@@ -187,7 +187,7 @@ console.log(successfully)
       {designerData.map((designer,id) => (
      designer.hide === true ? null :    <div key={id}  className='flex flex-row items-center justify-end border-black border-b-2 mb-8'> 
         <img src={designer.img} className='w-[50px] h-[50px] rounded-md mr-4' />
-     <p className='text-black  bg-white text-md border-black border-2 p-2'> Post: {designer.post} </p>
+     {/* <p className='text-black  bg-white text-md border-black border-2 p-2'> Post: {designer.post} </p> */}
      <p className='text-black  bg-white text-md border-black border-2 p-2'> Date : {designer.date}-{designer.month} </p>
      <p className='text-black  bg-white text-md border-black border-2 p-2'> Client : {designer.page} </p>
      <p className={`text-black text-md border-black border-2 p-2 ${designer.prio === 'Prio'? 'bg-red-600':'bg-white'}`}>  {designer.prio} </p>

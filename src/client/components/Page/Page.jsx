@@ -31,6 +31,8 @@ import Demo from './Demo/Demo'
 import Sure from '../firebaseData/Sure'
 import { ShowChart } from '@mui/icons-material'
 import Version from '../../Version/Version'
+import Stories from './Stories'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 
 
@@ -109,6 +111,10 @@ export default function Page() {
  const [editDetails,setEditDetails] = useState('')
  const [ forPost,setForPost] = useState('')
  const [imageUrl,setImageUrl] = useState('')
+ const [image1Url,setImage1Url] = useState('')
+  const [image2Url,setImage2Url] = useState('')
+  const [image3Url,setImage3Url] = useState('')
+
  const [ boosting,setBoosting] = useState('')
  const [title,setTitle] = useState('')
  
@@ -122,6 +128,7 @@ const [ pdfObject,setPdfObject] = useState('')
 const [ pdfChannels,setPdfChannels] = useState('')
 const [ pdfDate,setPdfDate] = useState('')
 const [isChecked, setIsChecked] = useState(false);
+const [orderPost,setOrderPost] = useState('')
 
 const [replyAi,setReplyAi] = useState('')
 const [ whatDoUWant,setWhatDoUWant] = useState('')
@@ -133,12 +140,13 @@ e.preventDefault()
 setHide(false)
   }
 
-  
+  const [data, setData] = useState([]);
+  const [statusMap, setStatusMap] = useState({});
  
 
 
 
-  const [viewer,setViewer] = useState('10')
+  const [viewer,setViewer] = useState('all')
 
 const getRound = async () => {
   setPage(localStorage.getItem('partner'));
@@ -150,18 +158,14 @@ const getRound = async () => {
           ...doc.data()
         }));
 
-        roundArray.sort((a, b) => {
-          const idA = parseInt(a.id.split('-')[0]);
-          const idB = parseInt(b.id.split('-')[0]);
-
-          return idA - idB;
-        });
+        roundArray.sort((a, b) => a.order - b.order);
+     
 
         const halfLength = Math.ceil(roundArray.length / 2);
         const firstSlice = roundArray.slice(0, halfLength);
         const secondSlice = roundArray.slice(halfLength);
       
-        if (viewer === '10') {
+        if (viewer === '10' ) {
           setRound(firstSlice);
         } else if (viewer === '20') {
           setRound(secondSlice);
@@ -215,6 +219,7 @@ if(show !== ''){
     setType(x.type)
     setBoosting(x.boosting)
     setPri(x.priority)
+    setOrderPost(x.order)
     } 
   })
 }
@@ -396,6 +401,17 @@ handleCloseBar()
 }
 
 
+const handleDragEnd = (result) => {
+  if (!result.destination) return;
+  const items = Array.from(round);
+  const [reorderedItem] = items.splice(result.source.index, 1);
+  items.splice(result.destination.index, 0, reorderedItem);
+  setRound(items);
+  items.forEach((item, index) => {
+    fs.collection(page).doc(item.id).update({ order: index }, { merge: true });
+  });
+};
+
 
 
   return (<>
@@ -459,10 +475,11 @@ handleCloseBar()
 </section>
 
 <Suspense fallback={<div>Loading...</div>}>
-  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-            <th scope="col" className="px-6 py-3">
+<DragDropContext  onDragEnd={handleDragEnd}>
+      <table className='m-auto w-full text-center'>
+        <thead>
+          <tr className='bg-slate-800'>
+          <th scope="col" className="px-6 py-3">
                     Status
                 </th>
                 <th scope="col" className="px-6 py-3">
@@ -487,34 +504,88 @@ handleCloseBar()
                 <th scope="col" className="px-6 py-3">
                     View
                 </th>
-            </tr>
+          </tr>
         </thead>
-        {round.map((x,i) => {  return <>
-
-      {x.month === month?   <thead>
-        <tr className="bg-white border-b border-gray-200 dark:bg-gray-700 dark:border-gray-800" key={i}>
-                 <td className='text-black   text-center rounded-sm font-medium' style={{backgroundColor:x.color}} >
-                 {x.status}
-            </td>
-
-            <td className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-400" onClick={() => {setForPost(x.unid),handleOpenModalBar(),setPost(x.count),setTitle('unid')}}>
-                {x.unid}
-            </td>
-            <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" onClick={() => {setUniqueId(x.unid),setForPost(x.count),handleOpenModalBar(),setPost(x.count),setTitle('count'),setDate(x.date),setObjective(x.objective),setType(x.type)}}>
-                {x.count}
-            </td>
-            <td className="px-6  cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" onClick={() => {setForPost(x.objective),handleOpenModalBar(),setPost(x.count),setTitle('objective')}}>
-                { x.objective.length > 50 ? x.objective.slice(0,50) + '...' : x.objective}
-                
-            </td>
-            <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" onClick={() => {setForPost(x.type),handleOpenModalBar(),setPost(x.count),setTitle('type')}}>
-                {x.type}
-            </td>
-            <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" onClick={() => {setForPost(x.date),handleOpenModalBar(),setPost(x.count),setTitle('date')}}>
-                {month}-{x.date}
-            </td>
-
-            <td  className={` px-6   ${ x.priority === 'Prio' ? 'bg-red-600 text-white ' : 'text-gray-500 dark:text-gray-400'}`} > 
+        <Droppable droppableId="table">
+          {(provided) => (
+            <tbody {...provided.droppableProps} ref={provided.innerRef}>
+              {round.map((x, i) => (
+                <Draggable  key={x.count.toString()} draggableId={x.count.toString()} index={i}>
+                  {(provided) => (
+                    <tr
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      className="bg-white border-b border-gray-200 dark:bg-gray-700 dark:border-gray-800"
+                    >
+                      <td
+                        className="text-black text-center rounded-sm font-medium"
+                        style={{ backgroundColor: x.color }}
+                      >
+                        {x.status}
+                      </td>
+                      <td
+                        className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-400"
+                        onClick={() => {
+                          setForPost(x.unid),
+                            handleOpenModalBar(),
+                            setPost(x.count),
+                            setTitle('unid');
+                        }}
+                      >
+                        {x.unid}
+                      </td>
+                      <td
+                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                        // onClick={() => {
+                        //   setUniqueId(x.unid),
+                        //     setForPost(x.count),
+                        //     handleOpenModalBar(),
+                        //     setPost(x.count),
+                        //     setTitle('count'),
+                        //     setDate(x.date),
+                        //     setObjective(x.objective),
+                        //     setType(x.type);
+                        // }}
+                      >
+   {x.order +1}
+                      </td>
+                      <td
+                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                        onClick={() => {
+                          setForPost(x.objective),
+                            handleOpenModalBar(),
+                            setPost(x.count),
+                            setTitle('objective');
+                        }}
+                      >
+                        {x.objective.length > 50
+                          ? x.objective.slice(0, 50) + '...'
+                          : x.objective}
+                      </td>
+                      <td
+                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                        onClick={() => {
+                          setForPost(x.type),
+                            handleOpenModalBar(),
+                            setPost(x.count),
+                            setTitle('type');
+                        }}
+                      >
+                        {x.type}
+                      </td>
+                      <td
+                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                        onClick={() => {
+                          setForPost(x.date),
+                            handleOpenModalBar(),
+                            setPost(x.count),
+                            setTitle('date');
+                        }}
+                      >
+                        {month}-{x.date}
+                      </td>
+                      <td  className={` px-6   ${ x.priority === 'Prio' ? 'bg-red-600 text-white ' : 'text-gray-500 dark:text-gray-400'}`} > 
                <button onClick={() => {
     const docRef = collection(db,page)
     const colRef=doc(docRef,x.count+x.month );
@@ -525,44 +596,96 @@ handleCloseBar()
             <td className="px-6  whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                 <button className='x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-[0.90]  hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
             </td>
-        </tr>
-        </thead>:null}
-  
+
+                      <Modal  open={show === i} 
+onClose={() => handleText(i)}  
+aria-labelledby="modal-modal-title"
+aria-describedby="modal-modal-description"className='overflow-auto'>
+<Box sx={styleNew} className='lg:!top-[50%] 0' >
+      <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}  className='flex flex-col gap-5' >
+      {show === i && level > 7 && <>
+<div className='lg:w-[800px] m-auto border-2 border-black bg-slate-700'>
+<div className='holds-written-content '>
+{x.designer > "" &&
+<><span className='flex items-center justify-around '>
+<img src={x.designer} className='m-auto mt-[50px]' style={{maxWidth:'200px',maxHeight:'200px',cursor:'zoom-in'}}  onClick={() => handleOpenModal()}/>
+
+<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
+//make a upadate doc here that updates the designer to null
+const docRef = collection(db,page)
+const colRef=doc(docRef,x.id );
+updateDoc(colRef,{designer: '' },{merge:true});
+}}  > X </button>
+</span></>}
 
 
-        <Modal  open={show === i} onClose={() => handleText(i)}  aria-labelledby="modal-modal-title"aria-describedby="modal-modal-description"className='overflow-auto'>
-        <Box sx={styleNew} className='lg:!top-[50%] 0' >
-              <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}  className='flex flex-col gap-5' >
-              {show === i && level > 7 && <>
- <div className='lg:w-[800px] m-auto border-2 border-black bg-slate-700'>
-  <div className='holds-written-content '>
- <img src={x.designer} className='m-auto mt-[50px]' style={{maxWidth:'200px',maxHeight:'200px',cursor:'zoom-in'}}  onClick={() => handleOpenModal()}/>
+
+{type === 'Stories' && <>
+<span className='flex items-center justify-around'> 
+<img src={x.designer1}  style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}}/>
+{x.designer1 > '' && (<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
+//make a upadate doc here that updates the designer1 to null
+const docRef = collection(db,page)
+const colRef=doc(docRef,x.id );
+updateDoc(colRef,{designer1: '' },{merge:true});
+}}  > X </button>)}
+</span>
+
+
+<span className='flex items-center justify-around'>
+<img src={x.designer2}  style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}}/>
+{x.designer2 > '' && (<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
+//make a upadate doc here that updates the designer2 to null
+const docRef = collection(db,page)
+const colRef=doc(docRef,x.id );
+updateDoc(colRef,{designer2: '' },{merge:true});
+}}  > X </button>)}
+
+
+</span>
+
+
+
+<span className='flex'>
+<img src={x.designer3}  style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}}/>
+{x.designer3 > '' && (<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
+//make a upadate doc here that updates the designer3 to null
+const docRef = collection(db,page)
+const colRef=doc(docRef,x.id );
+updateDoc(colRef,{designer3: '' },{merge:true});
+}}  > X </button>)}
+
+</span>
+
+
+  </> }
 
 {/* this views content img */}
- <Modal
-        open={openModal}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className='max-w-[80vw] max-h-[80vw]  '
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}} >
-                   
-          <img src={x.designer}   onClick={() => handleOpenModal()}   style={{maxWidth:'80vw',maxHeight:'80vh',margin:'auto'}}/>
-          </Typography>
-        </Box>
-      </Modal>
+<Modal
+open={openModal}
+onClose={handleClose}
+aria-labelledby="modal-modal-title"
+aria-describedby="modal-modal-description"
+className='max-w-[80vw] max-h-[80vw]  '
+>
+<Box sx={style}>
+  <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}} >
+           
+  <img src={x.designer}   onClick={() => handleOpenModal()}   style={{maxWidth:'80vw',maxHeight:'80vh',margin:'auto'}}/>
+
+  </Typography>
+</Box>
+</Modal>
 
 
-     {!x.answer ? null :    <div  className='text-center break-all m-auto mt-[50px] p-8 bg-white
-     lg:w-3/4' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />} 
-  <div className='flex flex-col items-center justify-evenly  border-b-2 border-black ' >
+{!x.answer ? null :    <div  className='text-center break-all m-auto mt-[50px] p-8 bg-white
+lg:w-3/4' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />} 
+<div className='flex flex-col items-center justify-evenly  border-b-2 border-black ' >
 
-  <section className='text-center mt-20'>
-  <h1 className='lg:mt-3 lg:mb-3 lg:text-3xl text-white'> Choose an option </h1>
+<section className='text-center mt-20'>
+<h1 className='lg:mt-3 lg:mb-3 lg:text-3xl text-white'> Choose an option </h1>
 {level > 8 ?   <button onClick={() => setWhatDoUWant('AI')} className='lg:mr-5 cursor-pointer lg:mt-2 text-white  bg-sky-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>  AI Content </button> : null}
-  <button onClick={() => setWhatDoUWant('YOU')} className='cursor-pointer  lg:mt-2 text-white  bg-sky-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2' > Write Content </button>
+<button onClick={() => setWhatDoUWant('YOU')} className='cursor-pointer  lg:mt-2 text-white  bg-sky-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2' > Write Content </button>
 </section>
 
 {whatDoUWant > '' && <>
@@ -576,7 +699,7 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
 
 {whatDoUWant === 'YOU' && <>
 
-<SendFromForm user={user}  objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
+<SendFromForm user={user} post={post} type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
 
 {level > 9 ?<button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}}  className=" lg:mt-2 text-white  bg-red-500  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete </button> :null}
 
@@ -592,50 +715,65 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
 
 <form className='' onSubmit={handleSubmit}>
 <ReactQuill
-     value={objectiveAnswer}
-      onChange={handleEditorChange}
-      style={{color:'black',backgroundColor:'white'}}
-      placeholder='Text here...'
-      className='max-w-[90vw] lg:max-w-[500px]  overflow-scroll'
-    />
+value={objectiveAnswer}
+onChange={handleEditorChange}
+style={{color:'black',backgroundColor:'white'}}
+placeholder='Text here...'
+className='max-w-[90vw] lg:max-w-[500px]  overflow-scroll'
+/>
 </form>
 
 </>}
-   
+
 
 {level > 8 ? 
 <div className='flex items-baseline'>
-<input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setImageUrl(x.designer), setBoosting(x.boosting), setCreatePdf(x.answer)}} className='mr-2 cursor-pointer' />
-<Solo createPdf={createPdf} setIsChecked={setIsChecked} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />
+<input type='checkbox' readOnly checked={isChecked} onClick ={() =>  { setIsChecked((prevChecked) => !prevChecked), setImageUrl(x.designer),setImage1Url(x.designer1),setImage2Url(x.designer2),setImage3Url(x.designer3), setBoosting(x.boosting), setCreatePdf(x.answer)}} className='mr-2 cursor-pointer' />
+<Solo createPdf={createPdf} orderPost={orderPost}  image1Url={image1Url} image2Url={image2Url} image3Url={image3Url} setIsChecked={setIsChecked} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />
 </div> : null}
 
 {level > 8 ? <h1 className='text-2xl mb-5 text-white' > Boosting : {x.boosting}</h1> : null}
 </div>
-  </div>
-  <div className='text-black'>
- <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
-          <WaitingApproval objectiveAnswer={objectiveAnswer}  objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  setShow={setShow} />
-       {level > 8 ?  <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
-      : null} 
-        </div>
- </div>
- </>} 
-                
-              </Typography>
-        </Box>
-      </Modal>
+</div>
+<div className='text-black'>
+<WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
+  <WaitingApproval objectiveAnswer={objectiveAnswer}  objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  setShow={setShow} />
+{level > 8 ?  <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
+: null} 
+</div>
+</div>
+</>} 
         
-        </>     
-    
-  })
+      </Typography>
+</Box>
+</Modal>
+                    </tr>
 
 
-        }
-        </table>
 
 
+
+                  
+                  
+                  )}
+                </Draggable>    
+             ))}
+
+              {provided.placeholder}
+            </tbody>
+          )}
+
+        </Droppable>
+      </table>
+
+
+
+
+    </DragDropContext>
     </Suspense>
    
+
+
 
 
 

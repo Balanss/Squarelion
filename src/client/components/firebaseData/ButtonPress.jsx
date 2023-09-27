@@ -63,6 +63,7 @@ useEffect(() => {
       type: type,
       objective: objective,
        count: post,
+       order:post,
        status: 'pending',
        color:'orange',
        statusText:'pending',
@@ -76,8 +77,7 @@ useEffect(() => {
       answer:aiReply,
       boosting: boosting === '' ? 0 : boosting,
       Priority:'No'
-    
-
+  
     };
 
     try {

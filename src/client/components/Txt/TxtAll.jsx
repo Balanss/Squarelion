@@ -23,6 +23,13 @@ function TxtAll ({createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,b
     }
   };
 
+  // const sortedRounds = round.sort((a, b) => a.x.order - b.x.order);
+
+  // const posts = sortedRounds.map((r, i) => ({
+  //   [`post${i + 1}`]: r,
+  // }));
+
+
 
   const handleDownload = () => {
 
@@ -41,13 +48,8 @@ function TxtAll ({createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,b
     
       postID:uniqueId,
        channel: type,
-      //  textContent: createPdf,
-      //   month:month,
        name:page,
        postDate:postDate,
-      //  images:imageUrl,
-      //  boosting:boosting,
-      //  subject:subject,
         post:round[0],
         post2:round[1],
         post3:round[2],
