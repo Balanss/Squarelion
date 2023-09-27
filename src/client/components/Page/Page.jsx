@@ -510,100 +510,101 @@ const handleDragEnd = (result) => {
           {(provided) => (
             <tbody {...provided.droppableProps} ref={provided.innerRef}>
               {round.map((x, i) => (
-                <Draggable  key={x.count.toString()} draggableId={x.count.toString()} index={i}>
-                  {(provided) => (
-                    <tr
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className="bg-white border-b border-gray-200 dark:bg-gray-700 dark:border-gray-800"
-                    >
-                      <td
-                        className="text-black text-center rounded-sm font-medium"
-                        style={{ backgroundColor: x.color }}
-                      >
-                        {x.status}
-                      </td>
-                      <td
-                        className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-400"
-                        onClick={() => {
-                          setForPost(x.unid),
-                            handleOpenModalBar(),
-                            setPost(x.count),
-                            setTitle('unid');
-                        }}
-                      >
-                        {x.unid}
-                      </td>
-                      <td
-                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
-                        // onClick={() => {
-                        //   setUniqueId(x.unid),
-                        //     setForPost(x.count),
-                        //     handleOpenModalBar(),
-                        //     setPost(x.count),
-                        //     setTitle('count'),
-                        //     setDate(x.date),
-                        //     setObjective(x.objective),
-                        //     setType(x.type);
-                        // }}
-                      >
-   {x.order +1}
-                      </td>
-                      <td
-                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
-                        onClick={() => {
-                          setForPost(x.objective),
-                            handleOpenModalBar(),
-                            setPost(x.count),
-                            setTitle('objective');
-                        }}
-                      >
-                        {x.objective.length > 50
-                          ? x.objective.slice(0, 50) + '...'
-                          : x.objective}
-                      </td>
-                      <td
-                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
-                        onClick={() => {
-                          setForPost(x.type),
-                            handleOpenModalBar(),
-                            setPost(x.count),
-                            setTitle('type');
-                        }}
-                      >
-                        {x.type}
-                      </td>
-                      <td
-                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
-                        onClick={() => {
-                          setForPost(x.date),
-                            handleOpenModalBar(),
-                            setPost(x.count),
-                            setTitle('date');
-                        }}
-                      >
-                        {month}-{x.date}
-                      </td>
-                      <td  className={` px-6   ${ x.priority === 'Prio' ? 'bg-red-600 text-white ' : 'text-gray-500 dark:text-gray-400'}`} > 
-               <button onClick={() => {
-    const docRef = collection(db,page)
-    const colRef=doc(docRef,x.count+x.month );
-    updateDoc(colRef,{priority: x.priority === 'Prio'? 'No': 'Prio' },{merge:true});
-  }} 
- >{x.priority}</button> 
-            </td>
-            <td className="px-6  whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                <button className='x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-[0.90]  hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
-            </td>
+            x.month === month && <>
+              <Draggable  key={x.count.toString()} draggableId={x.count.toString()} index={i}>
+              {(provided) => (
+                <tr
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  className="bg-white border-b border-gray-200 dark:bg-gray-700 dark:border-gray-800"
+                >
+                  <td
+                    className="text-black text-center rounded-sm font-medium"
+                    style={{ backgroundColor: x.color }}
+                  >
+                    {x.status}
+                  </td>
+                  <td
+                    className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-400"
+                    onClick={() => {
+                      setForPost(x.unid),
+                        handleOpenModalBar(),
+                        setPost(x.count),
+                        setTitle('unid');
+                    }}
+                  >
+                    {x.unid}
+                  </td>
+                  <td
+                    className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                    // onClick={() => {
+                    //   setUniqueId(x.unid),
+                    //     setForPost(x.count),
+                    //     handleOpenModalBar(),
+                    //     setPost(x.count),
+                    //     setTitle('count'),
+                    //     setDate(x.date),
+                    //     setObjective(x.objective),
+                    //     setType(x.type);
+                    // }}
+                  >
+{x.order +1}
+                  </td>
+                  <td
+                    className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                    onClick={() => {
+                      setForPost(x.objective),
+                        handleOpenModalBar(),
+                        setPost(x.count),
+                        setTitle('objective');
+                    }}
+                  >
+                    {x.objective.length > 50
+                      ? x.objective.slice(0, 50) + '...'
+                      : x.objective}
+                  </td>
+                  <td
+                    className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                    onClick={() => {
+                      setForPost(x.type),
+                        handleOpenModalBar(),
+                        setPost(x.count),
+                        setTitle('type');
+                    }}
+                  >
+                    {x.type}
+                  </td>
+                  <td
+                    className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                    onClick={() => {
+                      setForPost(x.date),
+                        handleOpenModalBar(),
+                        setPost(x.count),
+                        setTitle('date');
+                    }}
+                  >
+                    {month}-{x.date}
+                  </td>
+                  <td  className={` px-6   ${ x.priority === 'Prio' ? 'bg-red-600 text-white ' : 'text-gray-500 dark:text-gray-400'}`} > 
+           <button onClick={() => {
+const docRef = collection(db,page)
+const colRef=doc(docRef,x.count+x.month );
+updateDoc(colRef,{priority: x.priority === 'Prio'? 'No': 'Prio' },{merge:true});
+}} 
+>{x.priority}</button> 
+        </td>
+        <td className="px-6  whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+            <button className='x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-[0.90]  hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >  <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/> </button>
+        </td>
 
-                      <Modal  open={show === i} 
+                  <Modal  open={show === i} 
 onClose={() => handleText(i)}  
 aria-labelledby="modal-modal-title"
 aria-describedby="modal-modal-description"className='overflow-auto'>
 <Box sx={styleNew} className='lg:!top-[50%] 0' >
-      <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}  className='flex flex-col gap-5' >
-      {show === i && level > 7 && <>
+  <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}  className='flex flex-col gap-5' >
+  {show === i && level > 7 && <>
 <div className='lg:w-[800px] m-auto border-2 border-black bg-slate-700'>
 <div className='holds-written-content '>
 {x.designer > "" &&
@@ -658,7 +659,7 @@ updateDoc(colRef,{designer3: '' },{merge:true});
 </span>
 
 
-  </> }
+</> }
 
 {/* this views content img */}
 <Modal
@@ -669,11 +670,11 @@ aria-describedby="modal-modal-description"
 className='max-w-[80vw] max-h-[80vw]  '
 >
 <Box sx={style}>
-  <Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}} >
-           
-  <img src={x.designer}   onClick={() => handleOpenModal()}   style={{maxWidth:'80vw',maxHeight:'80vh',margin:'auto'}}/>
+<Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}} >
+       
+<img src={x.designer}   onClick={() => handleOpenModal()}   style={{maxWidth:'80vw',maxHeight:'80vh',margin:'auto'}}/>
 
-  </Typography>
+</Typography>
 </Box>
 </Modal>
 
@@ -737,26 +738,26 @@ className='max-w-[90vw] lg:max-w-[500px]  overflow-scroll'
 </div>
 <div className='text-black'>
 <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
-  <WaitingApproval objectiveAnswer={objectiveAnswer}  objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  setShow={setShow} />
+<WaitingApproval objectiveAnswer={objectiveAnswer}  objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}qty={qty}  setShow={setShow} />
 {level > 8 ?  <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
 : null} 
 </div>
 </div>
 </>} 
-        
-      </Typography>
+    
+  </Typography>
 </Box>
 </Modal>
-                    </tr>
+                </tr>
 
 
 
 
 
-                  
-                  
-                  )}
-                </Draggable>    
+              
+              
+              )}
+            </Draggable>  </> 
              ))}
 
               {provided.placeholder}
