@@ -159,18 +159,17 @@ const getRound = async () => {
         }));
 
         roundArray.sort((a, b) => a.order - b.order);
-     
+        const filteredRoundArray = roundArray.filter((round) => round.month === month); 
+        const halfLength = Math.ceil(filteredRoundArray.length / 2);
+        const firstSlice = filteredRoundArray.slice(0, halfLength);
+        const secondSlice = filteredRoundArray.slice(halfLength);
 
-        const halfLength = Math.ceil(roundArray.length / 2);
-        const firstSlice = roundArray.slice(0, halfLength);
-        const secondSlice = roundArray.slice(halfLength);
-      
         if (viewer === '10' ) {
           setRound(firstSlice);
         } else if (viewer === '20') {
           setRound(secondSlice);
         } else if (viewer === 'all') {
-          setRound(roundArray);
+          setRound(filteredRoundArray);
         }
       }
       );
@@ -186,7 +185,7 @@ const getRound = async () => {
   
   useEffect(() => {
     const unsubscribe = getRound();
-  }, [page,showRound,viewer]);
+  }, [page,showRound,viewer,month]);
 
 
   const [pri,setPri] = useState('')
