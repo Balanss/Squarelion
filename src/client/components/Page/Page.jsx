@@ -476,7 +476,7 @@ const handleDragEnd = (result) => {
 <Suspense fallback={<div>Loading...</div>}>
 <DragDropContext  onDragEnd={handleDragEnd}>
       <table className='m-auto w-full text-center'>
-        <thead>
+ <thead>
           <tr className='bg-slate-800'>
           <th scope="col" className="px-6 py-3">
                     Status
@@ -504,7 +504,7 @@ const handleDragEnd = (result) => {
                     View
                 </th>
           </tr>
-        </thead>
+        </thead> 
         <Droppable droppableId="table">
           {(provided) => (
             <tbody {...provided.droppableProps} ref={provided.innerRef}>
@@ -527,9 +527,9 @@ const handleDragEnd = (result) => {
                   <td
                     className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-400"
                     onClick={() => {
-                      setForPost(x.unid),
-                        handleOpenModalBar(),
-                        setPost(x.count),
+                      setForPost(x.unid);
+                       {level > 8 ? handleOpenModalBar() : null};
+                        setPost(x.count);
                         setTitle('unid');
                     }}
                   >
@@ -553,8 +553,8 @@ const handleDragEnd = (result) => {
                   <td
                     className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
                     onClick={() => {
-                      setForPost(x.objective),
-                        handleOpenModalBar(),
+                      setForPost(x.objective);
+                      {level > 8 ? handleOpenModalBar() : null};
                         setPost(x.count),
                         setTitle('objective');
                     }}
@@ -566,8 +566,8 @@ const handleDragEnd = (result) => {
                   <td
                     className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
                     onClick={() => {
-                      setForPost(x.type),
-                        handleOpenModalBar(),
+                      setForPost(x.type);
+                      {level > 8 ? handleOpenModalBar() : null};
                         setPost(x.count),
                         setTitle('type');
                     }}
@@ -577,8 +577,8 @@ const handleDragEnd = (result) => {
                   <td
                     className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
                     onClick={() => {
-                      setForPost(x.date),
-                        handleOpenModalBar(),
+                      setForPost(x.date);
+                      {level > 8 ? handleOpenModalBar() : null};
                         setPost(x.count),
                         setTitle('date');
                     }}
@@ -587,9 +587,11 @@ const handleDragEnd = (result) => {
                   </td>
                   <td  className={` px-6   ${ x.priority === 'Prio' ? 'bg-red-600 text-white ' : 'text-gray-500 dark:text-gray-400'}`} > 
            <button onClick={() => {
-const docRef = collection(db,page)
-const colRef=doc(docRef,x.count+x.month );
-updateDoc(colRef,{priority: x.priority === 'Prio'? 'No': 'Prio' },{merge:true});
+if (level > 8) {
+  const docRef = collection(db, page);
+  const colRef = doc(docRef, x.count + x.month);
+  updateDoc(colRef, { priority: x.priority === 'Prio' ? 'No' : 'Prio' }, { merge: true });
+}
 }} 
 >{x.priority}</button> 
         </td>
@@ -606,24 +608,26 @@ aria-describedby="modal-modal-description"className='overflow-auto'>
   {show === i && level > 7 && <>
 <div className='lg:w-[800px] m-auto border-2 border-black bg-slate-700'>
 <div className='holds-written-content '>
-{x.designer > "" &&
+{x.designer > "" && 
 <><span className='flex items-center justify-around '>
 <img src={x.designer} className='m-auto mt-[50px]' style={{maxWidth:'200px',maxHeight:'200px',cursor:'zoom-in'}}  onClick={() => handleOpenModal()}/>
 
-<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
+{level > 8 && <button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
 //make a upadate doc here that updates the designer to null
 const docRef = collection(db,page)
 const colRef=doc(docRef,x.id );
 updateDoc(colRef,{designer: '' },{merge:true});
-}}  > X </button>
+}}  > X </button>}
+
 </span></>}
 
 
 
 {type === 'Stories' && <>
-<span className='flex items-center justify-around'> 
-<img src={x.designer1}  style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}}/>
-{x.designer1 > '' && (<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
+<span className='flex items-center justify-around mt-3'> 
+<img src={x.designer1}  style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}} onClick={() => handleOpenModal()}/>
+
+{x.designer1 > '' && level > 8 && (<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
 //make a upadate doc here that updates the designer1 to null
 const docRef = collection(db,page)
 const colRef=doc(docRef,x.id );
@@ -634,7 +638,7 @@ updateDoc(colRef,{designer1: '' },{merge:true});
 
 <span className='flex items-center justify-around'>
 <img src={x.designer2}  style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}}/>
-{x.designer2 > '' && (<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
+{x.designer2 > '' && level > 8 && (<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
 //make a upadate doc here that updates the designer2 to null
 const docRef = collection(db,page)
 const colRef=doc(docRef,x.id );
@@ -648,7 +652,7 @@ updateDoc(colRef,{designer2: '' },{merge:true});
 
 <span className='flex'>
 <img src={x.designer3}  style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}}/>
-{x.designer3 > '' && (<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
+{x.designer3 > '' && level > 8 && (<button className='absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%]' onClick={() => {
 //make a upadate doc here that updates the designer3 to null
 const docRef = collection(db,page)
 const colRef=doc(docRef,x.id );
@@ -669,9 +673,13 @@ aria-describedby="modal-modal-description"
 className='max-w-[80vw] max-h-[80vw]  '
 >
 <Box sx={style}>
-<Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}} >
+<Typography id="modal-modal-title" variant="h6" component="h2" style={{textAlign:'center'}}  className='flex'>
        
-<img src={x.designer}   onClick={() => handleOpenModal()}   style={{maxWidth:'80vw',maxHeight:'80vh',margin:'auto'}}/>
+<img src={x.designer}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
+<img src={x.designer1}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
+<img src={x.designer2}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
+<img src={x.designer3}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
+
 
 </Typography>
 </Box>

@@ -135,7 +135,7 @@ const handleEditorChange = (value) => {
 <div className='mt-5'>
 
 
-{level > 8 ?   <Schedule user={user} /> : null}
+{level > 7 ?   <Schedule user={user} level={level} /> : null}
 </div>
     </div>
 

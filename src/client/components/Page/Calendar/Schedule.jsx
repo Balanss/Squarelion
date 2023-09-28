@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { fs, db } from "../../../Firebase";
 import { collection, getDocs, onSnapshot } from "firebase/firestore";
 
-export default function Schedule({ user }) {
+export default function Schedule({ user,level }) {
   //create a const of data and get all firebase data from the collection of partners
   const [data, setData] = useState([]);
   const [data2, setData2] = useState([]);
@@ -91,7 +91,7 @@ setBtnDisabled(true);
     // Enable the refresh button after 30 seconds
     setTimeout(() => {
       setBtnDisabled(false);
-    }, 3000);
+    }, 20000);
   };
   
   
@@ -137,7 +137,13 @@ setBtnDisabled(true);
           </ul>
 
           <ul className="px-6 space-y-2 ">
+       {level > 8 && <>
         {dataItem.name !== 'Test'? <p > Pending : {matchingData.filter(matchingItem => matchingItem.client === dataItem.name && matchingItem.status !== "Approved" && dataItem.name !== 'Test' ).length} </p>:null}
+       </>}
+
+        {level === 8 && <>
+          {dataItem.name !== 'Test'? <p > Pending : {matchingData.filter(matchingItem => matchingItem.client === dataItem.name && matchingItem.status == "Designer" && dataItem.name !== 'Test' ).length} </p>:null}
+        </>}
           </ul>
         </section>
       ))}

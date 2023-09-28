@@ -25,7 +25,7 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
 
 <div className="relative overflow-x-auto mb-10">
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+{level > 8 &&         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" className="px-6 py-3">
                     Unique ID
@@ -49,7 +49,7 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
                     Boosting
                 </th>
             </tr>
-        </thead>
+        </thead>}
         <tbody>
 
           
@@ -81,7 +81,7 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
                 <input value={date} type="number" placeholder='day'  onChange={(e) => {setDate(e.target.value)}}  required className='input-admindb  border-2 border-black w-[100px]'/>
                 </td>
 </>}
-                <td className="px-1 py-1">
+                <td className="px-1 py-1 text-center">
                 <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb  border-2 border-black w-[100px]' />
                 </td>
                 <td className="px-1 py-1">
