@@ -37,7 +37,17 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 
 
-
+const modules = {
+  toolbar: {
+    handlers: {
+      // Prevent the default behavior of adding a new paragraph on enter key
+      // and instead insert a line break
+      handleEnter: function() {
+        return true;
+      }
+    }
+  }
+};
 
 
 
@@ -686,8 +696,10 @@ className='max-w-[80vw] max-h-[80vw]  '
 </Modal>
 
 
-{!x.answer ? null :    <div  className='text-center break-all m-auto mt-[50px] p-8 bg-white
+{!x.answer ? null :   
+ <h6  className='text-center  m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white
 lg:w-3/4' key={i} onClick={() => setObjectiveAnswer(x.answer) } style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />} 
+
 <div className='flex flex-col items-center justify-evenly  border-b-2 border-black ' >
 
 <section className='text-center mt-20'>
@@ -725,6 +737,7 @@ lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 m
 <ReactQuill
 value={objectiveAnswer}
 onChange={handleEditorChange}
+modules={modules}
 style={{color:'black',backgroundColor:'white'}}
 placeholder='Text here...'
 className='max-w-[90vw] lg:max-w-[500px]  overflow-scroll'
