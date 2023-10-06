@@ -421,7 +421,7 @@ const handleDragEnd = (result) => {
   });
 };
 
-
+const [showCount,setShowCount] = useState('10')
 
   return (<>
 
@@ -547,19 +547,22 @@ const handleDragEnd = (result) => {
                   </td>
                   <td
                     className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
-                    // onClick={() => {
-                    //   setUniqueId(x.unid),
-                    //     setForPost(x.count),
-                    //     handleOpenModalBar(),
-                    //     setPost(x.count),
-                    //     setTitle('count'),
-                    //     setDate(x.date),
-                    //     setObjective(x.objective),
-                    //     setType(x.type);
-                    // }}
+                    onMouseEnter={() => {
+                      setShowCount(x.count);
+                    }}
+                    onMouseLeave={() => {
+                      setShowCount('');
+                    }}
                   >
-{x.order +1}
+                    {x.order=== 0? x.order - -1 :x.order }{' '}
+<p >                       {showCount && showCount === x.count ? (
+                      <>
+                        <hr/>
+                          {`ID:${showCount}`}
+                      </>
+                    ) : null}  </p>
                   </td>
+
                   <td
                     className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
                     onClick={() => {
