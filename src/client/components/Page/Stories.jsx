@@ -6,7 +6,7 @@ import logo from '../images/logo.png'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 
-export default function Stories({name, user, type, objectiveAnswer, subject, typeAnswer, month, color, page, level, setObjectiveAnswer}) {
+export default function Stories({name, user, type, objectiveAnswer, subject, typeAnswer, month, color, page, level, setObjectiveAnswer,orderPost,uniqueId}) {
 
     const [imageUrls, setImageUrls] = useState([]);
     const [files, setFiles] = useState([]);
@@ -34,7 +34,7 @@ export default function Stories({name, user, type, objectiveAnswer, subject, typ
       // Upload each file to the bucket
       for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
-        const storageRef = ref(getStorage(), `products/${name}/${file.name}`);
+        const storageRef = ref(getStorage(), `products/${name}/${file.name}+${uniqueId}.${orderPost}`);
         storageRefs.push(storageRef);
 
         const uploadTask = uploadBytesResumable(storageRef, file);

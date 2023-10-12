@@ -17,7 +17,7 @@ import Stories from '../Page/Stories';
 
 
 
-export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,page,level,setObjectiveAnswer,user,subject,type,post}) {
+export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,page,level,setObjectiveAnswer,user,subject,type,post,uniqueId,orderPost}) {
     
   const [ emojiShow,setEmojiShow] = useState(false)
 
@@ -68,7 +68,7 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
       setDoc(colRef,{name:name},{merge:true})
       
       
-      const storageRef = ref(getStorage(), `products/${name}/${image.name}`);
+      const storageRef = ref(getStorage(), `products/${name}/${image.name}/+${uniqueId}.${orderPost}`);
       
       // Upload the file to the bucket
       const uploadTask = uploadBytesResumable(storageRef, image);
@@ -128,7 +128,7 @@ export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,pag
       
           await setDoc(colRef, { name: name }, { merge: true });
       
-          const storageRef = ref(getStorage(), `products/${name}/${file.name}`);
+          const storageRef = ref(getStorage(), `products/${name}/${file.name}/${uniqueId}.${orderPost}`);
       
           // Upload the file to the bucket
           const uploadTask = uploadBytesResumable(storageRef, file);
@@ -222,7 +222,7 @@ lg:w-[120px]">
 
 </form> 
 
-{type === "Stories" ? <Stories user={user} post={post} type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer} /> : null}
+{type === "Stories" ? <Stories user={user} post={post} orderPost={orderPost} uniqueId={uniqueId} type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer} /> : null}
 </>: null}
 
 
