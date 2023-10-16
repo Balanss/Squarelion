@@ -522,8 +522,8 @@ const [showCount,setShowCount] = useState('10')
             <tbody {...provided.droppableProps} ref={provided.innerRef}>
               {round.map((x, i) => (
                 x.month === month && (
-                  <React.Fragment key={x.count.toString()}>
-                    <Draggable draggableId={x.count.toString()} index={i}>
+                 
+                    <Draggable draggableId={x.order.toString()} index={i}>
                       {(provided) => (
                         <tr
                           ref={provided.innerRef}
@@ -703,7 +703,7 @@ const [showCount,setShowCount] = useState('10')
                         </tr>
                       )}
                     </Draggable>
-                  </React.Fragment>
+                 
                 )
               ))}
               {provided.placeholder}
