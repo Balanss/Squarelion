@@ -119,7 +119,7 @@ setBtnDisabled(true);
     <div className="overflow-hidden flex flex-wrap sm:w-[60vw] laptop:w-[75vw]">
 <section className="">
 {SwitchingPage && <div className=" flex-col  fixed top-0 w-[100vw] bg-slate-600 left-0 z-[100] flex items-center justify-center h-[100vh]">
-  <img src={block} className="w-[300px] h-[200px]" />
+  <img src={block} className="w-[100px] h-[100px]" />
  
   <p className="text-white text-2xl animate-bounce">Loading...</p>
 
@@ -131,7 +131,7 @@ setBtnDisabled(true);
           className="mb-8 bg-slate-700 p-2 text-white max-h-[50vh] overflow-y-auto overflow-x-hidden"
         >
           {dataItem.name !== 'Test'? <img
-            className="bg-slate-200 ml-3 mb-3 w-[300px] h-[150px] rounded-md cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
+            className="bg-slate-200 ml-3 mb-3 w-[200px] h-[150px] rounded-md cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
             src={dataItem.imageUrl}
             onClick={() => {
             localStorage.setItem('partner',dataItem.name)
@@ -139,7 +139,7 @@ setBtnDisabled(true);
             setSwitchingPage(true)
             setTimeout(() =>{
                 navigate(`/profile/${dataItem.name}`)
-            },2000)}}
+            },500)}}
           />: null}
 
 
