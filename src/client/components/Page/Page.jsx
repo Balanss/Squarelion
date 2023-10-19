@@ -627,7 +627,7 @@ const [showCount,setShowCount] = useState('10')
                                       <div className='holds-written-content'>
                                         <ModalContent level={level} page={page} round={round} type={type} show={show}/>
                                         {!x.answer ? null : (
-                                          <h6 className='text-center m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4' key={i} onClick={() => setObjectiveAnswer(x.answer)} style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />
+                                          <h6 className='text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4' key={i} onClick={() => setObjectiveAnswer(x.answer)} style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />
                                         )}
                                         <div className='flex flex-col items-center justify-evenly border-b-2 border-black'>
                                           <section className='text-center mt-20'>

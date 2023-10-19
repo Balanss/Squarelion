@@ -150,8 +150,6 @@ useEffect(() => {
 
 {level > 7 ?  <>  <div className='w-full sm:w-4/5 lg:w-full md:absolute right-0 bg-slate-500   '>
 
-  
-
 
 {showWfh === 'start' && (
   <div className='laptopL:!w-5/5 xl:w-[1100px] lg:min-h-[100vh] xl:m-auto flex flex-col items-center bg-slate-500  ' >

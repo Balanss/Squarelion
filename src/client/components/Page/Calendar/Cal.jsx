@@ -23,7 +23,7 @@ const GoogleCalendar = () => {
 
 const LoadingDiv = () => {
 return(
-  <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+  <div className="w-[95vw] md:w-[50vw]  h-[400px] h-min-[400px] cal:w-[40vw] cal:h-[65vh]  m-auto flex items-center justify-center  border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
   <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">loading...</div>
 </div>
 )
@@ -104,14 +104,16 @@ const handleEditorChange = (value) => {
   setTimeout(() => {
     setCalLoading(false)
   }
-  , 900);
+  , 1000);
   
 }
 , []);
 
+
+
   return ( <>  
 <section className='cal:flex md:ml-[20%] gap-5 mt-10'>
-<form onSubmit={handleSubmit} className='mt-10 mr-2 gap-5 flex flex-col items-center mb-2 '>
+<form onSubmit={handleSubmit} className='mt-10 mr-2 gap-5 flex flex-col items-center mb-2 bg-slate-700 p-10 '>
   
   <input type="datetime-local" onChange={e => setFromDate(e.target.value)} value={fromDate} />
  
@@ -121,27 +123,32 @@ const handleEditorChange = (value) => {
       onChange={handleEditorChange}
       style={{color:'black',backgroundColor:'white'}}
       placeholder='Detailed Text here...'
-      className='max-w-[90vw] lg:max-w-[500px]  '    
+      className='max-w-[90vw] lg:max-w-[300px]  '    
     />
   <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer relative'>  {btnTitle}   </button>
 </form>  
 
-{calLoading !== false ? <LoadingDiv /> : null}
-      <GoogleCalendar />
+<div className={`${calLoading === false? 'hidden':'false'}`}>
+  <LoadingDiv/>
+</div>
+
+<div className={`${calLoading === false? 'block':'hidden'}`}>
+  <GoogleCalendar/>
+</div>
 </section>
 
 
-    <div className=" px-4 py-8 md:m-auto  md:w-[40vw] ">
+    <div className=" px-4 py-8 md:m-auto  md:w-[60vw] ">
 <div className='mt-5'>
+
+  <hr />
 
 
 {level > 7 ?   <Schedule user={user} level={level} /> : null}
 </div>
     </div>
 
-    <div className="flex flex-col md:flex-row md:justify-center md:items-center md:space-x-8">  
   
-    </div>
 </>  );
 };
 

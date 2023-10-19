@@ -132,6 +132,9 @@ uploadTask.on(
       name:name,
     }
 
+    setImage('')
+    name('')
+
     try {
       await sendToZapier(leadData);
       // Additional code to execute after sending data to Zapier, if needed
@@ -256,13 +259,13 @@ const [imgLoading2,setImgLoading2] = useState(true)
 useEffect (() => {
   const timer = setTimeout(() => {
     setImgLoading2(false);
-  }, 1500);
+  }, 1800);
 
   return () => clearTimeout(timer);
 }
 ,[])
 
-const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
 
   return (
 
@@ -288,11 +291,11 @@ const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
                     <>
                       <form onSubmit={handleSub} className=' flex flex-col items-center'> 
                         <input type="text" placeholder='ENTER CLIENT ' onChange={(e) => setName(e.target.value)} className='w-[160px] mb-[15px]' />
-                        <input type="file" className='w-[100px] mt-[15px]' onChange={handleImageChange} />
+                       <input type="file" className='w-[100px] mt-[15px] ' onChange={handleImageChange} />
                         <br />
-                        <button className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200">
+                      {image > "" &&   <button className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200">
                           Add Client
-                        </button>
+                        </button>}
                       </form>
                     </>
                   }   
@@ -338,7 +341,7 @@ const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
                                         loading...
                                       </div>
                                     }
-                                    <img src={x.imageUrl}  className={`xs:w-[100px] md:w-[100px] lg:w-[500px] ${imgLoading2 ? 'hidden' : 'visible'}`} />
+                                    <img src={x.imageUrl}  className={`xs:w-[100px] md:w-[100px] lg:w-[500px] ${imgLoading2 ? 'hidden opacity-0' : 'visible transition-opacity duration-1000 ease-in opacity-100  '}`} />
                                   </div>
                                 </button>
                               </div>

@@ -71,14 +71,14 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
                  <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white ">  Designer </span>
               </Link>
            </li>  
-           <li>
+           {/* <li>
               <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" onClick={() => {setShowWfh('Docs'),setPanel(true)}} >
                 <img className='w-[40px]' src={wfh} />
                  <span className="flex-1 ml-3 whitespace-nowrap">
                   Docs
                  </span>   
               </a>
-           </li>
+           </li> */}
   
            <li>
               <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
