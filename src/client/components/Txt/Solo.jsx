@@ -1,7 +1,7 @@
 import React from 'react';
 
 
- function Solo({ createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,boosting,post,subject}) {
+ function Solo({ createPdf,isChecked,setIsChecked,orderPost ,date,uniqueId,type,month,page,imageUrl ,boosting,post,subject,image1Url,image2Url,image3Url}) {
 
 
   const sendToZapier = async (payload) => {
@@ -36,7 +36,6 @@ import React from 'react';
 
 
     const leadData = {
-    
       postID:uniqueId,
        channel: type,
        textContent: createPdf,
@@ -44,9 +43,12 @@ import React from 'react';
        name:page,
        postDate:postDate,
        images:imageUrl,
+        image1:image1Url,
+        image2:image2Url,
+        image3:image3Url,
        boosting:boosting,
        subject:subject,
-        post:post,
+        post:orderPost,
      };
  
      try {
@@ -55,6 +57,10 @@ import React from 'react';
      } catch (error) {
        console.log(error);
      }
+
+     setTimeout(() => {
+      setIsChecked(false)
+    } , 1000);
 
   };
 

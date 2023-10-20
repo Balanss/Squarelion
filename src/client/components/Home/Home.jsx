@@ -4,11 +4,15 @@ import React,{useState,useEffect} from 'react'
 import {Link } from 'react-router-dom'
 import { auth, fs,db } from '/src/client/Firebase.jsx'
 import useLogo from '../images/useLogo.png'
+import rocket from '../images/rocket.jpg'
 import User from '../User'
 import Footer from './Footer'
 import axios from 'axios'
 import Loading from '../Loading'
 import Title from '../../Title'
+import fast from '../images/fast.jpg'
+import ai from '../images/Ai-home.jpg'
+import automation from '../images/automation-home.jpg'
 
 
 
@@ -56,79 +60,108 @@ useEffect(() => {
 }, []);
 
 
-  return (<> 
+  return (
+      <>
+        <div className='bg-gray-100'>
+          <Nav />
+        </div>
 
+        <div className="bg-gradient-to-t from-slate-900 via-slate-800 to-slate-900">
+          <div className='flex flex-col items-center justify-center py-10'>
+            <h1 className='text-white text-center text-3xl font-bold mb-5'>
+              Welcome to Squarelion Agency
+             
+            </h1>
+         
+            <div className='flex flex-col md:flex-row items-center justify-center'>
+              <div className='md:w-1/2 flex flex-col ml-10 '>
+                <h1 className='text-left  text-white text-3xl font-bold mb-2  flex gap-2'> Marketing the faster way!  <img src={rocket}  className='w-[50px] rounded-full'/> </h1>
+                <p className='text-white text-left'>
+                  Media Pilot is a social media automation tool that helps you
+                  manage your social media accounts with ease. With Media Pilot,
+                  you can schedule posts, track analytics, and engage with your
+                  audience all in one place.
+                </p>
+              </div>
+              <div className='md:w-1/2'>
+                <img src={useLogo} alt='logo' className='w-64 mx-auto' />
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div className='bg-gray-100'>
+          <div className='container mx-auto py-10'>
+            <h2 className='text-3xl font-bold text-center mb-10'>
+              How we are changing social media marketing ?
+            </h2>
+            <div className='flex flex-col md:flex-row items-start justify-center'>
+              <div className='md:w-1/3'>
+                <img src={fast} alt='image1' className='mb-5   w-[200px] h-[200px] m-auto rounded-full' />
+                <p className='text-center'>
+                  With Media Pilot, you can create content to all your social
+                  media accounts at once, saving you time and effort.
+                </p>
+              </div>
+              <div className='md:w-1/3'>
+                <img src={ai} alt='image2' className='mb-5  m-auto  w-[200px] h-[200px] rounded-full' />
+                <p className='text-center'>
+                  Media Pilot uses artificial intelligence to help you create
+                  engaging content that will get more likes, comments, and
+                  shares.
+                </p>
+              </div>
+              <div className='md:w-1/3'>
+                <img src={automation} alt='image3' className='mb-5 m-auto  w-[200px] h-[200px] rounded-full' />
+                <p className='text-center'>
+                 Media Pilot Automation helps you save time by automating your
+                  social media posts and channels, so you can focus on what matters most.
 
+                </p>
+              </div>
+            </div>
+            <div className='text-center mt-10'>
+              <button className='bg-blue-950 text-white py-2 px-4 rounded'>
+                Learn More WIP
+              </button>
+            </div>
+          </div>
+        </div>
 
-  
-    <div
-      className={`absolute inset-0 ${isVisible ? 'block' : 'hidden'}`}
-      style={{ zIndex, backgroundColor: 'white' }}
-    >
-    <Loading/>
-    </div>
+        <div className='bg-gray-100  '>
+          <div className='container mx-auto py-10 flex flex-col'>
+            <h2 className='text-3xl font-bold text-center mb-10'>
+              Contact Us
+            </h2>
+            <div className='flex flex-col md:flex-col items-center gap-3 justify-center '>
+              <div className=' m-auto'>
+                <p className='text-center'>
+                  Have a question or need help? Contact us and we'll get back to
+                  you as soon as possible.
+                </p>
+              </div>
+              
+              <div className=' m-auto'>
+          <section className="text-gray-600 body-font relative">
+            <label  className="leading-7  text-black">
+              Email : kris@shaananportfolio.com 
+            </label>
+            </section>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="bg-gradient-to-t from-slate-900 via-slate-800 to-slate-900">
+     <div className='container mx-auto py-10'>
+        <h2 className='text-3xl text-white font-bold text-center mb-10'>
+          Media pilot is still in internal testing phase many features are subject to change 
 
-    <div className='bg-gray-100 flex justify-center  pb-4 pt-4 border-b-yellow-500 border-solid border-2 flex-col' ><Nav  /></div>
-    <Title/>
-    <User setUser={setUser} user={user} level={level} setLevel={setLevel} setUuid={setUuid} uuid={uuid}/>
+        </h2>
+        </div>
+        </div>
 
-
-  <div className='bg-slate-200 '>
-
-<div className='bg-blue-950   border-solid border-b-2 border-yellow-500 sm:pt-10'> 
-    <img src={useLogo} alt="logo" className='w-30 m-auto bg-gray-200 max-w-xs p-4  '  />
-    <h2 className=' text-white text-center p-5 sm:w-3/4 m-auto lg:w-85 lg:max-w-[35%]'>
-   Welcome to Squarelion.
-   {<br />}
-    Professional branding services for serious businesses.
-No kidding, we do the magic!
- </h2>
- <h1 className='text-white text-center text-xl p-5 sm:w-3/4 m-auto lg:w-85 lg:text-3xl lg:max-w-[35%]'>  UNLEASH THE POWER OF YOUR BRAND  </h1>
-</div>
-
-<div  className='border-solid border-b-2 border-yellow-500 sm:flex sm:justify-center sm:items-center sm:pb-20 sm:pt-10 
-md:flex md:items-center lg:w-3/4 lg:m-auto '> 
-<img src={useLogo} alt="logo"  className='w-30 m-auto bg-gray-200 max-w-xs p-4'/>
-    <h2  className='p-4 text-center  lg:max-w-[45%] xg:max-w-[55%]'>
-    We know that we can add value to any serious business whether they are small, medium, large and international corporations.
-Do you want to maximize your return on investment for your marketing and brand communication activities? 
-
- </h2>
-
-
-</div>
-
-
-   <div className=' bg-gray-100  sm:relative  sm:bg-transparent  sm:bottom-10'> 
-    <img src={useLogo} alt="logo"  className='w-30 m-auto  max-w-xs p-4 sm:bg-slate-200'  />
-    <h2 className='w-3/4 m-auto pb-5 md:w-[400px]'>
-    This is Squarelion Tech  hub of creativity and innovation, where talented minds work diligently to produce exceptional content for its audience.
-     To discover more about Squarelion and explore their offerings.
-    </h2>
-
-    <h1 className='text-center text-xl p-5 sm:w-3/4 m-auto lg:w-85 lg:text-3xl lg:max-w-[35%]'> Visit our website for detailed information.  </h1>
-     <div className='text-center'>
-     <button className=" relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-     <a href='https://squarelion.agency/'  className='flex items-center relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>  HERE </a>
-</button>
-     </div>
-
-    
-</div> 
-
-
-
-  </div>
-  <div className='border-solid border-t-2  border-yellow-500'>
-    <Footer  />
-  </div>
-
-
- 
-
-
-
+        <Footer />
 
    
   </>  )

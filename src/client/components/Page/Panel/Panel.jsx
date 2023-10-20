@@ -31,7 +31,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   return (
     <aside id="cta-button-sidebar" className={panel ? "  w-full sm:w-1/5 fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0" :
     "fixed top-0 left-0 z-40 w-64 h-screen transition-transform  sm:translate-x-0"  } aria-label="Sidebar">
-     <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800">
+     <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800 fixed ">
         <ul className="space-y-2 font-medium">
            <li>
               <Link to='/' 
@@ -70,29 +70,15 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
                 <img className='w-[40px] rounded-xl' src={design} />  
                  <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white ">  Designer </span>
               </Link>
-           </li>
+           </li>  
            {/* <li>
-              <a 
-              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" 
-              onClick={() =>  {
-             hideList === true? setHideList(false) : setHideList(true),
-             setShowWfh('chat'),setPanel('false')
-    } }>
-              <img className='style-meeting' src={meeting} style={{cursor:'pointer',width:'40px'}} />  
-                 <span className="flex-1 ml-3 whitespace-nowrap text-white">
-                  Chat
-                 </span>   
-              </a>
-           </li> */}
-  
-           <li>
               <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" onClick={() => {setShowWfh('Docs'),setPanel(true)}} >
                 <img className='w-[40px]' src={wfh} />
                  <span className="flex-1 ml-3 whitespace-nowrap">
                   Docs
                  </span>   
               </a>
-           </li>
+           </li> */}
   
            <li>
               <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
@@ -107,7 +93,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
                  <span className="flex-1 ml-3 whitespace-nowrap text-white" >Sign Out</span>
               </a>
            </li>
-  <l1>
+  <li>
     
   
   
@@ -134,7 +120,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   </div>
   
   </>}
-  </l1>
+  </li>
         </ul>
   
      </div>

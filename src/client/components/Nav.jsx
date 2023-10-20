@@ -120,14 +120,8 @@ return (<>
       {array.map((x,i) => {
   
   return level < 10 && x.id === '/admindashboard'?null:
-  <span key={i} className=" mr-5 relative mt-2 mb-2 md:px-5 md:py-3 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group">
-<span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-yellow-600 group-hover:w-full ease"></span>
-<span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-yellow-600 group-hover:w-full ease"></span>
-<span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
-<span className="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
-<span className="absolute inset-0 w-full h-full duration-300 delay-300 bg-sky-900 opacity-0 group-hover:opacity-100"></span>
-<span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">   
-  <button className='text-center text-sm cursor-pointer w-[70px] '  onClick={() => {
+  <span key={i} className=" cursor-pointer mr-5 relative mt-2 mb-2 md:px-5 md:py-3 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group"
+  onClick={() => {
     if(x.id === 'logout'){     
       auth.signOut().then(() => {
         localStorage.removeItem('user')
@@ -149,7 +143,14 @@ return (<>
       navigate(`/user/${user}`)
     }
    
-  }} >{x.title}</button>  
+  }}>
+<span className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-yellow-600 group-hover:w-full ease"></span>
+<span className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-yellow-600 group-hover:w-full ease"></span>
+<span className="absolute top-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
+<span className="absolute bottom-0 left-0 w-full h-0 transition-all duration-300 delay-200 bg-gray-600 group-hover:h-full ease"></span>
+<span className="absolute inset-0 w-full h-full duration-300 delay-300 bg-sky-900 opacity-0 group-hover:opacity-100"></span>
+<span className="relative transition-colors duration-300 delay-200 group-hover:text-white ease">   
+  <button className='text-center text-sm cursor-pointer w-[70px] '  >{x.title}</button>  
    </span>
 </span>
    
@@ -160,7 +161,7 @@ return (<>
          {!uuid && <> 
          <div className='flex font-mono items-center justify-center sm:w-[300px]  sm:items-center sm:m-auto sm:justify-around'>
          <button type="button" className="w-[80px] text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> <Link to ='/login' className='mr-10'> Login </Link></button>
-         <button type="button" className="w-[80px] text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">   <Link to ='/signup' className=''> Signup </Link></button>
+         {/* <button type="button" className="w-[80px] text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">   <Link to ='/signup' className=''> Signup </Link></button> */}
          </div>
       
          

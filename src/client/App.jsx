@@ -18,7 +18,7 @@ const Recruitment = lazy(() => import('./components/Recruitment/recruitment'));
 const PartnerProgram = lazy(() => import('./components/PartnerProgram/PartnerProgram'));
 const Page = lazy(() => import('./components/Page/Page'));
 const Profile = lazy(() => import('./components/Page/Profile'));
-const Survey = lazy(() => import('./components/Page/Survey'));
+
 const Designer = lazy(() => import('./components/Designer/Designer'));
 const Prop = lazy(() => import('./components/AdminPage/SqlProperties'));
 
@@ -42,7 +42,7 @@ function App() {
           <Route path="/partnerprogram" element={<PartnerProgram />} /> */}
           <Route path="/profile/:id" element={<Page />} />
           <Route path="/user/:id" element={<Profile />} />
-          <Route path="/user/survey/:id" element={<Survey  />} />
+        
           <Route path="/designer" element={<Designer  />} />
           <Route path="/sqlProp" element={<Prop  />} />
         </Routes>
