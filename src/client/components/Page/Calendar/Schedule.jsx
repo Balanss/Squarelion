@@ -120,7 +120,7 @@ export default function Schedule({ user, level }) {
         )}
       </section>
 
-      <div className="overflow-hidden flex flex-wrap sm:w-[60vw] laptop:w-[75vw] lg:w-[1200px]">
+      <div className="overflow-hidden flex flex-wrap sm:w-[60vw] laptop:w-[75vw] xl:w-[1200px]">
         <section className="">
           {SwitchingPage && (
             <div className=" flex-col  fixed top-0 w-[100vw] bg-slate-600 left-0 z-[100] flex items-center justify-center h-[100vh]">
