@@ -51,86 +51,80 @@ export default function Home() {
     "https://source.unsplash.com/random/1600x900/?marketing"
   );
 
-useEffect(() => {
-  // Send count to server whenever it changes
-  axios.post('/api/logCount', { user })
-    .then(response => {
-      console.log(response.data); // Log the response from the server if needed
-    })
-    .catch(error => {
-      console.error(error);
-    });
-}, [user]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFadeIn(true);
+      setImageUrl(
+        `https://source.unsplash.com/random/1600x900/?technology&t=${Date.now()}`
+      );
+    }, 12000);
 
+    return () => clearInterval(interval);
+  }, []);
 
-  return (<> 
+  return (
+    <>
+      <div className={`${!isVisible ? "hidden" : "absolute w-full z-[100]"}`}>
+        <Loading />
+      </div>
+      <div className="relative h-screen">
+        <div className="absolute z-50 top-2 inset-0 opacity-100">
+          <Nav
+            user={user}
+            level={level}
+            uuid={uuid}
+            setUser={setUser}
+            setLevel={setLevel}
+            setUuid={setUuid}
+          />
+        </div>
+        <img
+          className={`object-cover w-full h-full transition-opacity duration-1000 ${
+            fadeIn ? "opacity-75" : "opacity-0"
+          }`}
+          src={imageUrl}
+          alt="Header Background"
+        />
+        <div className="absolute inset-0 bg-black opacity-25" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+          <img className="w-[400px] h-[200px]" src={useLogo} alt="Logo" />
+          <h1 className="text-5xl text-white font-bold mb-4">
+            Welcome to Squarelion Media Pilot
+          </h1>
+          <p className="text-2xl text-white mb-4">
+            An innovative and rapid marketing solution. Kindly be aware that
+            Media Pilot is currently undergoing internal development.
+          </p>
+          <div className="flex justify-center gap-10">
+            <span className="flex flex-col ">
+              <img
+                className="w-[90px] h-[90px] mr-4 rounded-full"
+                src={rocket}
+                alt="Logo 1"
+              />
+              <p className="text-2xl mt-2 text-white mb-4">Fast</p>
+            </span>
 
+            <span className="flex flex-col ">
+              <img
+                className="w-[90px] h-[90px] mr-4 rounded-full"
+                src={fast}
+                alt="Logo 2"
+              />
+              <p className="text-2xl mt-2 text-white mb-4">Efficient</p>
+            </span>
 
-
-  {loading === false &&  <>
-  
-    <div className='bg-gray-100 flex justify-center  pb-4 pt-4 border-b-yellow-500 border-solid border-2 flex-col' ><Nav  /></div>
-    <Title/>
-    <User setUser={setUser} user={user} level={level} setLevel={setLevel} setUuid={setUuid} uuid={uuid}/>
-
-
-  <div className='bg-slate-200 '>
-
-<div className='bg-blue-950   border-solid border-b-2 border-yellow-500 sm:pt-10'> 
-    <img src={useLogo} alt="logo" className='w-30 m-auto bg-gray-200 max-w-xs p-4  '  />
-    <h2 className=' text-white text-center p-5 sm:w-3/4 m-auto lg:w-85 lg:max-w-[35%]'>
-   Welcome to Squarelion.
-   {<br />}
-    Professional branding services for serious businesses.
-No kidding, we do the magic!
- </h2>
- <h1 className='text-white text-center text-xl p-5 sm:w-3/4 m-auto lg:w-85 lg:text-3xl lg:max-w-[35%]'>  UNLEASH THE POWER OF YOUR BRAND  </h1>
-</div>
-
-<div  className='border-solid border-b-2 border-yellow-500 sm:flex sm:justify-center sm:items-center sm:pb-20 sm:pt-10 
-md:flex md:items-center lg:w-3/4 lg:m-auto '> 
-<img src={useLogo} alt="logo"  className='w-30 m-auto bg-gray-200 max-w-xs p-4'/>
-    <h2  className='p-4 text-center  lg:max-w-[45%] xg:max-w-[55%]'>
-    We know that we can add value to any serious business whether they are small, medium, large and international corporations.
-Do you want to maximize your return on investment for your marketing and brand communication activities? 
-
- </h2>
-
-
-</div>
-
-
-   <div className=' bg-gray-100  sm:relative  sm:bg-transparent  sm:bottom-10'> 
-    <img src={useLogo} alt="logo"  className='w-30 m-auto  max-w-xs p-4 sm:bg-slate-200'  />
-    <h2 className='w-3/4 m-auto pb-5 md:w-[400px]'>
-    This is Squarelion Tech  hub of creativity and innovation, where talented minds work diligently to produce exceptional content for its audience.
-     To discover more about Squarelion and explore their offerings.
-    </h2>
-
-    <h1 className='text-center text-xl p-5 sm:w-3/4 m-auto lg:w-85 lg:text-3xl lg:max-w-[35%]'> Visit our website for detailed information.  </h1>
-     <div className='text-center'>
-     <button className=" relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-     <a href='https://squarelion.agency/'  className='flex items-center relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0'>  HERE </a>
-</button>
-     </div>
-
-    
-</div> 
-
-
-
-  </div>
-  <div className='border-solid border-t-2  border-yellow-500'>
-    <Footer  />
-  </div>
-
-
-  </>} 
-
-
-  {loading === true &&  <>
-       <Loading/>
-      </>}
-   
-  </>  )
+            <span className="flex flex-col ">
+              <img
+                className="w-[90px] h-[90px] rounded-full"
+                src={ai}
+                alt="Logo 3"
+              />
+              <p className="text-2xl mt-2 text-white mb-4">Automation</p>
+            </span>
+          </div>
+        </div>
+      </div>{" "}
+    </>
+  );
 }
