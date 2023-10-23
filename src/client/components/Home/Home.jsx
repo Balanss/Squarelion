@@ -48,6 +48,7 @@ useEffect(() => {
     });
 }, [user]);
 
+console.log(user)
 
   return (<> 
 
