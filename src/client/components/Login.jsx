@@ -20,43 +20,62 @@ const [ isAccepted,setIsAccepted] = useState('')
 const [ level,setLevel] = useState('')
 const [successMsg,setSuccessMsg] = useState('')
 const navigate = useNavigate()
+const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
 
   const handleSubmit = (e) =>{
     e.preventDefault()
-    auth.signInWithEmailAndPassword(email, password).then(() => {
-      setSuccessMsg("Sucessfully logged in")
+if (email && password !== ''){
+  auth.signInWithEmailAndPassword(email, password).then(() => {
+    setSuccessMsg("Sucessfully logged in")
+    
+    setIsButtonDisabled(true);
+    setTimeout(() => {
+      setIsButtonDisabled(false);
+    }, 1000);
 
-      
-      // setEmail("")
-      // setPassword("")
-      // setErrorMsg("")
-      setTimeout(() => {
-        setSuccessMsg("");
-        navigate("/")
-      },2000)
-    }).catch(error => setErrorMsg(error.message))
+    setTimeout(() => {
+      setSuccessMsg("");
+      navigate("/")
+    },2000)
+  }).catch(error =>console.log('error'))
 
   }
+}
 
   
 
 
   const handleSignIn = () => {
+
+
     auth.signInWithPopup(googleAuthProvider)
       .then((result) => {
-        // Handle successful sign-in
-        setSuccessMsg("Sucessfully logged in")
- 
 
-      
-        // setEmail("")
-        // setPassword("")
-        // setErrorMsg("")
+        if(result.user.displayName){     // Handle successful sign-in
+        setSuccessMsg("Sucessfully logged in")
         setTimeout(() => {
           setSuccessMsg("");
           navigate("/")
-        },2000) 
+        },2000)} else {
+          auth.signInWithPopup(googleAuthProvider)
+          .then((result) => {
+            // Handle successful sign-in
+            setSuccessMsg("Awaiting approval ")
+            fs.collection('admin').doc(result.user.uid).set({
+              Name:result.user.displayName,
+              Email:result.user.email,
+               accepted:'no',
+               level:0,
+               noti:0,
+             
+            })
+          } )
+          .catch((error) => {
+            // Handle sign-in error
+            console.error(error);
+          });
+        }
       
       } )
       .catch((error) => {
@@ -69,22 +88,23 @@ const navigate = useNavigate()
     <div>
 <User  setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
 <Nav/>
-<div className='fixed w-[100%] h-[100%] bg-sky-100'>
+<div className='fixed w-[100%] h-[100%] bg-sky-100 '>
   <div className=''>
-    <div className='bottom-[300px] absolute inset-0 flex items-center justify-center flex-col sm:flex-row'>
-    <div>
-  <img src={logo} className='h-[300px] w-[300px] sm:h-[500px] sm:w-[500px]' />
- </div>
-<form className='flex flex-col h-[400px] items-center justify-around w-[300px] bg-slate-600 sm:h-[500px] sm:w-[500px]' onSubmit={handleSubmit}>
+    <div className='bottom-[250px] md:w-[4/5] absolute inset-0 flex items-center justify-center flex-col sm:flex-row pt-20 '>
+  <img src={logo} className='h-[0] w-[0] sm:h-[375px] sm:w-[375px]   ' />
+<form className='flex flex-col h-[400px] items-center justify-around w-[300px] bg-slate-600 sm:h-[375px] sm:w-[375px]  ' onSubmit={handleSubmit}>
 <input type='text' placeholder='email' onChange={(e) => setEmail(e.target.value)}  />
 <input type='text' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
 <div className='sm:text-center sm:mt-10'>
+<button   disabled={isButtonDisabled} 
+ className={`${
+  isButtonDisabled
+    ? 'opacity-50 cursor-not-allowed from-blue-500 via-blue-600 to-blue-700'
+    : 'bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800'
+} text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-5`}
+>Login</button>
 <button  onClick={() => navigate('/signup')} className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Sign-up</button>
-<button className="  text-white 
-bg-gradient-to-r from-blue-500 via-blue-600
- to-blue-700 hover:bg-gradient-to-br focus:ring-4 
- focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800
-  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-5">Login</button>
+
 
 
 <div className='mt-3'>
@@ -100,7 +120,7 @@ className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outl
 
 </div>
 
-<h2 className='text-2xl text-white'>  {successMsg} </h2> 
+<h2 className='text-2xl text-white text-center'>  {successMsg} </h2> 
 </form>
 
 

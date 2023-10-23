@@ -15,6 +15,9 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Box from '@mui/material/Box';
 import WaitingApproval from '../../firebaseData/WaitingApproval'
+import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
+import { auth, fs,db } from '/src/client/Firebase.jsx'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 
 const style = {
@@ -33,15 +36,21 @@ const style = {
 export default function Designer({round,level,setObjectiveAnswer,setTypeAnswer,typeAnswer,objectiveAnswer,month,color,page,setShow,setStatusBar,show,statusBar,user,qty}) {
 
  
+  const [imageUrl, setImageUrl] = useState("");
+  const [name,setName] = useState("")
+  const [image, setImage] = useState();
 
    
+
+  useEffect(() =>{
+    setName(localStorage.getItem('partner'))
+},[name])
 
    function handleText(i ) {
     round.map((x,index) => {
       if (i === index){
         setShow(i)
         setTypeAnswer(x.count)
-        setDeletion(x.count)
         setStatusBar(i)
       } 
     })
@@ -57,10 +66,78 @@ export default function Designer({round,level,setObjectiveAnswer,setTypeAnswer,t
     setHide(false)
       }
 
+     
 
       const handleEditorChange = (value) => {
         setObjectiveAnswer(value);
        };
+
+
+       function handleSub(e){
+
+       
+        e.preventDefault()
+    
+    const docRef = collection(db,'partner')
+    const colRef = doc(docRef,name)
+    
+    setDoc(colRef,{name:name},{merge:true})
+    
+    
+    const storageRef = ref(getStorage(), `products/${name}/${image}`);
+    
+    // Upload the file to the bucket
+    const uploadTask = uploadBytesResumable(storageRef, image);
+    
+    
+    // Listen for state changes, errors, and completion of the upload.
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        
+      },
+      (error) => {
+        console.error(error);
+      },
+      //here
+      async () => {
+        // Upload completed successfully, now get the download URL
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+    
+       // Save the download URL to Firestore
+    
+    
+       fs.collection(page).doc(typeAnswer+month).set({
+              
+       designer:downloadURL,
+       
+    
+       
+      },{merge:true})
+    
+    
+      
+    
+      },{merge:true}
+
+
+      
+    );
+
+ 
+  
+   
+    }
+    
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImage(file )
+    
+      };
+ 
+     
 
 return (<>
 
@@ -98,8 +175,8 @@ return (<>
 
 
 {statusBar === i? <div style={{color:'black'}} className='status-div ml-[10px]'> 
-{level === 8 ?  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty}/> : null}
 
+{level === 8 ?  <WaitingApproval objectiveAnswer={objectiveAnswer} setShow={setShow} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty}/> : null}
 
   
   </div> : null}
@@ -140,7 +217,16 @@ return (<>
         </Box>
       </Modal>
       <div className='w-[200px] m-auto'>
-      {level === 8 ?  <WaitingApproval objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty}/> : null}
+
+      <form onSubmit={handleSub} className='designer-upload mt-5'> 
+    <input type="file" className='mb-5'  onChange={handleImageChange} style={{width:'90px'}} />
+    <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+  <span className=" relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+  Upload Image
+  </span>
+</button> 
+</form> 
+
       </div>
       
 

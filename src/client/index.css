@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* src/index.css (or create a separate CSS file and import it in your main component) */
+/* Transition effect for the showcased div */
+.showcase-transition-entering,
+.showcase-transition-exiting {
+  opacity: 0;
+}
+
+.showcase-transition-entered,
+.showcase-transition-exited {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+
+#bp-web-widget-container{
+  position: relative;
+  z-index: 10000;
+}
+
+#bp-web-widget{
+bottom: 0 !important;
+right: 0 !important;
+}
+
+.bpw-widget-btn{
+  position: fixed !important;
+  right: 5px !important;
+  bottom: 5px !important; 
+}

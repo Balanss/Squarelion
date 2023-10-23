@@ -11,6 +11,8 @@ import meeting from '../../images/meeting.png'
 import { Link, useNavigate } from 'react-router-dom'
 import Links from '../Links';
 import { auth, fs,db } from '../../../Firebase'
+import Designer from '../../Designer/Designer';
+import design from "../../images/Designer.jpg"
 
 export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideList,sum,work,setSendTo,setDisplayTo,setPrivateChat,setTrueChat,setPan,pan}) {
 
@@ -27,79 +29,71 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
 
 
   return (
-    <aside id="cta-button-sidebar" className={panel ? " w-full sm:w-1/5 fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0" :
+    <aside id="cta-button-sidebar" className={panel ? "  w-full sm:w-1/5 fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0" :
     "fixed top-0 left-0 z-40 w-64 h-screen transition-transform  sm:translate-x-0"  } aria-label="Sidebar">
-     <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+     <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800 fixed ">
         <ul className="space-y-2 font-medium">
-  
            <li>
-              <a href='/' 
-              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <Link to='/' 
+              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
                  <img className='w-[40px]' src={homeBtn} />
                  <span className="ml-3">Home</span>
-              </a>
+              </Link>
            </li>
   
            <li>
               <a onClick={() => {setShowWfh('start'),setPan(pan === false?true:false)}} 
-              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
                  <img className='w-[40px]' src={schedule} />
                  <span className="ml-3">CALENDAR</span>
               </a>
            </li>
   
            <li>
-             {level > 8 ?  <Link to='/admindashboard'  className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+             {level > 9 ?  <Link to='/admindashboard'  className="  transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
                  <img className='w-[40px]' src={admin} />
-                 <span className="flex-1 ml-3 whitespace-nowrap" >ADMIN</span>
+                 <span className="flex-1 ml-3 whitespace-nowrap  rounded-lg  dark:text-white" >ADMIN</span>
               </Link> : null}
            </li>
   
            <li>
               <a  
-               className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" >
+               className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
                 <img className='w-[40px]' src={client} />  
-                 <span className="flex-1 ml-3 whitespace-nowrap ">  <Links/> </span>
+                 <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white ">  <Links/> </span>
               </a>
            </li>
-  
+
            <li>
-              <a 
-              className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" 
-              onClick={() =>  {
-             hideList === true? setHideList(false) : setHideList(true),
-             setShowWfh('chat'),setPanel('false')
-    } }>
-              <img className='style-meeting' src={meeting} style={{cursor:'pointer',width:'40px'}} />  
-                 <span className="flex-1 ml-3 whitespace-nowrap text-white">
-                  Chat
-                 </span>   
-              </a>
-           </li>
-  
-           <li>
-              <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={() => {setShowWfh('wfh'),setPanel(true)}} >
+           <Link to ='/designer' 
+               className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
+                <img className='w-[40px] rounded-xl' src={design} />  
+                 <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white ">  Designer </span>
+              </Link>
+           </li>  
+           {/* <li>
+              <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" onClick={() => {setShowWfh('Docs'),setPanel(true)}} >
                 <img className='w-[40px]' src={wfh} />
                  <span className="flex-1 ml-3 whitespace-nowrap">
-                  WFH request
+                  Docs
                  </span>   
               </a>
-           </li>
+           </li> */}
   
            <li>
-              <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
               <img className='w-[40px]' src={userPfp} />
-                 <span className="flex-1 ml-3 whitespace-nowrap">{user}</span>
+                 <span className="flex-1 ml-3 whitespace-nowrap text-white">{user}</span>
               </a>
            </li>
   
            <li>
-              <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" onClick={handleLogout} >
+              <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" onClick={handleLogout} >
                  <img className='w-[40px]' src={IN} />
-                 <span className="flex-1 ml-3 whitespace-nowrap" >Sign Out</span>
+                 <span className="flex-1 ml-3 whitespace-nowrap text-white" >Sign Out</span>
               </a>
            </li>
-  <l1>
+  <li>
     
   
   
@@ -126,7 +120,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   </div>
   
   </>}
-  </l1>
+  </li>
         </ul>
   
      </div>

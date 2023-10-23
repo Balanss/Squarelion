@@ -1,41 +1,55 @@
 /* eslint-disable no-unused-vars */
-import Nav from '../Nav'
-import React,{useState,useEffect} from 'react'
-import {Link } from 'react-router-dom'
-import { auth, fs,db } from '/src/client/Firebase.jsx'
-import useLogo from '../images/useLogo.png'
-import User from '../User'
-import Footer from './Footer'
-import axios from 'axios'
-import Loading from '../Loading'
-import Title from '../../Title'
-
-
-
+import Nav from "../Nav";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { auth, fs, db } from "/src/client/Firebase.jsx";
+import useLogo from "../images/useLogo.png";
+import rocket from "../images/rocket.jpg";
+import User from "../User";
+import Footer from "./Footer";
+import axios from "axios";
+import Loading from "../Loading";
+import Title from "../../Title";
+import fast from "../images/fast.jpg";
+import ai from "../images/Ai-home.jpg";
+import automation from "../images/automation-home.jpg";
 
 export default function Home() {
+  const [user, setUser] = useState("");
+  const [level, setLevel] = useState("");
+  const [uuid, setUuid] = useState("");
 
+  // useEffect(() => {
+  //   // Send user data to the server whenever it changes
+  //   axios.post('http://localhost:5173/', { user })
+  //     .then(response => {
+  //       console.log(response.data); // Log the response from the server if needed
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }, [user]);
 
+  const [isVisible, setIsVisible] = useState(true);
+  const [zIndex, setZIndex] = useState(0);
+  const [fadeIn, setFadeIn] = useState(true);
 
+  useEffect(() => {
+    // Set the highest z-index value when the component is mounted
+    setZIndex(9999);
 
+    // After 500ms, set the visibility to false (display none)
+    const timeout = setTimeout(() => {
+      setIsVisible(false);
+    }, 800);
 
-    const [user,setUser] = useState('')
-    const [ level,setLevel] = useState('')
-    const [uuid,setUuid] = useState('')
+    // Clean up the timeout when the component is unmounted
+    return () => clearTimeout(timeout);
+  }, []);
 
-    
-const [loading,setLoading] = useState(true)
-
-useEffect(()=>{
-  setTimeout(()=>{
-    setLoading(false)
-  },500)
-},[])
-
-
-
-
-
+  const [imageUrl, setImageUrl] = useState(
+    "https://source.unsplash.com/random/1600x900/?marketing"
+  );
 
 useEffect(() => {
   // Send count to server whenever it changes
@@ -48,7 +62,6 @@ useEffect(() => {
     });
 }, [user]);
 
-console.log(user)
 
   return (<> 
 

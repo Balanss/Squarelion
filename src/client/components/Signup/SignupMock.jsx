@@ -7,10 +7,10 @@ export default function SignupMock({setCode,code}) {
 
   return (<>
   <div className='fixed w-[100%] h-[100%] bg-sky-100 '>
-  <div className=''> </div>
-    <div className='' >
+
+
      
-       <div className=' absolute inset-0 flex flex-col items-center flex-wrap top-[300px]'>
+       <div className=' absolute inset-0 flex flex-col items-center flex-wrap justify-center'>
         <div className='text-center p-20 rounded-sm bg-slate-400'>
           
         <h2 className='text-3xl mb-10'> Enter Code </h2>
@@ -25,8 +25,7 @@ export default function SignupMock({setCode,code}) {
         </div>
           
        </div>
-     
-    </div>
+
   </div>
  
     </>)

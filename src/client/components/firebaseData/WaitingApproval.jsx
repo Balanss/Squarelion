@@ -5,7 +5,7 @@ import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDo
 import { auth, fs,db } from '/src/client/Firebase.jsx'
 import {useState, useEffect} from 'react'
 import wait from '../images/wait.png'
-export default function WaitingApproval({typeAnswer,month,page,qty}) {
+export default function WaitingApproval({typeAnswer,month,page,qty,setShow}) {
 
 
   const [name,setName] = useState('')
@@ -27,6 +27,9 @@ export default function WaitingApproval({typeAnswer,month,page,qty}) {
 
           },{merge:true})
 
+          setShow('')
+         
+       
 
 
           
@@ -39,7 +42,7 @@ export default function WaitingApproval({typeAnswer,month,page,qty}) {
 
 
   return (
-    <p className='bg-sky-500 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110
+    <p className='bg-sky-500 w-[30vw] m-auto  p-2 cursor-pointer transition-transform transform-gpu hover:scale-110
     ' onClick={handleData}>  Waiting  </p> 
   )
 }
