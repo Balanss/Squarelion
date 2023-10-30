@@ -19,6 +19,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import AdminSurvey from './AdminSurvey';
+import LogInfo from './Logs/LogInfo';
 
 
 
@@ -134,6 +135,8 @@ function handleUser(i,e){
             })}
         </tbody>
         </table>
+        <LogInfo/>
+
         </div>
 
         <FormGroup>

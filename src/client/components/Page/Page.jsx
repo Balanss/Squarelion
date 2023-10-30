@@ -143,7 +143,7 @@ const [isChecked, setIsChecked] = useState(false);
 const [orderPost,setOrderPost] = useState('')
 
 const [replyAi,setReplyAi] = useState('')
-const [ whatDoUWant,setWhatDoUWant] = useState('')
+const [ whatDoUWant,setWhatDoUWant] = useState('Open')
 
 
 
@@ -614,7 +614,7 @@ const [showCount,setShowCount] = useState('10')
                             </button>
                           </td>
                           <td className="px-6  whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            <button className='x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-[0.90]  hover:border-2 hover:rounded-xl ' onClick={() => handleText(i)} >
+                            <button className='x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-[0.90]  ' onClick={() => handleText(i)} >
                               <img src={statusBar === i ? cross : view} alt={view} style={{width:'40px'}} className='icon-do'/>
                             </button>
                           </td>
@@ -625,31 +625,35 @@ const [showCount,setShowCount] = useState('10')
                                   <>
                                     <div className='lg:w-[800px] m-auto border-2 border-black bg-slate-700'>
                                       <div className='holds-written-content'>
+                                      <div className='text-black flex'>
+                                      <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
+                                      <WaitingApproval objectiveAnswer={objectiveAnswer} objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} setShow={setShow} />
+                                      {level > 8 ? (
+                                        <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
+                                      ) : null}
+                                    </div>
+
                                         <ModalContent level={level} page={page} round={round} type={type} show={show}/>
                                         {!x.answer ? null : (
                                           <h6 className='text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4' key={i} onClick={() => setObjectiveAnswer(x.answer)} style={{color:'black'}} dangerouslySetInnerHTML={{ __html: x.answer }} />
                                         )}
+                                        
                                         <div className='flex flex-col items-center justify-evenly border-b-2 border-black'>
                                           <section className='text-center mt-20'>
-                                            <h1 className='lg:mt-3 lg:mb-3 lg:text-3xl text-white'> Choose an option </h1>
-                                            {level > 8 ? (
-                                              <button onClick={() => setWhatDoUWant('AI')} className='lg:mr-5 cursor-pointer lg:mt-2 text-white bg-sky-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>
-                                                AI Content
-                                              </button>
-                                            ) : null}
-                                            <button onClick={() => setWhatDoUWant('YOU')} className='cursor-pointer lg:mt-2 text-white bg-sky-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>
-                                              Write Content
+                                            <button onClick={() => setWhatDoUWant(whatDoUWant === 'Close'? 'Open':'Close')} className='cursor-pointer lg:mt-2 text-white bg-sky-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>
+                                              Open Text Editor
                                             </button>
                                           </section>
+                                          
                                           {whatDoUWant > '' && (
                                             <>
-                                              <div className='above-div-send flex flex-col items-center lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10'>
-                                                {whatDoUWant === 'AI' && (
+                                              <div className={`${whatDoUWant === 'Open'? 'above-div-send flex flex-col items-center lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10':null}`}>
+                                                {/* {whatDoUWant === 'AI' && (
                                                   <>
                                                     <Sure setReplyAi={setReplyAi} setObjectiveAnswer={setObjectiveAnswer} objectiveAnswer={objectiveAnswer} subject={subject} page={page} user={user} typeAnswer={typeAnswer} month={month}/>
                                                   </>
-                                                )}
-                                                {whatDoUWant === 'YOU' && (
+                                                )} */}
+                                                {whatDoUWant === 'Open' && (
                                                   <>
                                                     <SendFromForm user={user} uniqueId={uniqueId} orderPost={orderPost} post={post} type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
                                                     {level > 9 ? (
@@ -662,7 +666,7 @@ const [showCount,setShowCount] = useState('10')
                                               </div>
                                             </>
                                           )}
-                                          {whatDoUWant > '' && level > 8 && (
+                                          {level > 8 && whatDoUWant === 'Open'  && (
                                             <>
                                               <form className='' onSubmit={handleSubmit}>
                                                 <ReactQuill
@@ -688,13 +692,7 @@ const [showCount,setShowCount] = useState('10')
                                         </div>
                                       </div>
                                     </div>
-                                    <div className='text-black'>
-                                      <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
-                                      <WaitingApproval objectiveAnswer={objectiveAnswer} objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} setShow={setShow} />
-                                      {level > 8 ? (
-                                        <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
-                                      ) : null}
-                                    </div>
+
                                   </>
                                 )}
                               </Typography>

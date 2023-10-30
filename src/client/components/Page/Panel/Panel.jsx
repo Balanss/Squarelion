@@ -13,10 +13,13 @@ import Links from '../Links';
 import { auth, fs,db } from '../../../Firebase'
 import Designer from '../../Designer/Designer';
 import design from "../../images/Designer.jpg"
+import SignoutInfo from '../../AdminPage/Logs/SignoutInfo';
+import timer from "../../images/time.png"
 
 export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideList,sum,work,setSendTo,setDisplayTo,setPrivateChat,setTrueChat,setPan,pan}) {
 
     const [ panel,setPanel] = useState(false)
+    const [clicked,setClicked] = useState(true)
     const navigate = useNavigate()
 
     const handleLogout = () => {
@@ -36,39 +39,39 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
            <li>
               <Link to='/' 
               className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
-                 <img className='w-[40px]' src={homeBtn} />
-                 <span className="ml-3">Home</span>
+                 <img className='w-[25px]' src={homeBtn} />
+                 <span className="ml-3 md:text-xs lg:text-md">Home</span>
               </Link>
            </li>
   
            <li>
               <a onClick={() => {setShowWfh('start'),setPan(pan === false?true:false)}} 
               className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
-                 <img className='w-[40px]' src={schedule} />
-                 <span className="ml-3">CALENDAR</span>
+                 <img className='w-[25px]' src={schedule} />
+                 <span className="ml-3 md:text-xs lg:text-md">CALENDAR</span>
               </a>
            </li>
   
            <li>
              {level > 9 ?  <Link to='/admindashboard'  className="  transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
-                 <img className='w-[40px]' src={admin} />
-                 <span className="flex-1 ml-3 whitespace-nowrap  rounded-lg  dark:text-white" >ADMIN</span>
+                 <img className='w-[25px]' src={admin} />
+                 <span className="flex-1 ml-3 whitespace-nowrap  rounded-lg  dark:text-white md:text-xs lg:text-md" >ADMIN</span>
               </Link> : null}
            </li>
   
            <li>
               <a  
                className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
-                <img className='w-[40px]' src={client} />  
-                 <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white ">  <Links/> </span>
+                <img className='w-[25px]' src={client} />  
+                 <span className="flex-1 ml-2 whitespace-nowrap   dark:text-white md:!text-xs lg:!text-md">  <Links/> </span>
               </a>
            </li>
 
            <li>
            <Link to ='/designer' 
                className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
-                <img className='w-[40px] rounded-xl' src={design} />  
-                 <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white ">  Designer </span>
+                <img className='w-[25px] rounded-xl' src={design} />  
+                 <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white md:text-xs lg:text-md ">  Designer </span>
               </Link>
            </li>  
            {/* <li>
@@ -82,8 +85,8 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   
            <li>
               <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
-              <img className='w-[40px]' src={userPfp} />
-                 <span className="flex-1 ml-3 whitespace-nowrap text-white">{user}</span>
+              <img className='w-[25px]' src={userPfp} />
+                 <span className="flex-1 ml-3 whitespace-nowrap text-white md:text-xs lg:text-md ">{user}</span>
               </a>
            </li>
   
@@ -93,6 +96,8 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
                  <span className="flex-1 ml-3 whitespace-nowrap text-white" >Sign Out</span>
               </a>
            </li>
+
+
   <li>
     
   
@@ -121,6 +126,14 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   
   </>}
   </li>
+
+
+  <li className='fixed bottom-10'>
+  <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
+              <img className='w-[40px]' src={timer} />
+                 <span className="flex-1 ml-2 whitespace-nowrap text-white md:text-xs lg:text-md"><SignoutInfo /> </span>
+              </a>
+   </li>
         </ul>
   
      </div>

@@ -7,6 +7,7 @@ import ai from '../images/artificial-intelligence.png'
 export default function Sure({setReplyAi,setObjectiveAnswer,objectiveAnswer,subject,page,typeAnswer,user,month}) {
 
 
+  //this used for ai to make content will get overhaul later
   
 
   const endpoint =

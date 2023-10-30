@@ -14,7 +14,7 @@ const GoogleCalendar = () => {
   return (
     <iframe
       src={import.meta.env.VITE_CAL}
-     className='w-[95vw] md:w-[50vw]  h-[400px] h-min-[400px] cal:w-[40vw] cal:h-[65vh]  m-auto'
+     className='w-[95vw] md:w-[50vw]  h-[400px] h-min-[400px] cal:w-[30vw] cal:h-[50vh] border-2 border-slate-700 rounded-md m-auto'
 
       title="Google Calendar"
     ></iframe>
@@ -112,19 +112,13 @@ const handleEditorChange = (value) => {
 
 
   return ( <>  
-<section className='cal:flex md:ml-[20%] gap-5 mt-10'>
-<form onSubmit={handleSubmit} className='mt-10 mr-2 gap-5 flex flex-col items-center mb-2 bg-slate-700 p-10 '>
+<section className='cal:flex justify-center gap-5 mt-10 md:ml-[200px] bg-slate-900 p-5 wrap sm:w-[60vw] laptop:w-[75vw] xl:w-[1000px] 2xl:w-[1200px] border-2 border-slate-700 rounded-md'>
+<form onSubmit={handleSubmit} className='mt-10 mr-2 gap-5 flex flex-col items-center mb-2 bg-slate-800 p-5 border-2 border-slate-700 rounded-md '>
   
   <input type="datetime-local" onChange={e => setFromDate(e.target.value)} value={fromDate} />
  
   <input type="text"  placeholder='Title' onChange={e => setTitle(e.target.value)} value={title}/>
-  <ReactQuill
-   value={description}
-      onChange={handleEditorChange}
-      style={{color:'black',backgroundColor:'white'}}
-      placeholder='Detailed Text here...'
-      className='max-w-[90vw] lg:max-w-[300px]  '    
-    />
+  <input type='text' placeholder='Description' value={description} onChange={handleEditorChange} />
   <button className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer relative'>  {btnTitle}   </button>
 </form>  
 

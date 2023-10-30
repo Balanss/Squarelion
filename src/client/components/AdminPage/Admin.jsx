@@ -13,6 +13,7 @@ import PartnerLogic from './PartnerLogic';
 import SidePanel from './SidePanel';
 import Docs from './Docs';
 import Version from '../../Version/Version'
+import LogInfo from './Logs/LogInfo';
 
 
 function HamburgerButton({ onClick }) {
@@ -284,6 +285,8 @@ useEffect (() => {
         <SidePanel level={level} user={user} switching={switching} setSwitching={setSwitching}/>
         {switching === 'Client' && 
           <div className="p-4 md:w-4/5 md:ml-[20%]">
+
+            {/* //gets client data from firebase and image anlong with adding client */}
             <div className="">
               <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
                 <div  className=" text-center text-2l text-gray-400 dark:text-gray-500 flex flex-col h-[150px] justify-around">
@@ -301,14 +304,14 @@ useEffect (() => {
                   }   
                 </div>
               </div>
-              <div className='table-split lg:flex lg:flex-row'> 
+              <div className='table-split lg:flex gap-10 lg:flex-row bg-slate-900 p-5'> 
                 {imgLoading?  
                   <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> 
                     <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
                       loading...
                     </div> 
                   </div>  :
-                  <div className="relative  m-auto ml-[7%] mt-10 w-full lg:w-[400px]">
+                  <div className="relative  m-auto  mt-10 w-full lg:w-[400px] ">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -353,6 +356,7 @@ useEffect (() => {
                   </div>
                 }
                 {/* here ends left side of table */}
+
                 {/* here beginds right side of table */}
                 {imgLoading?  
                   <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> 
@@ -360,7 +364,7 @@ useEffect (() => {
                       loading...
                     </div> 
                   </div>  :
-                  <div className="relative  m-auto ml-[7%] mt-10 w-full lg:w-[400px]">
+                  <div className="relative  m-auto  mt-10 w-full lg:w-[400px]">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -374,7 +378,7 @@ useEffect (() => {
                       </thead>
                       <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                         {rightColumnElements.map((x, index) => (
-                          <tr key={index}>
+                          <tr key={index } >
                             <td className="px-6 py-4">
                               <div className="flex items-center space-x-3">
                                 <div className="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-blue-500 to-blue-600"></div>
@@ -385,7 +389,7 @@ useEffect (() => {
                               <div className="text-gray-500 dark:text-gray-400 cursor-pointer hover:scale-110">
                                 <button onClick={() => { handleGoRight(index) }}
                                   disabled={level !== 11 && x.name === 'Test' ? true : false}
-                                  className={level !== 11 && x.name === 'Test' ? 'opacity-20' : 'opacity-100 '}>
+                            a      className={level !== 11 && x.name === 'Test' ? 'opacity-20' : 'opacity-100 '}>
 
                                   <div className="flex items-center justify-center  rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                                     {imgLoading2 === false ? null :
@@ -406,6 +410,10 @@ useEffect (() => {
                 }
               </div>
             </div>
+
+
+ 
+
           </div>
         }
         {switching === 'Users' && <Edit/>}

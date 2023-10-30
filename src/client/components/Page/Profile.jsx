@@ -17,6 +17,8 @@ import Cal from './Calendar/Cal'
 import Panel from './Panel/Panel'
 import Docs from './Docs'
 import Version from '../../Version/Version'
+import LogInfo from '../AdminPage/Logs/LogInfo'
+import SignoutInfo from '../AdminPage/Logs/SignoutInfo'
 
 export default function Profile() {
 
@@ -71,6 +73,7 @@ const [trueChat,setTrueChat] = useState()
 const [hideList,setHideList] = useState(false)
 const [displayTo,setDisplayTo] = useState('')
 const [pan,setPan] = useState(false)
+const [clicked,setClicked] = useState(true)
 
 
 
@@ -134,13 +137,13 @@ useEffect(() => {
       <path clipRule="evenodd" fillRule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
    </svg>
 </button>
-<div className='flex flex-col sm:flex-row   bg-slate-500' >
+<div className=' flex flex-col sm:flex-row  bg-slate-500 whole-div' >
 
 
 {pan === true && isMobile === true && level > 7 &&<>
   <Panel level={level} showWfh={showWfh} setShowWfh={setShowWfh} user={user} hideList={hideList}
  setHideList={setHideList} sum={sum} work={work} setSendTo={setSendTo} setDisplayTo={setDisplayTo} setPrivateChat={setPrivateChat} setTrueChat={setTrueChat}
- pan={pan} setPan={setPan}/> </>}
+ pan={pan} setPan={setPan} clicked={clicked} setClicked={setClicked} />  </>}
 
 { isMobile === false && level > 7 &&<>
   <Panel level={level} showWfh={showWfh} setShowWfh={setShowWfh} user={user} hideList={hideList}
@@ -154,7 +157,7 @@ useEffect(() => {
 {showWfh === 'start' && (
   <div className='laptopL:!w-5/5 xl:w-[1100px] lg:min-h-[100vh] xl:m-auto flex flex-col items-center bg-slate-500  ' >
   <Cal user={user} level={level}/>
-
+  
   </div>
 )}
 

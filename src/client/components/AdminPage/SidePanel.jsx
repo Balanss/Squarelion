@@ -34,16 +34,11 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
   return (
     <aside
       id="cta-button-sidebar"
-      className="fixed top-0 left-0 z-40 w-1/5 xl:w-[10%] h-screen transition-transform -translate-x-full sm:translate-x-0"
+      className="fixed top-0 left-0 z-40 w-1/5 xl:w-[15%] h-screen transition-transform -translate-x-full sm:translate-x-0"
       aria-label="Sidebar"
     >
       <div className="h-full px-3 py-4 overflow-y-auto bg-gray-800 dark:bg-gray-800">
         <ul className="space-y-2 font-medium">
-          <li>
-            <span className="flex items-center p-2 text-white rounded-lg dark:text-white dark:hover:bg-gray-700 group">
-              <span className="ml-3">Dashboard</span>
-            </span>
-          </li>
           <li>
             <Link
               to="/"
@@ -51,9 +46,9 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
             >
               <img
                 src={homeBtn}
-                className="w-6 md:w-[30px] lg:w-[40px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
+                className="w-6 md:w-[20px] lg:w-[30px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
               />
-              <span className="md:text-sm lg:text-md ml-3 text-white rounded-lg dark:text-white">
+              <span className="md:text-xs lg:text-md ml-3 text-white rounded-lg dark:text-white">
                 Home
               </span>
             </Link>
@@ -64,7 +59,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
               onClick={() => setSwitching("Client")}
             >
               <img className="w-6 md:w-[30px] lg:-[40px]" src={client} />
-              <span className="md:text-sm lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">
+              <span className="md:text-xs lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">
                 CLIENTS
               </span>
             </span>
@@ -80,7 +75,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
                 }}
               >
                 <img src={usersPic} className="w-6 md:w-[30px] lg:-[40px]" />
-                <span className="md:text-sm lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">
+                <span className="md:text-xs lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">
                   USERS
                 </span>
               </span>
@@ -89,7 +84,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
           {/* <li className='transform transition-transform ease-in hover:scale-105 cursor-pointer'>
                <span onClick={( ) => setSwitching('Docs')} className="flex items-center p-2 text-white rounded-lg dark:text-white dark:hover:bg-gray-700 group">
                   <img src={survey} className='w-6 md:w-[30px] lg:-[40px]' /> 
-                  <span className="md:text-sm lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">Docs</span>
+                  <span className="md:text-xs lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">Docs</span>
                </span> 
             </li> */}
           {level > 9 ? (
@@ -101,7 +96,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
                 <img src={sqlProps} className="w-6 md:w-[30px]" />
                 <Link
                   to="/sqlProp"
-                  className="md:text-sm lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white"
+                  className="md:text-xs lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white"
                 >
                   Sql Properties
                 </Link>
@@ -114,7 +109,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
               className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white dark:hover:bg-gray-700 group"
             >
               <img src={userPfp} className="w-6 md:w-[30px] lg:-[40px]" />
-              <span className="md:text-sm lg:text-md flex-1 ml-3 whitespace-nowrap">
+              <span className="md:text-xs lg:text-md flex-1 ml-3 whitespace-nowrap">
                 {user}
               </span>
             </span>
@@ -128,7 +123,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
                 src={IN}
                 className="w-6 md:w-[40px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
               />
-              <span className="flex-1 ml-3 whitespace-nowrap">Sign Out</span>
+              <span className="flex-1 ml-3 whitespace-nowrap ">Sign Out</span>
             </span>
           </li>
         </ul>

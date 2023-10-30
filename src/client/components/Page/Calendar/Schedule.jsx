@@ -120,7 +120,7 @@ export default function Schedule({ user, level }) {
         )}
       </section>
 
-      <div className="overflow-hidden flex flex-wrap sm:w-[60vw] laptop:w-[75vw] xl:w-[1200px]">
+      <div className="overflow-hidden flex flex-wrap items-center gap-2 justify-center sm:w-[60vw] laptop:w-[75vw] xl:w-[1000px] 2xl:w-[1200px] bg-slate-900 p-5 m-auto  border-2 border-slate-700/50 rounded-md" >
         <section className="">
           {SwitchingPage && (
             <div className=" flex-col  fixed top-0 w-[100vw] bg-slate-600 left-0 z-[100] flex items-center justify-center h-[100vh]">
@@ -135,11 +135,11 @@ export default function Schedule({ user, level }) {
             dataItem.name !== "Test" && (
               <section
                 key={dataIndex}
-                className="mb-8 bg-slate-700 p-2 text-white max-h-[50vh] overflow-y-auto overflow-x-hidden"
+                className="mb-8 bg-slate-800/50 p-2 text-white max-h-[50vh] overflow-y-auto overflow-x-hidden border-2 border-slate-700 rounded-md "
               >
                 {dataItem.name !== "Test" ? (
                   <img
-                    className="bg-slate-200 ml-3 mb-3 w-[200px] h-[150px] rounded-md cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
+                    className="bg-slate-200 ml-3 mt-3 mb-3 mr-3 w-[150px] h-[150px] rounded-md cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
                     src={dataItem.imageUrl}
                     onClick={() => {
                       localStorage.setItem("partner", dataItem.name);

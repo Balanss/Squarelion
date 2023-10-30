@@ -148,13 +148,13 @@ export default function Nav() {
 
       {!uuid && (
         <>
-          <div className="flex font-mono items-center justify-center sm:w-[300px]  sm:items-center sm:m-auto sm:justify-around">
+          <div className="flex font-mono items-center justify-center sm:w-[300px]  sm:items-center sm:m-auto sm:justify-around ">
             <button
               type="button"
-              className="w-[80px] text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              className="w-[80px] text-white bg-gradient-to-r mt-2 from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
             >
               {" "}
-              <Link to="/login" className="mr-10">
+              <Link to="/login" className="mr-10 mt-4">
                 {" "}
                 Login{" "}
               </Link>
