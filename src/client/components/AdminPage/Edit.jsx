@@ -19,7 +19,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import AdminSurvey from './AdminSurvey';
-import LogInfo from './Logs/LogInfo';
+import LogInfo from './LogsInfo/LogInfo';
 
 
 

@@ -13,7 +13,7 @@ import PartnerLogic from './PartnerLogic';
 import SidePanel from './SidePanel';
 import Docs from './Docs';
 import Version from '../../Version/Version'
-import LogInfo from './Logs/LogInfo';
+
 
 
 function HamburgerButton({ onClick }) {

@@ -17,8 +17,7 @@ import Cal from './Calendar/Cal'
 import Panel from './Panel/Panel'
 import Docs from './Docs'
 import Version from '../../Version/Version'
-import LogInfo from '../AdminPage/Logs/LogInfo'
-import SignoutInfo from '../AdminPage/Logs/SignoutInfo'
+
 
 export default function Profile() {
 

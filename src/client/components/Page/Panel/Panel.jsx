@@ -13,7 +13,7 @@ import Links from '../Links';
 import { auth, fs,db } from '../../../Firebase'
 import Designer from '../../Designer/Designer';
 import design from "../../images/Designer.jpg"
-import SignoutInfo from '../../AdminPage/Logs/SignoutInfo';
+import SignoutInfo from '../../AdminPage/LogsInfo/SignoutInfo';
 import timer from "../../images/time.png"
 
 export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideList,sum,work,setSendTo,setDisplayTo,setPrivateChat,setTrueChat,setPan,pan}) {
