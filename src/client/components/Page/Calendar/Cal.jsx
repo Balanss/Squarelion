@@ -95,7 +95,7 @@ async function handleSubmit(e){
 
   return ( <>  
   <div className="p-5 mb-10 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-            Caldendar
+            Calendar
             <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400"> Add events to the Squarelion Calendar</p>
             <hr />
             <section className='flex justify-center gap-5 pb-20  p-5 wrap sm:w-[60vw] flex-col    laptopL:w-full laptopL:flex-row  '>
