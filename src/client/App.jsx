@@ -7,12 +7,14 @@ import Loading from "./components/Loading";
 import { auth, fs, db } from "./Firebase";
 import { collection, doc, updateDoc,setDoc,arrayUnion,getDoc } from "firebase/firestore";
 import User from "./components/User";
+import ErrorBoundary from "./components/ErrorBoundary/Error";
 
 
 
 const Admin = lazy(() => import("./components/AdminPage/Admin"));
 const Login = lazy(() => import("./components/Login"));
 const Home = lazy(() => import("./components/Home/Home"));
+const Signup = lazy(() => import("./components/Signup"));
 
 const Page = lazy(() => import("./components/Page/Page"));
 const Profile = lazy(() => import("./components/Page/Profile"));
@@ -57,6 +59,8 @@ function App() {
   return (
     <>
       <HashRouter>
+        <ErrorBoundary>
+       
         <Suspense
           fallback={
             <div>
@@ -77,8 +81,8 @@ function App() {
             <Route path="/admindashboard" element={<Admin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
-            {/* <Route path="/recruitment" element={<Recruitment />} />
-          <Route path="/partnerprogram" element={<PartnerProgram />} /> */}
+            <Route path="/signup" element={<Signup />} />
+
             <Route path="/profile/:id" element={<Page />} />
             <Route path="/user/:id" element={<Profile />} />
 
@@ -86,6 +90,7 @@ function App() {
             <Route path="/sqlProp" element={<Prop />} />
           </Routes>
         </Suspense>
+        </ErrorBoundary>
       </HashRouter>
     </>
   );

@@ -1,36 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../../Firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs,doc,updateDoc,onSnapshot} from 'firebase/firestore';
+import { set } from 'date-fns';
+import User from '../../User';
 
 export default function LogInfo() {
     const [logs, setLogs] = useState([]);
     const [selectedUser, setSelectedUser] = useState('');
     const [selectedUserLogs, setSelectedUserLogs] = useState([]);
     const [selectedUserLogsOut, setSelectedUserLogsOut] = useState([]);
+    const[value,setValue] = useState('')
+    const [user,setUser] = useState('')
+    const [uuid,setUuid] = useState('')
+    const [ isAccepted,setIsAccepted] = useState('')
+    const [ level,setLevel] = useState('waiting')
 
     useEffect(() => {
-        const fetchLogs = async () => {
-            const querySnapshot = await getDocs(collection(db, 'admin'));
-
+        const unsubscribe = onSnapshot(collection(db, 'admin'), (querySnapshot) => {
             const allLogs = querySnapshot.docs.reduce((acc, doc) => {
                 const data = doc.data();
                 if (data.logs) {
-                    return [...acc, { name: data.Name, logs: data.logs,level: data.level ,logsOut: data.logsOut }];
+                    return [...acc, { name: data.Name, logs: data.logs, level: data.level, logsOut: data.logsOut, id: doc.id }];
                 } else {
                     return acc;
                 }
             }, []);
 
             setLogs(allLogs);
-        };
+        });
 
-        fetchLogs();
+        return () => unsubscribe();
     }, []);
+
+   
 
     const handleUserChange = (event) => {
         setSelectedUser(event.target.value);
         const userLogs = logs.find((user) => user.name === event.target.value);
-        const userLogsOut = logsOut.find((user) => user.name === event.target.value);
+     
         setSelectedUserLogs(userLogs ? userLogs.logs : []);
         setSelectedUserLogsOut(userLogs ? userLogs.logsOut : []);
     };
@@ -67,13 +74,22 @@ export default function LogInfo() {
         setNumLogsToShow(MAX_LOGS);
     };
 
-   
+
+  
+
 
     return (
         <div className='bg-slate-900 p-4 mt-4'>
+            <User setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
+<section>
+    <div className='flex flex-col items-center justify-center mb-3'>
+        <p className='text-2xl font-bold text-white'>Squarelion user panel information</p>
+    </div>
+</section>
+
             <div className='flex flex-col items-center justify-center'>
         <label htmlFor="user-select">Select a user:</label>
-        <select id="user-select" value={selectedUser} onChange={handleUserChange}>
+        <select id="user-select" value={selectedUser === ''? 'Select user':selectedUser} onChange={handleUserChange}>
             <option value="" className='text-black'>--Select a user--</option>
             {logs.map((user) => (
                 <option className='text-black' key={user.name} value={user.name}>
@@ -89,25 +105,52 @@ export default function LogInfo() {
                     <th className="px-6 py-3">Level</th>
                     <th className="px-6 py-3">Latest Login Time</th>
                     <th className="px-6 py-3">Latest Logout Time</th>
+                    <th scope="col" className="px-6 py-3">
+                    User Level
+                </th>
 
                 </tr>
             </thead>
             <tbody className='bg-white divide-y dark:divide-gray-700 dark:bg-gray-800'>
-                {logs.map((user) => (
-                    <tr key={user.name} className=''>
-                        <td className="px-6 py-4">{user.name}</td>
-                        <td className="px-6 py-4">{user.level}</td>
-                        <td className="px-6 py-4">{getLatestLog(user.logs)}</td>
-                        <td className="px-6 py-4">{getLatestLogOut(user.logsOut)}</td>
-                    </tr>
-                ))}
+                {logs.map((user,i) => {
+              
+                    return (
+                        <tr key={user.name} className=''>
+                            <td className="px-6 py-4">{user.name}</td>
+                            <td className="px-6 py-4">{user.level}</td>
+                            <td className="px-6 py-4">{getLatestLog(user.logs)}</td>
+                            <td className="px-6 py-4">{getLatestLogOut(user.logsOut)}</td>
+                            <td className="px-6 py-4">
+                                <input
+                                    className='text-black'
+                                    placeholder='EDIT USER'
+                                  
+                                    onChange={(e) => setValue(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            // Call the function to handle the submission
+                                            const docRef = collection(db,'admin')
+                                            const colRef=doc(docRef,user.id );
+                                            const numericValue = parseInt(value);
+                                            updateDoc(colRef,{level:  numericValue}, {merge: true});
+                                            setValue('');
+                                            alert(`${user.name} has been updated to ${value}`)
+                                        
+                                        }
+                                    }}
+                                />
+                            </td>
+                        </tr>
+                    );
+                })}
             </tbody>
         </table>
   
     {selectedUserLogs.length > 0 && (
         <div className='flex gap-5'>
         <ol className='relative border-l border-gray-200 dark:border-gray-700 mt-5'>
-            <h2 className='ml-2'>{selectedUser}'s logs</h2>
+            <h2 className='ml-2'>{selectedUser}'s logged In</h2>
             <ul className='flex flex-col-reverse'>
                 {selectedUserLogs.slice(0, numLogsToShow).map((log, index) => (
                     <li className="mb-10 ml-4" key={index}>
@@ -142,34 +185,10 @@ export default function LogInfo() {
                     <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleShowLessClick}>Show Less</button>
                 </div>
             )}
-
-
-  
-
-
-
-
-
-    
-
-
-
-
-
-
         </ol>
-
-
-
-
-
 
         </div>
     )} 
-
-
-
-    
     </div>
     );
 }

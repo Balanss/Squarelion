@@ -65,6 +65,7 @@ export default function Stories({name, user, type, objectiveAnswer, subject, typ
                   designer1: downloadURLs[1] || '',
                   designer2: downloadURLs[2] || '',
                   designer3: downloadURLs[3] || '',
+                  DesignedBy: user,
                 },
                 { merge: true }
               );
@@ -85,7 +86,7 @@ export default function Stories({name, user, type, objectiveAnswer, subject, typ
           <p>Uploading...</p>
         ) : (
           <>
-            <label className='custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]'>
+            <label className='custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]'>
               <input type="file" accept="image/*" multiple onChange={handleUploadImages} />
               {uploadButtonText}
             </label>

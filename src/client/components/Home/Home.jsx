@@ -1,18 +1,13 @@
 /* eslint-disable no-unused-vars */
 import Nav from "../Nav";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { auth, fs, db } from "/src/client/Firebase.jsx";
 import useLogo from "../images/useLogo.png";
 import rocket from "../images/rocket.jpg";
-import User from "../User";
-import Footer from "./Footer";
 import axios from "axios";
 import Loading from "../Loading";
-import Title from "../../Title";
 import fast from "../images/fast.jpg";
 import ai from "../images/Ai-home.jpg";
-import automation from "../images/automation-home.jpg";
+
 
 export default function Home() {
   const [user, setUser] = useState("");

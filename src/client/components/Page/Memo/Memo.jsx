@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import {collection,deleteDoc,doc,setDoc,updateDoc} from "firebase/firestore";
-import { auth, fs,db } from '../../../Firebase'
+import { fs,db } from '../../../Firebase'
 import editPic from '/src/client/components/images/edit.png';
 import bin from '/src/client/components/images/bin-2.png'
 
@@ -12,7 +12,6 @@ const [memo,setMemo] = useState([])
 const [edit,setEdit] = useState('')
 const[comment,setComment] = useState('')
 const [showEdit,setShowEdit] = useState(false)
-const [editComment,setEditComment] = useState('')
 const [ showEditComment,setShowEditComment] = useState(false)
 
 function handleSubmit(e){
@@ -21,9 +20,7 @@ function handleSubmit(e){
     setDoc(colRef,{'comment':val,'title':val} ,{merge:true});
     e.preventDefault()
     setVal('')
-    setText('')
-
-    
+    setText('') 
 }
 
 
@@ -84,13 +81,7 @@ function handleEditComment(item,id){
 
   return (
     <>
-          <div
-        className=" w-[150px] h-[50px] ml-5 p-4 bg-blue-500 text-white cursor-pointer transition-opacity"
-        onClick={handleHover}
-        
-      >
-       Create Memo
-      </div>
+ <div className=" w-[150px] h-[50px] ml-5 p-4  bg-blue-500 text-white cursor-pointer transition-opacity fixed bottom-0 items-center flex z-50" onClick={handleHover} > Create Memo</div>
     
   
   
@@ -120,7 +111,7 @@ function handleEditComment(item,id){
         <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900 cursor-pointer" onClick={() => { handleDelete(item,id)}}>
          <img src={bin}/>
         </span>
-        <h3 className="flex py-2  items-center mb-1 text-lg font-semibold text-white dark:text-white break-all"> {item.title} <img  className='ml-3 w-[30px] bg-white rounded-md cursor-pointer' onClick={() => { handleEdit(item,id)}}  src={editPic} /> </h3>
+        <h3 className="flex py-2  items-center mb-1 text-lg font-semibold text-white dark:text-white break-all"> {item.title} <img  className='ml-3 w-[20px]  rounded-md cursor-pointer' onClick={() => { handleEdit(item,id)}}  src={editPic} /> </h3>
 {showEdit && ( <div>
   <input type='text' onChange={(e) => setEdit(e.target.value)} placeholder='EDIT MEMO TITLE' className='text-black mr-4' />
   <button className='bg-blue-700 text-white px-3 py-2 rounded-md'
@@ -133,7 +124,7 @@ function handleEditComment(item,id){
   
 )}
        
-        <p className="mb-4 text-base font-normal break-all text-gray-200 dark:text-gray-200">{item.comment}  <img  className='ml-3 w-[30px] bg-white rounded-md cursor-pointer' onClick={() => { handleEditComment(item,id)}}  src={editPic} /> </p>
+        <p className="mb-4 text-base font-normal break-all text-gray-200 dark:text-gray-200">{item.comment}  <img  className='ml-3 w-[20px]  rounded-md cursor-pointer' onClick={() => { handleEditComment(item,id)}}  src={editPic} /> </p>
         {showEditComment && ( <div>
   <input type='text' onChange={(e) => setComment(e.target.value)} placeholder='EDIT MEMO COMMENT' className='text-black mr-4' />
   <button className='bg-blue-700 text-white px-3 py-2 rounded-md'

@@ -14,8 +14,8 @@ const [level,setLevel] = useState('')
 <div style={{backgroundColor:'ghostwhite'}}>
     <Nav/>
 </div>
-<div className='profiletextwait mt-10'>
-<h2 className='text-center mb-10 text-2xl'> Hello {user}, Currently you are waiting approval from an admin </h2>
+<div className='profiletextwait mt-10 float-right w-[90vw]'>
+<h2 className='text-center mb-10 text-2xl font-bold text-white'> Hello {user}, Currently you are waiting approval from an admin </h2>
 <img src={useLogo} alt="logo"  style={{margin:'0 auto',}} className='sql-logo'/>
 
 </div>

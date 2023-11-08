@@ -6,7 +6,7 @@ import txt from "../images/txt-file.png"
 
 
 
-function TxtAll ({createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,boosting,post,subject,round}) {
+function TxtAll ({uniqueId,type,page,round}) {
 
   const sendToZapier = async (payload) => {
     const zapierURL = import.meta.env.VITE_ZAP_SEND_PDF;
@@ -23,11 +23,6 @@ function TxtAll ({createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,b
     }
   };
 
-  // const sortedRounds = round.sort((a, b) => a.x.order - b.x.order);
-
-  // const posts = sortedRounds.map((r, i) => ({
-  //   [`post${i + 1}`]: r,
-  // }));
 
 
 

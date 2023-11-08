@@ -1,22 +1,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import Nav from '../Nav'
 import {useState, useEffect} from 'react'
 import { auth, fs,db } from '../../Firebase'
 import User from '../User'
-import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
 import { useParams } from 'react-router-dom'
 import WaitingForAdmin from './WaitingForAdmin'
 import Title from '../../Title'
-
 import Loading from '../Loading'
-
 import Cal from './Calendar/Cal'
-
 import Panel from './Panel/Panel'
-import Docs from './Docs'
 import Version from '../../Version/Version'
+import Schedule from './Calendar/Schedule'
+import UserStats from './UserStats/UserStats'
 
 
 export default function Profile() {
@@ -27,61 +23,8 @@ export default function Profile() {
 const [uuid,setUuid] = useState('')
 const [ isAccepted,setIsAccepted] = useState('')
 const [ level,setLevel] = useState('waiting')
-const [ sendTo,setSendTo] = useState('')
-const [ text,setText] = useState('')
-const [privateChat,setPrivateChat] = useState('waiting')
-
-
-
-
-
-        const [work, setWork] = useState([]);
-
-        const getWork = async () => {
-          try {
-            const unsubscribe = fs.collection('admin')
-              .onSnapshot((querySnapshot) => {
-                const workArray = querySnapshot.docs.map((doc) => ({
-                  id: doc.id,
-                  ...doc.data()
-                }));
-        
-                workArray.sort((a, b) => a.id - b.id); // Sort the array based on the numeric ID
-        
-                setWork(workArray);
-              });
-        
-            return unsubscribe;
-          } catch (error) {
-            console.error('Error fetching work data:', error);
-          }
-        };
-        
-        useEffect(() => {
-          const unsubscribe = getWork();
-        
-          // Cleanup the subscription
-          
-        }, []);
-        
-
-
-        
-const [message, setMessage] = useState([]);
-const [trueChat,setTrueChat] = useState()   
-const [hideList,setHideList] = useState(false)
-const [displayTo,setDisplayTo] = useState('')
 const [pan,setPan] = useState(false)
 const [clicked,setClicked] = useState(true)
-
-
-
-
-
-
-
-
-
 const [loading,setLoading] = useState(false)
 
 
@@ -92,9 +35,9 @@ useEffect(() => {
 },[])
   
 
-const sum = message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null);
 
-const [ showWfh,setShowWfh] = useState('start')
+
+const [ showPfp,setShowWPfp] = useState('start')
 
 const [isMobile, setIsMobile] = useState(false);
 useEffect(() => {
@@ -123,7 +66,7 @@ useEffect(() => {
   
 {level === 0 && <>
 
-<div className='min-h-[100vh] bg-slate-600'>
+<div className='min-h-[100vh] bg-slate-900'>
   <WaitingForAdmin/>
 </div>
 </>}
@@ -136,52 +79,32 @@ useEffect(() => {
       <path clipRule="evenodd" fillRule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
    </svg>
 </button>
-<div className=' flex flex-col sm:flex-row  bg-slate-500 whole-div' >
 
 
-{pan === true && isMobile === true && level > 7 &&<>
-  <Panel level={level} showWfh={showWfh} setShowWfh={setShowWfh} user={user} hideList={hideList}
- setHideList={setHideList} sum={sum} work={work} setSendTo={setSendTo} setDisplayTo={setDisplayTo} setPrivateChat={setPrivateChat} setTrueChat={setTrueChat}
- pan={pan} setPan={setPan} clicked={clicked} setClicked={setClicked} />  </>}
+<div className=' flex flex-col sm:flex-row whole-div' >
 
-{ isMobile === false && level > 7 &&<>
-  <Panel level={level} showWfh={showWfh} setShowWfh={setShowWfh} user={user} hideList={hideList}
- setHideList={setHideList} sum={sum} work={work} setSendTo={setSendTo} setDisplayTo={setDisplayTo} setPrivateChat={setPrivateChat} setTrueChat={setTrueChat}
+
+{pan === true && isMobile === true && level > 6 &&<>
+  <Panel level={level}  user={user} pan={pan} setPan={setPan} clicked={clicked} setClicked={setClicked} />  </>}
+
+<div className='bg-slate-700 w-[100vw] flex flex-row flex-wrap'>
+{ isMobile === false && level > 6 &&<>
+  <Panel level={level} user={user} 
  pan={pan} setPan={setPan}/> </>}
 
 
-{level > 7 ?  <>  <div className='w-full sm:w-4/5 lg:w-full md:absolute right-0 bg-slate-500   '>
+{level > 6 ?  <>  <div className='flex flex-col items-center w-[78vw]  overflow-hidden'>
 
-
-{showWfh === 'start' && (
-  <div className='laptopL:!w-5/5 xl:w-[1100px] lg:min-h-[100vh] xl:m-auto flex flex-col items-center bg-slate-500  ' >
+{showPfp === 'start' && (<> 
+  <UserStats user={user} level={level} />
   <Cal user={user} level={level}/>
-  
-  </div>
-)}
-
-
-
-
-
-{showWfh === 'Docs' && <>
-
-<Docs/>
-</>}
-
-
-
-
-
-
+    <Schedule user={user} level={level} uuid={uuid}/> 
+ </>)}
 
 </div>  </> : null}
 </div>
- 
 
-
-
-
+</div>
 
  {loading === false &&  <>
 <Loading/>

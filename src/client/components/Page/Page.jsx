@@ -15,7 +15,6 @@ import cross from '../images/cross.png'
 import Solo from '../Txt/Solo'
 import TxtAll from '../Txt/TxtAll'
 import Title from '../../Title'
-import Designer from './PageFunctions/Designer'
 import view from '../images/open.png'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -26,12 +25,7 @@ import Inputs from './PageFunctions/Inputs'
 import Loading from '../Loading'
 import Memo from './Memo/Memo'
 import '/src/client/index.css'
-// import Bot from './Bot/Bot'
-import Demo from './Demo/Demo'
-import Sure from '../firebaseData/Sure'
-import { ShowChart } from '@mui/icons-material'
 import Version from '../../Version/Version'
-import Stories from './Stories'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 
@@ -53,17 +47,7 @@ const modules = {
 
 
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
 
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 const styleNew = {
   position: 'absolute',
@@ -118,8 +102,6 @@ export default function Page() {
  const [ objectiveAnswer,setObjectiveAnswer] = useState('')
  const [ typeAnswer,setTypeAnswer] = useState('')
  const[subject,setSubject] = useState('')
- const [editMonth,setEditMonth] = useState('waiting')
- const [editUid,setEditUid] = useState('waiting')
  const [editDetails,setEditDetails] = useState('')
  const [ forPost,setForPost] = useState('')
  const [imageUrl,setImageUrl] = useState('')
@@ -135,14 +117,8 @@ const [showRound,setShowRound] = useState()
 
 //------------ pdf creation
 const [ createPdf,setCreatePdf] = useState('')
-const [ pdfCount,setPdfCount] = useState('')
-const [ pdfObject,setPdfObject] = useState('')
-const [ pdfChannels,setPdfChannels] = useState('')
-const [ pdfDate,setPdfDate] = useState('')
 const [isChecked, setIsChecked] = useState(false);
 const [orderPost,setOrderPost] = useState('')
-
-const [replyAi,setReplyAi] = useState('')
 const [ whatDoUWant,setWhatDoUWant] = useState('Open')
 
 
@@ -151,12 +127,6 @@ const [ whatDoUWant,setWhatDoUWant] = useState('Open')
 e.preventDefault()
 setHide(false)
   }
-
-  const [data, setData] = useState([]);
-  const [statusMap, setStatusMap] = useState({});
- 
-
-
 
   const [viewer,setViewer] = useState('all')
 
@@ -237,29 +207,11 @@ if(show !== ''){
   }
 
 
-
-
-
   useEffect(() => {
     const currentDate = new Date();
     const currentMonth = currentDate.toISOString().slice(0, 7); // Format: YYYY-MM
     setMonth(currentMonth);
-
-
-  
   },[] );
-
-
-
-let notification = [];
-  
-   notification = (round.filter((x) => x.countNoti && x.statusText !== 'Approved' ));
-
-   let qty 
-  qty = (notification.length);
-
-
-
 
 
 
@@ -278,9 +230,7 @@ let notification = [];
     }
   };
 
- 
- 
-  const [deleteDPage,setDeleteDPage] = useState('')
+
 
   function handleDelete(i) {
     round.map((x,index) => {
@@ -309,15 +259,8 @@ const leadData = {
    } catch (error) {
      console.log(error);
    }
-
-
-
       }
           })
-
-          fs.collection('partner').doc(page).set({
-            status: qty - 1  ,
-          },{merge:true})
   }
   
 
@@ -336,17 +279,8 @@ const leadData = {
   }, [level]);
 
 
-
-const [filter,setFilter] = useState('');
 const [ statusBar,setStatusBar] = useState('');
-  useEffect(() => {
-    setFilter(round.filter((x) => x.statusText === 'Approved' && x.month === month)); 
-  },[round,month])
 
-
-
-
-  
 const [openModalBar, setOpenModalBar] = React.useState(false);
 const handleOpenModalBar = () => setOpenModalBar(true);
 const handleCloseBar = () => setOpenModalBar(false);
@@ -375,7 +309,6 @@ useEffect(() => {
 }, []);
 
 function handleEditted(i) {
-
   if(title === 'count'){
 
     const docRef = collection(db,page)
@@ -436,23 +369,16 @@ const [showCount,setShowCount] = useState('10')
  <Title/>
 <div className='border-b-2 border-yellow-500 pt-10 bg-slate-800'> <Nav/> </div>  
 
-<div
-      className={`absolute inset-0 ${isVisible ? 'block' : 'hidden'}`}
-      style={{ zIndex, backgroundColor: 'white' }}
-    >
+<div  className={`absolute inset-0 ${isVisible ? 'block' : 'hidden'}`} style={{ zIndex, backgroundColor: 'white' }} >
     <Loading/>
     </div>
 
 
 {level > 7 && uuid !== null && <>
 
-
-
 {level === 8 && <>
 <div className='admin-links-only-designer text-center mt-10'> <Links/>
 <img src={img}  className='client-pic flex items-center m-auto w-40' style={{backgroundColor:'white',marginBottom:'40px',marginTop:'20px'}}/>  </div>
-
-
 </>
 }
 
@@ -462,23 +388,17 @@ const [showCount,setShowCount] = useState('10')
   {/* <Demo round={round} page={page}/> */}
   <img src={img}  className='w-20' style={{backgroundColor:'white',marginBottom:'20px',marginTop:'20px'}}/>
   <div style={{zIndex:1}} >
-  <TxtAll className='txt' filter={filter}  createPdf={createPdf} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />    
+  <TxtAll className='txt'  createPdf={createPdf} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl}   isChecked={isChecked} />    
+  <Memo page={page} round={round}/>
 </div>
    </div>
-
-   <div className='fixed bottom-0 items-end flex z-50 '>
-
-<Memo page={page} round={round}/>
-
-</div>
-
 </>}
 
 
 
 <div className="content-div bg-slate-600 pb-10 "  >
   <Inputs user={user} boosting={boosting} setBootsing={setBoosting} setUniqueId={setUniqueId} uniqueId={uniqueId} level={level} setObjectiveAnswer={setObjectiveAnswer}setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth}
-  setObjective={setObjective} setType={setType} setDate={setDate} qty={qty} objective={objective} post={post} page={page} date={date} />
+  setObjective={setObjective} setType={setType} setDate={setDate} objective={objective} post={post} page={page} date={date} />
  
 <section className='mb-5'>
   <button onClick={() => setViewer('all')} className='bg-sky-500 text-white px-3 py-2 rounded-md ml-3'> View All</button>
@@ -627,9 +547,9 @@ const [showCount,setShowCount] = useState('10')
                                       <div className='holds-written-content'>
                                       <div className='text-black flex'>
                                       <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
-                                      <WaitingApproval objectiveAnswer={objectiveAnswer} objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} setShow={setShow} />
+                                      <WaitingApproval objectiveAnswer={objectiveAnswer} objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page}  setShow={setShow} />
                                       {level > 8 ? (
-                                        <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} qty={qty} />
+                                        <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page}  />
                                       ) : null}
                                     </div>
 
@@ -645,30 +565,16 @@ const [showCount,setShowCount] = useState('10')
                                             </button>
                                           </section>
                                           
-                                          {whatDoUWant > '' && (
+
+                                          {level > 7 && whatDoUWant === 'Open'  && (
                                             <>
-                                              <div className={`${whatDoUWant === 'Open'? 'above-div-send flex flex-col items-center lg:flex lg:items-center lg:justify-around lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10':null}`}>
-                                                {/* {whatDoUWant === 'AI' && (
-                                                  <>
-                                                    <Sure setReplyAi={setReplyAi} setObjectiveAnswer={setObjectiveAnswer} objectiveAnswer={objectiveAnswer} subject={subject} page={page} user={user} typeAnswer={typeAnswer} month={month}/>
-                                                  </>
-                                                )} */}
-                                                {whatDoUWant === 'Open' && (
-                                                  <>
-                                                    <SendFromForm user={user} uniqueId={uniqueId} orderPost={orderPost} post={post} type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
-                                                    {level > 9 ? (
-                                                      <button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}} className="lg:mt-2 text-white bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                                                        Delete
-                                                      </button>
-                                                    ) : null}
-                                                  </>
-                                                )}
-                                              </div>
-                                            </>
-                                          )}
-                                          {level > 8 && whatDoUWant === 'Open'  && (
-                                            <>
-                                              <form className='' onSubmit={handleSubmit}>
+                                               <div className={`${whatDoUWant === 'Open'? 'above-div-send w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10':null}`}>
+                                           
+                                           <SendFromForm user={user} uniqueId={uniqueId} orderPost={orderPost} post={post} type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer}/>
+                                           {level > 9 ? (<button onClick={() => {handleDelete(i),setShow(''),setStatusBar('')}} className=" text-white bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">  Delete</button>) : null}
+
+                                     </div>
+                                     {level > 8 && <form className='' onSubmit={handleSubmit}>
                                                 <ReactQuill
                                                   value={objectiveAnswer}
                                                   onChange={handleEditorChange}
@@ -677,7 +583,8 @@ const [showCount,setShowCount] = useState('10')
                                                   placeholder='Text here...'
                                                   className='max-w-[90vw] lg:max-w-[500px] overflow-scroll'
                                                 />
-                                              </form>
+                                              </form>}
+
                                             </>
                                           )}
                                           {level > 8 ? (
