@@ -24,9 +24,6 @@ const Prop = lazy(() => import("./components/AdminPage/SqlProperties"));
 
 
 function App() {
-
-  const [entryTime, setEntryTime] = useState("");
-  const [exitTime, setExitTime] = useState("");
   const [user, setUser] = useState(0);
   const [level, setLevel] = useState("");
   const [uuid, setUuid] = useState("");
@@ -42,14 +39,15 @@ function App() {
         const currentTime = new Date().toLocaleString();
         localStorage.setItem("entryDate", currentDate);
         localStorage.setItem("entryTime", currentTime);
-        setEntryTime(currentTime);
+    
 
         const docRef = collection(db,'admin')
         const colRef = doc(docRef,uuid)
 
         // Update the document in Firebase map with the current date and time
-        updateDoc(colRef,{LoggedIn:new Date().toLocaleString()},{merge:true})
-        updateDoc(colRef,{logs:arrayUnion(new Date().toLocaleString())})
+        updateDoc(colRef,{LoggedIn:new Date().toLocaleString(),
+          logs: arrayUnion(serverTimestamp())},{merge:true})
+   
       }
     }
   }, [uuid,user]);

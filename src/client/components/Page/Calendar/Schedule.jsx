@@ -40,60 +40,44 @@ export default function Schedule({ user, level,uuid }) {
 
   const [matchingData, setMatchingData] = useState([]);
 
-  useEffect(() => {
-    // Check if data is available in local storage
-    const cachedData = localStorage.getItem("cachedData");
-    if (cachedData) {
-      setMatchingData(JSON.parse(cachedData));
-    } else {
-      fetchData();
-    }
-
-
-
-  }, []);
-
-
-
-  const fetchData = async () => {
-    const matchingDataArray = [];
-
-    if (localStorage.getItem("cachedData")) {
-      // If data is available in local storage, use it
-      setMatchingData(JSON.parse(localStorage.getItem("cachedData")));
-      console.log("Data fetched from local storage");
-    } else {
-      for (const dataItem of data) {
-        const name = dataItem.name;
-
-        try {
-          const querySnapshot = await fs.collection(name).get();
-          const dataArray = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            status: doc.data().status,
-            ...doc.data(),
-          }));
-
-          // Filter the dataArray based on status and id here
-          const filteredDataArray = dataArray.filter(
-            item => item.status !== "Approved" && item.name !== "Test"
-          );
-
-          matchingDataArray.push(...filteredDataArray);
-        } catch (error) {
-          console.error(`Error fetching data from collection ${name}:`, error);
-        }
+  const fetchAndCacheData = async () => {
+    try {
+      const promises = data.map(dataItem =>
+        fs.collection(dataItem.name)
+          .where('status', '==', 'pending')
+          .get()
+          .then(querySnapshot =>
+            querySnapshot.docs.map(doc => ({
+              id: doc.id,
+              status: doc.data().status,
+              ...doc.data(),
+            }))
+          )
+      );
+  
+      const results = await Promise.all(promises);
+      const matchingDataArray = results.flat();
+  
+      // Compare with data in local storage
+      const cachedData = JSON.parse(localStorage.getItem('cachedData') || '[]');
+      if (JSON.stringify(cachedData) !== JSON.stringify(matchingDataArray)) {
+        // Update local storage
+        localStorage.setItem('cachedData', JSON.stringify(matchingDataArray));
       }
-
-      // Set the matching data in state
+  
+      // Update state
       setMatchingData(matchingDataArray);
-
-      // Cache the fetched data in local storage
-      localStorage.setItem("cachedData", JSON.stringify(matchingDataArray));
-      console.log("Data fetched from Firebase");
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
   };
 
+  useEffect(() => {
+    fetchAndCacheData();
+  }, [data]);
+
+
+ 
   // Add a function to refresh data from Firebase when needed
   const [btnDisabled, setBtnDisabled] = useState(false);
   const refreshData = () => {
@@ -109,36 +93,6 @@ export default function Schedule({ user, level,uuid }) {
     }, 20000);
   };
 
-
-
-  useEffect(() => {
-    if (uuid) {
-      const entryDate = localStorage.getItem("Date");
-      const currentDate = new Date().toLocaleDateString();
-      if (entryDate === currentDate) {
-        console.log("Already visited today");
-        
-      } else {
-        const currentTime = new Date().toLocaleString();
-        localStorage.setItem("Date", currentDate);
-        localStorage.setItem("entryTime", currentTime);
-        setEntryTime(currentTime);
-
-        const docRef = collection(db,'admin')
-        const colRef = doc(docRef,uuid)
-        // Update the document in Firebase map with the current date and time
-        updateDoc(colRef,{ScheduleUpdater:new Date().toLocaleString()},{merge:true})
-        localStorage.removeItem("cachedData");
-    fetchData();
-    alert("Data refreshed successfully ");
-        
-      }
-    }
-  }, [uuid,user]);
-
-
-
-
   const [onhover, setOnhover] = useState(false);
 
   const [SwitchingPage, setSwitchingPage] = useState(false);
@@ -147,24 +101,6 @@ export default function Schedule({ user, level,uuid }) {
     <>
   
       <div className="overflow-hidden flex flex-wrap items-center gap-2 justify-center sm:w-[60vw] laptop:w-[80vw] laptop:content-start laptopL:overflow-y-scroll   p-5 m-auto  border-2 border-slate-700/50 " >
-   {/* <section className="flex justify-center ">
-        <button
-          disabled={btnDisabled}
-          onMouseLeave={() => setOnhover(false)}
-          onMouseEnter={() => setOnhover(true)}
-          onClick={refreshData}
-          className="bg-slate-800  outline hover:outline-2 outline-slate-400 text-white px-4 py-2 rounded-md mt-5 mb-10"
-        >
-          Get Updated Data
-        </button>
-        {onhover && (
-          <p className="text-white absolute mt-16 ">
-            Updates to current workflow
-          </p>
-        )}
-      </section> */}
-
-        
         <section className="">
           {SwitchingPage && (
             <div className=" flex-col  fixed top-0 w-[100vw] bg-slate-600 left-0 z-[100] flex items-center justify-center h-[100vh]">
@@ -181,6 +117,22 @@ export default function Schedule({ user, level,uuid }) {
     <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
             Squarelion Agency Partners
             <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Click on any of the images to view the partner page</p>
+            {/* <section className="flex justify-center ">
+        <button
+          disabled={btnDisabled}
+          onMouseLeave={() => setOnhover(false)}
+          onMouseEnter={() => setOnhover(true)}
+          onClick={refreshData}
+          className="bg-slate-800  outline hover:outline-2 outline-slate-400 text-white px-4 py-2 rounded-md mt-5 mb-10"
+        >
+          Get Updated Data
+        </button>
+        {onhover && (
+          <p className="text-white absolute mt-16 ">
+            Updates to current workflow
+          </p>
+        )}
+      </section> */}
         </caption>
       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>

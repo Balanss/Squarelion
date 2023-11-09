@@ -78,6 +78,8 @@ const styleBar = {
 
 export default function Page() {
 
+
+
   const {id} = useParams()
   const [hide,setHide] = useState(false)
   const [color,setColor] = useState('orange')
@@ -133,7 +135,7 @@ setHide(false)
 const getRound = async () => {
   setPage(localStorage.getItem('partner'));
   try {
-    const unsubscribe = fs.collection(page)
+    const unsubscribe = fs.collection(page).where('month', '==', month)
       .onSnapshot(async (querySnapshot) => {
         const roundArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -356,6 +358,7 @@ const handleDragEnd = (result) => {
 };
 
 const [showCount,setShowCount] = useState('10')
+
 
 
 
