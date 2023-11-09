@@ -46,7 +46,7 @@ function App() {
 
         // Update the document in Firebase map with the current date and time
         updateDoc(colRef,{LoggedIn:new Date().toLocaleString(),
-          logs: arrayUnion(serverTimestamp())},{merge:true})
+          logs:arrayUnion(new Date().toLocaleString())},{merge:true})
    
       }
     }
