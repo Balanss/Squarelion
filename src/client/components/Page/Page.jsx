@@ -951,16 +951,18 @@ export default function Page() {
                                                     </div>
                                                   </div>
 
-                                                  <div className=" lg:w-[800px] xl:w-[400px]">
-                                                    {" "}
-                                                    <Bot
-                                                      setObjectiveAnswer={
-                                                        setObjectiveAnswer
-                                                      }
-                                                      subject={subject}
-                                                      user={user}
-                                                    />
-                                                  </div>
+                                                  {level > 8 ? (
+                                                    <div className=" lg:w-[800px] xl:w-[400px]">
+                                                      {" "}
+                                                      <Bot
+                                                        setObjectiveAnswer={
+                                                          setObjectiveAnswer
+                                                        }
+                                                        subject={subject}
+                                                        user={user}
+                                                      />
+                                                    </div>
+                                                  ) : null}
                                                 </div>
                                               </>
                                             )}
