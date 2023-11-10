@@ -35,6 +35,42 @@ import "/src/client/index.css";
 import Version from "../../Version/Version";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Bot from "./Bot/Bot";
+import React, { Suspense, lazy } from "react";
+import Nav from "../Nav";
+import { useState, useEffect } from "react";
+import { auth, fs, db } from "../../Firebase";
+import { useNavigate } from "react-router-dom";
+import User from "../User";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+  setDoc,
+  addDoc,
+} from "firebase/firestore";
+import SendFromForm from "../firebaseData/SendFromForm";
+import { useParams } from "react-router-dom";
+import Links from "./Links";
+import WaitingDesigner from "../firebaseData/WaitingDesigner";
+import WaitingApproval from "../firebaseData/WaitingApproval";
+import WaitingApproved from "../firebaseData/WaitingApproved";
+import cross from "../images/cross.png";
+import Solo from "../Txt/Solo";
+import TxtAll from "../Txt/TxtAll";
+import Title from "../../Title";
+import view from "../images/open.png";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import Inputs from "./PageFunctions/Inputs";
+import Loading from "../Loading";
+import Memo from "./Memo/Memo";
+import "/src/client/index.css";
+import Version from "../../Version/Version";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 const ModalContent = lazy(() => import("./Modal/ModalContent"));
 
