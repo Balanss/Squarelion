@@ -957,6 +957,8 @@ export default function Page() {
                                                       setObjectiveAnswer={
                                                         setObjectiveAnswer
                                                       }
+                                                      subject={subject}
+                                                      user={user}
                                                     />
                                                   </div>
                                                 </div>

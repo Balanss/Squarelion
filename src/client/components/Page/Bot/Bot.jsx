@@ -4,10 +4,9 @@ const API_KEY = "VF.DM.654e27264501f40007f256c5.kdQTJLQ2VnzzxJ6u"; // change thi
 
 const RUNTIME_API_URL = `https://general-runtime.voiceflow.com/state/user/${"gilmon"}/interact`; // change this to whatever your API URL is
 
-const Bot = ({ setObjectiveAnswer }) => {
+const Bot = ({ setObjectiveAnswer, user, subject }) => {
   const [message, setMsg] = useState("");
   const [resArr, updateArr] = useState([]);
-  const [user, setUser] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef(null);
   const [modal, setModal] = useState(false);
@@ -47,12 +46,12 @@ const Bot = ({ setObjectiveAnswer }) => {
   //     }
   //   };
 
-  //   useEffect(() => {
-  //     updateArr(arr => [
-  //       ...arr,
-  //       "Aimigo: Hello, I am your assistant. How can I help you?",
-  //     ]);
-  //   }, []);
+  useEffect(() => {
+    updateArr(arr => [
+      ...arr,
+      ` Hello ${user} , Im here to help you create content!! make sure to type a detailed sentence how u want the post to be.`,
+    ]);
+  }, []);
 
   const handleClick = async () => {
     setIsTyping(true);
@@ -83,11 +82,11 @@ const Bot = ({ setObjectiveAnswer }) => {
   };
 
   const handleTextDisplay = text => {
-    if (text.length > 550) {
+    if (text.length > 800) {
       if (isExpanded) {
         return text;
       } else {
-        return text.slice(0, 550) + "...";
+        return text.slice(0, 800) + "...";
       }
     } else {
       return text;
@@ -112,10 +111,9 @@ const Bot = ({ setObjectiveAnswer }) => {
 
   return (
     <div className="App bg-slate-800 ">
-      {/* <div className="flex bg-slate-900 text-white text-center font-bold justify-center gap-7 p-2">
-        <button> Help </button>
-        <button> Settings </button>
-      </div> */}
+      <div className="flex bg-slate-900 text-white text-center font-bold justify-center gap-7 p-2">
+        <h1> {user} Chatbot </h1>
+      </div>
 
       <section className="bg-slate-900/50 text-black  p-[20px] min-h-[600px] max-h-[600px] lg:w-[800px] xl:w-[400px] 2xl:min-h-[750px] 2xl:max-h-[750px] overflow-y-scroll overflow-x-auto flex flex-col-reverse shadow-lg">
         <section className="flex flex-row justify-center  items-center gap-3 mb-2">
@@ -129,18 +127,21 @@ const Bot = ({ setObjectiveAnswer }) => {
             className="rounded-md xl:w-[800px] border-gray-400 border-2 p-2 "
           />
           {/* <button
-            className="bg-blue-500 text-white rounded-md px-4 py-2   "
-            onClick={handleClickSolo}
+            className="bg-blue-500 text-white rounded-md px-4 py-2"
+            onClick={() => {
+              inputRef.current.value = subject;
+            }}
           >
-            Send
-          </button>
+            Subject
+          </button> */}
+
           <button
             onClick={() => updateArr([])}
             className="bg-red-500 text-white rounded-md px-4 py-2"
           >
             {" "}
             Clear{" "}
-          </button> */}
+          </button>
         </section>
 
         <div className="flex flex-col ">
