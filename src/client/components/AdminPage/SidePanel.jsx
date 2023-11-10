@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import usersPic from "../images/new-arrival.png";
 import IN from "../images/in.png";
 import homeBtn from "../images/home-button.png";
 import client from "../images/client.png";
-import survey from "../images/survey.png";
+
 import sqlProps from "../images/sqlProp.jpg";
-import AdminSurvey from "./AdminSurvey";
-import rightArrow from "../images/arrow-right.png";
 import userPfp from "../images/user.png";
 import { useNavigate, Link } from "react-router-dom";
-import { auth, fs, db } from "/src/client/Firebase.jsx";
+import { auth } from "/src/client/Firebase.jsx";
 
 export default function SidePanel({ level, user, switching, setSwitching }) {
   const navigate = useNavigate();
@@ -28,7 +26,6 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
     }, 1000);
   }
 
-  const [isHovered, setIsHovered] = useState(false);
   const [hiding, setHiding] = useState(true);
 
   return (
@@ -81,12 +78,6 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
               </span>
             </li>
           ) : null}
-          {/* <li className='transform transition-transform ease-in hover:scale-105 cursor-pointer'>
-               <span onClick={( ) => setSwitching('Docs')} className="flex items-center p-2 text-white rounded-lg dark:text-white dark:hover:bg-gray-700 group">
-                  <img src={survey} className='w-6 md:w-[30px] lg:-[40px]' /> 
-                  <span className="md:text-xs lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">Docs</span>
-               </span> 
-            </li> */}
           {level > 9 ? (
             <li className="transform transition-transform ease-in hover:scale-105 cursor-pointer">
               <span

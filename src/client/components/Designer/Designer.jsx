@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import DesignerHeader from './DesignerHeader';
+import Panel from '../Page/Panel/Panel';
 
 
 const style = {
@@ -31,7 +32,9 @@ export default function Designer() {
 
   const [designerData, setDesignerData] = useState([]);
   const [imageUrl, setImageUrl] = useState(""); // State for the designer data
-
+  const [user,setUser] = useState('')
+  const [uuid,setUuid] = useState('')
+  const [level,setLevel] = useState('')
   const [image, setImage] = useState(""); // State for the designer data
   const [ successfully, setSuccessfully] = useState(''); 
   const [ content, setContent] = useState('');
@@ -93,6 +96,7 @@ const [dMonth, setDMonth] = useState('')
 const [dPage, setDPage] = useState('')
 
 
+
 const handleImageChange = async(e) => {
   try {
     const file = e.target.files[0];
@@ -148,7 +152,7 @@ const handleImageChange = async(e) => {
  
         const docRef = collection(db,designer.page)
         const colRef = doc(docRef,designer.post+designer.month)
-        updateDoc(colRef,{designer:designer.designer,hide:true,color:'#00eaff',status:'Design Done',StatusText:'Design Done'},{merge:true})
+        updateDoc(colRef,{designer:designer.designer,hide:true,color:'#00eaff',status:'Design Done',StatusText:'Design Done',DesignUploadedBy:user},{merge:true})
 
          const docR = collection(db,'DesignerPage')
          const colR = doc(docR,designer.post+designer.month+designer.page)
@@ -164,63 +168,76 @@ const handleImageChange = async(e) => {
   }
 
 
-
- 
-
-console.log(successfully)
-
   return (
    <>
+   <div className=' h-[100vh]  bg-slate-800'>
+
+  
    <Nav />
    
+<div className=''>
+ <User user={user} setUser={setUser} setUuid={setUuid} uuid={uuid} setLevel={setLevel}/>
+
    <section>
     <DesignerHeader/>
    </section>
 
 
 
-   <div className='min-h-[100vh] bg-slate-600 pt-[100px]'>
+   <div className=' pt-[50px]'>
     <div className='flex flex-col items-center'>
     <DesignerFunctions setDesignerData={setDesignerData}/>
 
     <section>
-      {designerData.map((designer,id) => (
-     designer.hide === true ? null :    <div key={id}  className='flex flex-row items-center justify-end border-black border-b-2 mb-8'> 
-        <img src={designer.img} className='w-[50px] h-[50px] rounded-md mr-4' />
-     {/* <p className='text-black  bg-white text-md border-black border-2 p-2'> Post: {designer.post} </p> */}
-     <p className='text-black  bg-white text-md border-black border-2 p-2'> Date : {designer.date}-{designer.month} </p>
-     <p className='text-black  bg-white text-md border-black border-2 p-2'> Client : {designer.page} </p>
-     <p className={`text-black text-md border-black border-2 p-2 ${designer.prio === 'Prio'? 'bg-red-600':'bg-white'}`}>  {designer.prio} </p>
-     <h1 className='cursor-pointer text-black  bg-white text-md border-black border-2 p-2  hover:scale-110 transition-transform '  onClick={() => {handleOpenModal(),setImage(designer.designer) ,setContent(designer.subject)}}> View </h1>
-
-
-
-     <form onSubmit={() => {handleSub(id)}} className='designer-upload  mr-5 ml-4'> 
-
-     <label onClick={()=> {
-        setDPost(designer.post)
-        setDMonth(designer.month)
-        setDPage(designer.page)
-     }} className="custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700
-lg:w-[120px]">
-    <input type="file"  onChange={handleImageChange} />
-  Upload Image
-</label>
-
-</form> 
-
-<div >
-
-{designer.designer === undefined ? null : 
-<button onClick={() => {handleSend(id)}} className='bg-slate-800 text-white p-2 rounded-md hover:bg-gray-900 cursor-pointer'> Finish </button>
-}
-
-</div>
-
-
-   </div>
-      ))}
-
+      <table className="w-full text-sm text-left text-gray-300 dark:text-gray-300 shadow-md shadow-slate-800">
+        <thead className='className="text-xs  uppercase  bg-gray-700 text-gray-200'>
+          <tr>
+            <th className="px-4 py-2">Image</th>
+            <th className="px-4 py-2">Date</th>
+            <th className="px-4 py-2">Client</th>
+            <th className="px-4 py-2">Priority</th>
+            <th className="px-4 py-2">Instructions</th>
+            <th className="px-4 py-2">Actions</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          {designerData.map((designer, id) => (
+            designer.hide === true ? null :
+            <tr key={id} className='border-b bg-gray-600 border-gray-700 shadow-md hover:scale-105 shadow-black'>
+              <td className="border px-4 py-2">
+                <img src={designer.img} className='w-[50px] h-[50px] rounded-md mr-4' />
+              </td>
+              <td className="border px-4 py-2">{designer.date}-{designer.month}</td>
+              <td className="border px-4 py-2">{designer.page}</td>
+              <td className={`border px-4 py-2 ${designer.prio === 'Prio'? 'bg-red-600':'bg-gray-600'}`}>{designer.prio}</td>
+              <td className="border px-4 py-2">
+                <h1 className='cursor-pointer text-black  bg-white text-md border-black border-2 p-2  hover:scale-110 transition-transform '  onClick={() => {handleOpenModal(),setImage(designer.designer) ,setContent(designer.subject)}}> View </h1>
+              </td>
+              <td className="border px-4 py-2">
+              <form onSubmit={() => {handleSub(id)}} className='designer-upload  mr-5 ml-4'> 
+                  <label onClick={()=> {
+                    setDPost(designer.post)
+                    setDMonth(designer.month)
+                    setDPage(designer.page)
+                  }} className="custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]">
+                    <input type="file"  onChange={handleImageChange} />
+                    Upload Image
+                  </label>
+                </form> 
+               
+              </td>
+              <td className="border px-4 py-2">
+              <div>
+                  {designer.designer === undefined ? null : 
+                  <button onClick={() => {handleSend(id)}} className='bg-slate-800 text-white p-2 rounded-md hover:bg-gray-900 cursor-pointer'> Finish </button>
+                  }
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </section>
       </div>
 
@@ -253,7 +270,9 @@ lg:w-[120px]">
      </Modal>
 
 
-   
+   </div>
+
+   </div>
    </>
   )
 }

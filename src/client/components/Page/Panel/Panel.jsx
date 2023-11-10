@@ -32,10 +32,9 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
 
 
   return (
-    <aside id="cta-button-sidebar" className={panel ? "  w-full sm:w-1/5 fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0" :
-    "fixed top-0 left-0 z-40 w-64 h-screen transition-transform  sm:translate-x-0"  } aria-label="Sidebar">
-     <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800 fixed ">
-        <ul className="space-y-2 font-medium">
+   
+     <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800 w-[20vw]  ">
+        <ul className="space-y-2 font-medium fixed">
            <li>
               <Link to='/' 
               className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
@@ -130,13 +129,13 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
 
   <li className='fixed bottom-10'>
   <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
-              <img className='w-[40px]' src={timer} />
+              <img className='w-[25px]' src={timer} />
                  <span className="flex-1 ml-2 whitespace-nowrap text-white md:text-xs lg:text-md"><SignoutInfo /> </span>
               </a>
    </li>
         </ul>
   
      </div>
-  </aside>
+ 
   )
 }

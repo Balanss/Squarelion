@@ -7,12 +7,14 @@ import Loading from "./components/Loading";
 import { auth, fs, db } from "./Firebase";
 import { collection, doc, updateDoc,setDoc,arrayUnion,getDoc } from "firebase/firestore";
 import User from "./components/User";
+import ErrorBoundary from "./components/ErrorBoundary/Error";
 
 
 
 const Admin = lazy(() => import("./components/AdminPage/Admin"));
 const Login = lazy(() => import("./components/Login"));
 const Home = lazy(() => import("./components/Home/Home"));
+const Signup = lazy(() => import("./components/Signup"));
 
 const Page = lazy(() => import("./components/Page/Page"));
 const Profile = lazy(() => import("./components/Page/Profile"));
@@ -22,9 +24,6 @@ const Prop = lazy(() => import("./components/AdminPage/SqlProperties"));
 
 
 function App() {
-
-  const [entryTime, setEntryTime] = useState("");
-  const [exitTime, setExitTime] = useState("");
   const [user, setUser] = useState(0);
   const [level, setLevel] = useState("");
   const [uuid, setUuid] = useState("");
@@ -40,14 +39,15 @@ function App() {
         const currentTime = new Date().toLocaleString();
         localStorage.setItem("entryDate", currentDate);
         localStorage.setItem("entryTime", currentTime);
-        setEntryTime(currentTime);
+    
 
         const docRef = collection(db,'admin')
         const colRef = doc(docRef,uuid)
 
         // Update the document in Firebase map with the current date and time
-        updateDoc(colRef,{LoggedIn:new Date().toLocaleString()},{merge:true})
-        updateDoc(colRef,{logs:arrayUnion(new Date().toLocaleString())})
+        updateDoc(colRef,{LoggedIn:new Date().toLocaleString(),
+          logs:arrayUnion(new Date().toLocaleString())},{merge:true})
+   
       }
     }
   }, [uuid,user]);
@@ -57,6 +57,8 @@ function App() {
   return (
     <>
       <HashRouter>
+        <ErrorBoundary>
+       
         <Suspense
           fallback={
             <div>
@@ -77,8 +79,8 @@ function App() {
             <Route path="/admindashboard" element={<Admin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
-            {/* <Route path="/recruitment" element={<Recruitment />} />
-          <Route path="/partnerprogram" element={<PartnerProgram />} /> */}
+            <Route path="/signup" element={<Signup />} />
+
             <Route path="/profile/:id" element={<Page />} />
             <Route path="/user/:id" element={<Profile />} />
 
@@ -86,6 +88,7 @@ function App() {
             <Route path="/sqlProp" element={<Prop />} />
           </Routes>
         </Suspense>
+        </ErrorBoundary>
       </HashRouter>
     </>
   );

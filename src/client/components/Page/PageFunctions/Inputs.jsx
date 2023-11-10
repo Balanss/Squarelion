@@ -1,23 +1,11 @@
-import React,{useState} from 'react'
+import React from 'react'
 import ButtonPress from '../../firebaseData/ButtonPress'
 
 export default function Inputs({setPost,setObjective,setDate,setType,setMonth,user,qty,page,post,objective,date,level,type,month,uniqueId,setUniqueId,boosting,setBootsing}) {
 
-  const [ sure,setSure]= useState('')
-
     function handleAdminSubmit(e){
         e.preventDefault();
       }
-
-
-      const handleClick = () => {
-        setOpen(open === true? false : true);
-      };
-
-
-      const [open, setOpen] = React.useState(false);
-
-
 
   return (
     <form onSubmit={handleAdminSubmit}  >
