@@ -61,6 +61,7 @@ function Solo({
 
     try {
       sendToZapier(leadData);
+
       // Additional code to execute after sending data to Zapier, if needed
     } catch (error) {
       console.log(error);
@@ -70,14 +71,11 @@ function Solo({
       setIsChecked(false);
     }, 1000);
 
-    alert("Your Content Has Been Sent To Google Docs");
+    alert("Your post has been sent to Google Docs");
   };
 
   return (
     <div style={{ marginTop: "40px" }}>
-      <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
-        Send Content To Google Docs
-      </h1>
       <button
         disabled={isChecked === true ? false : true}
         onClick={handleDownload}
@@ -85,7 +83,7 @@ function Solo({
       >
         <span className=" relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
           {isChecked !== true
-            ? "Waiting For Checkmark "
+            ? "Waiting for Checkmark "
             : "Send To Google Docs"}
         </span>
       </button>
