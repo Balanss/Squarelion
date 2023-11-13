@@ -413,7 +413,6 @@ export default function Page() {
                       type={type}
                       imageUrl={imageUrl}
                       isChecked={isChecked}
-                      orderPost={orderPost}
                     />
                     <Memo page={page} round={round} />
                   </div>
