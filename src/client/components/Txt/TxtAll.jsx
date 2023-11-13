@@ -6,7 +6,7 @@ import txt from "../images/txt-file.png"
 
 
 
-function TxtAll ({uniqueId,type,page,round}) {
+function TxtAll ({createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,boosting,post,subject,round}) {
 
   const sendToZapier = async (payload) => {
     const zapierURL = import.meta.env.VITE_ZAP_SEND_PDF;
@@ -23,6 +23,9 @@ function TxtAll ({uniqueId,type,page,round}) {
     }
   };
 
+  const sortedRounds = round.sort((a, b) => a.order - b.order);
+
+  console.log(round.filter((item) => item.order === '1'));
 
 
 
@@ -45,11 +48,36 @@ function TxtAll ({uniqueId,type,page,round}) {
        channel: type,
        name:page,
        postDate:postDate,
-      ...Array.from({ length: round.length }, (_, i) => {
-        const order = round[i].order;
-        const postKey = order === 0 ? 'post' : `post${order}`;
-        return { [postKey]: round[i] };
-      }).reduce((acc, val) => ({ ...acc, ...val }), {}),
+        post:round.filter((item) => item.order === '1'),
+        post1:round.filter((item) => item.order === '2'),
+        post2:round.filter((item) => item.order === '3'),
+        post3:round.filter((item) => item.order === '4'),
+        post4:round.filter((item) => item.order === '5'),
+        post5:round.filter((item) => item.order === '6'),
+        post6:round.filter((item) => item.order === '7'),
+        post7:round.filter((item) => item.order === '8'),
+        post8:round.filter((item) => item.order === '9'),
+        post9:round.filter((item) => item.order === '10'),
+        post10:round.filter((item) => item.order === '11'),
+        post11:round.filter((item) => item.order === '12'),
+        post12:round.filter((item) => item.order === '13'),
+        post13:round.filter((item) => item.order === '14'),
+        post14:round.filter((item) => item.order === '15'),
+        post15:round.filter((item) => item.order === '16'),
+        post16:round.filter((item) => item.order === '17'),
+        post17:round.filter((item) => item.order === '18'),
+        post18:round.filter((item) => item.order === '19'),
+        post19:round.filter((item) => item.order === '20'),
+        post20:round.filter((item) => item.order === '21'),
+        post21:round.filter((item) => item.order === '22'),
+        post22:round.filter((item) => item.order === '23'),
+        post23:round.filter((item) => item.order === '24'),
+        post24:round.filter((item) => item.order === '25'),
+        post25:round.filter((item) => item.order === '26'),
+        post26:round.filter((item) => item.order === '27'),
+        post27:round.filter((item) => item.order === '28'),
+        post28:round.filter((item) => item.order === '29'),
+        post29:round.filter((item) => item.order === '30'),
      };
  
      try {
@@ -61,7 +89,7 @@ function TxtAll ({uniqueId,type,page,round}) {
        // Additional code to execute after sending data to Zapier, if needed
      } catch (error) {
        console.log(error);
-       setHover('Error sending to Google Docs')
+       tHover('Error sending to Google Docs')
         setTimeout(() => {
           setHover('')
         }
@@ -69,7 +97,6 @@ function TxtAll ({uniqueId,type,page,round}) {
      }
 
 
-    
     
   };
 
@@ -79,7 +106,7 @@ function TxtAll ({uniqueId,type,page,round}) {
   return (
     <div>
       <img src={txt} alt={txt} onClick={handleDownload}  onMouseLeave={() => setHover('')} onMouseEnter={() => {setHover('Send to google Docs')}} className='w-10' style={{ cursor: "pointer"}}/>
-    <p className=' absolute top-30 text-black bg-white pl-3 pr-3 text-sm'> {hover}</p>
+    <p className=' absolute top-30 text-black bg-white pl-3 pr-3'>  {hover}</p>
     </div>
   );
 }
