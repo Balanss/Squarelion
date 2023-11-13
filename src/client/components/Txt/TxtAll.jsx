@@ -23,11 +23,6 @@ function TxtAll ({createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,b
     }
   };
 
-  const sortedRounds = round.sort((a, b) => a.order - b.order);
-
-  console.log(round.filter((item) => item.order === '1'));
-
-
 
   const handleDownload = () => {
 
@@ -44,40 +39,40 @@ function TxtAll ({createPdf,isChecked ,date,uniqueId,type,month,page,imageUrl ,b
 
     const leadData = {
     
-      postID:uniqueId,
+      postID:round[0].unid,
        channel: type,
        name:page,
        postDate:postDate,
-        post:round.filter((item) => item.order === '1'),
-        post1:round.filter((item) => item.order === '2'),
-        post2:round.filter((item) => item.order === '3'),
-        post3:round.filter((item) => item.order === '4'),
-        post4:round.filter((item) => item.order === '5'),
-        post5:round.filter((item) => item.order === '6'),
-        post6:round.filter((item) => item.order === '7'),
-        post7:round.filter((item) => item.order === '8'),
-        post8:round.filter((item) => item.order === '9'),
-        post9:round.filter((item) => item.order === '10'),
-        post10:round.filter((item) => item.order === '11'),
-        post11:round.filter((item) => item.order === '12'),
-        post12:round.filter((item) => item.order === '13'),
-        post13:round.filter((item) => item.order === '14'),
-        post14:round.filter((item) => item.order === '15'),
-        post15:round.filter((item) => item.order === '16'),
-        post16:round.filter((item) => item.order === '17'),
-        post17:round.filter((item) => item.order === '18'),
-        post18:round.filter((item) => item.order === '19'),
-        post19:round.filter((item) => item.order === '20'),
-        post20:round.filter((item) => item.order === '21'),
-        post21:round.filter((item) => item.order === '22'),
-        post22:round.filter((item) => item.order === '23'),
-        post23:round.filter((item) => item.order === '24'),
-        post24:round.filter((item) => item.order === '25'),
-        post25:round.filter((item) => item.order === '26'),
-        post26:round.filter((item) => item.order === '27'),
-        post27:round.filter((item) => item.order === '28'),
-        post28:round.filter((item) => item.order === '29'),
-        post29:round.filter((item) => item.order === '30'),
+        post:round.find((item) => item.order === '0'),
+        post2:round.find((item) => item.order === '1'),
+        post3:round.find((item) => item.order === '2'),
+        post4:round.find((item) => item.order === '3'),
+        post5:round.find((item) => item.order === '4'),
+        post6:round.find((item) => item.order === '5'),
+        post7:round.find((item) => item.order === '6'),
+        post8:round.find((item) => item.order === '7'),
+        post9:round.find((item) => item.order === '8'),
+        post10:round.find((item) => item.order === '9'),
+        post11:round.find((item) => item.order === '10'),
+        post12:round.find((item) => item.order === '11'),
+        post13:round.find((item) => item.order === '12'),
+        post14:round.find((item) => item.order === '13'),
+        post15:round.find((item) => item.order === '14'),
+        post16:round.find((item) => item.order === '15'),
+        post17:round.find((item) => item.order === '16'),
+        post18:round.find((item) => item.order === '17'),
+        post19:round.find((item) => item.order === '18'),
+        post20:round.find((item) => item.order === '29'),
+        post21:round.find((item) => item.order === '20'),
+        post22:round.find((item) => item.order === '21'),
+        post23:round.find((item) => item.order === '22'),
+        post24:round.find((item) => item.order === '23'),
+        post25:round.find((item) => item.order === '24'),
+        post26:round.find((item) => item.order === '25'),
+        post27:round.find((item) => item.order === '26'),
+        post28:round.find((item) => item.order === '27'),
+        post29:round.find((item) => item.order === '28'),
+        post30:round.find((item) => item.order === '29'),
      };
  
      try {
