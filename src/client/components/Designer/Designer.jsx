@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Nav from "../Nav";
-import { auth, fs, db } from "../../Firebase";
+import { db, auth, fs } from "../../firebase";
 import User from "../User";
 import {
   collection,
@@ -15,6 +15,7 @@ import {
   deleteField,
   getDoc,
 } from "firebase/firestore";
+
 import DesignerFunctions from "./DesignerFunctions";
 import {
   getStorage,
@@ -27,14 +28,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import DesignerHeader from "./DesignerHeader";
-import Panel from "../Page/Panel/Panel";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -48,9 +47,14 @@ export default function Designer() {
   const [uuid, setUuid] = useState("");
   const [level, setLevel] = useState("");
   const [image, setImage] = useState(""); // State for the designer data
+  const [image1, setImage1] = useState(""); // State for the designer data
+  const [image2, setImage2] = useState(""); // State for the designer data
+  const [image3, setImage3] = useState(""); // State for the designer data
+
   const [successfully, setSuccessfully] = useState("");
   const [content, setContent] = useState("");
-
+  const [imageUrls, setImageUrls] = useState([]);
+  const [files, setFiles] = useState([]);
   const [openModal, setOpenModal] = React.useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
@@ -106,51 +110,62 @@ export default function Designer() {
   const [dPage, setDPage] = useState("");
 
   const handleImageChange = async e => {
-    try {
-      const file = e.target.files[0];
-      setImageUrl(file.name);
+    const selectedFiles = e.target.files;
+    if (!selectedFiles || selectedFiles.length > 4) {
+      alert("You can only upload a maximum of 4 images at once.");
+      return;
+    }
 
-      const storageRef = ref(getStorage(), `products/${file.name}`);
+    const uploadPromises = Array.from(selectedFiles).map(file => {
+      const storageRef = ref(getStorage(), `products/${name}/${file.name}}`);
 
-      // Upload the file to the bucket
       const uploadTask = uploadBytesResumable(storageRef, file);
-      // Listen for state changes, errors, and completion of the upload.
-      uploadTask.on(
-        "state_changed",
-        snapshot => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
-          setSuccessfully("Loading");
-        },
-        error => {
-          console.error(error);
-        },
-        async () => {
-          // Upload completed successfully, now get the download URL
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          // Save the download URL to Firestore
-          const docRef = collection(db, "DesignerPage");
-          const colRef = doc(docRef, dPost + dMonth + dPage);
 
-          updateDoc(colRef, { designer: downloadURL }, { merge: true });
-          console.log("success");
-          setSuccessfully(
-            "Image has been uploaded. Click view button to view image!"
-          );
+      return new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          snapshot => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            // Update progress if needed
+          },
+          error => {
+            console.error("Upload Error:", error);
+            reject(error);
+          },
+          async () => {
+            // Upload completed successfully, now get the download URL
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            resolve(downloadURL);
+          }
+        );
+      });
+    });
 
-          setTimeout(() => {
-            setSuccessfully("");
-          }, 7000);
-        },
-        { merge: true }
-      );
-      console.log("worked");
+    try {
+      const downloadURLs = await Promise.all(uploadPromises);
+
+      const docData = {
+        designer: downloadURLs[0],
+        designer1: downloadURLs[1] || "",
+        designer2: downloadURLs[2] || "",
+        designer3: downloadURLs[3] || "",
+        DesignedBy: user,
+      };
+
+      await setDoc(doc(fs, "DesignerPage", dPost + dMonth + dPage), docData, {
+        merge: true,
+      });
+
+      setImageUrls(downloadURLs);
+      setFiles(selectedFiles);
     } catch (error) {
-      console.log("error");
+      console.error("Error updating Firestore:", error);
+      // Handle the error appropriately
     }
   };
 
+  //sends towards saskia
   function handleSend(id) {
     designerData.map((designer, index) => {
       if (id === index) {
@@ -158,10 +173,14 @@ export default function Designer() {
 
         const docRef = collection(db, designer.page);
         const colRef = doc(docRef, designer.post + designer.month);
-        updateDoc(
+        setDoc(
           colRef,
           {
             designer: designer.designer,
+            designer1: designer.designer1,
+            designer2: designer.designer2,
+            designer3: designer.designer3,
+
             hide: true,
             color: "#00eaff",
             status: "Design Done",
@@ -246,6 +265,9 @@ export default function Designer() {
                               onClick={() => {
                                 handleOpenModal(),
                                   setImage(designer.designer),
+                                  setImage1(designer.designer1),
+                                  setImage2(designer.designer2),
+                                  setImage3(designer.designer3),
                                   setContent(designer.subject);
                               }}
                             >
@@ -270,6 +292,8 @@ export default function Designer() {
                               >
                                 <input
                                   type="file"
+                                  accept="image/*"
+                                  multiple
                                   onChange={handleImageChange}
                                 />
                                 Upload Image
@@ -319,7 +343,12 @@ export default function Designer() {
                 style={{ textAlign: "center" }}
               >
                 {content}
-                <img src={image} />
+                <section className="flex lg:w-[40vw] flex-wrap  gap-5 justify-center">
+                  <img className="w-[300px]" src={image} />
+                  <img className="w-[300px]" src={image1} />
+                  <img className="w-[300px]" src={image2} />
+                  <img className="w-[300px]" src={image3} />
+                </section>
               </Typography>
             </Box>
           </Modal>

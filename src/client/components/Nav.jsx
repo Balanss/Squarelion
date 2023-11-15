@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import User from "./User";
 import { auth, fs, db } from "/src/client/Firebase.jsx";
+import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";

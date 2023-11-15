@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "react-calendar/dist/Calendar.css";
-import "react-quill/dist/quill.snow.css";
-import Schedule from "./Schedule";
-
-const GoogleCalendar = () => {
-  return (
-    <iframe
-      src={import.meta.env.VITE_CAL}
-      className="w-[95vw] md:w-[50vw]  h-[400px] h-min-[400px] cal:w-[35vw] cal:h-[50vh]  rounded-md m-auto p-[10px]  border-2 border-slate-700"
-      title="Google Calendar"
-    ></iframe>
-  );
-};
+import DateSchedule from "./DateSchedule";
 
 const LoadingDiv = () => {
   return (
@@ -83,7 +71,7 @@ const CalendarWithNotes = ({ user, level }) => {
 
   return (
     <>
-      <div className="p-5 mb-10 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+      <div className="p-5 mb-10 text-lg font-semibold text-left text-white lg:w-[75vw] m-auto bg-gray-800">
         Calendar
         <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
           {" "}
@@ -91,34 +79,6 @@ const CalendarWithNotes = ({ user, level }) => {
         </p>
         <hr />
         <section className="flex justify-center gap-5 pb-20  p-5 wrap sm:w-[60vw] flex-col text-black   laptopL:w-full laptopL:flex-row  ">
-          <form
-            onSubmit={handleSubmit}
-            className=" mr-2 gap-5 flex flex-col items-center  bg-slate-800 p-5 xl:px-[70px] xl:py-[50px] border-2 border-slate-700 rounded-md "
-          >
-            <input
-              type="datetime-local"
-              onChange={e => setFromDate(e.target.value)}
-              value={fromDate}
-            />
-
-            <input
-              type="text"
-              placeholder="Title"
-              onChange={e => setTitle(e.target.value)}
-              value={title}
-            />
-            <input
-              type="text"
-              placeholder="Description"
-              value={description}
-              onChange={e => setDescription(e.target.value)}
-            />
-            <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded cursor-pointer relative">
-              {" "}
-              {btnTitle}{" "}
-            </button>
-          </form>
-
           <div className={`${calLoading === false ? "hidden" : "false"}`}>
             <LoadingDiv />
           </div>
@@ -128,7 +88,7 @@ const CalendarWithNotes = ({ user, level }) => {
               calLoading === false ? "block" : "hidden"
             } bg-slate-700 rounded-md`}
           >
-            <GoogleCalendar />
+            <DateSchedule user={user} />
           </div>
         </section>
       </div>
