@@ -184,162 +184,146 @@ export default function Designer() {
   return (
     <>
       <div className=" h-[100vh]  bg-slate-800">
-        <Nav />
+        <Nav />{" "}
+        <div className="">
+          <User
+            user={user}
+            setUser={setUser}
+            setUuid={setUuid}
+            uuid={uuid}
+            setLevel={setLevel}
+          />
 
-        {designerData.length !== 0 ? (
-          <>
-            {" "}
-            <div className="">
-              <User
-                user={user}
-                setUser={setUser}
-                setUuid={setUuid}
-                uuid={uuid}
-                setLevel={setLevel}
-              />
+          <section>
+            <DesignerHeader />
+          </section>
+
+          <div className=" pt-[50px]">
+            <div className="flex flex-col items-center">
+              <DesignerFunctions setDesignerData={setDesignerData} />
 
               <section>
-                <DesignerHeader />
-              </section>
-
-              <div className=" pt-[50px]">
-                <div className="flex flex-col items-center">
-                  <DesignerFunctions setDesignerData={setDesignerData} />
-
-                  <section>
-                    <table className="w-full text-sm text-left text-gray-300 dark:text-gray-300 shadow-md shadow-slate-800">
-                      <thead className='className="text-xs  uppercase  bg-gray-700 text-gray-200'>
-                        <tr>
-                          <th className="px-4 py-2">Image</th>
-                          <th className="px-4 py-2">Date</th>
-                          <th className="px-4 py-2">Client</th>
-                          <th className="px-4 py-2">Priority</th>
-                          <th className="px-4 py-2">Instructions</th>
-                          <th className="px-4 py-2">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {designerData.map((designer, id) =>
-                          designer.hide === true ? null : (
-                            <tr
-                              key={id}
-                              className="border-b bg-gray-600 border-gray-700 shadow-md hover:scale-105 shadow-black"
+                <table className="w-full text-sm text-left text-gray-300 dark:text-gray-300 shadow-md shadow-slate-800">
+                  <thead className='className="text-xs  uppercase  bg-gray-700 text-gray-200'>
+                    <tr>
+                      <th className="px-4 py-2">Image</th>
+                      <th className="px-4 py-2">Date</th>
+                      <th className="px-4 py-2">Client</th>
+                      <th className="px-4 py-2">Priority</th>
+                      <th className="px-4 py-2">Instructions</th>
+                      <th className="px-4 py-2">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {designerData.map((designer, id) =>
+                      designer.hide === true ? null : (
+                        <tr
+                          key={id}
+                          className="border-b bg-gray-600 border-gray-700 shadow-md hover:scale-105 shadow-black"
+                        >
+                          <td className="border px-4 py-2">
+                            <img
+                              src={designer.img}
+                              className="w-[50px] h-[50px] rounded-md mr-4"
+                            />
+                          </td>
+                          <td className="border px-4 py-2">
+                            {designer.date}-{designer.month}
+                          </td>
+                          <td className="border px-4 py-2">{designer.page}</td>
+                          <td
+                            className={`border px-4 py-2 ${
+                              designer.prio === "Prio"
+                                ? "bg-red-600"
+                                : "bg-gray-600"
+                            }`}
+                          >
+                            {designer.prio}
+                          </td>
+                          <td className="border px-4 py-2">
+                            <h1
+                              className="cursor-pointer text-black  bg-white text-md border-black border-2 p-2  hover:scale-110 transition-transform "
+                              onClick={() => {
+                                handleOpenModal(),
+                                  setImage(designer.designer),
+                                  setContent(designer.subject);
+                              }}
                             >
-                              <td className="border px-4 py-2">
-                                <img
-                                  src={designer.img}
-                                  className="w-[50px] h-[50px] rounded-md mr-4"
-                                />
-                              </td>
-                              <td className="border px-4 py-2">
-                                {designer.date}-{designer.month}
-                              </td>
-                              <td className="border px-4 py-2">
-                                {designer.page}
-                              </td>
-                              <td
-                                className={`border px-4 py-2 ${
-                                  designer.prio === "Prio"
-                                    ? "bg-red-600"
-                                    : "bg-gray-600"
-                                }`}
+                              {" "}
+                              View{" "}
+                            </h1>
+                          </td>
+                          <td className="border px-4 py-2">
+                            <form
+                              onSubmit={() => {
+                                handleSub(id);
+                              }}
+                              className="designer-upload  mr-5 ml-4"
+                            >
+                              <label
+                                onClick={() => {
+                                  setDPost(designer.post);
+                                  setDMonth(designer.month);
+                                  setDPage(designer.page);
+                                }}
+                                className="custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"
                               >
-                                {designer.prio}
-                              </td>
-                              <td className="border px-4 py-2">
-                                <h1
-                                  className="cursor-pointer text-black  bg-white text-md border-black border-2 p-2  hover:scale-110 transition-transform "
+                                <input
+                                  type="file"
+                                  onChange={handleImageChange}
+                                />
+                                Upload Image
+                              </label>
+                            </form>
+                          </td>
+                          <td className="border px-4 py-2">
+                            <div>
+                              {designer.designer === undefined ? null : (
+                                <button
                                   onClick={() => {
-                                    handleOpenModal(),
-                                      setImage(designer.designer),
-                                      setContent(designer.subject);
+                                    handleSend(id);
                                   }}
+                                  className="bg-slate-800 text-white p-2 rounded-md hover:bg-gray-900 cursor-pointer"
                                 >
                                   {" "}
-                                  View{" "}
-                                </h1>
-                              </td>
-                              <td className="border px-4 py-2">
-                                <form
-                                  onSubmit={() => {
-                                    handleSub(id);
-                                  }}
-                                  className="designer-upload  mr-5 ml-4"
-                                >
-                                  <label
-                                    onClick={() => {
-                                      setDPost(designer.post);
-                                      setDMonth(designer.month);
-                                      setDPage(designer.page);
-                                    }}
-                                    className="custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"
-                                  >
-                                    <input
-                                      type="file"
-                                      onChange={handleImageChange}
-                                    />
-                                    Upload Image
-                                  </label>
-                                </form>
-                              </td>
-                              <td className="border px-4 py-2">
-                                <div>
-                                  {designer.designer === undefined ? null : (
-                                    <button
-                                      onClick={() => {
-                                        handleSend(id);
-                                      }}
-                                      className="bg-slate-800 text-white p-2 rounded-md hover:bg-gray-900 cursor-pointer"
-                                    >
-                                      {" "}
-                                      Finish{" "}
-                                    </button>
-                                  )}
-                                </div>
-                              </td>
-                            </tr>
-                          )
-                        )}
-                      </tbody>
-                    </table>
-                  </section>
-                </div>
-
-                <div className="fixed bottom-0 bg-slate-200 w-full  ">
-                  <h2 className="text-xl ml-4">{successfully}</h2>
-                </div>
-              </div>
-
-              <Modal
-                open={openModal}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                className="max-w-[80vw] max-h-[80vw]  "
-              >
-                <Box sx={style}>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
-                    style={{ textAlign: "center" }}
-                  >
-                    {content}
-                    <img src={image} />
-                  </Typography>
-                </Box>
-              </Modal>
-            </div>{" "}
-          </>
-        ) : (
-          <>
-            <div>
-              <h1 className="text-center font-bold text-6xl text-white mt-[100px]">
-                No Pending Designs
-              </h1>
+                                  Finish{" "}
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              </section>
             </div>
-          </>
-        )}
+
+            <div className="fixed bottom-0 bg-slate-200 w-full  ">
+              <h2 className="text-xl ml-4">{successfully}</h2>
+            </div>
+          </div>
+
+          <Modal
+            open={openModal}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            className="max-w-[80vw] max-h-[80vw]  "
+          >
+            <Box sx={style}>
+              <Typography
+                id="modal-modal-title"
+                variant="h6"
+                component="h2"
+                style={{ textAlign: "center" }}
+              >
+                {content}
+                <img src={image} />
+              </Typography>
+            </Box>
+          </Modal>
+        </div>{" "}
       </div>
     </>
   );

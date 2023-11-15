@@ -7,27 +7,47 @@ import axios from "axios";
 import Loading from "../Loading";
 import fast from "../images/fast.jpg";
 import ai from "../images/Ai-home.jpg";
-
+import User from "../User";
 
 export default function Home() {
   const [user, setUser] = useState("");
   const [level, setLevel] = useState("");
   const [uuid, setUuid] = useState("");
 
-  // useEffect(() => {
-  //   // Send user data to the server whenever it changes
-  //   axios.post('http://localhost:5173/', { user })
-  //     .then(response => {
-  //       console.log(response.data); // Log the response from the server if needed
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // }, [user]);
-
   const [isVisible, setIsVisible] = useState(true);
   const [zIndex, setZIndex] = useState(0);
   const [fadeIn, setFadeIn] = useState(true);
+
+  useEffect(() => {
+    const postData = async () => {
+      try {
+        const response = await axios.post("/api/home", { user: user });
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error posting data", error);
+      }
+    };
+
+    postData();
+
+    // Send a heartbeat every 30 seconds
+    const heartbeatInterval = setInterval(() => {
+      axios.post("/api/heartbeat", { user: user });
+    }, 30000); // 30000 milliseconds = 30 seconds
+
+    // Send a leave signal when the window is unloaded
+    window.addEventListener("beforeunload", () => {
+      axios.post("/api/leave", { user: user });
+    });
+
+    // Clear the interval and event listener when the component is unmounted
+    return () => {
+      clearInterval(heartbeatInterval);
+      window.removeEventListener("beforeunload", () => {
+        axios.post("/api/leave", { user: user });
+      });
+    };
+  }, [user]);
 
   useEffect(() => {
     // Set the highest z-index value when the component is mounted
@@ -60,6 +80,7 @@ export default function Home() {
   return (
     <>
       <div className={`${!isVisible ? "hidden" : "absolute w-full z-[100]"}`}>
+        <User setLevel={setLevel} setUser={setUser} setUuid={setUuid} />
         <Loading />
       </div>
       <div className="relative h-screen">
