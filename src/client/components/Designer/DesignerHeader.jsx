@@ -35,7 +35,7 @@ export default function DesignerHeader() {
               To see the instructions click on the view button
             </h5>
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              For now you can only upload 1 image at a time
+              For now you can only upload 4 image at a time
             </h5>
             <p className="font-normal text-gray-700 dark:text-gray-400">Note</p>
           </div>

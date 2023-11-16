@@ -18,36 +18,36 @@ export default function Home() {
   const [zIndex, setZIndex] = useState(0);
   const [fadeIn, setFadeIn] = useState(true);
 
-  useEffect(() => {
-    const postData = async () => {
-      try {
-        const response = await axios.post("/api/home", { user: user });
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error posting data", error);
-      }
-    };
+  // useEffect(() => {
+  //   const postData = async () => {
+  //     try {
+  //       const response = await axios.post("/api/home", { user: user });
+  //       console.log(response.data);
+  //     } catch (error) {
+  //       console.error("Error posting data", error);
+  //     }
+  //   };
 
-    postData();
+  //   postData();
 
-    // Send a heartbeat every 30 seconds
-    const heartbeatInterval = setInterval(() => {
-      axios.post("/api/heartbeat", { user: user });
-    }, 30000); // 30000 milliseconds = 30 seconds
+  //   // Send a heartbeat every 30 seconds
+  //   const heartbeatInterval = setInterval(() => {
+  //     axios.post("/api/heartbeat", { user: user });
+  //   }, 30000); // 30000 milliseconds = 30 seconds
 
-    // Send a leave signal when the window is unloaded
-    window.addEventListener("beforeunload", () => {
-      axios.post("/api/leave", { user: user });
-    });
+  //   // Send a leave signal when the window is unloaded
+  //   window.addEventListener("beforeunload", () => {
+  //     axios.post("/api/leave", { user: user });
+  //   });
 
-    // Clear the interval and event listener when the component is unmounted
-    return () => {
-      clearInterval(heartbeatInterval);
-      window.removeEventListener("beforeunload", () => {
-        axios.post("/api/leave", { user: user });
-      });
-    };
-  }, [user]);
+  //   // Clear the interval and event listener when the component is unmounted
+  //   return () => {
+  //     clearInterval(heartbeatInterval);
+  //     window.removeEventListener("beforeunload", () => {
+  //       axios.post("/api/leave", { user: user });
+  //     });
+  //   };
+  // }, [user]);
 
   useEffect(() => {
     // Set the highest z-index value when the component is mounted
