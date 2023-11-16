@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useState, useEffect } from "react";
-import { fs, auth, db } from "../../../firebase";
+import { fs, auth, db } from "../../firebase";
 import User from "../User";
 import { useParams } from "react-router-dom";
 import WaitingForAdmin from "./WaitingForAdmin";
