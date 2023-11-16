@@ -103,10 +103,10 @@ export default function Schedule({ user, level, uuid }) {
           )}
         </section>
 
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 shadow-md shadow-slate-800">
-          <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+        <table className="w-full text-sm text-left text-gray-400 shadow-md shadow-slate-800">
+          <caption className="p-5 text-lg font-semibold text-left  text-white bg-gray-800">
             Squarelion Agency Partners
-            <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
+            <p className="mt-1 text-sm font-normal text-gray-400">
               Click on any of the images to view the partner page
             </p>
             {/* <section className="flex justify-center ">
@@ -126,7 +126,7 @@ export default function Schedule({ user, level, uuid }) {
         )}
       </section> */}
           </caption>
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs  uppercase bg-gray-700 text-gray-400">
             <tr>
               <th scope="col" className="px-2 py-3">
                 Source
@@ -148,11 +148,11 @@ export default function Schedule({ user, level, uuid }) {
                 dataItem.name !== "Test" && (
                   <tr
                     key={dataIndex}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                    className=" border-b bg-gray-800 border-gray-700"
                   >
                     <th
                       scope="row"
-                      className="px-1 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-1 py-1 font-medium  whitespace-nowrap text-white"
                     >
                       <img
                         className="bg-slate-200 ml-3 mt-3 mb-3 mr-3 w-[30px] h-[30px] rounded-md cursor-pointer hover:scale-105 transition duration-300 ease-in-out"
@@ -170,7 +170,7 @@ export default function Schedule({ user, level, uuid }) {
 
                     <th
                       scope="row"
-                      className="px-1 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      className="px-1 py-1 font-medium  whitespace-nowrap text-white"
                     >
                       {dataItem.name}
                     </th>

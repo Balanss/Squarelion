@@ -222,7 +222,7 @@ export default function Designer() {
               <DesignerFunctions setDesignerData={setDesignerData} />
 
               <section>
-                <table className="w-full text-sm text-left text-gray-300 dark:text-gray-300 shadow-md shadow-slate-800">
+                <table className="w-full text-sm text-left text-gray-300 shadow-md shadow-slate-800">
                   <thead className='className="text-xs  uppercase  bg-gray-700 text-gray-200'>
                     <tr>
                       <th className="px-4 py-2">Image</th>
@@ -288,7 +288,7 @@ export default function Designer() {
                                   setDMonth(designer.month);
                                   setDPage(designer.page);
                                 }}
-                                className="custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"
+                                className="custom-file-upload cursor-pointer text-white   hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"
                               >
                                 <input
                                   type="file"

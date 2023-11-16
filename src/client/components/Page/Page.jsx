@@ -519,7 +519,7 @@ export default function Page() {
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
                                       {...provided.dragHandleProps}
-                                      className="bg-white border-b border-gray-200 dark:bg-gray-700 dark:border-gray-800"
+                                      className=" border-b bg-gray-700 border-gray-800"
                                     >
                                       <td
                                         className="text-black text-center rounded-sm font-medium"
@@ -528,7 +528,7 @@ export default function Page() {
                                         {x.status}
                                       </td>
                                       <td
-                                        className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-400"
+                                        className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400"
                                         onClick={() => {
                                           setForPost(x.unid);
                                           {
@@ -543,7 +543,7 @@ export default function Page() {
                                         {x.unid}
                                       </td>
                                       <td
-                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400"
                                         onMouseEnter={() => {
                                           setShowCount(x.count);
                                         }}
@@ -560,7 +560,7 @@ export default function Page() {
                                         </p>
                                       </td>
                                       <td
-                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400"
                                         onClick={() => {
                                           setForPost(x.objective);
                                           {
@@ -577,7 +577,7 @@ export default function Page() {
                                           : x.objective}
                                       </td>
                                       <td
-                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400"
                                         onClick={() => {
                                           setForPost(x.type);
                                           {
@@ -591,7 +591,7 @@ export default function Page() {
                                         {x.type}
                                       </td>
                                       <td
-                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-500 dark:text-gray-400"
+                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400"
                                         onClick={() => {
                                           setForPost(x.date);
                                           {
@@ -608,7 +608,7 @@ export default function Page() {
                                         className={`px-6 ${
                                           x.priority === "Prio"
                                             ? "bg-red-600 text-white "
-                                            : "text-gray-500 dark:text-gray-400"
+                                            : "text-gray-400"
                                         }`}
                                       >
                                         <button
@@ -638,7 +638,7 @@ export default function Page() {
                                           {x.priority}
                                         </button>
                                       </td>
-                                      <td className="px-6  whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                      <td className="px-6  whitespace-nowrap text-sm text-gray-400">
                                         <button
                                           className="x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-[0.90]  "
                                           onClick={() => handleText(i)}
