@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { fs } from "../../../firebase";
+import { fs } from "../../../Firebase";
 import { useNavigate } from "react-router-dom";
 import block from "../../images/loading-blocks.gif";
 import { collection, doc, updateDoc } from "firebase/firestore";

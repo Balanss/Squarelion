@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Nav from "../Nav";
-import { db, auth, fs } from "../../firebase";
+import { db, auth, fs } from "../../Firebase";
 import User from "../User";
 import {
   collection,
