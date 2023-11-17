@@ -26,3 +26,4 @@ dist-ssr
 .PageBackup.jsx
 .Signup.jsx
 Signup.jsx
+PageModal.jsx

@@ -10,15 +10,17 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { Alert } from "flowbite-react";
+import { set } from "date-fns";
 
 export default function Calendar({ user }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [time, setTime] = useState(null);
+  const [time, setTime] = useState('');
   const [scheduleData, setScheduleData] = useState([]);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [alert, setAlert] = useState(false);
+  const [timer, setTimer] = useState('');
 
   const handleTimeChange = event => {
     setTime(event.target.value);
@@ -30,7 +32,7 @@ export default function Calendar({ user }) {
       const colRef = doc(docRef, title);
       setDoc(
         colRef,
-        { selectedDate: time, Title: title, user: user },
+        { selectedDate: time +'/'+ timer , Title: title, user: user },
         { merge: true }
       );
       setMessage("Event added successfully");
@@ -38,6 +40,7 @@ export default function Calendar({ user }) {
         setMessage("");
         setTime("");
         setTitle("");
+        setTimer('');
       }, 2000);
     } else {
       setMessage("Please fill out all fields");
@@ -45,6 +48,8 @@ export default function Calendar({ user }) {
         setMessage("");
       }, 2000);
     }
+
+ 
   };
 
   useEffect(() => {
@@ -88,14 +93,15 @@ export default function Calendar({ user }) {
         <DatePicker selected={selectedDate} inline className="myDatePicker " />
 
         <div className="bg-slate-900 text-white p-5 rounded-md  ">
-          <h2>Select a time</h2>
+          <h2>Select a date and time</h2>
 
           <input
-            type="dateTime-local"
+            type="date"
             onChange={handleTimeChange}
             className="text-black "
             value={time}
           />
+          <input type="number" className="text-black" placeholder="ADD Time" onChange={(e) => {setTimer(e.target.value)}} value={timer} />
           <input
             type="text"
             placeholder="Title"
@@ -132,21 +138,18 @@ export default function Calendar({ user }) {
         </section>
         {scheduleData.map((x, id) => {
           return (
-            <>
+            <React.Fragment key={id}>
               <div
-                key={id}
                 className={`text-white text-xs ${randomColor} p-2 mt-2 rounded-md inline-flex flex-col max-w-[200px] lg:max-w-[500px] break-words `}
               >
                 <h1 className="font-bold mb-2 flex justify-between">
-                  {user}{" "}
+                  {x.user}{" "}
                   <span
                     className="cursor-pointer hover:text-red-700 "
                     onClick={() => {
-                      // alert("Are you sure you want to delete this event?");
                       const docRef = collection(db, "schedule");
                       const colRef = doc(docRef, x.Title);
                       deleteDoc(colRef);
-                      // setAlert(true);
                     }}
                   >
                     {" "}
@@ -159,7 +162,7 @@ export default function Calendar({ user }) {
                 </p>
               </div>
               <hr className="opacity-25" />
-            </>
+            </React.Fragment>
           );
         })}
       </div>

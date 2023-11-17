@@ -20,6 +20,10 @@ export default function GreetingUser({ user, level }) {
   const month = date.getMonth();
   const year = date.getFullYear();
 
+
+
+const updateVersion = '1'
+
   return (
     <div className="max-w-sm p-5 md:w-[250px] lg:w-[200px] xl:w-[280px]  border border-gray-600 rounded-lg shadow text-left bg-gray-800 hover:bg-gray-700  ">
       <p className="text-xs xl:text-[md]  text-white font-bold">
@@ -34,11 +38,8 @@ export default function GreetingUser({ user, level }) {
       </p>
 
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="text-white mt-2  focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800"
-        type="button"
-      >
-        New Updates{" "}
+        onClick={() => {setIsOpen(!isOpen), localStorage.setItem('showNewUpdates',updateVersion)}} className="text-white mt-2  focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800" type="button" >
+       {localStorage.getItem('showNewUpdates') === updateVersion ? 'No updates' : 'New Updates'}
         <svg
           className="w-2.5 h-2.5 ms-3"
           aria-hidden="true"
@@ -63,8 +64,8 @@ export default function GreetingUser({ user, level }) {
               <h1 className="block px-4 py-2 max-h-[400px] overflow-auto">
                 Hello {user}! There have been updates to Media Pilot:
                 <ul className="list-disc list-inside mt-2">
-                  <li>A redesigned calendar has been introduced.</li>
-                  <li>All designers can now add up to 4 images per design.</li>
+                  <li>Added preset text for clients</li>
+                  <li>Added example images for designer to see</li>
                 </ul>
               </h1>
             </li>

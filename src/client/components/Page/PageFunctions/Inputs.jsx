@@ -13,7 +13,7 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
 
 <div className="relative overflow-x-auto mb-10">
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-{level > 8 &&         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+{level > 8 &&         <thead className="text-xs text-gray-700 uppercase text-center bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" className="px-6 py-3">
                     Unique ID
@@ -41,7 +41,7 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
         <tbody>
 
           
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr className="bg-white border-b dark:bg-gray-800 text-center dark:border-gray-700">
 {level < 9 ? null : <>
   <th scope="row" className="px-1 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <input value={uniqueId} type="text" placeholder=' Unique ID' onChange={(e) => setUniqueId(e.target.value)} required className='input- h-[50px] text-black border-2 border-black w-[100px]'/>  

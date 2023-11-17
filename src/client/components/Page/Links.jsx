@@ -29,20 +29,16 @@ export default function Links() {
   function handleGo(index){
 
     partner.map((x,i) => { 
-        if (i === index){
+      if (i === index){
+        localStorage.setItem('partner',x.name)
+        localStorage.setItem('image',x.imageUrl)
+        localStorage.setItem("preset", x.Preset || "No preset available"); // check if preset is undefined and set it to "No preset available" in that case
 
-            localStorage.setItem('partner',x.name)
-            localStorage.setItem('image',x.imageUrl)
-         
-
-            setTimeout(() =>{
-                navigate(`/profile/${x.name}`)
-                window.location.reload()
-            },500)
-
-         
-           
-        }
+        setTimeout(() =>{
+          navigate(`/profile/${x.name}`)
+          window.location.reload()
+        },500)
+      }
     })
 
   }
@@ -54,6 +50,7 @@ export default function Links() {
 
             localStorage.setItem('partner',x.name)
             localStorage.setItem('image',x.imageUrl)   
+            localStorage.setItem("preset", x.Preset || "No preset available");
         }
     })
 
@@ -130,7 +127,7 @@ export default function Links() {
 
 {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button className=' !text-white md:!text-xs lg:!text-md' onClick={toggleDrawer(anchor, true)}>Clients</Button>
+          <p className=' !text-white md:!text-xs lg:!text-md' onClick={toggleDrawer(anchor, true)}>Clients</p>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

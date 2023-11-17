@@ -28,6 +28,8 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
 
   const [hiding, setHiding] = useState(true);
 
+  const formattedUser = user.charAt(0).toUpperCase() + user.slice(1).toLowerCase();
+
   return (
     <aside
       id="cta-button-sidebar"
@@ -57,7 +59,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
             >
               <img className="w-6 md:w-[30px] lg:-[40px]" src={client} />
               <span className="md:text-xs lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">
-                CLIENTS
+                Clients
               </span>
             </span>
           </li>
@@ -73,7 +75,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
               >
                 <img src={usersPic} className="w-6 md:w-[30px] lg:-[40px]" />
                 <span className="md:text-xs lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white">
-                  USERS
+                  Users
                 </span>
               </span>
             </li>
@@ -87,7 +89,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
                 <img src={sqlProps} className="w-6 md:w-[30px]" />
                 <Link
                   to="/sqlProp"
-                  className="md:text-xs lg:text-md flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white"
+                  className="md:text-xs lg:text-md  flex-1 ml-3 whitespace-nowrap text-white rounded-lg dark:text-white"
                 >
                   Sql Properties
                 </Link>
@@ -101,7 +103,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
             >
               <img src={userPfp} className="w-6 md:w-[30px] lg:-[40px]" />
               <span className="md:text-xs lg:text-md flex-1 ml-3 whitespace-nowrap">
-                {user}
+                {formattedUser}
               </span>
             </span>
           </li>
@@ -112,9 +114,9 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
             >
               <img
                 src={IN}
-                className="w-6 md:w-[40px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
+                className="w-6 md:w-[30px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
               />
-              <span className="flex-1 ml-3 whitespace-nowrap ">Sign Out</span>
+              <span className="flex-1 ml-3 md:text-xs lg:text-md  whitespace-nowrap ">Sign Out</span>
             </span>
           </li>
         </ul>

@@ -35,6 +35,7 @@ import "/src/client/index.css";
 import Version from "../../Version/Version";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Bot from "./Bot/Bot";
+import { set } from "date-fns";
 
 const ModalContent = lazy(() => import("./Modal/ModalContent"));
 
@@ -101,6 +102,7 @@ export default function Page() {
   const [image1Url, setImage1Url] = useState("");
   const [image2Url, setImage2Url] = useState("");
   const [image3Url, setImage3Url] = useState("");
+  const [preset, setPreset] = useState("");
 
   const [boosting, setBoosting] = useState("");
   const [title, setTitle] = useState("");
@@ -247,7 +249,21 @@ export default function Page() {
   const [img, setImage] = useState("");
   useEffect(() => {
     setImage(localStorage.getItem("image"));
+   
   }, [img]);
+
+
+  useEffect(() => {
+    let str = localStorage.getItem("preset");
+    if (str === undefined) {
+      str = "No preset available";
+    } else {
+      str = str.replace(/  /g, '\n');
+    }
+    setPreset(str);
+  }, []);
+
+
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -265,7 +281,7 @@ export default function Page() {
   const handleCloseBar = () => setOpenModalBar(false);
 
   const handleEditorChange = value => {
-    setObjectiveAnswer(value);
+    setObjectiveAnswer(`${value}`);
   };
 
   const [isVisible, setIsVisible] = useState(true);
@@ -292,17 +308,17 @@ export default function Page() {
       setDoc(
         colRef,
         {
-          client: page,
-          color: "orange",
-          count: editDetails,
-          date: date,
-          month: month,
-          objective: objective,
-          priority: "No",
-          status: "pending",
-          type: type,
-          unid: uniqueId,
-          boosting: boosting,
+ client: page,
+ color: "orange",
+ count: editDetails,
+ date: date,
+ month: month,
+ objective: objective,
+ priority: "No",
+ status: "pending",
+ type: type,
+ unid: uniqueId,
+ boosting: boosting,
         },
         { merge: true }
       );
@@ -340,14 +356,7 @@ export default function Page() {
         className="client-page min-h-[100vh] bg-slate-600 overflow-auto"
         style={{ color: "white" }}
       >
-        <User
-          user={user}
-          setUser={setUser}
-          setUuid={setUuid}
-          setIsAccepted={setIsAccepted}
-          level={level}
-          setLevel={setLevel}
-        />
+        <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
         <Version />
         <Title />
         <div className="border-b-2 border-yellow-500 pt-2 bg-slate-800">
@@ -356,9 +365,7 @@ export default function Page() {
         </div>
 
         <div
-          className={`absolute inset-0 ${isVisible ? "block" : "hidden"}`}
-          style={{ zIndex, backgroundColor: "white" }}
-        >
+          className={`absolute inset-0 ${isVisible ? "block" : "hidden"}`} style={{ zIndex, backgroundColor: "white" }} >
           <Loading />
         </div>
 
@@ -366,17 +373,12 @@ export default function Page() {
           <>
             {level === 8 && (
               <>
-                <div className="admin-links-only-designer text-center mt-10">
+                <div className="admin-links-only-designer text-center mt-10 cursor-pointer ">
                   {" "}
                   <Links />
                   <img
                     src={img}
-                    className="client-pic flex items-center m-auto w-40"
-                    style={{
-                      backgroundColor: "white",
-                      marginBottom: "40px",
-                      marginTop: "20px",
-                    }}
+                    className="client-pic p-4 rounded-lg flex items-center m-auto w-40" style={{  backgroundColor: "white",  marginBottom: "40px",  marginTop: "20px", }}
                   />{" "}
                 </div>
               </>
@@ -385,35 +387,17 @@ export default function Page() {
             {level > 8 && (
               <>
                 <div className="flex flex-row justify-around items-center bg-slate-300 ">
-                  <div className="bg-slate-700">
+                  <div className="bg-slate-700 p-4 rounded-lg cursor-pointer">
                     <Links />{" "}
                   </div>
                   {/* <Demo round={round} page={page}/> */}
                   <img
                     src={img}
                     className="w-20"
-                    style={{
-                      backgroundColor: "white",
-                      marginBottom: "20px",
-                      marginTop: "20px",
-                    }}
+                    style={{  backgroundColor: "white",  marginBottom: "20px",  marginTop: "20px",}}
                   />
                   <div style={{ zIndex: 1 }}>
-                    <TxtAll
-                      className="txt"
-                      createPdf={createPdf}
-                      subject={subject}
-                      round={round}
-                      post={post}
-                      page={page}
-                      uniqueId={uniqueId}
-                      boosting={boosting}
-                      month={month}
-                      date={date}
-                      type={type}
-                      imageUrl={imageUrl}
-                      isChecked={isChecked}
-                    />
+                    <TxtAll className="txt" createPdf={createPdf} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl} isChecked={isChecked} />
                     <Memo page={page} round={round} />
                   </div>
                 </div>
@@ -421,84 +405,31 @@ export default function Page() {
             )}
 
             <div className="content-div bg-slate-600 pb-10 ">
-              <Inputs
-                user={user}
-                boosting={boosting}
-                setBootsing={setBoosting}
-                setUniqueId={setUniqueId}
-                uniqueId={uniqueId}
-                level={level}
-                setObjectiveAnswer={setObjectiveAnswer}
-                setTypeAnswer={setTypeAnswer}
-                type={type}
-                setPost={setPost}
-                month={month}
-                setMonth={setMonth}
-                setObjective={setObjective}
-                setType={setType}
-                setDate={setDate}
-                objective={objective}
-                post={post}
-                page={page}
-                date={date}
-              />
+              <Inputs user={user} boosting={boosting} setBootsing={setBoosting} setUniqueId={setUniqueId} uniqueId={uniqueId} level={level} setObjectiveAnswer={setObjectiveAnswer} setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth} setObjective={setObjective} setType={setType} setDate={setDate} objective={objective} post={post} page={page} date={date} />
 
               <section className="mb-5">
                 <button
                   onClick={() => setViewer("all")}
-                  className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3"
-                >
-                  {" "}
-                  View All
-                </button>
+                  className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3" >View All</button>
+
                 <button
-                  onClick={() => {
-                    setViewer("10");
-                  }}
-                  className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3"
-                >
-                  First Half{" "}
-                </button>
-                <button
-                  onClick={() => {
-                    setViewer("20");
-                  }}
-                  className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3"
-                >
-                  {" "}
-                  Second Half{" "}
-                </button>
+                  onClick={() => {setViewer("10");}}  className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3">First Half{" "} </button>
+                <button onClick={() => {setViewer("20");}} className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3"> {" "} Second Half{" "}</button>
               </section>
 
               <Suspense fallback={<div>Loading...</div>}>
                 <DragDropContext onDragEnd={handleDragEnd}>
                   <table className="m-auto w-full text-center">
-                    <thead>
+                    <thead className="">
                       <tr className="bg-slate-800">
-                        <th scope="col" className="px-6 py-3">
-                          Status
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          Unique Id
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          Post
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          Subject
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          Channel
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          Day
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          Prio
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          View
-                        </th>
+                        <th scope="col" className="px-6 py-3">Status </th>
+                        <th scope="col" className="px-6 py-3">Unique Id</th>
+                        <th scope="col" className="px-6 py-3">Post</th>
+                        <th scope="col" className="px-6 py-3"> Subject </th>
+                        <th scope="col" className="px-6 py-3">Channel </th>
+                        <th scope="col" className="px-6 py-3">Day </th>
+                        <th scope="col" className="px-6 py-3">Prio </th>
+                        <th scope="col" className="px-6 py-3">View </th>
                       </tr>
                     </thead>
                     <Droppable droppableId="table">
@@ -521,27 +452,16 @@ export default function Page() {
                                       {...provided.dragHandleProps}
                                       className=" border-b bg-gray-700 border-gray-800"
                                     >
-                                      <td
-                                        className="text-black text-center rounded-sm font-medium"
-                                        style={{ backgroundColor: x.color }}
-                                      >
+                                      <td className="text-black text-center rounded-sm font-medium" style={{ backgroundColor: x.color }}>
                                         {x.status}
                                       </td>
                                       <td
                                         className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400"
-                                        onClick={() => {
-                                          setForPost(x.unid);
-                                          {
-                                            level > 8
-                                              ? handleOpenModalBar()
-                                              : null;
-                                          }
+                                        onClick={() => { setForPost(x.unid);
+                                       {level > 8? handleOpenModalBar(): null;}
                                           setPost(x.count);
                                           setTitle("unid");
-                                        }}
-                                      >
-                                        {x.unid}
-                                      </td>
+                                        }} >{x.unid}</td>
                                       <td
                                         className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400"
                                         onMouseEnter={() => {
@@ -640,15 +560,10 @@ export default function Page() {
                                       </td>
                                       <td className="px-6  whitespace-nowrap text-sm text-gray-400">
                                         <button
-                                          className="x-button lg:mr-3 mt-2 mb-4  transition-transform transform-gpu hover:scale-[0.90]  "
+                                          className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105  transition-transform transform-gpu hover:text-white hover:bg-red-500  "
                                           onClick={() => handleText(i)}
                                         >
-                                          <img
-                                            src={statusBar === i ? cross : view}
-                                            alt={view}
-                                            style={{ width: "40px" }}
-                                            className="icon-do"
-                                          />
+                                     {statusBar===i? "close" : "open"}
                                         </button>
                                       </td>
 
@@ -675,26 +590,9 @@ export default function Page() {
                                                 <div className="flex flex-col-reverse xl:flex-row">
                                                   <div className="lg:w-[800px] m-auto border-2 border-black bg-slate-700">
                                                     <div className="holds-written-content">
+                                                      
                                                       <div className="text-black flex">
-                                                        <WaitingDesigner
-                                                          pri={pri}
-                                                          date={date}
-                                                          objectiveAnswer={
-                                                            objectiveAnswer
-                                                          }
-                                                          typeAnswer={
-                                                            typeAnswer
-                                                          }
-                                                          img={img}
-                                                          month={month}
-                                                          color={color}
-                                                          page={page}
-                                                          post={post}
-                                                          boosting={boosting}
-                                                          uniqueId={uniqueId}
-                                                          user={user}
-                                                          type={type}
-                                                          subject={subject}
+                                                        <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer } typeAnswer={typeAnswer}img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject}
                                                         />
                                                         <WaitingApproval
                                                           objectiveAnswer={
@@ -789,31 +687,19 @@ export default function Page() {
                                                                 }`}
                                                               >
                                                                 <SendFromForm
-                                                                  user={user}
-                                                                  uniqueId={
-                                                                    uniqueId
-                                                                  }
-                                                                  orderPost={
-                                                                    orderPost
-                                                                  }
+                                                                  user={user} uniqueId={uniqueId}
+                                                                  orderPost={orderPost}
                                                                   post={post}
                                                                   type={type}
-                                                                  objectiveAnswer={
-                                                                    objectiveAnswer
-                                                                  }
-                                                                  subject={
-                                                                    subject
-                                                                  }
-                                                                  typeAnswer={
-                                                                    typeAnswer
-                                                                  }
+                                                                  objectiveAnswer={objectiveAnswer}
+                                                                  subject={subject}
+                                                                  typeAnswer={typeAnswer}
                                                                   month={month}
                                                                   color={color}
                                                                   page={page}
                                                                   level={level}
-                                                                  setObjectiveAnswer={
-                                                                    setObjectiveAnswer
-                                                                  }
+                                                                 
+                                                                  setObjectiveAnswer={setObjectiveAnswer }
                                                                 />
                                                                 {level > 9 ? (
                                                                   <button
@@ -837,31 +723,24 @@ export default function Page() {
                                                               </div>
                                                               {level > 8 && (
                                                                 <form
-                                                                  className=""
-                                                                  onSubmit={
-                                                                    handleSubmit
-                                                                  }
-                                                                >
+                                                                  className="flex" onSubmit={handleSubmit}>
+                                                                   <div className="flex flex-col">
+                                                                   <textarea value={preset} onChange={e => setPreset(e.target.value)}  className="w-[300px] h-[300px]"/>
+                                                        
+                                                                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => {navigator.clipboard.writeText(preset);}}> Copy </button>
+</div>
                                                                   <ReactQuill
-                                                                    value={
-                                                                      objectiveAnswer
-                                                                    }
-                                                                    onChange={
-                                                                      handleEditorChange
-                                                                    }
-                                                                    modules={
-                                                                      modules
-                                                                    }
-                                                                    style={{
-                                                                      color:
-                                                                        "black",
-                                                                      backgroundColor:
-                                                                        "white",
-                                                                    }}
+                                                                    value={  objectiveAnswer } onChange={ handleEditorChange}
+                                                                    modules={modules}
+                                                                    style={{ color:"black",backgroundColor:"white",}}
                                                                     placeholder="Text here..."
-                                                                    className="max-w-[90vw] lg:max-w-[500px] overflow-scroll"
+                                                                    className="max-w-[90vw]  lg:max-w-[500px] overflow-scroll"
                                                                   />
+
+                                                                  
                                                                 </form>
+
+                                                                
                                                               )}
                                                             </>
                                                           )}
@@ -878,8 +757,7 @@ export default function Page() {
                                                                   prevChecked =>
                                                                     !prevChecked
                                                                 ),
-                                                                  setImageUrl(
-                                                                    x.designer
+                                                                  setImageUrl( x.designer
                                                                   ),
                                                                   setImage1Url(
                                                                     x.designer1

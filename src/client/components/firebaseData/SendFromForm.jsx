@@ -17,20 +17,16 @@ import Stories from '../Page/Stories';
 
 
 
-export default function SendFromForm({objectiveAnswer,typeAnswer,month,color,page,level,setObjectiveAnswer,user,subject,type,post,uniqueId,orderPost}) {
+export default function SendFromForm({objectiveAnswer,preset,typeAnswer,month,color,page,level,setObjectiveAnswer,user,subject,type,post,uniqueId,orderPost}) {
     
   const [ emojiShow,setEmojiShow] = useState(false)
-
-
-
-  
 
 
   async function handleData(){
 
             fs.collection(page).doc(typeAnswer+month).set({ 
                 answer:objectiveAnswer.slice(3,-4),
-                answerOnWeb:objectiveAnswer,
+                answerOnWeb:objectiveAnswer+" "+preset,
                 status:'Waiting',
             color:'#00eaff',
             TextWrittenBy:user,  

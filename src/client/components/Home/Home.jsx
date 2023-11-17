@@ -77,6 +77,8 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  
+
   return (
     <>
       <div className={`${!isVisible ? "hidden" : "absolute w-full z-[100]"}`}>
@@ -84,7 +86,7 @@ export default function Home() {
         <Loading />
       </div>
       <div className="relative h-screen">
-        <div className="absolute z-50 top-2 inset-0 opacity-100">
+        <div className="absolute z-50 bg-slate-800 border-b-2 shadow-mg shadow-inner border-slate-700/75 h-[70px] inset-0 opacity-100">
           <Nav
             user={user}
             level={level}

@@ -167,6 +167,7 @@ const rightColumnElements = partner.slice(middleIndex);
         if (i === index){
             localStorage.setItem('partner',x.name)
             localStorage.setItem('image',x.imageUrl)
+            localStorage.setItem("preset", x.Preset || "No preset available");
             setTimeout(() =>{
                 navigate(`/profile/${x.name}`)
             },1000)
@@ -181,6 +182,7 @@ const rightColumnElements = partner.slice(middleIndex);
         if (i === index){
             localStorage.setItem('partner',x.name)
             localStorage.setItem('image',x.imageUrl)
+            localStorage.setItem("preset", x.Preset || "No preset available");
             setTimeout(() =>{
 
                 navigate(`/profile/${x.name}`)

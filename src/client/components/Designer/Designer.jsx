@@ -28,16 +28,19 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import DesignerHeader from "./DesignerHeader";
+import { set } from "date-fns";
 
 const style = {
   position: "absolute",
-  top: "50%",
-  left: "50%",
+  bottom: "0",
+  top: "35%",
+  left: "60%",
   transform: "translate(-50%, -50%)",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  overflow: "scroll",
 };
 
 export default function Designer() {
@@ -50,7 +53,11 @@ export default function Designer() {
   const [image1, setImage1] = useState(""); // State for the designer data
   const [image2, setImage2] = useState(""); // State for the designer data
   const [image3, setImage3] = useState(""); // State for the designer data
-
+  const [ exampleImg, setExampleImg] = useState(""); // State for the designer data
+  const [ exampleImg1, setExampleImg1] = useState(""); // State for the designer data
+  const [ exampleImg2, setExampleImg2] = useState(""); // State for the designer data
+  const [ exampleImg3, setExampleImg3] = useState(""); // State for the designer data
+const[messageUploading, setMessageUploading] = useState('')
   const [successfully, setSuccessfully] = useState("");
   const [content, setContent] = useState("");
   const [imageUrls, setImageUrls] = useState([]);
@@ -59,8 +66,16 @@ export default function Designer() {
   const handleOpenModal = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
 
+
+  const newDesigner = designerData.filter((designer) => {
+    if (level !== 11) {
+      return !designer.id.endsWith("Test");
+    }
+    return true;
+  });
+
   function handleSub(id) {
-    designerData.map((designer, index) => {
+    newDesigner.map((designer, index) => {
       if (id === index) {
         const storageRef = ref(getStorage(), `products/${imageUrl}`);
 
@@ -72,6 +87,7 @@ export default function Designer() {
           snapshot => {
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              setMessageUploading(`Uploading ${progress}%`)
           },
           error => {
             console.error(error);
@@ -127,6 +143,7 @@ export default function Designer() {
           snapshot => {
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              setSuccessfully(`Uploading ${progress}%`)
             // Update progress if needed
           },
           error => {
@@ -150,7 +167,7 @@ export default function Designer() {
         designer1: downloadURLs[1] || "",
         designer2: downloadURLs[2] || "",
         designer3: downloadURLs[3] || "",
-        DesignedBy: user,
+        DesignedUploadedBy: user,
       };
 
       await setDoc(doc(fs, "DesignerPage", dPost + dMonth + dPage), docData, {
@@ -159,15 +176,26 @@ export default function Designer() {
 
       setImageUrls(downloadURLs);
       setFiles(selectedFiles);
+      setSuccessfully(
+        "Image has been uploaded. Click view button to view image!"
+      );
+
+      setTimeout(() => {
+        setSuccessfully("");
+      }, 7000);
     } catch (error) {
       console.error("Error updating Firestore:", error);
       // Handle the error appropriately
     }
   };
 
+
+
+
+
   //sends towards saskia
   function handleSend(id) {
-    designerData.map((designer, index) => {
+    newDesigner.map((designer, index) => {
       if (id === index) {
         console.log("success", designer.post);
 
@@ -200,6 +228,12 @@ export default function Designer() {
     });
   }
 
+
+
+
+
+
+
   return (
     <>
       <div className=" h-[100vh]  bg-slate-800">
@@ -214,7 +248,7 @@ export default function Designer() {
           />
 
           <section>
-            <DesignerHeader />
+            <DesignerHeader level={level}/>
           </section>
 
           <div className=" pt-[50px]">
@@ -234,8 +268,8 @@ export default function Designer() {
                     </tr>
                   </thead>
                   <tbody>
-                    {designerData.map((designer, id) =>
-                      designer.hide === true ? null : (
+                    {newDesigner.map((designer, id) =>
+                      designer.hide === true ? null : ( 
                         <tr
                           key={id}
                           className="border-b bg-gray-600 border-gray-700 shadow-md hover:scale-105 shadow-black"
@@ -246,6 +280,7 @@ export default function Designer() {
                               className="w-[50px] h-[50px] rounded-md mr-4"
                             />
                           </td>
+                          
                           <td className="border px-4 py-2">
                             {designer.date}-{designer.month}
                           </td>
@@ -269,6 +304,11 @@ export default function Designer() {
                                   setImage2(designer.designer2),
                                   setImage3(designer.designer3),
                                   setContent(designer.subject);
+                                  setExampleImg(designer.img1);
+                                  setExampleImg1(designer.img2);
+                                  setExampleImg2(designer.img3);
+                                  setExampleImg3(designer.img4);
+
                               }}
                             >
                               {" "}
@@ -316,7 +356,9 @@ export default function Designer() {
                             </div>
                           </td>
                         </tr>
-                      )
+
+
+                      )         
                     )}
                   </tbody>
                 </table>
@@ -324,9 +366,11 @@ export default function Designer() {
             </div>
 
             <div className="fixed bottom-0 bg-slate-200 w-full  ">
+              <h2 className="text-xl ml-4">{messageUploading}</h2>
               <h2 className="text-xl ml-4">{successfully}</h2>
             </div>
           </div>
+
 
           <Modal
             open={openModal}
@@ -342,16 +386,35 @@ export default function Designer() {
                 component="h2"
                 style={{ textAlign: "center" }}
               >
-                {content}
-                <section className="flex lg:w-[40vw] flex-wrap  gap-5 justify-center">
+              
+<div>
+  <button className='bg-red-700 text-white p-2 rounded-md hover:bg-red-800  mb-5 cursor-pointer' onClick={handleClose}>Close</button>
+</div>
+
+                <section className="flex lg:w-[90vw] flex-row items-center flex-wrap content-center  gap-5 justify-center">
                   <img className="w-[300px]" src={image} />
                   <img className="w-[300px]" src={image1} />
                   <img className="w-[300px]" src={image2} />
-                  <img className="w-[300px]" src={image3} />
+                  <img className="w-[300px]" src={image3} />  
+
+                  <hr className="w-full border-2 border-black" />
+<div>
+{content}
+<div className="flex flex-row items-center mt-3">
+
+                    <img className="w-[200px]" src={exampleImg} />
+                    <img className="w-[200px]" src={exampleImg1} />
+                    <img className="w-[200px]" src={exampleImg2} />
+                    <img className="w-[200px]" src={exampleImg3} />
+</div>
+</div>
+  
+
                 </section>
               </Typography>
             </Box>
           </Modal>
+        
         </div>{" "}
       </div>
     </>

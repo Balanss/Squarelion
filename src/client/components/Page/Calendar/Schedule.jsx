@@ -160,6 +160,7 @@ export default function Schedule({ user, level, uuid }) {
                         onClick={() => {
                           localStorage.setItem("partner", dataItem.name);
                           localStorage.setItem("image", dataItem.imageUrl);
+                          localStorage.setItem("preset", dataItem.Preset || "No preset available");
                           setSwitchingPage(true);
                           setTimeout(() => {
                             navigate(`/profile/${dataItem.name}`);

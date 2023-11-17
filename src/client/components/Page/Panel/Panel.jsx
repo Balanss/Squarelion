@@ -30,7 +30,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
     };
     
 
-
+    const formattedUser = user.charAt(0).toUpperCase() + user.slice(1).toLowerCase();
   return (
    
      <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800 w-[20vw]  ">
@@ -47,14 +47,14 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
               <a onClick={() => {setShowWfh('start'),setPan(pan === false?true:false)}} 
               className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
                  <img className='w-[25px]' src={schedule} />
-                 <span className="ml-3 md:text-xs lg:text-md">CALENDAR</span>
+                 <span className="ml-3 md:text-xs lg:text-md">Calendar</span>
               </a>
            </li>
   
            <li>
              {level > 9 ?  <Link to='/admindashboard'  className="  transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
                  <img className='w-[25px]' src={admin} />
-                 <span className="flex-1 ml-3 whitespace-nowrap  rounded-lg  dark:text-white md:text-xs lg:text-md" >ADMIN</span>
+                 <span className="flex-1 ml-3 whitespace-nowrap  rounded-lg  dark:text-white md:text-xs lg:text-md" >Admin</span>
               </Link> : null}
            </li>
   
@@ -85,14 +85,14 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
            <li>
               <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
               <img className='w-[25px]' src={userPfp} />
-                 <span className="flex-1 ml-3 whitespace-nowrap text-white md:text-xs lg:text-md ">{user}</span>
+                 <span className="flex-1 ml-3 whitespace-nowrap text-white md:text-xs lg:text-md ">{formattedUser}</span>
               </a>
            </li>
   
            <li>
               <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" onClick={handleLogout} >
-                 <img className='w-[40px]' src={IN} />
-                 <span className="flex-1 ml-3 whitespace-nowrap text-white" >Sign Out</span>
+                 <img className='w-[25px]' src={IN} />
+                 <span className="flex-1 ml-3 md:text-xs lg:text-md whitespace-nowrap text-white" >Sign Out</span>
               </a>
            </li>
 
