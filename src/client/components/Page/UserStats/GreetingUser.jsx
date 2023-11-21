@@ -16,13 +16,8 @@ export default function GreetingUser({ user, level }) {
   }
 
   const date = new Date();
-  const day = date.getDay();
-  const month = date.getMonth();
-  const year = date.getFullYear();
 
-
-
-const updateVersion = '1'
+const updateVersion = '2'
 
   return (
     <div className="max-w-sm p-5 md:w-[250px] lg:w-[200px] xl:w-[280px]  border border-gray-600 rounded-lg shadow text-left bg-gray-800 hover:bg-gray-700  ">
@@ -34,7 +29,7 @@ const updateVersion = '1'
         </span>
       </p>
       <p className="text-gray-400  text-xs xl:text-[md]">
-        {day}/{month}/{year}
+        {date.toString().slice(0, 15)}
       </p>
 
       <button
@@ -64,8 +59,9 @@ const updateVersion = '1'
               <h1 className="block px-4 py-2 max-h-[400px] overflow-auto">
                 Hello {user}! There have been updates to Media Pilot:
                 <ul className="list-disc list-inside mt-2">
-                  <li>Added preset text for clients</li>
-                  <li>Added example images for designer to see</li>
+                  <li>Designers can now send messages for feedback</li>
+                  <li>Designers can now upload a single pdf per post</li>
+                  <li>Content writers can now delete designer post</li>
                 </ul>
               </h1>
             </li>

@@ -59,6 +59,7 @@ const styleNew = {
   transform: "translate(-50%, -50%)",
   bgcolor: "transparent",
   p: 4,
+ 
 };
 
 const styleBar = {
@@ -592,136 +593,33 @@ export default function Page() {
                                                     <div className="holds-written-content">
                                                       
                                                       <div className="text-black flex">
-                                                        <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer } typeAnswer={typeAnswer}img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject}
-                                                        />
-                                                        <WaitingApproval
-                                                          objectiveAnswer={
-                                                            objectiveAnswer
-                                                          }
-                                                          objective={objective}
-                                                          typeAnswer={
-                                                            typeAnswer
-                                                          }
-                                                          month={month}
-                                                          color={color}
-                                                          page={page}
-                                                          setShow={setShow}
-                                                        />
+                                                        <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
+                                                        <WaitingApproval objectiveAnswer={objectiveAnswer} objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page} setShow={setShow} />
                                                         {level > 8 ? (
-                                                          <WaitingApproved
-                                                            objectiveAnswer={
-                                                              objectiveAnswer
-                                                            }
-                                                            type={type}
-                                                            boosting={boosting}
-                                                            date={date}
-                                                            post={post}
-                                                            objective={
-                                                              objective
-                                                            }
-                                                            uniqueId={uniqueId}
-                                                            subject={subject}
-                                                            user={user}
-                                                            typeAnswer={
-                                                              typeAnswer
-                                                            }
-                                                            month={month}
-                                                            color={color}
-                                                            page={page}
-                                                          />
+                                                          <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} />
                                                         ) : null}
                                                       </div>
 
-                                                      <ModalContent
-                                                        level={level}
-                                                        page={page}
-                                                        round={round}
-                                                        type={type}
-                                                        show={show}
-                                                      />
-                                                      {!x.answer ? null : (
-                                                        <h6
-                                                          className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4"
-                                                          key={i}
-                                                          onClick={() =>
-                                                            setObjectiveAnswer(
-                                                              x.answer
-                                                            )
-                                                          }
-                                                          style={{
-                                                            color: "black",
-                                                          }}
-                                                          dangerouslySetInnerHTML={{
-                                                            __html: x.answer,
-                                                          }}
-                                                        />
-                                                      )}
+                                                      <ModalContent level={level} page={page} round={round} type={type} show={show} />
+                                                      {!x.answer ? null : (<h6 className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4" key={i} onClick={() => setObjectiveAnswer(x.answer)} style={{ color: "black" }} dangerouslySetInnerHTML={{ __html: x.answer }} />)}
 
                                                       <div className="flex flex-col items-center justify-evenly border-b-2 border-black">
                                                         <section className="text-center mt-20">
-                                                          <button
-                                                            onClick={() =>
-                                                              setWhatDoUWant(
-                                                                whatDoUWant ===
-                                                                  "Close"
-                                                                  ? "Open"
-                                                                  : "Close"
-                                                              )
-                                                            }
-                                                            className="cursor-pointer lg:mt-2 text-white bg-sky-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                                                          >
-                                                            Open Text Editor
-                                                          </button>
+                                                          <button onClick={() => setWhatDoUWant(whatDoUWant === "Close" ? "Open" : "Close")} className="cursor-pointer lg:mt-2 text-white bg-sky-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Open Text Editor</button>
                                                         </section>
 
                                                         {level > 7 &&
-                                                          whatDoUWant ===
-                                                            "Open" && (
+                                                          whatDoUWant ==="Open" && (
                                                             <>
-                                                              <div
-                                                                className={`${
-                                                                  whatDoUWant ===
-                                                                  "Open"
-                                                                    ? "above-div-send w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10"
-                                                                    : null
-                                                                }`}
-                                                              >
-                                                                <SendFromForm
-                                                                  user={user} uniqueId={uniqueId}
-                                                                  orderPost={orderPost}
-                                                                  post={post}
-                                                                  type={type}
-                                                                  objectiveAnswer={objectiveAnswer}
-                                                                  subject={subject}
-                                                                  typeAnswer={typeAnswer}
-                                                                  month={month}
-                                                                  color={color}
-                                                                  page={page}
-                                                                  level={level}
-                                                                 
-                                                                  setObjectiveAnswer={setObjectiveAnswer }
-                                                                />
-                                                                {level > 9 ? (
-                                                                  <button
-                                                                    onClick={() => {
-                                                                      handleDelete(
-                                                                        i
-                                                                      ),
-                                                                        setShow(
-                                                                          ""
-                                                                        ),
-                                                                        setStatusBar(
-                                                                          ""
-                                                                        );
-                                                                    }}
-                                                                    className=" text-white bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                                                                  >
-                                                                    {" "}
-                                                                    Delete
-                                                                  </button>
-                                                                ) : null}
-                                                              </div>
+                                                              <div className={`${whatDoUWant === "Open" ? "above-div-send w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10" : null}`}>
+                                                                <SendFromForm user={user} uniqueId={uniqueId} orderPost={orderPost} post={post}
+                                                                 type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer}
+                                                                 month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer} />
+                                                                 {level > 9 ? (<button onClick={() => { handleDelete(i), setShow(""), setStatusBar(""); }} className=" text-white bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> Delete</button>) : null}
+                                                                </div>
+
                                                               {level > 8 && (
+
                                                                 <form
                                                                   className="flex" onSubmit={handleSubmit}>
                                                                    <div className="flex flex-col">
@@ -746,101 +644,29 @@ export default function Page() {
                                                           )}
                                                         {level > 8 ? (
                                                           <div className="flex items-baseline">
-                                                            <input
-                                                              type="checkbox"
-                                                              readOnly
-                                                              checked={
-                                                                isChecked
-                                                              }
-                                                              onClick={() => {
-                                                                setIsChecked(
-                                                                  prevChecked =>
-                                                                    !prevChecked
-                                                                ),
-                                                                  setImageUrl( x.designer
-                                                                  ),
-                                                                  setImage1Url(
-                                                                    x.designer1
-                                                                  ),
-                                                                  setImage2Url(
-                                                                    x.designer2
-                                                                  ),
-                                                                  setImage3Url(
-                                                                    x.designer3
-                                                                  ),
-                                                                  setBoosting(
-                                                                    x.boosting
-                                                                  ),
-                                                                  setCreatePdf(
-                                                                    x.answer
-                                                                  );
-                                                              }}
-                                                              className="mr-2 cursor-pointer"
-                                                            />
-                                                            <Solo
-                                                              createPdf={
-                                                                createPdf
-                                                              }
-                                                              orderPost={
-                                                                orderPost
-                                                              }
-                                                              image1Url={
-                                                                image1Url
-                                                              }
-                                                              image2Url={
-                                                                image2Url
-                                                              }
-                                                              image3Url={
-                                                                image3Url
-                                                              }
-                                                              setIsChecked={
-                                                                setIsChecked
-                                                              }
-                                                              subject={subject}
-                                                              round={round}
-                                                              post={post}
-                                                              page={page}
-                                                              uniqueId={
-                                                                uniqueId
-                                                              }
-                                                              boosting={
-                                                                boosting
-                                                              }
-                                                              month={month}
-                                                              date={date}
-                                                              type={type}
-                                                              imageUrl={
-                                                                imageUrl
-                                                              }
-                                                              isChecked={
-                                                                isChecked
-                                                              }
-                                                            />
+                                                            
+                                                            <input type="checkbox" readOnly checked={isChecked}
+                                                             onClick={() => { setIsChecked(prevChecked => !prevChecked), setImageUrl(x.designer), setImage1Url(x.designer1), setImage2Url(x.designer2), setImage3Url(x.designer3), setBoosting(x.boosting), setCreatePdf(x.answer); }} className="mr-2 cursor-pointer" />
+                                                            <Solo createPdf={createPdf} orderPost={orderPost} image1Url={image1Url}
+                                                             image2Url={image2Url} image3Url={image3Url} setIsChecked={setIsChecked} 
+                                                             subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} 
+                                                             boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl} 
+                                                             isChecked={isChecked} />
+                                                          
                                                           </div>
+
                                                         ) : null}
+
                                                         {level > 8 ? (
-                                                          <h1 className="text-2xl mb-5 text-white">
-                                                            {" "}
-                                                            Boosting :{" "}
-                                                            {x.boosting}
-                                                          </h1>
+                                                          <h1 className="text-2xl mb-5 text-white"> Boosting : {x.boosting}</h1>
                                                         ) : null}
                                                       </div>
                                                     </div>
                                                   </div>
 
-                                                  {level > 8 ? (
-                                                    <div className=" lg:w-[800px] xl:w-[400px]">
-                                                      {" "}
-                                                      <Bot
-                                                        setObjectiveAnswer={
-                                                          setObjectiveAnswer
-                                                        }
-                                                        subject={subject}
-                                                        user={user}
-                                                      />
-                                                    </div>
-                                                  ) : null}
+                                                  {level > 8 ? (<div className=" lg:w-[800px] xl:w-[400px]">
+                                                     <Bot setObjectiveAnswer={setObjectiveAnswer} subject={subject} user={user} /></div>) 
+                                                     : null}
                                                 </div>
                                               </>
                                             )}

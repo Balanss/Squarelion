@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
+import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc,arrayUnion} from "firebase/firestore";
 import { auth, fs,db } from '/src/client/Firebase.jsx'
 import {useState, useEffect} from 'react'
 import design from '../images/graphic-designer.png'
@@ -12,15 +12,19 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { set } from 'date-fns';
+import DesignerFunctions from '../Designer/DesignerFunctions';
 
 export default function WaitingDesigner({typeAnswer,month,page,post,objectiveAnswer,color,boosting,uniqueId,user,type,subject,img,date,pri}) {
 
 const [forDesigner, setForDesigner] = useState('')
 const [message, setMessage] = useState('')
+const [designerData, setDesignerData] = useState([])
 
     function handleData(){
 setModal(true)
   }
+
+
 
   function handleToDdesigner(e){
 e.preventDefault()
@@ -34,18 +38,14 @@ fs.collection('DesignerPage').doc(post+month+page).set({
 date:date,
   user:user,
   type:type,
-  subject:forDesigner,
   img:img,
   img1: imageUrls[0] || "",
   img2: imageUrls[1] || "",
  img3: imageUrls[2] || "",
-   img4: imageUrls[3] || "",
-  
+   img4: imageUrls[3] || "", 
   hide:false,
-  prio:pri
-
-
-
+  prio:pri,
+    subject: arrayUnion(forDesigner + "- " + user),
 },{merge:true})
 
 
@@ -135,37 +135,72 @@ setTimeout(() => {
     }
   };
 
+
+  const [messageDesigner,setMessageDesigner] = useState([]);
+
+  useEffect(() => {
+   setMessageDesigner( designerData.find((item) => item.post === post && item.month === month && item.page === page))
+  }, [post, month, page, designerData]);
+
+
+ 
+const [sureYouWantToDelete, setSureYouWantToDelete] = useState(false)
+
+  const handleDelete = async () => {
+   setSureYouWantToDelete(true)
+  }
+
+  const handleSureDelete = async () => {
+    await deleteDoc(doc(db, "DesignerPage", messageDesigner.id));
+    setSureYouWantToDelete(false)
+    setModal(false)
+  }
  
 
-  return ( <>  
+
+  return ( <>
+  
+  <DesignerFunctions setDesignerData={setDesignerData} />
     <p  className='bg-yellow-500 w-[30vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}> Designer </p>
 
 
 {modal === true &&
 <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50'>
   
-  <form className='bg-white w-[50vw] h-[50vh] m-auto mt-20 p-2 rounded-lg' onSubmit={handleToDdesigner}>
+  <section className='bg-white w-[50vw]  m-auto mt-20 p-2 rounded-lg h-auto' >
+  <button className='bg-red-500 w-[10vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => setModal(false)}>Close</button>
     <textarea className='w-full h-[25vh] border-2 border-black' value={forDesigner}  placeholder='Enter your text here' onChange={(e) => {
       setForDesigner(e.target.value)
     }}></textarea>
       <p className='text-black'>{message}</p>
   <div className=' '>
   <label className="custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"> <input type="file" accept="image/*" multiple onChange={handleUploadImages}/>{uploadButtonText} </label>
-    <input className='bg-yellow-500 w-[10vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' type='submit' value='Submit' />
-    <button className='bg-red-500 w-[10vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => setModal(false)}>Close</button>
+    <button onClick={handleToDdesigner}  className='bg-yellow-500 w-[10vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' >  Submit    </button>
+ 
+    <button className='bg-red-600 text-white w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleDelete}>Delete</button>
+    {sureYouWantToDelete === true && <><p className='text-black'>Are you sure you want to delete this post?</p>
+    <button className='bg-red-500 w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleSureDelete}>Yes</button>
+    <button className='bg-yellow-500 w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => setSureYouWantToDelete(false)}>No</button>
+     </>}
   </div>
+  <hr className='mb-1 text-black'/>
   <div className='inline-flex'>
+    
   <img src={imageUrls[0]} alt={imageUrls[0]} style={{width:'100px'}}/>
     <img src={imageUrls[1]} alt={imageUrls[1]} style={{width:'100px'}}/>
     <img src={imageUrls[2]} alt={imageUrls[2]} style={{width:'100px'}}/>
     <img src={imageUrls[3]} alt={imageUrls[3]} style={{width:'100px'}}/>
   </div>
- 
+ <hr className='mt-1 text-black'/>
+<br />
+
+{messageDesigner && messageDesigner.subject.map((message, index) => (
+  <p key={index}>{message}</p>
+))}
 
   
-  
-  </form>
-{}
+  </section>
+
   </div>}
 
 

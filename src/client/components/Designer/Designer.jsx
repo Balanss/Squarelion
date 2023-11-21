@@ -3,26 +3,9 @@ import Nav from "../Nav";
 import { db, auth, fs } from "../../Firebase";
 import User from "../User";
 import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  deleteDoc,
-  doc,
-  addDoc,
-  updateDoc,
-  setDoc,
-  deleteField,
-  getDoc,
-} from "firebase/firestore";
-
+  collection,deleteDoc,doc,  addDoc,updateDoc,setDoc,deleteField, arrayUnion} from "firebase/firestore";
 import DesignerFunctions from "./DesignerFunctions";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL,} from "firebase/storage";
 import "../../App.css";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -31,16 +14,7 @@ import DesignerHeader from "./DesignerHeader";
 import { set } from "date-fns";
 
 const style = {
-  position: "absolute",
-  bottom: "0",
-  top: "35%",
-  left: "60%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  overflow: "scroll",
+  position: "absolute", bottom: "0", top: "35%", left: "60%", transform: "translate(-50%, -50%)", bgcolor: "background.paper", border: "2px solid #000", boxShadow: 24, p: 4, overflow: "scroll",
 };
 
 export default function Designer() {
@@ -59,12 +33,13 @@ export default function Designer() {
   const [ exampleImg3, setExampleImg3] = useState(""); // State for the designer data
 const[messageUploading, setMessageUploading] = useState('')
   const [successfully, setSuccessfully] = useState("");
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [files, setFiles] = useState([]);
   const [openModal, setOpenModal] = React.useState(false);
   const handleOpenModal = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
+  const [message, setMessage] = useState("");
 
 
   const newDesigner = designerData.filter((designer) => {
@@ -74,46 +49,53 @@ const[messageUploading, setMessageUploading] = useState('')
     return true;
   });
 
+
+ 
+
   function handleSub(id) {
     newDesigner.map((designer, index) => {
       if (id === index) {
-        const storageRef = ref(getStorage(), `products/${imageUrl}`);
+        const file = imageUrl; // This should be a File object
+        const storageRef = ref(getStorage(), `products/${file.name}`);
 
         // Upload the file to the bucket
-        const uploadTask = uploadBytesResumable(storageRef, imageUrl);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
         // Listen for state changes, errors, and completion of the upload.
         uploadTask.on(
           "state_changed",
           snapshot => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              setMessageUploading(`Uploading ${progress}%`)
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setMessageUploading(`Uploading ${progress}%`)
           },
           error => {
             console.error(error);
           },
-          //here
           async () => {
             // Upload completed successfully, now get the download URL
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
             // Save the download URL to Firestore
             const docRef = collection(db, "DesignerPage");
-            const colRef = doc(
-              docRef,
-              designer.post + designer.month + designer.page
-            );
+            const colRef = doc(docRef, designer.post + designer.month + designer.page);
 
-            updateDoc(colRef, { designer: downloadURL }, { merge: true });
+            // Determine the field name based on the file type
+            const fieldName = file.type === 'application/pdf' ? 'pdf' : 'designer';
+
+            const updateData = {};
+            updateData[fieldName] = downloadURL;
+
+            await updateDoc(colRef, updateData, { merge: true });
+
             console.log("success");
             setSuccessfully(
-              "Image has been uploaded. Click view button to view image!"
+              `${fieldName.toUpperCase()} has been uploaded. Click view button to view ${fieldName}!`
             );
 
             setTimeout(() => {
               setSuccessfully("");
             }, 7000);
-          },
-          { merge: true }
+          }
         );
       } else {
         return console.log("error");
@@ -128,7 +110,7 @@ const[messageUploading, setMessageUploading] = useState('')
   const handleImageChange = async e => {
     const selectedFiles = e.target.files;
     if (!selectedFiles || selectedFiles.length > 4) {
-      alert("You can only upload a maximum of 4 images at once.");
+      alert("You can only upload a maximum of 4 files at once.");
       return;
     }
 
@@ -141,10 +123,8 @@ const[messageUploading, setMessageUploading] = useState('')
         uploadTask.on(
           "state_changed",
           snapshot => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              setSuccessfully(`Uploading ${progress}%`)
-            // Update progress if needed
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setSuccessfully(`Uploading ${progress}%`)
           },
           error => {
             console.error("Upload Error:", error);
@@ -153,20 +133,24 @@ const[messageUploading, setMessageUploading] = useState('')
           async () => {
             // Upload completed successfully, now get the download URL
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            resolve(downloadURL);
+            resolve({ url: downloadURL, type: file.type });
           }
         );
       });
     });
 
     try {
-      const downloadURLs = await Promise.all(uploadPromises);
+      const files = await Promise.all(uploadPromises);
+
+      const images = files.filter(file => file.type.startsWith('image/')).map(file => file.url);
+      const pdfs = files.filter(file => file.type === 'application/pdf').map(file => file.url);
 
       const docData = {
-        designer: downloadURLs[0],
-        designer1: downloadURLs[1] || "",
-        designer2: downloadURLs[2] || "",
-        designer3: downloadURLs[3] || "",
+        designer: images[0] || "",
+        designer1: images[1] || "",
+        designer2: images[2] || "",
+        designer3: images[3] || "",
+        pdf: pdfs[0] || "",
         DesignedUploadedBy: user,
       };
 
@@ -174,10 +158,10 @@ const[messageUploading, setMessageUploading] = useState('')
         merge: true,
       });
 
-      setImageUrls(downloadURLs);
+      setImageUrls(images);
       setFiles(selectedFiles);
       setSuccessfully(
-        "Image has been uploaded. Click view button to view image!"
+        "Files have been uploaded. Click view button to view them!"
       );
 
       setTimeout(() => {
@@ -208,7 +192,7 @@ const[messageUploading, setMessageUploading] = useState('')
             designer1: designer.designer1,
             designer2: designer.designer2,
             designer3: designer.designer3,
-
+            pdf: designer.pdf || "",
             hide: true,
             color: "#00eaff",
             status: "Design Done",
@@ -230,6 +214,36 @@ const[messageUploading, setMessageUploading] = useState('')
 
 
 
+  const handleSubmitMessage = async () => {
+    const docRef = collection(db, "DesignerPage");
+    const colRef = doc(docRef, dPost + dMonth + dPage);
+    updateDoc(colRef, {
+      subject: arrayUnion(message +" - "+ user),
+    });
+
+
+    const docR = collection(db, dPage);
+    const colR = doc(docR, dPost + dMonth);
+    setDoc(
+      colR,
+      {
+        color: "#00eaff",
+        status: "Feedback",
+        StatusText: "Feedback",
+   
+      },
+      { merge: true }
+    );
+    
+   
+    setContent(prevContent => [...prevContent, message +" - "+ user]);
+
+    setTimeout(() => {
+      setMessage("");
+    },2000)
+
+    
+  }
 
 
 
@@ -253,9 +267,10 @@ const[messageUploading, setMessageUploading] = useState('')
 
           <div className=" pt-[50px]">
             <div className="flex flex-col items-center">
-              <DesignerFunctions setDesignerData={setDesignerData} />
+              <DesignerFunctions setDesignerData={setDesignerData} designerData={designerData} />
 
-              <section>
+            
+                <section>
                 <table className="w-full text-sm text-left text-gray-300 shadow-md shadow-slate-800">
                   <thead className='className="text-xs  uppercase  bg-gray-700 text-gray-200'>
                     <tr>
@@ -308,35 +323,22 @@ const[messageUploading, setMessageUploading] = useState('')
                                   setExampleImg1(designer.img2);
                                   setExampleImg2(designer.img3);
                                   setExampleImg3(designer.img4);
-
+                                  setDPost(designer.post);
+                                  setDMonth(designer.month);
+                                  setDPage(designer.page);
+                                 
                               }}
                             >
                               {" "}
                               View{" "}
                             </h1>
+
+                         {designer.pdf === undefined? null :    <h1  className="cursor-pointer text-black  bg-white text-md border-black border-2 p-2  hover:scale-110 transition-transform " onClick={() => { window.open(designer.pdf); }}> View Pdf</h1>}
                           </td>
                           <td className="border px-4 py-2">
-                            <form
-                              onSubmit={() => {
-                                handleSub(id);
-                              }}
-                              className="designer-upload  mr-5 ml-4"
-                            >
-                              <label
-                                onClick={() => {
-                                  setDPost(designer.post);
-                                  setDMonth(designer.month);
-                                  setDPage(designer.page);
-                                }}
-                                className="custom-file-upload cursor-pointer text-white   hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"
-                              >
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  multiple
-                                  onChange={handleImageChange}
-                                />
-                                Upload Image
+                            <form onSubmit={() => { handleSub(id); }} className="designer-upload  mr-5 ml-4">
+                              <label onClick={() => { setDPost(designer.post); setDMonth(designer.month); setDPage(designer.page); }} className="custom-file-upload cursor-pointer text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]">
+                                <input type="file" accept="image/*" multiple onChange={handleImageChange} /> Upload Image
                               </label>
                             </form>
                           </td>
@@ -362,7 +364,8 @@ const[messageUploading, setMessageUploading] = useState('')
                     )}
                   </tbody>
                 </table>
-              </section>
+                </section>
+            
             </div>
 
             <div className="fixed bottom-0 bg-slate-200 w-full  ">
@@ -399,7 +402,20 @@ const[messageUploading, setMessageUploading] = useState('')
 
                   <hr className="w-full border-2 border-black" />
 <div>
-{content}
+  {content.map((message, index) => (
+    <div key={index}>
+      {message}
+      <br />
+    </div>
+  ))}
+
+<div>
+ <form onSubmit={handleSubmitMessage}>
+  <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Enter your message here" className='border-2 border-black p-2 rounded-md'/>
+  <button className='bg-blue-700 text-white p-2 rounded-md hover:bg-blue-800  ml-1 cursor-pointer'>Send</button>
+ </form>
+</div>
+
 <div className="flex flex-row items-center mt-3">
 
                     <img className="w-[200px]" src={exampleImg} />
@@ -408,6 +424,8 @@ const[messageUploading, setMessageUploading] = useState('')
                     <img className="w-[200px]" src={exampleImg3} />
 </div>
 </div>
+
+
   
 
                 </section>

@@ -63,6 +63,7 @@ const [img4, setImg4] = useState('')
             {i === show && <>
         
                 {/* designer image */}
+               {x.pdf?  <a className='text-white' href={x.pdf} target="_blank" rel="noreferrer"> View pdf </a> : null  }
                 {x.designer > "" && 
                 <><span className='flex items-center justify-around '>
                 <img src={x.designer} className='m-auto mt-[50px]' style={{maxWidth:'200px',maxHeight:'200px',cursor:'zoom-in'}}  onClick={() => {handleOpenModal(i)}}/>
@@ -80,6 +81,8 @@ const [img4, setImg4] = useState('')
             />}
 
 
+                       
+                       
                 
                 </span></>}
         
@@ -148,6 +151,9 @@ const [img4, setImg4] = useState('')
                 </span>
                 
                     {/* this views content img */}
+
+
+                   
         
         
         
