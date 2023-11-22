@@ -447,134 +447,55 @@ export default function Page() {
                                   index={i}
                                 >
                                   {provided => (
-                                    <tr
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      className=" border-b bg-gray-700 border-gray-800"
-                                    >
+                                    <tr ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}  className=" border-b bg-gray-700 border-gray-800" >
                                       <td className="text-black text-center rounded-sm font-medium" style={{ backgroundColor: x.color }}>
                                         {x.status}
                                       </td>
-                                      <td
-                                        className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400"
-                                        onClick={() => { setForPost(x.unid);
-                                       {level > 8? handleOpenModalBar(): null;}
-                                          setPost(x.count);
-                                          setTitle("unid");
-                                        }} >{x.unid}</td>
-                                      <td
-                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400"
-                                        onMouseEnter={() => {
-                                          setShowCount(x.count);
-                                        }}
-                                        onMouseLeave={() => {
-                                          setShowCount("");
-                                        }}
-                                      >
-                                        {x.order - -1}
-                                        <p>
-                                          {showCount &&
-                                          showCount === x.count ? (
-                                            <>{`ID:${showCount}`}</>
-                                          ) : null}
-                                        </p>
+
+                                      <td className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400" onClick={() =>
+                                         { setForPost(x.unid); if (level > 8) handleOpenModalBar(); setPost(x.count);
+                                          setTitle("unid"); }}>{x.unid}</td>
+
+<td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400" 
+onMouseEnter={() => setShowCount(x.count)} 
+onMouseLeave={() => setShowCount("")}>{x.order - -1}
+<p>{showCount && showCount === x.count ? <>ID:{showCount}</> : null}
+</p>
+</td>
+
+
+                                      <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() =>
+                                         { setForPost(x.objective); if (level > 8) handleOpenModalBar(); 
+                                         setPost(x.count); setTitle("objective"); }}>
+                                          {x.objective.length > 50 ? x.objective.slice(0, 50) + "..." : x.objective}
+                                          </td>
+
+
+                                      <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() => 
+                                        { setForPost(x.type); if (level > 8) handleOpenModalBar();
+                                        setPost(x.count); setTitle("type"); }}>{x.type}</td>
+
+                                      <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() =>
+                                         { setForPost(x.date); 
+                                         if (level > 8) handleOpenModalBar(); setPost(x.count);
+                                          setTitle("date"); }}>{month}-{x.date} </td>
+
+                                      <td className={`px-6 ${ x.priority === "Prio"  ? "bg-red-600 text-white " : "text-gray-400" }`} >
+                                     <button onClick={() => 
+                                      { if (level > 8) { 
+                                        const docRef = collection(db, page);
+                                      const colRef = doc(docRef, x.count + x.month);
+                                       updateDoc(colRef, { priority: x.priority === "Prio" ? "No" : "Prio" },
+                                        { merge: true }); } }}>{x.priority}</button>
                                       </td>
-                                      <td
-                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400"
-                                        onClick={() => {
-                                          setForPost(x.objective);
-                                          {
-                                            level > 8
-                                              ? handleOpenModalBar()
-                                              : null;
-                                          }
-                                          setPost(x.count),
-                                            setTitle("objective");
-                                        }}
-                                      >
-                                        {x.objective.length > 50
-                                          ? x.objective.slice(0, 50) + "..."
-                                          : x.objective}
-                                      </td>
-                                      <td
-                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400"
-                                        onClick={() => {
-                                          setForPost(x.type);
-                                          {
-                                            level > 8
-                                              ? handleOpenModalBar()
-                                              : null;
-                                          }
-                                          setPost(x.count), setTitle("type");
-                                        }}
-                                      >
-                                        {x.type}
-                                      </td>
-                                      <td
-                                        className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400"
-                                        onClick={() => {
-                                          setForPost(x.date);
-                                          {
-                                            level > 8
-                                              ? handleOpenModalBar()
-                                              : null;
-                                          }
-                                          setPost(x.count), setTitle("date");
-                                        }}
-                                      >
-                                        {month}-{x.date}
-                                      </td>
-                                      <td
-                                        className={`px-6 ${
-                                          x.priority === "Prio"
-                                            ? "bg-red-600 text-white "
-                                            : "text-gray-400"
-                                        }`}
-                                      >
-                                        <button
-                                          onClick={() => {
-                                            if (level > 8) {
-                                              const docRef = collection(
-                                                db,
-                                                page
-                                              );
-                                              const colRef = doc(
-                                                docRef,
-                                                x.count + x.month
-                                              );
-                                              updateDoc(
-                                                colRef,
-                                                {
-                                                  priority:
-                                                    x.priority === "Prio"
-                                                      ? "No"
-                                                      : "Prio",
-                                                },
-                                                { merge: true }
-                                              );
-                                            }
-                                          }}
-                                        >
-                                          {x.priority}
-                                        </button>
-                                      </td>
+
                                       <td className="px-6  whitespace-nowrap text-sm text-gray-400">
-                                        <button
-                                          className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105  transition-transform transform-gpu hover:text-white hover:bg-red-500  "
-                                          onClick={() => handleText(i)}
-                                        >
+                                        <button  className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105  transition-transform transform-gpu hover:text-white hover:bg-red-500  " onClick={() => handleText(i)} >
                                      {statusBar===i? "close" : "open"}
                                         </button>
                                       </td>
 
-                                      <Modal
-                                        open={show === i}
-                                        onClose={() => handleText(i)}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        className="overflow-auto main-modal"
-                                      >
+                                      <Modal  open={show === i}  onClose={() => handleText(i)}  aria-labelledby="modal-modal-title"  aria-describedby="modal-modal-description"  className="overflow-auto main-modal" >
                                         <Box
                                           sx={styleNew}
                                           className="lg:!top-[40%] "
@@ -687,12 +608,7 @@ export default function Page() {
               </Suspense>
 
               <Modal
-                open={openModalBar}
-                onClose={handleCloseBar}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                className="max-w-[80vw] max-h-[80vw]  "
-              >
+                open={openModalBar} onClose={handleCloseBar} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description"  className="max-w-[80vw] max-h-[80vw]  " >
                 <Box sx={styleBar} className="lg:!top-[50%] 0">
                   <Typography
                     id="modal-modal-title"
@@ -701,22 +617,9 @@ export default function Page() {
                     style={{ textAlign: "center" }}
                     className="flex flex-col gap-5"
                   >
-                    <p className="cursor-pointer">
-                      {" "}
-                      Edit {title} : {forPost}{" "}
-                    </p>
-                    <input
-                      type="text"
-                      className="border-2 border-black  "
-                      placeholder={`Editing ${forPost}`}
-                      onChange={e => setEditDetails(e.target.value)}
-                    />
-                    <button
-                      className="bg-blue-700 text-white px-3 py-2 rounded-md ml-3"
-                      onClick={() => {
-                        handleEditted();
-                      }}
-                    >
+                    <p className="cursor-pointer"> Edit {title} : {forPost} </p>
+                    <input type="text"  className="border-2 border-black  " placeholder={`Editing ${forPost}`} onChange={e => setEditDetails(e.target.value)}/>
+                    <button  className="bg-blue-700 text-white px-3 py-2 rounded-md ml-3" onClick={() => { handleEditted(); }}>
                       {" "}
                       Submit{" "}
                     </button>

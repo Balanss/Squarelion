@@ -6,6 +6,8 @@ import check from '../images/check.png'
 import error from '../images/error.png'
 import { format } from 'date-fns';
 import axios from 'axios'
+import { updateDoc ,collection,doc,setDoc, arrayUnion} from 'firebase/firestore';
+import { db } from '../../Firebase';
 
 
 export default function ButtonPress({objective,type,date,post,page,month,setObjective,qty,user,uniqueId,boosting}) {
@@ -42,14 +44,15 @@ useEffect(() => {
   
 },[month,monthInWords]);
 
- 
+
 
     async function handleData(){
 
 alert('Please wait for the post to be sent to the server')
 
       // Format the month as a string of words
-  if (objective && type && date !== ''   ){
+  if (objective && type && date !== ''   )
+  {
     const leadData = {
      date:date,
      uniqueId:uniqueId,
@@ -78,6 +81,9 @@ alert('Please wait for the post to be sent to the server')
     } catch (error) {
       console.log(error);
     }
+
+
+     
    } 
       }
 
