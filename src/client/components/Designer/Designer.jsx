@@ -107,6 +107,8 @@ const[messageUploading, setMessageUploading] = useState('')
   const [dMonth, setDMonth] = useState("");
   const [dPage, setDPage] = useState("");
 
+
+
   const handleImageChange = async e => {
     const selectedFiles = e.target.files;
     if (!selectedFiles || selectedFiles.length > 4) {
@@ -145,22 +147,39 @@ const[messageUploading, setMessageUploading] = useState('')
       const images = files.filter(file => file.type.startsWith('image/')).map(file => file.url);
       const pdfs = files.filter(file => file.type === 'application/pdf').map(file => file.url);
 
-      const docData = {
+      const imageData = {
         designer: images[0] || "",
         designer1: images[1] || "",
         designer2: images[2] || "",
         designer3: images[3] || "",
-        pdf: pdfs[0] || "",
-        DesignedUploadedBy: user,
       };
 
-      await setDoc(doc(fs, "DesignerPage", dPost + dMonth + dPage), docData, {
-        merge: true,
-      });
+      const pdfData = {
+        pdf: pdfs[0] || "",
+      };
+
+      if (images[0]) {
+        const docData = {
+          ...imageData,
+          DesignedUploadedBy: user,
+        };
+        await setDoc(doc(fs, "DesignerPage", dPost + dMonth + dPage), docData, {
+          merge: true,
+        });
+      } else if (pdfs[0]) {
+        const docData = {
+          ...pdfData,
+          DesignedUploadedBy: user,
+        };
+        await setDoc(doc(fs, "DesignerPage", dPost + dMonth + dPage), docData, {
+          merge: true,
+        });
+      }
 
       setImageUrls(images);
       setFiles(selectedFiles);
       setSuccessfully(
+        // END: ed8c6549bwf9
         "Files have been uploaded. Click view button to view them!"
       );
 
@@ -337,7 +356,8 @@ const[messageUploading, setMessageUploading] = useState('')
                           </td>
                           <td className="border px-4 py-2">
                             <form onSubmit={() => { handleSub(id); }} className="designer-upload  mr-5 ml-4">
-                              <label onClick={() => { setDPost(designer.post); setDMonth(designer.month); setDPage(designer.page); }} className="custom-file-upload cursor-pointer text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]">
+                              <label onClick={() => { setDPost(designer.post); 
+                                (designer.month); setDPage(designer.page); }} className="custom-file-upload cursor-pointer text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]">
                                 <input type="file" accept="image/*" multiple onChange={handleImageChange} /> Upload Image
                               </label>
                             </form>
@@ -404,7 +424,7 @@ const[messageUploading, setMessageUploading] = useState('')
 <div>
   {content.map((message, index) => (
     <div key={index}>
-      {message}
+     <p className="w-[80%] m-auto whitespace-pre-wrap"> {message}</p>
       <br />
     </div>
   ))}

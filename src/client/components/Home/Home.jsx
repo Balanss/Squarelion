@@ -56,7 +56,7 @@ export default function Home() {
     // After 500ms, set the visibility to false (display none)
     const timeout = setTimeout(() => {
       setIsVisible(false);
-    }, 800);
+    }, 1000);
 
     // Clean up the timeout when the component is unmounted
     return () => clearTimeout(timeout);
