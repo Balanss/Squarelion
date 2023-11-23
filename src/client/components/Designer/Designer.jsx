@@ -235,7 +235,8 @@ const[messageUploading, setMessageUploading] = useState('')
 
 
 
-  const handleSubmitMessage = async () => {
+  const handleSubmitMessage = async (e) => {
+    e.preventDefault();
     const docRef = collection(db, "DesignerPage");
     const colRef = doc(docRef, dPost + dMonth + dPage);
     updateDoc(colRef, {
@@ -312,7 +313,7 @@ console.log(newDesigner.filter((designer) => designer.SendTo === user))
 
                     
                     {newDesigner.map((designer, id) =>
-                      (designer.SendTo === user) && designer.hide !== true ? (
+                      (designer.SendTo === user || level === 11) && designer.hide !== true ? (
                         <tr
                           key={id}
                           className="border-b bg-gray-600 border-gray-700 shadow-md hover:scale-105 shadow-black"
@@ -389,10 +390,10 @@ console.log(newDesigner.filter((designer) => designer.SendTo === user))
                               </label>
                             </form>
                           </td>
-<td className="border px-4 py-2 font-bold">
+{level > 9 && <td className="border px-4 py-2 font-bold">
   {designer.SendTo}
 </td>
-
+}
                           <td className="border px-4 py-2">
                             <div>
                               {designer.designer === undefined ? null : (

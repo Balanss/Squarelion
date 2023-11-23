@@ -34,7 +34,7 @@ const [open, setOpen] = useState(false);
     {open ? 'Close tooltip' : 'Open tooltip'}
   </button>
 </div>
-        <h6 className="fixed bottom-1 left-2 text-[10px] text-white">V 0.2</h6>
+        <h6 className="fixed bottom-1 left-2 text-[10px] text-white">V 0.4</h6>
       </div>
 
       <div>

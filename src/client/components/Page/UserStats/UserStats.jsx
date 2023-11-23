@@ -8,7 +8,7 @@ import { useRef } from "react";
 import wip from "../../images/wip2.svg";
 import GreetingUser from "./GreetingUser";
 
-export default function UserStats({ user }) {
+export default function UserStats({ user ,level}) {
   const [round, setRound] = useState([]);
   const [onlyNames, setOnlyNames] = useState([]);
   const [data, setData] = useState([]);
@@ -175,7 +175,7 @@ export default function UserStats({ user }) {
       </div>
 
       <div className="">
-        <GreetingUser user={user} />
+        <GreetingUser user={user} level={level} />
       </div>
     </div>
   );

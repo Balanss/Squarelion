@@ -18,7 +18,9 @@ export default function GreetingUser({ user, level }) {
   const date = new Date();
 
 
-const updateVersion = '2'
+const updateVersion = '3'
+
+
 
   return (
     <div className="max-w-sm p-5 md:w-[250px] lg:w-[200px] xl:w-[280px]  border border-gray-600 rounded-lg shadow text-left bg-gray-800 hover:bg-gray-700  ">
@@ -53,6 +55,8 @@ const updateVersion = '2'
         </svg>
       </button>
 
+
+
       {isOpen && (
         <div className="z-10  absolute text-black font-semibold bg-white divide-y divide-gray-100 rounded-bl-xl rounded-br-xl rounded-tl-md rounded-tr-md shadow w-44 ">
           <ul className="py-2 text-sm ">
@@ -60,9 +64,9 @@ const updateVersion = '2'
               <h1 className="block px-4 py-2 max-h-[400px] overflow-auto">
                 Hello {user}! There have been updates to Media Pilot:
                 <ul className="list-disc list-inside mt-2">
-                  <li>Designers can now send messages for feedback</li>
-                  <li>Designers can now upload a single pdf per post</li>
-                  <li>Content writers can now delete designer post</li>
+                  <li>Designers can now see how many post they have open</li>
+                  {level > 9 && <> <li> You can now select which desiger to assign  </li> </>}
+                 
                 </ul>
               </h1>
             </li>
