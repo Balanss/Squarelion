@@ -92,7 +92,7 @@ export default function Schedule({ user, level, uuid }) {
 
   return (
     <>
-      <div className="overflow-hidden flex flex-wrap items-center gap-2 justify-center sm:w-[70vw] laptop:w-[80vw] laptop:content-start laptopL:overflow-y-scroll   p-5 m-auto  border-2 border-slate-700/50 ">
+      <div className=" animate-fade-right animate-once animate-duration-[3000ms] animate-ease-in  overflow-hidden flex flex-wrap items-center gap-2 justify-center sm:w-[70vw] laptop:w-[80vw] laptop:content-start laptopL:overflow-y-scroll   p-5 m-auto  border-2 border-slate-700/50 ">
         <section className="">
           {SwitchingPage && (
             <div className=" flex-col  fixed top-0 w-[100vw] bg-slate-600 left-0 z-[100] flex items-center justify-center h-[100vh]">
@@ -109,22 +109,6 @@ export default function Schedule({ user, level, uuid }) {
             <p className="mt-1 text-sm font-normal text-gray-400">
               Click on any of the images to view the partner page
             </p>
-            {/* <section className="flex justify-center ">
-        <button
-          disabled={btnDisabled}
-          onMouseLeave={() => setOnhover(false)}
-          onMouseEnter={() => setOnhover(true)}
-          onClick={refreshData}
-          className="bg-slate-800  outline hover:outline-2 outline-slate-400 text-white px-4 py-2 rounded-md mt-5 mb-10"
-        >
-          Get Updated Data
-        </button>
-        {onhover && (
-          <p className="text-white absolute mt-16 ">
-            Updates to current workflow
-          </p>
-        )}
-      </section> */}
           </caption>
           <thead className="text-xs  uppercase bg-gray-700 text-gray-400">
             <tr>

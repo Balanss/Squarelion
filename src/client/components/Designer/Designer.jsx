@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import DesignerHeader from "./DesignerHeader";
-import { set } from "date-fns";
+import Roles from "../AdminPage/Roles/Roles";
 
 const style = {
   position: "absolute", bottom: "0", top: "35%", left: "60%", transform: "translate(-50%, -50%)", bgcolor: "background.paper", border: "2px solid #000", boxShadow: 24, p: 4, overflow: "scroll",
@@ -40,6 +40,7 @@ const[messageUploading, setMessageUploading] = useState('')
   const handleOpenModal = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
   const [message, setMessage] = useState("");
+  const [roles,setRoles] = useState([])
 
 
   const newDesigner = designerData.filter((designer) => {
@@ -267,10 +268,13 @@ const[messageUploading, setMessageUploading] = useState('')
 
 
 
+
+
   return (
     <>
       <div className=" h-[100vh]  bg-slate-800">
         <Nav />{" "}
+      
         <div className="">
           <User
             user={user}
@@ -281,29 +285,33 @@ const[messageUploading, setMessageUploading] = useState('')
           />
 
           <section>
-            <DesignerHeader level={level}/>
+            <DesignerHeader level={level} />
           </section>
 
           <div className=" pt-[50px]">
             <div className="flex flex-col items-center">
-              <DesignerFunctions setDesignerData={setDesignerData} designerData={designerData} />
+              <DesignerFunctions setDesignerData={setDesignerData} designerData={designerData} user={user} />
 
             
                 <section>
                 <table className="w-full text-sm text-left text-gray-300 shadow-md shadow-slate-800">
                   <thead className='className="text-xs  uppercase  bg-gray-700 text-gray-200'>
-                    <tr>
+                    <tr className="text-center">
                       <th className="px-4 py-2">Image</th>
                       <th className="px-4 py-2">Date</th>
                       <th className="px-4 py-2">Client</th>
                       <th className="px-4 py-2">Priority</th>
                       <th className="px-4 py-2">Instructions</th>
                       <th className="px-4 py-2">Actions</th>
+                     {level > 9 && <th className="px-4 py-2">Assigned</th>}
                     </tr>
                   </thead>
                   <tbody>
+
+
+                    
                     {newDesigner.map((designer, id) =>
-                      designer.hide === true ? null : ( 
+                      (designer.Sendto === user || level === 11) && designer.hide !== true ? (
                         <tr
                           key={id}
                           className="border-b bg-gray-600 border-gray-700 shadow-md hover:scale-105 shadow-black"
@@ -321,9 +329,7 @@ const[messageUploading, setMessageUploading] = useState('')
                           <td className="border px-4 py-2">{designer.page}</td>
                           <td
                             className={`border px-4 py-2 ${
-                              designer.prio === "Prio"
-                                ? "bg-red-600"
-                                : "bg-gray-600"
+                              designer.prio === "Prio" ? "bg-red-600" : "bg-gray-600"
                             }`}
                           >
                             {designer.prio}
@@ -345,23 +351,47 @@ const[messageUploading, setMessageUploading] = useState('')
                                   setDPost(designer.post);
                                   setDMonth(designer.month);
                                   setDPage(designer.page);
-                                 
                               }}
                             >
                               {" "}
                               View{" "}
                             </h1>
 
-                         {designer.pdf === undefined? null :    <h1  className="cursor-pointer text-black  bg-white text-md border-black border-2 p-2  hover:scale-110 transition-transform " onClick={() => { window.open(designer.pdf); }}> View Pdf</h1>}
+                            {designer.pdf === undefined ? null : (
+                              <h1
+                                className="cursor-pointer text-black  bg-white text-md border-black border-2 p-2  hover:scale-110 transition-transform "
+                                onClick={() => {
+                                  window.open(designer.pdf);
+                                }}
+                              >
+                                {" "}
+                                View Pdf
+                              </h1>
+                            )}
                           </td>
                           <td className="border px-4 py-2">
-                            <form onSubmit={() => { handleSub(id); }} className="designer-upload  mr-5 ml-4">
-                              <label onClick={() => { setDPost(designer.post); 
-                                (designer.month); setDPage(designer.page); }} className="custom-file-upload cursor-pointer text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]">
+                            <form
+                              onSubmit={() => {
+                                handleSub(id);
+                              }}
+                              className="designer-upload  mr-5 ml-4"
+                            >
+                              <label
+                                onClick={() => {
+                                  setDPost(designer.post);
+                                  setDMonth(designer.month);
+                                  setDPage(designer.page);
+                                }}
+                                className="custom-file-upload cursor-pointer text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"
+                              >
                                 <input type="file" accept="image/*" multiple onChange={handleImageChange} /> Upload Image
                               </label>
                             </form>
                           </td>
+<td className="border px-4 py-2 font-bold">
+  {designer.SendTo}
+</td>
+
                           <td className="border px-4 py-2">
                             <div>
                               {designer.designer === undefined ? null : (
@@ -378,9 +408,7 @@ const[messageUploading, setMessageUploading] = useState('')
                             </div>
                           </td>
                         </tr>
-
-
-                      )         
+                      ) : null
                     )}
                   </tbody>
                 </table>

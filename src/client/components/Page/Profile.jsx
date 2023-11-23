@@ -11,9 +11,11 @@ import Loading from "../Loading";
 import Cal from "./Calendar/Cal";
 import Panel from "./Panel/Panel";
 import Version from "../../Version/Version";
-import Schedule from "./Calendar/Schedule";
 import UserStats from "./UserStats/UserStats";
-import GreetingUser from "./UserStats/GreetingUser";
+import { lazy, Suspense } from "react";
+
+// Lazy import the Schedule component
+const Schedule = lazy(() => import("./Calendar/Schedule"));
 
 export default function Profile() {
   const { id } = useParams();
@@ -116,7 +118,7 @@ export default function Profile() {
           {level > 6 ? (
             <>
               {" "}
-              <div className="flex flex-col items-center w-[78vw]  overflow-hidden">
+              <div className="flex flex-col items-center w-[78vw]  overflow-hidden ">
                 {showPfp === "start" && (
                   <>
                     <UserStats user={user} level={level} />

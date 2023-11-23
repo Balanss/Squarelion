@@ -15,6 +15,7 @@ import Designer from '../../Designer/Designer';
 import design from "../../images/Designer.jpg"
 import SignoutInfo from '../../AdminPage/LogsInfo/SignoutInfo';
 import timer from "../../images/time.png"
+import DesignerFunctions from '../../Designer/DesignerFunctions';
 
 export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideList,sum,work,setSendTo,setDisplayTo,setPrivateChat,setTrueChat,setPan,pan}) {
 
@@ -28,12 +29,21 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
         window.location.reload()
       })
     };
+
+    const [designerData, setDesignerData] = useState([]);
+    const [noti, setNoti] = useState();
     
 
     const formattedUser = user.charAt(0).toUpperCase() + user.slice(1).toLowerCase();
+
+
+   const filteredDesignerData = designerData.filter(x => x.SendTo === user);
+   const filteredDesignerDataLength = filteredDesignerData.length;
+
   return (
    
      <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800 w-[20vw]  ">
+      <DesignerFunctions user={user} setNoti={setNoti} setDesignerData={setDesignerData} designerData={designerData}/>
         <ul className="space-y-2 font-medium fixed">
            <li>
               <Link to='/' 
@@ -70,18 +80,11 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
            <Link to ='/designer' 
                className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
                 <img className='w-[25px] rounded-xl' src={design} />  
-                 <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white md:text-xs lg:text-md ">  Designer </span>
+                 <span className="flex-1 ml-3 whitespace-nowrap   dark:text-white md:text-xs lg:text-md ">  Designer  </span>
+               {filteredDesignerDataLength > 0 ? <p className='bg-red-500 rounded-full w-[20px] h-[20px] text-center text-white text-xs ml-2'>{filteredDesignerDataLength}</p> : null}
               </Link>
            </li>  
-           {/* <li>
-              <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" onClick={() => {setShowWfh('Docs'),setPanel(true)}} >
-                <img className='w-[40px]' src={wfh} />
-                 <span className="flex-1 ml-3 whitespace-nowrap">
-                  Docs
-                 </span>   
-              </a>
-           </li> */}
-  
+
            <li>
               <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
               <img className='w-[25px]' src={userPfp} />

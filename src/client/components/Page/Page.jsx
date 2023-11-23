@@ -354,7 +354,7 @@ export default function Page() {
   return (
     <>
       <div
-        className="client-page min-h-[100vh] bg-slate-600 overflow-auto"
+        className="client-page min-h-[100vh] bg-slate-600 overflow-auto "
         style={{ color: "white" }}
       >
         <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
@@ -420,7 +420,7 @@ export default function Page() {
 
               <Suspense fallback={<div>Loading...</div>}>
                 <DragDropContext onDragEnd={handleDragEnd}>
-                  <table className="m-auto w-full text-center">
+                  <table className="m-auto w-full text-center animate-fade animate-duration-[500ms] animate-ease-in">
                     <thead className="">
                       <tr className="bg-slate-800">
                         <th scope="col" className="px-6 py-3">Status </th>
@@ -509,7 +509,7 @@ onMouseLeave={() => setShowCount("")}>{x.order - -1}
                                           >
                                             {show === i && level > 7 && (
                                               <>
-                                                <div className="flex flex-col-reverse xl:flex-row">
+                                                <div className="flex flex-col-reverse xl:flex-row animate-fade animate-duration-[200ms] animate-ease-in">
                                                   <div className="lg:w-[800px] m-auto border-2 border-black bg-slate-700">
                                                     <div className="holds-written-content">
                                                       

@@ -4,7 +4,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 import { auth, fs,db } from '/src/client/Firebase.jsx'
 
 
-export default function DesignerFunctions({ setDesignerData }) {
+export default function DesignerFunctions({ setDesignerData ,user ,noti }) {
     useEffect(() => {
         const unsubscribe = fs // Assuming 'fs' is Firestore
             .collection('DesignerPage')

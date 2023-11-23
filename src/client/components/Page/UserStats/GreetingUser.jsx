@@ -17,6 +17,7 @@ export default function GreetingUser({ user, level }) {
 
   const date = new Date();
 
+
 const updateVersion = '2'
 
   return (

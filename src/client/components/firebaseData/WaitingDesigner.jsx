@@ -13,49 +13,77 @@ import {
 } from "firebase/storage";
 import { set } from 'date-fns';
 import DesignerFunctions from '../Designer/DesignerFunctions';
+import Roles from '../AdminPage/Roles/Roles';
 
 export default function WaitingDesigner({typeAnswer,month,page,post,objectiveAnswer,color,boosting,uniqueId,user,type,subject,img,date,pri}) {
 
 const [forDesigner, setForDesigner] = useState('')
 const [message, setMessage] = useState('')
 const [designerData, setDesignerData] = useState([])
+const [roles,setRoles] = useState([])
+const [name, setName] = useState('')
+const[areYouSure, setAreYouSure] = useState(false)
 
     function handleData(){
 setModal(true)
   }
 
 
-
-  function handleToDdesigner(e){
-e.preventDefault()
-fs.collection('DesignerPage').doc(post+month+page).set({
-  color:'gold',
-  status:'Designer',
-  statusText:'Designer',
-  month:month,
-  page:page,
-  post:post,
-date:date,
-  user:user,
-  type:type,
-  img:img,
-  img1: imageUrls[0] || "",
-  img2: imageUrls[1] || "",
- img3: imageUrls[2] || "",
-   img4: imageUrls[3] || "", 
-  hide:false,
-  prio:pri,
-    subject: arrayUnion(forDesigner + "- " + user),
-},{merge:true})
+function handleToDdesigner(){
 
 
+    if(img !== ''){
+      fs.collection( `DesignerPage`).doc(post+month+page).set({
+        color:'gold',
+        status:'Designer',
+        statusText:'Designer',
+        month:month,
+        page:page,
+        post:post,
+      date:date,
+        user:user,
+        type:type,
+        hide:false,
+        SendTo:name,
+        prio:pri,
+          subject: arrayUnion(forDesigner + "- " + user),
+      },{merge:true})
+    } else {
+      fs.collection( `DesignerPage`).doc(post+month+page).set({
+        color:'gold',
+        status:'Designer',
+        statusText:'Designer',
+        month:month,
+        page:page,
+        post:post,
+      date:date,
+        user:user,
+        type:type,
+        img:img,
+        img1: imageUrls[0] || "",
+        img2: imageUrls[1] || "",
+       img3: imageUrls[2] || "",
+         img4: imageUrls[3] || "", 
+        hide:false,
+        SendTo:name,
+        prio:pri,
+          subject: arrayUnion(forDesigner + "- " + user),
+      },{merge:true})
+    }
+
+    
+    setMessage(`Has been sent to ${name}`)
+
+    setTimeout(() => {setAreYouSure(false)}, 2000);
+  
+  
 fs.collection(page).doc(post+month).set({
   color:'gold',
   status:'Waiting Designer',
   statusText:'Designer'
 },{merge:true})
 
-setMessage('Has been sent to the designer')
+
 setForDesigner('')
 setTimeout(() => {
   setMessage('')
@@ -157,10 +185,16 @@ const [sureYouWantToDelete, setSureYouWantToDelete] = useState(false)
   }
  
 
+  const handleAreYouSure = () => {
+    setAreYouSure(true)
+  }
+
+
 
   return ( <>
   
   <DesignerFunctions setDesignerData={setDesignerData} />
+  <Roles roles={roles} setRoles={setRoles} />
     <p  className='bg-yellow-500 w-[30vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}> Designer </p>
 
 
@@ -169,19 +203,43 @@ const [sureYouWantToDelete, setSureYouWantToDelete] = useState(false)
   
   <section className='bg-white w-[50vw]  m-auto mt-20 p-2 rounded-lg h-auto' >
   <button className='bg-red-500 w-[10vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => setModal(false)}>Close</button>
-    <textarea className='w-full h-[25vh] border-2 border-black' value={forDesigner}  placeholder='Enter your text here' onChange={(e) => {
+  
+    <textarea className='w-full h-[25vh] border-2 border-black'  value={forDesigner}  placeholder='Enter your text here' onChange={(e) => {
       setForDesigner(e.target.value)
     }}></textarea>
       <p className='text-black'>{message}</p>
+
+      <div className='flex'>
+  {roles.map((role,id) => (
+          <button  key={id}  className='bg-cyan-500 rounded-md m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => {setName(role.Name); handleAreYouSure()}} >
+            {role.Name}
+          </button>
+
+
+
+        ))}
+  </div>
+
+
+  {areYouSure === true && <><p className='text-black'>Are you sure you want to send this to {name}?</p>
+        <button className='bg-red-500 w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => handleToDdesigner()}>Yes</button>
+    <button className='bg-red-500 w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => setAreYouSure(false)}>No</button>
+    </>}
+
+    <hr />
+
   <div className=' '>
   <label className="custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"> <input type="file" accept="image/*" multiple onChange={handleUploadImages}/>{uploadButtonText} </label>
-    <button onClick={handleToDdesigner}  className='bg-yellow-500 w-[10vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' >  Submit    </button>
+
  
     <button className='bg-red-600 text-white w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleDelete}>Delete</button>
     {sureYouWantToDelete === true && <><p className='text-black'>Are you sure you want to delete this post?</p>
     <button className='bg-red-500 w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleSureDelete}>Yes</button>
     <button className='bg-yellow-500 w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => setSureYouWantToDelete(false)}>No</button>
      </>}
+
+
+
   </div>
   <hr className='mb-1 text-black'/>
   <div className='inline-flex'>
