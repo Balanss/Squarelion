@@ -71,7 +71,7 @@ const CalendarWithNotes = ({ user, level }) => {
 
   return (
     <>
-      <div className="p-5 mb-10 text-lg font-semibold text-left text-white lg:w-[75vw] m-auto bg-gray-800" style={{ transition: "opacity 2.5s", opacity: calLoading ? 0.50 : 1 }}>
+      <div className="p-5 mb-10 text-lg font-semibold text-left text-white lg:w-[75vw] m-auto bg-gray-800" >
         Calendar
         <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
           {" "}

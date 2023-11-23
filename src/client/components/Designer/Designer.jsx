@@ -41,6 +41,7 @@ const[messageUploading, setMessageUploading] = useState('')
   const handleClose = () => setOpenModal(false);
   const [message, setMessage] = useState("");
   const [roles,setRoles] = useState([])
+  const [noti, setNoti] = useState();
 
 
   const newDesigner = designerData.filter((designer) => {
@@ -266,7 +267,7 @@ const[messageUploading, setMessageUploading] = useState('')
   }
 
 
-
+console.log(newDesigner.filter((designer) => designer.SendTo === user))
 
 
 
@@ -290,7 +291,7 @@ const[messageUploading, setMessageUploading] = useState('')
 
           <div className=" pt-[50px]">
             <div className="flex flex-col items-center">
-              <DesignerFunctions setDesignerData={setDesignerData} designerData={designerData} user={user} />
+              <DesignerFunctions setDesignerData={setDesignerData} designerData={designerData} user={user}  setNoti={setNoti}/>
 
             
                 <section>
@@ -311,7 +312,7 @@ const[messageUploading, setMessageUploading] = useState('')
 
                     
                     {newDesigner.map((designer, id) =>
-                      (designer.Sendto === user) && designer.hide !== true ? (
+                      (designer.SendTo === user) && designer.hide !== true ? (
                         <tr
                           key={id}
                           className="border-b bg-gray-600 border-gray-700 shadow-md hover:scale-105 shadow-black"
