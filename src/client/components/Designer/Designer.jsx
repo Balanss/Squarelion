@@ -119,7 +119,7 @@ const[messageUploading, setMessageUploading] = useState('')
     }
 
     const uploadPromises = Array.from(selectedFiles).map(file => {
-      const storageRef = ref(getStorage(), `products/${name}/${file.name}}`);
+      const storageRef = ref(getStorage(), `products/${name}/${file.name}`);
 
       const uploadTask = uploadBytesResumable(storageRef, file);
 
