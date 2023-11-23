@@ -32,7 +32,7 @@ setModal(true)
 function handleToDdesigner(){
 
 
-    if(img !== ''){
+    if(imageUrls[0] !== ''){
       fs.collection( `DesignerPage`).doc(post+month+page).set({
         color:'gold',
         status:'Designer',

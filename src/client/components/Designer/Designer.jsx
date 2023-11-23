@@ -311,7 +311,7 @@ const[messageUploading, setMessageUploading] = useState('')
 
                     
                     {newDesigner.map((designer, id) =>
-                      (designer.Sendto === user || level === 11) && designer.hide !== true ? (
+                      (designer.Sendto === user) && designer.hide !== true ? (
                         <tr
                           key={id}
                           className="border-b bg-gray-600 border-gray-700 shadow-md hover:scale-105 shadow-black"
