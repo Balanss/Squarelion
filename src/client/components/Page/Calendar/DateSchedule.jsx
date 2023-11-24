@@ -32,7 +32,7 @@ export default function Calendar({ user }) {
       const colRef = doc(docRef, title);
       setDoc(
         colRef,
-        { selectedDate: time +'/'+ timer , Title: title, user: user },
+        { selectedDate: time ,timer:timer , Title: title, user: user },
         { merge: true }
       );
       setMessage("Event added successfully");
@@ -79,6 +79,11 @@ export default function Calendar({ user }) {
     "bg-indigo-900",
     "bg-purple-900",
     "bg-yellow-900",
+    "bg-pink-800",
+    "bg-teal-800",
+    "bg-cyan-800",
+    "bg-lime-800",
+    "bg-orange-800",
   ];
 
   const [randomColor, setRandomColor] = useState("");
@@ -137,6 +142,15 @@ export default function Calendar({ user }) {
           <h2 className="text-white">Upcoming Events</h2>
         </section>
         {scheduleData.map((x, id) => {
+          const randomColor = colors[Math.floor(Math.random() * colors.length)];
+          const currentDate = new Date();
+          const selectedDate = new Date(x.selectedDate) + 1;
+          const isPastDate = selectedDate < currentDate;
+
+          if (isPastDate) {
+            return null; // Skip rendering for past events
+          }
+
           return (
             <React.Fragment key={id}>
               <div
@@ -158,13 +172,17 @@ export default function Calendar({ user }) {
                 </h1>
                 <p onClick={() => handleDelete(id)}>
                   {x.selectedDate.replace("T", " ")}
-                  <span className="ml-1"> | {x.Title} </span>
+                  <span className="ml-1"> @ {x.timer}  </span>
+                  <span className="ml-1"> | {x.Title}  </span>
                 </p>
               </div>
               <hr className="opacity-25" />
             </React.Fragment>
           );
         })}
+
+
+
       </div>
     </section>
   );

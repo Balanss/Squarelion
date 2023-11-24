@@ -273,7 +273,7 @@ const[messageUploading, setMessageUploading] = useState('')
 
   return (
     <>
-      <div className=" h-[100vh]  bg-slate-800">
+      <div className=" min-h-[100vh] pb-10 bg-slate-800">
         <Nav />{" "}
       
         <div className="">
@@ -304,7 +304,7 @@ const[messageUploading, setMessageUploading] = useState('')
                       <th className="px-4 py-2">Priority</th>
                       <th className="px-4 py-2">Instructions</th>
                       <th className="px-4 py-2">Actions</th>
-                     {level > 9 && <th className="px-4 py-2">Assigned</th>}
+                     {level > 8 && <th className="px-4 py-2">Assigned</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -389,7 +389,7 @@ const[messageUploading, setMessageUploading] = useState('')
                               </label>
                             </form>
                           </td>
-{level > 9 && <td className="border px-4 py-2 font-bold">
+{level > 8 && <td className="border px-4 py-2 font-bold">
   {designer.SendTo}
 </td>
 }

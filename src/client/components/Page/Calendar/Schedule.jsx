@@ -72,21 +72,7 @@ export default function Schedule({ user, level, uuid }) {
   }, [data]);
 
   // Add a function to refresh data from Firebase when needed
-  const [btnDisabled, setBtnDisabled] = useState(false);
-  const refreshData = () => {
-    // Clear the cached data
-    localStorage.removeItem("cachedData");
-    fetchData();
-    alert("Data refreshed successfully  ");
-    setBtnDisabled(true);
 
-    // Enable the refresh button after 30 seconds
-    setTimeout(() => {
-      setBtnDisabled(false);
-    }, 20000);
-  };
-
-  const [onhover, setOnhover] = useState(false);
 
   const [SwitchingPage, setSwitchingPage] = useState(false);
 
