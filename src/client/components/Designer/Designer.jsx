@@ -268,7 +268,6 @@ const[messageUploading, setMessageUploading] = useState('')
   }
 
 
-console.log(newDesigner.filter((designer) => designer.SendTo === user))
 
 
 
@@ -313,7 +312,7 @@ console.log(newDesigner.filter((designer) => designer.SendTo === user))
 
                     
                     {newDesigner.map((designer, id) =>
-                      (designer.SendTo === user || level === 11) && designer.hide !== true ? (
+                      (designer.SendTo === user || level > 10 || user === 'Saskia') && designer.hide !== true ? (
                         <tr
                           key={id}
                           className="border-b bg-gray-600 border-gray-700 shadow-md hover:scale-105 shadow-black"
