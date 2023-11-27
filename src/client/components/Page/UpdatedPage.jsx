@@ -11,6 +11,8 @@ import {
   updateDoc,
   setDoc,
   addDoc,
+  FieldValue,
+  deleteField,
 } from "firebase/firestore";
 import SendFromForm from "../firebaseData/UpdatedSendFromForm";
 import { useParams } from "react-router-dom";
@@ -233,9 +235,11 @@ export default function UpdatedPage({month,setMonth}) {
   function handleDelete(i) {
     round.map((x, index) => {
       if (index === i) {
+
         const docRef = collection(db, localStorage.getItem("partner"));
-        const colRef = doc(docRef, x.id);
-        deleteDoc(colRef);
+        const colRef = doc(docRef, x.month);
+      
+        deleteDoc(colRef,{[x.post + x.month]: deleteField()});
 
         const dcRef = collection(db, "DesignerPage");
         const clRef = doc(dcRef, x.id + x.client);

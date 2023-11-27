@@ -3,7 +3,7 @@ import Nav from "../Nav";
 import { db, auth, fs } from "../../Firebase";
 import User from "../User";
 import {
-  collection,deleteDoc,doc,  addDoc,updateDoc,setDoc,deleteField, arrayUnion} from "firebase/firestore";
+  collection,deleteDoc,doc,  addDoc,updateDoc,setDoc,deleteField, arrayUnion,FieldValue} from "firebase/firestore";
 import DesignerFunctions from "./DesignerFunctions";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL,} from "firebase/storage";
 import "../../App.css";
@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import DesignerHeader from "./DesignerHeader";
 import Roles from "../AdminPage/Roles/Roles";
+import { set } from "date-fns";
 
 const style = {
   position: "absolute", bottom: "0", top: "35%", left: "60%", transform: "translate(-50%, -50%)", bgcolor: "background.paper", border: "2px solid #000", boxShadow: 24, p: 4, overflow: "scroll",
@@ -196,7 +197,14 @@ const[messageUploading, setMessageUploading] = useState('')
 
 
 
+const [sureToReset, setSureToReset] = useState(false)
+const [designerPostReset, setDesignerPostReset] = useState("")
+const [designerMonthReset, setDesignerMonthReset] = useState("")
+const [designerPageReset, setDesignerPageReset] = useState("")
 
+  function handleRestting(){
+setSureToReset(true)
+  }
 
   //sends towards saskia
   function handleSend(id) {
@@ -328,6 +336,8 @@ const[messageUploading, setMessageUploading] = useState('')
                       <th className="px-4 py-2">Instructions</th>
                       <th className="px-4 py-2">Actions</th>
                      {level > 8 && <th className="px-4 py-2">Assigned</th>}
+                      <th className="px-4 py-2">Send</th>
+                      <th className="px-4 py-2">Reset</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -381,7 +391,7 @@ const[messageUploading, setMessageUploading] = useState('')
                               View{" "}
                             </h1>
 
-                            {designer.pdf === undefined ? null : (
+                            {designer.pdf === undefined || designer.pdf === "" ? null : (
                               <h1
                                 className="cursor-pointer text-black  bg-white text-md border-black border-2 p-2  hover:scale-110 transition-transform "
                                 onClick={() => {
@@ -408,7 +418,7 @@ const[messageUploading, setMessageUploading] = useState('')
                                 }}
                                 className="custom-file-upload cursor-pointer text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"
                               >
-                                <input type="file" accept="image/*" multiple onChange={handleImageChange} /> Upload Image
+                                <input type="file" accept="image/*" multiple onChange={handleImageChange} /> Upload
                               </label>
                             </form>
                           </td>
@@ -418,7 +428,7 @@ const[messageUploading, setMessageUploading] = useState('')
 }
                           <td className="border px-4 py-2">
                             <div>
-                              {designer.designer === undefined ? null : (
+                              {designer.designer !== undefined || designer.pdf !== undefined ?  (
                                 <button
                                   onClick={() => {
                                     handleSend(id);
@@ -428,12 +438,55 @@ const[messageUploading, setMessageUploading] = useState('')
                                   {" "}
                                   Finish{" "}
                                 </button>
-                              )}
+                              ) :null }
                             </div>
                           </td>
+                             <td className="border px-4 py-2">
+                         {designer.designer !== undefined || designer.pdf !== undefined ? (
+                        
+                           <button
+                             onClick={() =>{  handleRestting(id),setDesignerPostReset(designer.post),
+                               setDesignerMonthReset(designer.month),setDesignerPageReset(designer.page) }}
+                             className="bg-red-700 text-white p-2 rounded-md hover:bg-red-800 cursor-pointer"
+                           >
+                             {" "}
+                             Reset{" "}
+                           </button>
+
+                       
+                         ) : null}
+                           </td>
                         </tr>
                       ) : null
                     )}
+                     {sureToReset && (
+                            <>
+                              <div className='fixed top-0 z-[1000] left-0 w-full h-full bg-slate-400/20 gap-4  flex justify-center items-center'>
+                                <div className="flex gap-3 flex-col bg-white p-5 rounded-md">
+                                <p className='text-black font-semibold text-xl'>Are you sure you want to reset this?</p>
+                                <button onClick={() => {   
+                                  const docRef = collection(db, "DesignerPage");
+                                  const colRef = doc(
+                                    docRef,
+                                    designerPostReset + designerMonthReset + designerPageReset
+                                  );
+                                  updateDoc(colRef, {
+                                    designer: deleteField(),
+                                    designer1: deleteField(),
+                                    designer2: deleteField(),
+                                    designer3: deleteField(),
+                                    pdf: deleteField()
+                                  }, { merge: true });
+                                  setTimeout(() => {
+                                    setSureToReset(false);
+                                  }, 500);
+                                }} className="bg-red-700 text-white p-2 rounded-md hover:bg-red-800 cursor-pointer">Yes</button>
+                                <button onClick={() => setSureToReset(false)} className="bg-green-700 text-white p-2 rounded-md hover:bg-green-800 cursor-pointer">No</button>
+                                </div>
+                               
+                              </div>
+                            </>
+                          )}
                   </tbody>
                 </table>
                 </section>

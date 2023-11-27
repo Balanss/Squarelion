@@ -290,9 +290,9 @@ useEffect (() => {
 
             {/* //gets client data from firebase and image anlong with adding client */}
             <div className="">
-              <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800 border-2 border-slate-900/50">
+              <div className="flex items-center justify-center p-2 mb-4 rounded bg-gray-50 dark:bg-gray-800 border-2 border-slate-900/50">
 
-                <div  className=" gap-5 text-center text-2l text-gray-400 dark:text-gray-500 flex flex-col h-[150px] justify-around">
+                <div  className=" gap-5 text-center text-2l text-gray-400 dark:text-gray-500 flex flex-col  justify-around">
                   {level > 9 && 
                     <>
                       <h1 className='text-xl font-semibold text-white'>Add a new client and image to the Squarelion database</h1>
@@ -300,16 +300,22 @@ useEffect (() => {
                         <input type="text" placeholder='ENTER CLIENT NAME ' onChange={(e) => setName(e.target.value)} className='w-[160px]' />
                       <input type="file" className='w-[100px] !bg-green-500' onChange={handleImageChange}  />
                         <br />
-                      {image > "" &&   <button className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200">
+                       <button className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-400 cursor-pointer hover:bg-green-600 hover:text-green-200">
                           Add Client
-                        </button>}
+                        </button>
                       </form>
                     </>
                   }   
                 </div>
 
               </div>
-              <div className='table-split lg:flex gap-10 lg:flex-row bg-slate-900 p-5'> 
+           
+              <div className='table-split lg:flex gap-10 lg:flex-row bg-slate-900 p-5 animate-fade-right animate-once animate-duration-[2000ms] animate-ease-in-out'>
+           <section className='absolute lg:w-[200px]'>
+           <p className='text-white mb-2 font-bold text-md'>List of Squarelion Clients</p>
+              <hr  className='bg-white'/>
+           </section>
+              
                 {imgLoading?  
                   <div className="flex items-center justify-center w-56 h-56 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"> 
 
@@ -317,9 +323,11 @@ useEffect (() => {
                       loading...
                     </div> 
                   </div>  :
+
                   <div className="relative  m-auto  mt-10 w-full lg:w-[400px] ">
                     
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                      
                       <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                           <th scope="col" className="px-6 py-3">
@@ -347,11 +355,11 @@ useEffect (() => {
 
                                   <div className="flex items-center justify-center  rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                                     {imgLoading2 === false ? null :
-                                      <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+                                      <div className="px-3  py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
                                         loading...
                                       </div>
                                     }
-                                    <img src={x.imageUrl}  className={`xs:w-[100px] md:w-[100px] lg:w-[500px] ${imgLoading2 ? 'hidden opacity-0' : 'visible transition-opacity duration-1000 ease-in opacity-100  '}`} />
+                                    <img src={x.imageUrl}  className={`xs:w-[50px] md:w-[50px] lg:w-[50px] ${imgLoading2 ? 'hidden opacity-0' : 'visible transition-opacity duration-1000 ease-in opacity-100 animate-fade animate-once animate-duration-[2000ms] animate-ease-in-out  '}`} />
                                   </div>
                                 </button>
                               </div>
@@ -398,13 +406,13 @@ useEffect (() => {
                                   disabled={level !== 11 && x.name === 'Test' ? true : false}
                                   className={level !== 11 && x.name === 'Test' ? 'opacity-20' : 'opacity-100 '}>
 
-                                  <div className="flex items-center justify-center  rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
+                                  <div className=" items-center justify-center  rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                                     {imgLoading2 === false ? null :
                                       <div className="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
                                         loading...
                                       </div>
                                     }
-                                    <img src={x.imageUrl} className={`xs:w-[100px] md:w-[100px] lg:w-[500px] ${imgLoading2 ? 'hidden' : 'visible'}`} />
+                                    <img src={x.imageUrl} className={`xs:w-[50px] md:w-[50px] lg:w-[50px] ${imgLoading2 ? 'hidden' : 'visible animate-fade animate-once animate-duration-[2000ms] animate-ease-in-out'}`} />
                                   </div>
                                 </button>
                               </div>

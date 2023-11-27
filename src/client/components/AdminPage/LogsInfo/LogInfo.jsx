@@ -79,7 +79,7 @@ export default function LogInfo() {
 
 
     return (
-        <div className='bg-slate-900 p-4 mt-4'>
+        <div className='bg-slate-900 p-4 mt-4 animate-fade animate-once animate-duration-[2000ms] animate-ease-in-out' >
             <User setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
 <section>
     <div className='flex flex-col items-center justify-center mb-3'>
@@ -148,7 +148,7 @@ export default function LogInfo() {
         </table>
   
     {selectedUserLogs.length > 0 && (
-        <div className='flex gap-5'>
+        <div className='flex gap-5 animate-fade animate-once animate-duration-[2200ms] animate-ease-in-out'>
         <ol className='relative border-l border-gray-200 dark:border-gray-700 mt-5'>
             <h2 className='ml-2'>{selectedUser}'s logged In</h2>
             <ul className='flex flex-col-reverse'>
@@ -169,23 +169,25 @@ export default function LogInfo() {
 
         </ol>
 
-        <ol className='relative border-l border-gray-200 dark:border-gray-700 mt-5'>
-            <h2 className='ml-2'>{selectedUser}'s Clocked Out</h2>
-            <ul className='flex flex-col-reverse'>
-                {selectedUserLogsOut.slice(0, numLogsToShow).map((log, index) => (
-                    <li className="mb-10 ml-4" key={index}>
-                        <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
-                        <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{log}</time>
-                    </li>
-                ))}
-            </ul>
-            {selectedUserLogsOut.length > 10 && (
-                <div className='flex justify-center mt-4 ml-2'>
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2' onClick={handleShowMoreClick}>Show More</button>
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleShowLessClick}>Show Less</button>
-                </div>
-            )}
-        </ol>
+        {selectedUserLogsOut && selectedUserLogsOut.length > 0 && (
+            <ol className='relative border-l border-gray-200 dark:border-gray-700 mt-5'>
+                <h2 className='ml-2'>{selectedUser}'s Clocked Out</h2>
+                <ul className='flex flex-col-reverse'>
+                    {selectedUserLogsOut.slice(0, numLogsToShow).map((log, index) => (
+                        <li className="mb-10 ml-4" key={index}>
+                            <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                            <time className="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{log}</time>
+                        </li>
+                    ))}
+                </ul>
+                {selectedUserLogsOut.length > 10 && (
+                    <div className='flex justify-center mt-4 ml-2'>
+                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2' onClick={handleShowMoreClick}>Show More</button>
+                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleShowLessClick}>Show Less</button>
+                    </div>
+                )}
+            </ol>
+        )}
 
         </div>
     )} 
