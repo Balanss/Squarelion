@@ -181,7 +181,7 @@ const[messageUploading, setMessageUploading] = useState('')
       setImageUrls(images);
       setFiles(selectedFiles);
       setSuccessfully(
-        // END: ed8c6549bwf9
+      
         "Files have been uploaded. Click view button to view them!"
       );
 
@@ -204,24 +204,47 @@ const[messageUploading, setMessageUploading] = useState('')
       if (id === index) {
         console.log("success", designer.post);
 
-        const docRef = collection(db, designer.page);
-        const colRef = doc(docRef, designer.post + designer.month);
-        setDoc(
-          colRef,
-          {
-            designer: designer.designer,
-            designer1: designer.designer1,
-            designer2: designer.designer2,
-            designer3: designer.designer3,
-            pdf: designer.pdf || "",
-            hide: true,
-            color: "#00eaff",
-            status: "Design Done",
-            StatusText: "Design Done",
-            DesignUploadedBy: user,
-          },
-          { merge: true }
-        );
+        if (designer.month.includes("2023")) {
+          const docRef = collection(db, designer.page);
+          const colRef = doc(docRef, designer.post + designer.month);
+          setDoc(
+            colRef,
+            {
+              designer: designer.designer,
+              designer1: designer.designer1,
+              designer2: designer.designer2,
+              designer3: designer.designer3,
+              pdf: designer.pdf || "",
+              hide: true,
+              color: "#00eaff",
+              status: "Design Done",
+              StatusText: "Design Done",
+              DesignUploadedBy: user,
+            },
+            { merge: true }
+          );
+        } else {
+          const docRef = collection(db, designer.page);
+          const colRef = doc(docRef, designer.month);
+          setDoc(
+            colRef,
+            {
+             [designer.post + designer.month]: {
+              designer: designer.designer,
+              designer1: designer.designer1,
+              designer2: designer.designer2,
+              designer3: designer.designer3,
+              pdf: designer.pdf || "",
+              hide: true,
+              color: "#00eaff",
+              status: "Design Done",
+              StatusText: "Design Done",
+              DesignUploadedBy: user,
+             }
+            },
+            { merge: true }
+          );
+        }
 
         const docR = collection(db, "DesignerPage");
         const colR = doc(docR, designer.post + designer.month + designer.page);

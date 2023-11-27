@@ -16,8 +16,10 @@ const Login = lazy(() => import("./components/Login"));
 const Home = lazy(() => import("./components/Home/Home"));
 const Signup = lazy(() => import("./components/Signup"));
 
-const Page = lazy(() => import("./components/Page/Page"));
+// const Page = lazy(() => import("./components/Page/Page"));
+// const UpdatedPage = lazy(() => import("./components/Page/UpdatedPage"));
 const Profile = lazy(() => import("./components/Page/Profile"));
+const PageLoader = lazy(() => import ('./components/Page/SwitchingFromLegacyToNew'))
 
 const Designer = lazy(() => import("./components/Designer/Designer"));
 const Prop = lazy(() => import("./components/AdminPage/SqlProperties"));
@@ -81,7 +83,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<Signup />} />
 
-            <Route path="/profile/:id" element={<Page />} />
+            {/* <Route path="/profile/:id" element={<Page />} />
+            <Route path="/profile/:id" element={<UpdatedPage />} /> */}
+            <Route path="/profile/:id" element={<PageLoader />} />
             <Route path="/user/:id" element={<Profile />} />
 
             <Route path="/designer" element={<Designer />} />

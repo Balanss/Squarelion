@@ -12,12 +12,9 @@ import {
   setDoc,
   addDoc,
 } from "firebase/firestore";
-import SendFromForm from "../firebaseData/SendFromForm";
+import SendFromForm from "../firebaseData/UpdatedSendFromForm";
 import { useParams } from "react-router-dom";
 import Links from "./Links";
-import WaitingDesigner from "../firebaseData/WaitingDesigner";
-import WaitingApproval from "../firebaseData/WaitingApproval";
-import WaitingApproved from "../firebaseData/WaitingApproved";
 import cross from "../images/cross.png";
 import Solo from "../Txt/Solo";
 import TxtAll from "../Txt/TxtAll";
@@ -28,7 +25,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Inputs from "./PageFunctions/Inputs";
+import Inputs from "./PageFunctions/UpdatedInputs";
 import Loading from "../Loading";
 import Memo from "./Memo/Memo";
 import "/src/client/index.css";
@@ -36,8 +33,9 @@ import Version from "../../Version/Version";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Bot from "./Bot/Bot";
 import { set } from "date-fns";
-
-const ModalContent = lazy(() => import("./Modal/ModalContent"));
+import PageModal from "./PageModal";
+ 
+const ModalContent = lazy(() => import("./Modal/UpdatedModalContent"));
 
 const modules = {
   toolbar: {
@@ -73,7 +71,7 @@ const styleBar = {
   p: 4,
 };
 
-export default function Page({month, setMonth}) {
+export default function UpdatedPage({month,setMonth}) {
   const { id } = useParams();
   const [hide, setHide] = useState(false);
   const [color, setColor] = useState("orange");
@@ -84,7 +82,9 @@ export default function Page({month, setMonth}) {
   const [show, setShow] = useState("");
   const [page, setPage] = useState("");
   const [deletion, setDeletion] = useState("");
-  const [round, setRound] = useState([]);
+  const [rounded, setRounded] = useState([]);
+  const [newRound, setNewRound] = useState([]);
+  const[round, setRound] = useState([]);
   const navigate = useNavigate();
 
   //------------------------------------------ under lifts state to button for firebase
@@ -93,7 +93,7 @@ export default function Page({month, setMonth}) {
   const [type, setType] = useState("");
   const [date, setDate] = useState("");
   const [post, setPost] = useState("");
- 
+
   const [objectiveAnswer, setObjectiveAnswer] = useState("");
   const [typeAnswer, setTypeAnswer] = useState("");
   const [subject, setSubject] = useState("");
@@ -123,45 +123,64 @@ export default function Page({month, setMonth}) {
   }
 
   const [viewer, setViewer] = useState("all");
-
-  const getRound = async () => {
+  const getRound = () => {
     setPage(localStorage.getItem("partner"));
     try {
-      const unsubscribe = fs
-        .collection(page)
-        .where("month", "==", month)
-        .onSnapshot(async querySnapshot => {
-          const roundArray = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-
-          roundArray.sort((a, b) => a.order - b.order);
-          const filteredRoundArray = roundArray.filter(
-            round => round.month === month
-          );
-          const halfLength = Math.ceil(filteredRoundArray.length / 2);
-          const firstSlice = filteredRoundArray.slice(0, halfLength);
-          const secondSlice = filteredRoundArray.slice(halfLength);
-
-          if (viewer === "10") {
-            setRound(firstSlice);
-          } else if (viewer === "20") {
-            setRound(secondSlice);
-          } else if (viewer === "all") {
-            setRound(filteredRoundArray);
+      fs.collection(page)
+        .doc(month)
+        .onSnapshot((doc) => {
+          if (doc.exists) {
+            const data = doc.data();
+            setRounded([data]);
+            setRound(
+              Object.keys(data)
+                .map((key) => {
+                  const item = data[key];
+                  return item.user
+                    ? {
+                        level: item.level,
+                        month: item.month,
+                        order: item.order,
+                        objective: item.objective,
+                        boosting: item.boosting,
+                        channel: item.channel,
+                        client: item.client,
+                        color: item.color,
+                        content: item.content,
+                        count: item.count,
+                        date: item.date,
+                        monthInWords: item.monthInWords,
+                        status: item.status,
+                        statusText: item.statusText,
+                        type: item.type,
+                        unid: item.unid,
+                        user: item.user,
+                        answer: item.answer,
+                        designer: item.designer,
+                        priority: item.priority,
+                      }
+                    : null;
+                })
+                .filter((item) => item !== null)
+                .sort((a, b) => a.order - b.order) // Sort by order in ascending order
+            );
+          } else {
+            console.log("No such document!");
           }
         });
-
-      return unsubscribe;
     } catch (error) {
       console.log("loading");
     }
   };
 
   useEffect(() => {
-    const unsubscribe = getRound();
+    getRound();
   }, [page, showRound, viewer, month]);
+
+
+  
+
+
 
   const [pri, setPri] = useState("");
 
@@ -196,8 +215,6 @@ export default function Page({month, setMonth}) {
       });
     }
   }
-
-
 
   const sendToZapier = async payload => {
     const zapierURL = import.meta.env.VITE_ZAP_DELETE;
@@ -325,32 +342,37 @@ export default function Page({month, setMonth}) {
       deleteDoc(colR);
     } else {
       const docRef = collection(db, page);
-      const colRef = doc(docRef, post + month);
-      updateDoc(colRef, { [title]: editDetails }, { merge: true });
+      const colRef = doc(docRef, month);
+      const key = `${post + month}.${title}`;
+      updateDoc(colRef, { [key]: editDetails }, { merge: true });
     }
 
     handleCloseBar();
   }
 
-  const handleDragEnd = result => {
+  const handleDragEnd = async result => {
     if (!result.destination) return;
     const items = Array.from(round);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setRound(items);
-    items.forEach((item, index) => {
-      fs.collection(page)
-        .doc(item.id)
-        .update({ order: index }, { merge: true });
-    });
+    await Promise.all(items.map((item, index) => {
+      return fs.collection(page)
+        .doc(month)
+        .update({ [`${item.count+item.month}.order`]: index - -1 } , { merge: true });
+    }));
   };
 
   const [showCount, setShowCount] = useState("10");
 
+ 
+
+
+
   return (
     <>
       <div
-        className="client-page min-h-[100vh] bg-slate-600 overflow-auto "
+        className="client-page min-h-[100vh] bg-slate-600 overflow-auto"
         style={{ color: "white" }}
       >
         <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
@@ -364,6 +386,8 @@ export default function Page({month, setMonth}) {
         <div
           className={`absolute inset-0 ${isVisible ? "block" : "hidden"}`} style={{ zIndex, backgroundColor: "white" }} >
           <Loading />
+
+         
         </div>
 
         {level > 7 && uuid !== null && (
@@ -401,22 +425,16 @@ export default function Page({month, setMonth}) {
               </>
             )}
 
+
             <div className="content-div bg-slate-600 pb-10 ">
               <Inputs user={user} boosting={boosting} setBootsing={setBoosting} setUniqueId={setUniqueId} uniqueId={uniqueId} level={level} setObjectiveAnswer={setObjectiveAnswer} setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth} setObjective={setObjective} setType={setType} setDate={setDate} objective={objective} post={post} page={page} date={date} />
 
-              <section className="mb-5">
-                <button
-                  onClick={() => setViewer("all")}
-                  className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3" >View All</button>
 
-                <button
-                  onClick={() => {setViewer("10");}}  className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3">First Half{" "} </button>
-                <button onClick={() => {setViewer("20");}} className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3"> {" "} Second Half{" "}</button>
-              </section>
+
 
               <Suspense fallback={<div>Loading...</div>}>
                 <DragDropContext onDragEnd={handleDragEnd}>
-                  <table className="m-auto w-full text-center animate-fade animate-duration-[500ms] animate-ease-in">
+                  <table className="m-auto w-full text-center">
                     <thead className="">
                       <tr className="bg-slate-800">
                         <th scope="col" className="px-6 py-3">Status </th>
@@ -435,13 +453,11 @@ export default function Page({month, setMonth}) {
                           {...provided.droppableProps}
                           ref={provided.innerRef}
                         >
-                          {round.map(
-                            (x, i) =>
-                              x.month === month && (
+
+
+                          {round.map((x, i) =>x.month === month && (
                                 <Draggable
-                                  draggableId={x.order.toString()}
-                                  index={i}
-                                >
+                                  draggableId={x.order.toString()} index={i} >
                                   {provided => (
                                     <tr ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}  className=" border-b bg-gray-700 border-gray-800" >
                                       <td className="text-black text-center rounded-sm font-medium" style={{ backgroundColor: x.color }}>
@@ -454,7 +470,7 @@ export default function Page({month, setMonth}) {
 
 <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400" 
 onMouseEnter={() => setShowCount(x.count)} 
-onMouseLeave={() => setShowCount("")}>{x.order - -1}
+onMouseLeave={() => setShowCount("")}>{x.order }
 <p>{showCount && showCount === x.count ? <>ID:{showCount}</> : null}
 </p>
 </td>
@@ -491,42 +507,35 @@ onMouseLeave={() => setShowCount("")}>{x.order - -1}
                                         </button>
                                       </td>
 
+                                  
+
                                       <Modal  open={show === i}  onClose={() => handleText(i)}  aria-labelledby="modal-modal-title"  aria-describedby="modal-modal-description"  className="overflow-auto main-modal" >
                                         <Box
                                           sx={styleNew}
                                           className="lg:!top-[40%] "
                                         >
-                                          <Typography
-                                            id="modal-modal-title"
-                                            variant="h6"
-                                            component="h2"
-                                            style={{ textAlign: "center" }}
-                                            className="flex flex-col gap-5 first-typo"
-                                          >
+                                          <Typography id="modal-modal-title" variant="h6" component="h2"  style={{ textAlign: "center" }}  className="flex flex-col gap-5 first-typo">
                                             {show === i && level > 7 && (
                                               <>
-                                                <div className="flex flex-col-reverse xl:flex-row animate-fade animate-duration-[200ms] animate-ease-in">
+                                                <div className="flex flex-col-reverse xl:flex-row">
                                                   <div className="lg:w-[800px] m-auto border-2 border-black bg-slate-700">
                                                     <div className="holds-written-content">
                                                       
-                                                      <div className="text-black flex">
-                                                        <WaitingDesigner pri={pri} date={date} objectiveAnswer={objectiveAnswer} typeAnswer={typeAnswer} img={img} month={month} color={color} page={page} post={post} boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} />
-                                                        <WaitingApproval objectiveAnswer={objectiveAnswer} objective={objective} typeAnswer={typeAnswer} month={month} color={color} page={page} setShow={setShow} />
-                                                        {level > 8 ? (
-                                                          <WaitingApproved objectiveAnswer={objectiveAnswer} type={type} boosting={boosting} date={date} post={post} objective={objective} uniqueId={uniqueId} subject={subject} user={user} typeAnswer={typeAnswer} month={month} color={color} page={page} />
-                                                        ) : null}
-                                                      </div>
+                                             {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
+                                                    <PageModal post={post} objective={objective} typeAnswer={typeAnswer} month={month} color={color} 
+                                                    page={page} setShow={setShow}   pri={pri} date={date} objectiveAnswer={objectiveAnswer}  
+                                                    img={img}   boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} level={level}/>
+                                                  
+                                                       {/* Below handles the images for the modal */}
+                                                      <ModalContent level={level} page={page} round={round} type={type} show={show} month={month} post={post} />
 
-                                                      <ModalContent level={level} page={page} round={round} type={type} show={show} />
                                                       {!x.answer ? null : (<h6 className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4" key={i} onClick={() => setObjectiveAnswer(x.answer)} style={{ color: "black" }} dangerouslySetInnerHTML={{ __html: x.answer }} />)}
 
                                                       <div className="flex flex-col items-center justify-evenly border-b-2 border-black">
-                                                        <section className="text-center mt-20">
-                                                          <button onClick={() => setWhatDoUWant(whatDoUWant === "Close" ? "Open" : "Close")} className="cursor-pointer lg:mt-2 text-white bg-sky-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Open Text Editor</button>
-                                                        </section>
+
 
                                                         {level > 7 &&
-                                                          whatDoUWant ==="Open" && (
+                                                        (
                                                             <>
                                                               <div className={`${whatDoUWant === "Open" ? "above-div-send w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10" : null}`}>
                                                                 <SendFromForm user={user} uniqueId={uniqueId} orderPost={orderPost} post={post}
@@ -564,6 +573,7 @@ onMouseLeave={() => setShowCount("")}>{x.order - -1}
                                                             
                                                             <input type="checkbox" readOnly checked={isChecked}
                                                              onClick={() => { setIsChecked(prevChecked => !prevChecked), setImageUrl(x.designer), setImage1Url(x.designer1), setImage2Url(x.designer2), setImage3Url(x.designer3), setBoosting(x.boosting), setCreatePdf(x.answer); }} className="mr-2 cursor-pointer" />
+                                                          
                                                             <Solo createPdf={createPdf} orderPost={orderPost} image1Url={image1Url}
                                                              image2Url={image2Url} image3Url={image3Url} setIsChecked={setIsChecked} 
                                                              subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} 

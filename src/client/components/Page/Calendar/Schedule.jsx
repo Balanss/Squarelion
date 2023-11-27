@@ -36,6 +36,15 @@ export default function Schedule({ user, level, uuid }) {
 
   const fetchAndCacheData = async () => {
     try {
+      // Check if data is in local storage
+      const cachedData = JSON.parse(localStorage.getItem("cachedData") || "[]");
+      if (cachedData.length > 0) {
+        // Data is in local storage, load it from there
+        setMatchingData(cachedData);
+        return;
+      }
+
+      // Data is not in local storage, fetch it from Firebase
       const promises = data.map(dataItem =>
         fs
           .collection(dataItem.name)
@@ -53,25 +62,23 @@ export default function Schedule({ user, level, uuid }) {
       const results = await Promise.all(promises);
       const matchingDataArray = results.flat();
 
-      // Compare with data in local storage
-      const cachedData = JSON.parse(localStorage.getItem("cachedData") || "[]");
-      if (JSON.stringify(cachedData) !== JSON.stringify(matchingDataArray)) {
-        // Update local storage
-        localStorage.setItem("cachedData", JSON.stringify(matchingDataArray));
-      }
+      // Save fetched data to local storage
+      localStorage.setItem("cachedData", JSON.stringify(matchingDataArray));
 
       // Update state
-      setMatchingData(matchingDataArray);
+      setMatchingData(matchingDataArray.filter(item => item.status !== 0));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-
+  
   useEffect(() => {
     fetchAndCacheData();
   }, [data]);
 
   // Add a function to refresh data from Firebase when needed
+
+  console.log(matchingData)
 
 
   const [SwitchingPage, setSwitchingPage] = useState(false);
@@ -106,9 +113,6 @@ export default function Schedule({ user, level, uuid }) {
               </th>
               <th scope="col" className=" py-3">
                 Pending Post
-              </th>
-              <th scope="col" className="px-0 py-3">
-                Completed
               </th>
             </tr>
           </thead>
@@ -181,7 +185,7 @@ export default function Schedule({ user, level, uuid }) {
                         </>
                       )}
                     </td>
-                    <td className="px-1 py-1">Coming Soon</td>
+                  
                   </tr>
                 )
             )}
