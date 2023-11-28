@@ -16,6 +16,7 @@ import { lazy, Suspense } from "react";
 import BugReport from "../../Bugs/BugReport";
 import Feedback from "../../FeedBack/FeedBack";
 import FeedBack from "../../FeedBack/FeedBack";
+import PopUp from "../../FeedBack/PopUp";
 
 // Lazy import the Schedule component
 const Schedule = lazy(() => import("./Calendar/Schedule"));
@@ -142,6 +143,7 @@ export default function Profile() {
                     <UserStats user={user} level={level} />
                     <Cal user={user} level={level} />
                     <Schedule user={user} level={level} uuid={uuid} />
+                    <PopUp user={user} level={level} />
                   </>
                 )}
 
