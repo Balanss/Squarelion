@@ -71,12 +71,17 @@ const CalendarWithNotes = ({ user, level }) => {
 
   return (
     <>
-      <div className="p-5 mb-10 text-lg font-semibold text-left text-white lg:w-[75vw] m-auto bg-gray-800  animate-fade-right animate-once animate-duration-[2000ms] animate-ease-in" >
-        Calendar
+      <div className="p-5 phones:p-0 phones:m-0 mb-10 text-lg font-semibold text-left text-white lg:w-[75vw] m-auto bg-gray-800  animate-fade-right animate-once animate-duration-[2000ms] animate-ease-in" >
+      <section className="phones:p-5 phones:text-center">
+      <p className="mt-1 text-2xl font-semibold  text-gray-500 dark:text-gray-400">
+      Calendar
+        </p>
         <p className="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
           {" "}
+          
           Add events to the Squarelion Calendar
         </p>
+      </section>
         <hr />
         <section className="flex justify-center gap-5 pb-20  p-5 wrap sm:w-[75vw] flex-col text-black   laptopL:w-full laptopL:flex-row  ">
           <div className={`${calLoading === false ? "hidden" : "false"}`}>

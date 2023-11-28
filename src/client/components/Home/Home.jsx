@@ -105,40 +105,40 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-black opacity-25" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <img className="w-[400px] h-[200px]" src={useLogo} alt="Logo" />
-          <h1 className="text-5xl text-white font-bold mb-4">
+          <img className="w-[400px] h-[200px] phones:w-[300px] phones:h-[200px] phones:pt-4" src={useLogo} alt="Logo" />
+          <h1 className="text-5xl phones:text-xl text-white font-bold mb-4">
             Welcome to Squarelion Media Pilot
           </h1>
-          <p className="text-2xl text-white mb-4">
+            <p className="text-2xl text-white mb-4 phones:text-xl font-semibold  text-shadow-black">
             An innovative and rapid marketing solution. Kindly be aware that
             Media Pilot is currently undergoing internal development.
           </p>
-          <div className="flex justify-center gap-10">
+          <div className="flex justify-center phones:gap-3 gap-10 ">
             <span className="flex flex-col ">
               <img
-                className="w-[90px] h-[90px] mr-4 rounded-full"
+                className="w-[90px] h-[90px]  mr-4 rounded-full"
                 src={rocket}
                 alt="Logo 1"
               />
-              <p className="text-2xl mt-2 text-white mb-4">Fast</p>
-            </span>
+                <p className="text-2xl mt-2 text-white mb-4 phones:text-lg">Fast</p>
+              </span>
 
-            <span className="flex flex-col ">
-              <img
-                className="w-[90px] h-[90px] mr-4 rounded-full"
-                src={fast}
-                alt="Logo 2"
-              />
-              <p className="text-2xl mt-2 text-white mb-4">Efficient</p>
-            </span>
+              <span className="flex flex-col ">
+                <img
+                  className="w-[90px] h-[90px] mr-4 rounded-full"
+                  src={fast}
+                  alt="Logo 2"
+                />
+                <p className="text-2xl mt-2 text-white mb-4 phones:text-lg">Efficient</p>
+              </span>
 
-            <span className="flex flex-col ">
-              <img
-                className="w-[90px] h-[90px] rounded-full"
-                src={ai}
-                alt="Logo 3"
-              />
-              <p className="text-2xl mt-2 text-white mb-4">Automation</p>
+              <span className="flex flex-col ">
+                <img
+                  className="w-[90px] h-[90px] rounded-full"
+                  src={ai}
+                  alt="Logo 3"
+                />
+                <p className="text-2xl mt-2 text-white mb-4 phones:text-lg">Automation</p>
             </span>
           </div>
         </div>

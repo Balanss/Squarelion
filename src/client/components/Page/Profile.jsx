@@ -13,6 +13,9 @@ import Panel from "./Panel/Panel";
 import Version from "../../Version/Version";
 import UserStats from "./UserStats/UserStats";
 import { lazy, Suspense } from "react";
+import BugReport from "../../Bugs/BugReport";
+import Feedback from "../../FeedBack/FeedBack";
+import FeedBack from "../../FeedBack/FeedBack";
 
 // Lazy import the Schedule component
 const Schedule = lazy(() => import("./Calendar/Schedule"));
@@ -33,7 +36,7 @@ export default function Profile() {
     }, 1000);
   }, []);
 
-  const [showPfp, setShowWPfp] = useState("start");
+  const [showPfp, setShowPfp] = useState("start");
 
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -49,6 +52,19 @@ export default function Profile() {
       window.removeEventListener("resize", handleResize); // Clean up the event listener on component unmount
     };
   }, []);
+
+  useEffect(() => {
+    if (pan) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+
+    // cleanup function to reset overflow when component unmounts
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [pan]);
 
   return (
     <>
@@ -77,7 +93,7 @@ export default function Profile() {
         data-drawer-toggle="default-sidebar"
         aria-controls="default-sidebar"
         type="button"
-        className="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        className="inline-flex items-center p-2 mt-2 mb-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
       >
         <svg
           className="w-6 h-6"
@@ -94,7 +110,7 @@ export default function Profile() {
         </svg>
       </button>
 
-      <div className=" flex flex-col sm:flex-row whole-div">
+      <div className=" flex flex-col sm:flex-row whole-div  ">
         {pan === true && isMobile === true && level > 6 && (
           <>
             <Panel
@@ -104,21 +120,23 @@ export default function Profile() {
               setPan={setPan}
               clicked={clicked}
               setClicked={setClicked}
+              setShowPfp={setShowPfp}
             />{" "}
           </>
         )}
 
-        <div className="bg-slate-700 w-[100vw] flex flex-row flex-wrap">
+
+        <div className="bg-slate-700 w-[100vw] phones:justify-center flex flex-row flex-wrap">
           {isMobile === false && level > 6 && (
             <>
-              <Panel level={level} user={user} pan={pan} setPan={setPan} />{" "}
+              <Panel level={level} user={user}  setShowPfp={setShowPfp} pan={pan} setPan={setPan} />{" "}
             </>
           )}
 
           {level > 6 ? (
             <>
               {" "}
-              <div className="flex flex-col items-center w-[78vw]  overflow-hidden ">
+              <div className="flex flex-col items-center w-[78vw] phones:w-full overflow-hidden ">
                 {showPfp === "start" && (
                   <>
                     <UserStats user={user} level={level} />
@@ -126,11 +144,19 @@ export default function Profile() {
                     <Schedule user={user} level={level} uuid={uuid} />
                   </>
                 )}
+
+{showPfp === "Bugs" && (<BugReport user={user} level={level} />)}
+{showPfp === "feedback" && (<FeedBack user={user} level={level} />)}
+
               </div>{" "}
+
+             
             </>
           ) : null}
         </div>
       </div>
+
+ 
 
       {loading === false && (
         <>

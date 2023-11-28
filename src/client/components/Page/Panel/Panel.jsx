@@ -6,18 +6,19 @@ import survey from '../../images/survey.png';
 import admin from '../../images/admin.png';
 import wfh from '../../images/wfh.png';
 import userPfp from "../../images/user.png"
+import Bugs from '../../images/bug.png';
 import schedule from '../../images/schedule.png'
 import meeting from '../../images/meeting.png'
 import { Link, useNavigate } from 'react-router-dom'
 import Links from '../Links';
-import { auth, fs,db } from '../../../Firebase'
+import { auth } from '../../../firebase';
 import Designer from '../../Designer/Designer';
 import design from "../../images/Designer.jpg"
 import SignoutInfo from '../../AdminPage/LogsInfo/SignoutInfo';
 import timer from "../../images/time.png"
 import DesignerFunctions from '../../Designer/DesignerFunctions';
 
-export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideList,sum,work,setSendTo,setDisplayTo,setPrivateChat,setTrueChat,setPan,pan}) {
+export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList,setHideList,sum,work,setSendTo,setDisplayTo,setPrivateChat,setTrueChat,setPan,pan}) {
 
     const [ panel,setPanel] = useState(false)
     const [clicked,setClicked] = useState(true)
@@ -44,7 +45,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
    
      <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800 w-[20vw]  ">
       <DesignerFunctions user={user} setNoti={setNoti} setDesignerData={setDesignerData} designerData={designerData}/>
-        <ul className="space-y-2 font-medium fixed">
+        <ul className="space-y-2 font-medium fixed phones:bg-slate-500 phones:left-0 ">
            <li>
               <Link to='/' 
               className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
@@ -54,7 +55,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
            </li>
   
            <li>
-              <a onClick={() => {setShowWfh('start'),setPan(pan === false?true:false)}} 
+              <a onClick={() => {setShowPfp('start'),setPan(pan === false?true:false)}} 
               className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
                  <img className='w-[25px]' src={schedule} />
                  <span className="ml-3 md:text-xs lg:text-md">Calendar</span>
@@ -68,9 +69,9 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
               </Link> : null}
            </li>
   
-           <li>
+           <li  >
               <a  
-               className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white  rounded-lg dark:text-white  dark:hover:bg-gray-700 group" >
+               className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white  rounded-lg dark:text-white  dark:hover:bg-gray-700 group"  >
                 <img className='w-[25px]' src={client} />  
                  <span className="flex-1 ml-2 whitespace-nowrap   dark:text-white md:!text-xs lg:!text-md">  <Links/> </span>
               </a>
@@ -91,6 +92,20 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
                  <span className="flex-1 ml-3 whitespace-nowrap text-white md:text-xs lg:text-md ">{formattedUser}</span>
               </a>
            </li>
+
+           <li>
+            <a className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group" onClick={() => {setShowPfp('Bugs'),setPan(pan === false?true:false)}}>
+            <img className='w-[25px]' src={Bugs} />
+                 <span className="flex-1 ml-3 whitespace-nowrap text-white md:text-xs lg:text-md ">Bug Report</span>
+            </a>
+           </li>
+
+           <li>
+               <a className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group" onClick={() => {setShowPfp('feedback'),setPan(pan === false?true:false)}}>
+               <img className='w-[25px]' src={wfh} />
+                   <span className="flex-1 ml-3 whitespace-nowrap text-white md:text-xs lg:text-md ">FeedBack</span>
+               </a>
+           </li>
   
            <li>
               <a className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 text-white rounded-lg dark:text-white  dark:hover:bg-gray-700 group" onClick={handleLogout} >
@@ -100,12 +115,7 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
            </li>
 
 
-  <li>
-    
-  
-  
-  
-  
+  {/* <li>
   {level > 7 && showWfh ==='chat' && <>
   
   <div className= 'pt-200px'>
@@ -127,10 +137,10 @@ export default function Panel({level,showWfh,setShowWfh,user,hideList,setHideLis
   </div>
   
   </>}
-  </li>
+  </li> */}
 
 
-  <li className='fixed bottom-10'>
+  <li className='fixed bottom-10 phones:top-0 phones:right-0'>
   <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
               <img className='w-[25px]' src={timer} />
                  <span className="flex-1 ml-2 whitespace-nowrap text-white md:text-xs lg:text-md"><SignoutInfo /> </span>

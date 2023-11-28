@@ -113,8 +113,8 @@ export default function UserStats({ user ,level}) {
   }, [user, round]);
 
   return (
-    <div className=" text-center text-white w-[75vw] flex items-center justify-start xl:items-start xl:justify-between flex-col lg:flex-row mb-5 mt-5 gap-10">
-      <div className="inline-flex gap-5">
+    <div className=" text-center text-white w-[75vw]phones:w-auto flex items-center justify-start xl:items-start xl:justify-between flex-col lg:flex-row mb-5 mt-5 gap-10">
+      <div className="inline-flex phones:flex-col phones:gap-2 gap-5">
         {writtenBy === 0 ? null : (
           <div
             className={`block max-w-sm p-6 md:w-[125px] lg:w-[125px] xl:w-[180px] text-left text-white  border border-gray-600 rounded-lg shadow   bg-gray-800 hover:bg-gray-700 `}

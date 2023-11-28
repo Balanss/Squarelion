@@ -95,21 +95,12 @@ export default function Stories({
             
             docRef=collection(db, page);
             colRef=doc(docRef,month);
-            
-            await fs
-              .collection(page)
-              .doc(typeAnswer + month)
-              .set(
-                {
-                  designer: downloadURLs[0],
-                  designer1: downloadURLs[1] || "",
-                  designer2: downloadURLs[2] || "",
-                  designer3: downloadURLs[3] || "",
-                  DesignedBy: user,
-                },
-                { merge: true }
-              );
-
+            await setDoc(colRef, {  designer: downloadURLs[0],
+              designer1: downloadURLs[1] || "",
+              designer2: downloadURLs[2] || "",
+              designer3: downloadURLs[3] || "",
+              DesignedBy: user, }, { merge: true });
+          
             setImageUrls(downloadURLs);
             setFiles(selectedFiles);
             setUploadButtonText("Upload Complete");

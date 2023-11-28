@@ -11,17 +11,26 @@ import Sure from '../../firebaseData/Sure';
 import Solo from '../../Txt/Solo';
 import bin from '/src/client/components/images/bin-2.png'
 import SendFromForm from '../../firebaseData/SendFromForm';
+import { useEffect } from 'react';
 
 
 const style = {
     position: 'absolute',
     top: '50%',
-    left: '50%',
+    left: '60%',
     transform: 'translate(-50%, -50%)',
     bgcolor: 'ghostwhite',
     boxShadow: 24,
   };
 
+  const phones= {
+    position: 'absolute',
+    top: '100%',
+    left: '63%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'ghostwhite',
+    boxShadow: 24,
+  }
 
   
 
@@ -32,6 +41,7 @@ const [img1, setImg1] = useState('')
 const [img2, setImg2] = useState('')
 const [img3, setImg3] = useState('')
 const [img4, setImg4] = useState('')
+const [isMobile, setIsMobile] = useState(false);
 
 
     const [openModal, setOpenModal] = React.useState(false);
@@ -53,6 +63,21 @@ const [img4, setImg4] = useState('')
 
 
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 639);
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+        
     
 
   return (
@@ -66,8 +91,7 @@ const [img4, setImg4] = useState('')
                {x.pdf?  <a className='text-white' href={x.pdf} target="_blank" rel="noreferrer"> View pdf </a> : null  }
                 {x.designer > "" && 
                 <><span className='flex items-center justify-around '>
-                <img src={x.designer} className='m-auto mt-[50px]' style={{maxWidth:'200px',maxHeight:'200px',cursor:'zoom-in'}}  onClick={() => {handleOpenModal(i)}}/>
-                
+                <img src={x.designer} className='m-auto mt-[50px]' style={{maxWidth:'20vw',maxHeight:'20vh',cursor:'zoom-in'}}  onClick={() => {handleOpenModal(i)}}/>
                 {level > 8 && <img
               src={bin}
               alt="Delete"
@@ -80,16 +104,12 @@ const [img4, setImg4] = useState('')
               }}
             />}
 
-
-                       
-                       
-                
                 </span></>}
         
                 {/* designer1, designer2, designer3 images */}
-                {type === 'Stories' && <>
+                {(type === 'Stories' || type ==='stories') && <>
         
-                <span className='flex items-center justify-around mt-3'> 
+                <span className='flex items-center justify-around mt-3 mb-2'> 
                 <img src={x.designer1} style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}} onClick={() => {handleOpenModal(i)}}/>
         
                 {x.designer1 && level > 8 && (
@@ -108,7 +128,7 @@ const [img4, setImg4] = useState('')
                 </span>
                 
                 
-                <span className='flex items-center justify-around'>
+                <span className='flex items-center justify-around mt-3 mb-3'>
                 <img src={x.designer2}  style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}}  onClick={() => {handleOpenModal(i)}}/>
                 {x.designer2 > '' && level > 8 && (<img
               src={bin}
@@ -179,14 +199,14 @@ const [img4, setImg4] = useState('')
     aria-describedby="modal-modal-description"
     className='max-w-[80vw] max-h-[80vw]  '
     >
-    <Box sx={style}>
+    <Box sx={isMobile ? phones : style}>
     <Typography id="modal-modal-title" variant="h6" component="h2"  sx={{mt:2}} style={{textAlign:'center'}}  className='flex'>
-    <img src={img1}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
-    <img src={img2}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
+    <img src={img1} style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
+    <img src={img2}  style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
     </Typography>
     <Typography id="modal-modal-description" sx={{ mt: 2 }} className='flex'>
-    <img src={img3}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
-    <img src={img4}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
+    <img src={img3}      style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
+    <img src={img4}      style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
     </Typography>
     </Box>
     </Modal>

@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import Nav from "../Nav";
 import { useState, useEffect } from "react";
-import { auth, fs, db } from "../../Firebase";
+import { db, fs } from "../../Firebase";
 import { useNavigate } from "react-router-dom";
 import User from "../User";
 import {
@@ -18,11 +18,11 @@ import Links from "./Links";
 import WaitingDesigner from "../firebaseData/WaitingDesigner";
 import WaitingApproval from "../firebaseData/WaitingApproval";
 import WaitingApproved from "../firebaseData/WaitingApproved";
-import cross from "../images/cross.png";
+
 import Solo from "../Txt/Solo";
 import TxtAll from "../Txt/TxtAll";
 import Title from "../../Title";
-import view from "../images/open.png";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -35,7 +35,7 @@ import "/src/client/index.css";
 import Version from "../../Version/Version";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Bot from "./Bot/Bot";
-import { set } from "date-fns";
+
 
 const ModalContent = lazy(() => import("./Modal/ModalContent"));
 
@@ -417,16 +417,16 @@ export default function Page({month, setMonth}) {
               <Suspense fallback={<div>Loading...</div>}>
                 <DragDropContext onDragEnd={handleDragEnd}>
                   <table className="m-auto w-full text-center animate-fade animate-duration-[500ms] animate-ease-in">
-                    <thead className="">
+                    <thead className="phones:text-[12px]">
                       <tr className="bg-slate-800">
-                        <th scope="col" className="px-6 py-3">Status </th>
-                        <th scope="col" className="px-6 py-3">Unique Id</th>
-                        <th scope="col" className="px-6 py-3">Post</th>
-                        <th scope="col" className="px-6 py-3"> Subject </th>
-                        <th scope="col" className="px-6 py-3">Channel </th>
-                        <th scope="col" className="px-6 py-3">Day </th>
-                        <th scope="col" className="px-6 py-3">Prio </th>
-                        <th scope="col" className="px-6 py-3">View </th>
+                        <th scope="col" className="px-6 py-3 phones:p-0">Status </th>
+                        <th scope="col" className="px-6 py-3 phones:p-1">Unique Id</th>
+                        <th scope="col" className="px-6 py-3 phones:p-1">Post</th>
+                        <th scope="col" className="px-6 py-3 phones:p-0"> Subject </th>
+                        <th scope="col" className="px-6 py-3 phones:p-0">Channel </th>
+                        <th scope="col" className="px-6 py-3 phones:p-0">Day </th>
+                        <th scope="col" className="px-6 py-3 phones:p-2">Prio </th>
+                        <th scope="col" className="px-6 py-3 phones:p-2">View </th>
                       </tr>
                     </thead>
                     <Droppable droppableId="table">
@@ -444,15 +444,15 @@ export default function Page({month, setMonth}) {
                                 >
                                   {provided => (
                                     <tr ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}  className=" border-b bg-gray-700 border-gray-800" >
-                                      <td className="text-black text-center rounded-sm font-medium" style={{ backgroundColor: x.color }}>
+                                      <td className="text-black text-center rounded-sm font-medium phones:text-xs" style={{ backgroundColor: x.color }}>
                                         {x.status}
                                       </td>
 
-                                      <td className="px-6 cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400" onClick={() =>
+                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400" onClick={() =>
                                          { setForPost(x.unid); if (level > 8) handleOpenModalBar(); setPost(x.count);
                                           setTitle("unid"); }}>{x.unid}</td>
 
-<td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400" 
+<td className="px-6 phones:text-[10px] phones:p-2 cursor-pointer whitespace-nowrap text-sm text-gray-400" 
 onMouseEnter={() => setShowCount(x.count)} 
 onMouseLeave={() => setShowCount("")}>{x.order - -1}
 <p>{showCount && showCount === x.count ? <>ID:{showCount}</> : null}
@@ -460,23 +460,23 @@ onMouseLeave={() => setShowCount("")}>{x.order - -1}
 </td>
 
 
-                                      <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() =>
+                                      <td className="px-6 phones:text-[10px] phones:p-2 cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() =>
                                          { setForPost(x.objective); if (level > 8) handleOpenModalBar(); 
                                          setPost(x.count); setTitle("objective"); }}>
                                           {x.objective.length > 50 ? x.objective.slice(0, 50) + "..." : x.objective}
                                           </td>
 
 
-                                      <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() => 
+                                      <td className="px-6 phones:p-0 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() => 
                                         { setForPost(x.type); if (level > 8) handleOpenModalBar();
                                         setPost(x.count); setTitle("type"); }}>{x.type}</td>
 
-                                      <td className="px-6 cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() =>
+                                      <td className="px-6 phones:p-0 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() =>
                                          { setForPost(x.date); 
                                          if (level > 8) handleOpenModalBar(); setPost(x.count);
                                           setTitle("date"); }}>{month}-{x.date} </td>
 
-                                      <td className={`px-6 ${ x.priority === "Prio"  ? "bg-red-600 text-white " : "text-gray-400" }`} >
+                                      <td className={`px-6 phones:p-0 phones:text-[10px] ${ x.priority === "Prio"  ? "bg-red-600 text-white " : "text-gray-400" }`} >
                                      <button onClick={() => 
                                       { if (level > 8) { 
                                         const docRef = collection(db, page);
@@ -485,8 +485,8 @@ onMouseLeave={() => setShowCount("")}>{x.order - -1}
                                         { merge: true }); } }}>{x.priority}</button>
                                       </td>
 
-                                      <td className="px-6  whitespace-nowrap text-sm text-gray-400">
-                                        <button  className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105  transition-transform transform-gpu hover:text-white hover:bg-red-500  " onClick={() => handleText(i)} >
+                                      <td className="px-6 phones:p-1 phones:text-[10px] whitespace-nowrap text-sm text-gray-400">
+                                        <button  className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105 p-[1px]  transition-transform transform-gpu hover:text-white hover:bg-red-500  " onClick={() => handleText(i)} >
                                      {statusBar===i? "close" : "open"}
                                         </button>
                                       </td>
@@ -538,9 +538,10 @@ onMouseLeave={() => setShowCount("")}>{x.order - -1}
                                                               {level > 8 && (
 
                                                                 <form
-                                                                  className="flex" onSubmit={handleSubmit}>
+                                                                  className="flex phones:flex-col" 
+                                                                  onSubmit={handleSubmit}>
                                                                    <div className="flex flex-col">
-                                                                   <textarea value={preset} onChange={e => setPreset(e.target.value)}  className="w-[300px] h-[300px]"/>
+                                                                   <textarea value={preset} onChange={e => setPreset(e.target.value)}  className="w-[300px] h-[300px] phones:w-full"/>
                                                         
                                                                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => {navigator.clipboard.writeText(preset);}}> Copy </button>
 </div>

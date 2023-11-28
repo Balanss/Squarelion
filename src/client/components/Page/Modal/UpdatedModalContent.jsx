@@ -16,11 +16,21 @@ import SendFromForm from '../../firebaseData/SendFromForm';
 const style = {
     position: 'absolute',
     top: '50%',
-    left: '50%',
+    left: '60%',
     transform: 'translate(-50%, -50%)',
     bgcolor: 'ghostwhite',
     boxShadow: 24,
   };
+
+  const phones= {
+    position: 'absolute',
+    top: '100%',
+    left: '63%',
+    transform: 'translate(-50%, -50%)',
+    bgcolor: 'ghostwhite',
+    boxShadow: 24,
+  }
+
 
 
   
@@ -32,6 +42,7 @@ const [img1, setImg1] = useState('')
 const [img2, setImg2] = useState('')
 const [img3, setImg3] = useState('')
 const [img4, setImg4] = useState('')
+const [isMobile, setIsMobile] = useState(false);
 
 
     const [openModal, setOpenModal] = React.useState(false);
@@ -51,7 +62,19 @@ const [img4, setImg4] = useState('')
     }
     const handleClose = () => setOpenModal(false);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 639);
+        };
 
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     
 
@@ -180,18 +203,18 @@ const [img4, setImg4] = useState('')
     aria-describedby="modal-modal-description"
     className='max-w-[80vw] max-h-[80vw]  '
     >
-    <Box sx={style}>
+     <Box sx={isMobile ? phones : style}>
     <Typography id="modal-modal-title" variant="h6" component="h2"  sx={{mt:2}} style={{textAlign:'center'}}  className='flex'>
-    <img src={img1}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
-    <img src={img2}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
+    <img src={img1} style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
+    <img src={img2}  style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
     </Typography>
     <Typography id="modal-modal-description" sx={{ mt: 2 }} className='flex'>
-    <img src={img3}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
-    <img src={img4}      style={{maxWidth:'50vw',maxHeight:'50vh',margin:'auto'}}/>
+    <img src={img3}      style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
+    <img src={img4}      style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
     </Typography>
     </Box>
     </Modal>
-
+ 
     </>
   )
 }

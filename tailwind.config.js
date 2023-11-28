@@ -21,6 +21,7 @@ export default {
            'laptop':'800px',
            'laptopL':"1024px",
            'cal':'1000px',
+           'phones':{'max':'639px'},
 
           'desktop': '810px',
           // => @media (min-width: 1280px) { ... }

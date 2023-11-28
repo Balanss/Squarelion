@@ -13,7 +13,7 @@ import '../../App.css'
 
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import Stories from '../Page/Stories';
+import UpdatedStories from '../Page/UpdatedStories';
 import { set } from 'date-fns';
 
 
@@ -66,45 +66,6 @@ export default function SendFromForm({objectiveAnswer,preset,typeAnswer,month,co
       const colRef = doc(docRef,name)
       
       setDoc(colRef,{name:name},{merge:true})
-      
-      
-      // const storageRef = ref(getStorage(), `products/${name}/${image.name}/+${uniqueId}.${orderPost}`);
-      
-      // // Upload the file to the bucket
-      // const uploadTask = uploadBytesResumable(storageRef, image);
-      
-      
-      // // Listen for state changes, errors, and completion of the upload.
-      // uploadTask.on(
-      //   "state_changed",
-      //   (snapshot) => {
-      //     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          
-      //   },
-      //   (error) => {
-      //     console.error(error);
-      //   },
-      //   //here
-      //   async () => {
-      //     // Upload completed successfully, now get the download URL
-      //     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-      
-      //    // Save the download URL to Firestore
-      
-      
-
-
-      //   const docR= collection(db,page )
-      //   const colR = doc(docR,month)
-      //   setDoc(colR,{[post + month]:{ 
-      //     designer:downloadURL,
-      //   }},{merge:true})
-        
-      
-      //   },{merge:true}
-      // );
-  
-     
       }
       
   
@@ -225,7 +186,7 @@ lg:w-[150px]">
 
 </form> : null}
 
-{type === "Stories" ? <Stories user={user} post={post} orderPost={orderPost} uniqueId={uniqueId} type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer} /> : null}
+{type === "Stories" ? <UpdatedStories user={user} post={post} orderPost={orderPost} uniqueId={uniqueId} type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer} month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer} /> : null}
 </>: null}
 
 

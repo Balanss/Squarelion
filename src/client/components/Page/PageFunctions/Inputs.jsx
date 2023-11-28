@@ -15,25 +15,25 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 {level > 8 &&         <thead className="text-xs text-gray-700 uppercase text-center bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 phones:p-0">
                     Unique ID
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 phones:p-0">
                     Post Number
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 phones:p-0">
                     Post Subject
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 phones:p-0">
                     Channel
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 phones:p-0">
                     Post Date
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 phones:p-0">
                    Post Month
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-6 py-3 phones:p-0">
                     Boosting
                 </th>
             </tr>
@@ -46,8 +46,8 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
   <th scope="row" className="px-1 py-1 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <input value={uniqueId} type="text" placeholder=' Unique ID' onChange={(e) => setUniqueId(e.target.value)} required className='input- h-[50px] text-black border-2 border-black w-[100px]'/>  
                 </th>
-                <td className="px-1 py-1">
-                <input value={post} type="number" placeholder='Post number' onChange={(e) => setPost(e.target.value)} required className='input-admindb h-[50px] border-2 border-black w-[100px]' />  
+                <td className="px-1 py-1 ">
+                <input value={post} type="number" placeholder='Post number' onChange={(e) => setPost(e.target.value)} required className='input-admindb  h-[50px] border-2 border-black w-[100px]' />  
                 </td>
                 <td className="px-1 py-1">
                 <input type="text" placeholder='Subject' value={objective} onChange={(e) => setObjective(e.target.value)} required  className='input-admindb h-[50px]  border-2 border-black w-[100px]'/> 

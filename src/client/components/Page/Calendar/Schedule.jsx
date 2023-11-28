@@ -78,14 +78,14 @@ export default function Schedule({ user, level, uuid }) {
 
   // Add a function to refresh data from Firebase when needed
 
-  console.log(matchingData)
+
 
 
   const [SwitchingPage, setSwitchingPage] = useState(false);
 
   return (
     <>
-      <div className=" animate-fade-right animate-once animate-duration-[3000ms] animate-ease-in  overflow-hidden flex flex-wrap items-center gap-2 justify-center sm:w-[70vw] laptop:w-[80vw] laptop:content-start laptopL:overflow-y-scroll   p-5 m-auto  border-2 border-slate-700/50 ">
+      <div className=" animate-fade-right animate-once animate-duration-[3000ms] animate-ease-in  overflow-hidden flex flex-wrap items-center gap-2 justify-center sm:w-[70vw] laptop:w-[80vw] laptop:content-start laptopL:overflow-y-scroll phones:p-0  p-5 m-auto  border-2 border-slate-700/50 ">
         <section className="">
           {SwitchingPage && (
             <div className=" flex-col  fixed top-0 w-[100vw] bg-slate-600 left-0 z-[100] flex items-center justify-center h-[100vh]">
@@ -97,7 +97,7 @@ export default function Schedule({ user, level, uuid }) {
         </section>
 
         <table className="w-full text-sm text-left text-gray-400 shadow-md shadow-slate-800">
-          <caption className="p-5 text-lg font-semibold text-left  text-white bg-gray-800">
+          <caption className="p-5 text-lg font-semibold text-left phones:text-center  text-white bg-gray-800">
             Squarelion Agency Partners
             <p className="mt-1 text-sm font-normal text-gray-400">
               Click on any of the images to view the partner page

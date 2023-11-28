@@ -201,8 +201,8 @@ const [sureYouWantToDelete, setSureYouWantToDelete] = useState(false)
 {modal === true &&
 <div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50'>
   
-  <section className='bg-white w-[50vw]  m-auto mt-20 p-2 rounded-lg h-auto' >
-  <button className='bg-red-500 w-[10vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => setModal(false)}>Close</button>
+  <section className='bg-white w-[50vw] phones:w-[90vw]  m-auto mt-20 p-2 rounded-lg h-auto' >
+  <button className='bg-red-500 w-[10vw] phones:w-auto m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => setModal(false)}>Close</button>
   
     <textarea className='w-full h-[25vh] border-2 border-black'  value={forDesigner}  placeholder='Enter your text here' onChange={(e) => {
       setForDesigner(e.target.value)
@@ -232,7 +232,7 @@ const [sureYouWantToDelete, setSureYouWantToDelete] = useState(false)
   <label className="custom-file-upload cursor-pointer text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2  dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"> <input type="file" accept="image/*" multiple onChange={handleUploadImages}/>{uploadButtonText} </label>
 
  
-    <button className='bg-red-600 text-white w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleDelete}>Delete</button>
+    <button className='bg-red-600 text-white w-[10vw] phones:w-auto ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleDelete}>Delete</button>
     {sureYouWantToDelete === true && <><p className='text-black'>Are you sure you want to delete this post?</p>
     <button className='bg-red-500 w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleSureDelete}>Yes</button>
     <button className='bg-yellow-500 w-[10vw] ml-5 m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => setSureYouWantToDelete(false)}>No</button>
