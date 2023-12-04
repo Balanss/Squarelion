@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { useState, useEffect } from "react";
-import { fs, auth, db } from "../../firebase";
 import User from "../User";
 import { useParams } from "react-router-dom";
 import WaitingForAdmin from "./WaitingForAdmin";
@@ -14,9 +13,8 @@ import Version from "../../Version/Version";
 import UserStats from "./UserStats/UserStats";
 import { lazy, Suspense } from "react";
 import BugReport from "../../Bugs/BugReport";
-import Feedback from "../../FeedBack/FeedBack";
 import FeedBack from "../../FeedBack/FeedBack";
-import PopUp from "../../FeedBack/PopUp";
+// import PopUp from "../../FeedBack/PopUp";
 
 // Lazy import the Schedule component
 const Schedule = lazy(() => import("./Calendar/Schedule"));
@@ -56,14 +54,14 @@ export default function Profile() {
 
   useEffect(() => {
     if (pan) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     }
 
     // cleanup function to reset overflow when component unmounts
     return () => {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     };
   }, [pan]);
 
@@ -126,11 +124,16 @@ export default function Profile() {
           </>
         )}
 
-
         <div className="bg-slate-700 w-[100vw] phones:justify-center flex flex-row flex-wrap">
           {isMobile === false && level > 6 && (
             <>
-              <Panel level={level} user={user}  setShowPfp={setShowPfp} pan={pan} setPan={setPan} />{" "}
+              <Panel
+                level={level}
+                user={user}
+                setShowPfp={setShowPfp}
+                pan={pan}
+                setPan={setPan}
+              />{" "}
             </>
           )}
 
@@ -143,22 +146,19 @@ export default function Profile() {
                     <UserStats user={user} level={level} />
                     <Cal user={user} level={level} />
                     <Schedule user={user} level={level} uuid={uuid} />
-                    <PopUp user={user} level={level} />
+                    {/* <PopUp user={user} level={level} /> */}
                   </>
                 )}
 
-{showPfp === "Bugs" && (<BugReport user={user} level={level} />)}
-{showPfp === "feedback" && (<FeedBack user={user} level={level} />)}
-
+                {showPfp === "Bugs" && <BugReport user={user} level={level} />}
+                {showPfp === "feedback" && (
+                  <FeedBack user={user} level={level} />
+                )}
               </div>{" "}
-
-             
             </>
           ) : null}
         </div>
       </div>
-
- 
 
       {loading === false && (
         <>

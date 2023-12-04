@@ -2,14 +2,14 @@ import React from 'react'
 import {useState, useEffect,useMemo} from 'react'
 import { auth, fs } from '../../../Firebase'
 
-export default function User({ roles,setRoles }) {
+export default function User({ roles,setRoles,user,level }) {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
-            if (firebaseUser) {
+            if (firebaseUser && level !== 11) {
                 fs.collection('admin')
-                    .where('role', '!=', null)
+                    .where('role', '==', 'Designer')
                     .get()
                     .then((querySnapshot) => {
                         const usersData = [];
@@ -22,8 +22,21 @@ export default function User({ roles,setRoles }) {
                     .catch((error) => {
                         console.log('Error getting users:', error);
                     });
-            } else {
-                // Handle user not authenticated
+            } else if (firebaseUser && level === 11) {
+                fs.collection('admin')
+                .where('level', '==', 11)
+                .get()
+                .then((querySnapshot) => {
+                    const usersData = [];
+                    querySnapshot.forEach((doc) => {
+                        const userData = doc.data();
+                        usersData.push(userData);
+                    });
+                    setRoles(usersData);
+                })
+                .catch((error) => {
+                    console.log('Error getting users:', error);
+                });
             }
         });
 

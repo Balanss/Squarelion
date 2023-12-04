@@ -15,7 +15,7 @@ import { set } from 'date-fns';
 import DesignerFunctions from '../Designer/DesignerFunctions';
 import Roles from '../AdminPage/Roles/Roles';
 
-export default function WaitingDesigner({typeAnswer,month,page,post,objectiveAnswer,color,boosting,uniqueId,user,type,subject,img,date,pri}) {
+export default function WaitingDesigner({typeAnswer,month,page,post,objectiveAnswer,color,boosting,uniqueId,user,type,subject,img,date,pri,level}) {
 
 const [forDesigner, setForDesigner] = useState('')
 const [message, setMessage] = useState('')
@@ -44,6 +44,7 @@ function handleToDdesigner(){
         statusText:'Designer',
         month:month,
         page:page,
+        New:true,
         post:post,
       date:date,
         user:user,
@@ -61,6 +62,7 @@ function handleToDdesigner(){
         month:month,
         page:page,
         post:post,
+        New:true,
       date:date,
         user:user,
         type:type,
@@ -206,7 +208,7 @@ const [sureYouWantToDelete, setSureYouWantToDelete] = useState(false)
   return ( <>
   
   <DesignerFunctions setDesignerData={setDesignerData} />
-  <Roles roles={roles} setRoles={setRoles} />
+  <Roles roles={roles} setRoles={setRoles} level={level} />
     <p  className='bg-yellow-500 w-[30vw] m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}> Designer </p>
 
 

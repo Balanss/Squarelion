@@ -1,27 +1,16 @@
 import React, { Suspense, lazy } from "react";
 import Nav from "../Nav";
 import { useState, useEffect } from "react";
-import { auth, fs, db } from "../../Firebase";
+import { fs, db } from "../../Firebase";
 import { useNavigate } from "react-router-dom";
 import User from "../User";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  updateDoc,
-  setDoc,
-  addDoc,
-  FieldValue,
-  deleteField,
-} from "firebase/firestore";
+import { collection, deleteDoc, doc, updateDoc, setDoc, addDoc, FieldValue, deleteField } from "firebase/firestore";
 import SendFromForm from "../firebaseData/UpdatedSendFromForm";
 import { useParams } from "react-router-dom";
 import Links from "./Links";
-import cross from "../images/cross.png";
 import Solo from "../Txt/Solo";
 import TxtAll from "../Txt/TxtAll";
 import Title from "../../Title";
-import view from "../images/open.png";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -34,9 +23,9 @@ import "/src/client/index.css";
 import Version from "../../Version/Version";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import Bot from "./Bot/Bot";
-import { set } from "date-fns";
 import PageModal from "./PageModal";
- 
+import GettingRound from "./GettingRound/GettingRound";
+
 const ModalContent = lazy(() => import("./Modal/UpdatedModalContent"));
 
 const modules = {
@@ -59,7 +48,6 @@ const styleNew = {
   transform: "translate(-50%, -50%)",
   bgcolor: "transparent",
   p: 4,
- 
 };
 
 const styleBar = {
@@ -73,7 +61,7 @@ const styleBar = {
   p: 4,
 };
 
-export default function UpdatedPage({month,setMonth}) {
+export default function UpdatedPage({ month, setMonth }) {
   const { id } = useParams();
   const [hide, setHide] = useState(false);
   const [color, setColor] = useState("orange");
@@ -86,7 +74,7 @@ export default function UpdatedPage({month,setMonth}) {
   const [deletion, setDeletion] = useState("");
   const [rounded, setRounded] = useState([]);
   const [newRound, setNewRound] = useState([]);
-  const[round, setRound] = useState([]);
+  const [round, setRound] = useState([]);
   const navigate = useNavigate();
 
   //------------------------------------------ under lifts state to button for firebase
@@ -106,7 +94,8 @@ export default function UpdatedPage({month,setMonth}) {
   const [image2Url, setImage2Url] = useState("");
   const [image3Url, setImage3Url] = useState("");
   const [preset, setPreset] = useState("");
-
+  const [viewer, setViewer] = useState("all");
+  const [pri, setPri] = useState("");
   const [boosting, setBoosting] = useState("");
   const [title, setTitle] = useState("");
 
@@ -123,68 +112,6 @@ export default function UpdatedPage({month,setMonth}) {
     e.preventDefault();
     setHide(false);
   }
-
-  const [viewer, setViewer] = useState("all");
-  const getRound = () => {
-    setPage(localStorage.getItem("partner"));
-    try {
-      fs.collection(page)
-        .doc(month)
-        .onSnapshot((doc) => {
-          if (doc.exists) {
-            const data = doc.data();
-            setRounded([data]);
-            setRound(
-              Object.keys(data)
-                .map((key) => {
-                  const item = data[key];
-                  return item.user
-                    ? {
-                        level: item.level,
-                        month: item.month,
-                        order: item.order,
-                        objective: item.objective,
-                        boosting: item.boosting,
-                        channel: item.channel,
-                        client: item.client,
-                        color: item.color,
-                        content: item.content,
-                        count: item.count,
-                        date: item.date,
-                        monthInWords: item.monthInWords,
-                        status: item.status,
-                        statusText: item.statusText,
-                        type: item.type,
-                        unid: item.unid,
-                        user: item.user,
-                        answer: item.answer,
-                        designer: item.designer,
-                        priority: item.priority,
-                      }
-                    : null;
-                })
-                .filter((item) => item !== null)
-                .sort((a, b) => a.order - b.order) // Sort by order in ascending order
-            );
-          } else {
-            console.log("No such document!");
-          }
-        });
-    } catch (error) {
-      console.log("loading");
-    }
-  };
-
-  useEffect(() => {
-    getRound();
-  }, [page, showRound, viewer, month]);
-
-
-  
-
-
-
-  const [pri, setPri] = useState("");
 
   function handleText(i) {
     if (show !== "") {
@@ -235,11 +162,10 @@ export default function UpdatedPage({month,setMonth}) {
   function handleDelete(i) {
     round.map((x, index) => {
       if (index === i) {
-
         const docRef = collection(db, localStorage.getItem("partner"));
         const colRef = doc(docRef, x.month);
-      
-        deleteDoc(colRef,{[x.post + x.month]: deleteField()});
+
+        deleteDoc(colRef, { [x.post + x.month]: deleteField() });
 
         const dcRef = collection(db, "DesignerPage");
         const clRef = doc(dcRef, x.id + x.client);
@@ -267,21 +193,17 @@ export default function UpdatedPage({month,setMonth}) {
   const [img, setImage] = useState("");
   useEffect(() => {
     setImage(localStorage.getItem("image"));
-   
   }, [img]);
-
 
   useEffect(() => {
     let str = localStorage.getItem("preset");
     if (str === undefined) {
       str = "No preset available";
     } else {
-      str = str.replace(/  /g, '\n');
+      str = str.replace(/  /g, "\n");
     }
     setPreset(str);
   }, []);
-
-
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -326,17 +248,17 @@ export default function UpdatedPage({month,setMonth}) {
       setDoc(
         colRef,
         {
- client: page,
- color: "orange",
- count: editDetails,
- date: date,
- month: month,
- objective: objective,
- priority: "No",
- status: "pending",
- type: type,
- unid: uniqueId,
- boosting: boosting,
+          client: page,
+          color: "orange",
+          count: editDetails,
+          date: date,
+          month: month,
+          objective: objective,
+          priority: "No",
+          status: "pending",
+          type: type,
+          unid: uniqueId,
+          boosting: boosting,
         },
         { merge: true }
       );
@@ -360,17 +282,27 @@ export default function UpdatedPage({month,setMonth}) {
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setRound(items);
-    await Promise.all(items.map((item, index) => {
-      return fs.collection(page)
-        .doc(month)
-        .update({ [`${item.count+item.month}.order`]: index - -1 } , { merge: true });
-    }));
+    await Promise.all(
+      items.map((item, index) => {
+        return fs
+          .collection(page)
+          .doc(month)
+          .update(
+            { [`${item.count + item.month}.order`]: index - -1 },
+            { merge: true }
+          );
+      })
+    );
   };
 
   const [showCount, setShowCount] = useState("10");
 
- 
-
+  const forTxtAll = { createPdf, subject, round, post, page, uniqueId, boosting, month, date, type, imageUrl, isChecked };
+  const forInput = { user, boosting, setBoosting, setUniqueId, uniqueId, level, setObjectiveAnswer, setTypeAnswer, type, setPost, month, setMonth, setObjective, setType, setDate, objective, post, page, date }
+  const forPageModal = { post, objective, typeAnswer, month, color, page, setShow, pri, date, objectiveAnswer, img, boosting, uniqueId, user, type, subject, level };
+  const forSendFromForm = {user, uniqueId, orderPost, post, type, objectiveAnswer, subject, typeAnswer, month, color, page, level, setObjectiveAnswer}
+  const forSolo = {createPdf, orderPost, image1Url, image2Url, image3Url, setIsChecked, subject, round, post, page, uniqueId, boosting, month, date, type, imageUrl, isChecked,}
+  
 
 
   return (
@@ -379,21 +311,15 @@ export default function UpdatedPage({month,setMonth}) {
         className="client-page min-h-[100vh] bg-slate-600 overflow-auto"
         style={{ color: "white" }}
       >
-        <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
+        <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
         <Version />
         <Title />
+        <GettingRound round={round} setRound={setRound} rounded={rounded} setRounded={setRounded} page={page} month={month} showRound={showRound} viewer={viewer} setPage={setPage} />
         <div className="border-b-2 border-yellow-500 pt-2 bg-slate-800">
           {" "}
           <Nav />{" "}
         </div>
-
-        <div
-          className={`absolute inset-0 ${isVisible ? "block" : "hidden"}`} style={{ zIndex, backgroundColor: "white" }} >
-          <Loading />
-
-         
-        </div>
-
+        <div className={`absolute inset-0 ${isVisible ? "block" : "hidden"}`} style={{ zIndex, backgroundColor: "white" }}><Loading /></div>
         {level > 7 && uuid !== null && (
           <>
             {level === 8 && (
@@ -401,10 +327,7 @@ export default function UpdatedPage({month,setMonth}) {
                 <div className="admin-links-only-designer text-center mt-10 cursor-pointer ">
                   {" "}
                   <Links />
-                  <img
-                    src={img}
-                    className="client-pic p-4 rounded-lg flex items-center m-auto w-40" style={{  backgroundColor: "white",  marginBottom: "40px",  marginTop: "20px", }}
-                  />{" "}
+                  <img src={img} className="client-pic p-4 rounded-lg flex items-center m-auto w-40" style={{ backgroundColor: "white", marginBottom: "40px", marginTop: "20px" }} /> 
                 </div>
               </>
             )}
@@ -416,176 +339,148 @@ export default function UpdatedPage({month,setMonth}) {
                     <Links />{" "}
                   </div>
                   {/* <Demo round={round} page={page}/> */}
-                  <img
-                    src={img}
-                    className="w-20"
-                    style={{  backgroundColor: "white",  marginBottom: "20px",  marginTop: "20px",}}
-                  />
+                  <img src={img} className="w-20" style={{ backgroundColor: "white", marginBottom: "20px", marginTop: "20px" }} />
                   <div style={{ zIndex: 1 }}>
-                    <TxtAll className="txt" createPdf={createPdf} subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl} isChecked={isChecked} />
+                    <TxtAll className="txt" {...forTxtAll} />
                     <Memo page={page} round={round} />
                   </div>
                 </div>
               </>
             )}
 
-
             <div className="content-div bg-slate-600 pb-10 ">
-              <Inputs user={user} boosting={boosting} setBootsing={setBoosting} setUniqueId={setUniqueId} uniqueId={uniqueId} level={level} setObjectiveAnswer={setObjectiveAnswer} setTypeAnswer={setTypeAnswer} type={type} setPost={setPost} month={month} setMonth={setMonth} setObjective={setObjective} setType={setType} setDate={setDate} objective={objective} post={post} page={page} date={date} />
-
-
-
+              <Inputs {...forInput} />
 
               <Suspense fallback={<div>Loading...</div>}>
                 <DragDropContext onDragEnd={handleDragEnd}>
                   <table className="m-auto w-full text-center">
                     <thead className="phones:text-[12px]">
-                    <tr className="bg-slate-800">
-                        <th scope="col" className="px-6 py-3 phones:p-0">Status </th>
+                      <tr className="bg-slate-800">
+                      
+                        <th scope="col" className="px-6 py-3 phones:p-0">Status</th>
                         <th scope="col" className="px-6 py-3 phones:p-1">Unique Id</th>
                         <th scope="col" className="px-6 py-3 phones:p-1">Post</th>
                         <th scope="col" className="px-6 py-3 phones:p-0"> Subject </th>
-                        <th scope="col" className="px-6 py-3 phones:p-0">Channel </th>
-                        <th scope="col" className="px-6 py-3 phones:p-0">Day </th>
-                        <th scope="col" className="px-6 py-3 phones:p-2">Prio </th>
-                        <th scope="col" className="px-6 py-3 phones:p-2">View </th>
+                        <th scope="col" className="px-6 py-3 phones:p-0">Channel</th>
+                        <th scope="col" className="px-6 py-3 phones:p-0">Day</th>
+                        <th scope="col" className="px-6 py-3 phones:p-2">Prio</th>
+                        <th scope="col" className="px-6 py-3 phones:p-2">View</th>
                       </tr>
                     </thead>
                     <Droppable droppableId="table">
                       {provided => (
-                        <tbody
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                        >
-
-
-                          {round.map((x, i) =>x.month === month && (
-                                <Draggable
-                                  draggableId={x.order.toString()} index={i} >
+                        <tbody {...provided.droppableProps} ref={provided.innerRef}>
+                          {round.map(
+                            (x, i) =>
+                              x.month === month && (
+                                <Draggable draggableId={x.order.toString()} index={i}>
                                   {provided => (
-                                    <tr ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}  className=" border-b bg-gray-700 border-gray-800" >
-                                      <td className="text-black text-center rounded-sm font-medium phones:text-xs" style={{ backgroundColor: x.color }}>
-                                        {x.status}
+                                    <tr ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className=" border-b bg-gray-700 border-gray-800" >
+                                     
+                                      <td className="text-black text-center rounded-sm font-medium phones:text-xs" style={{ backgroundColor: x.color }}>{x.status}</td>
+                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400" 
+                                      onClick={() => { setForPost(x.unid); if (level > 8) { handleOpenModalBar(); setPost(x.count); setTitle("unid");} }}>
+                                        {x.unid}</td>
+
+                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onMouseEnter={() => setShowCount(x.count)} onMouseLeave={() => setShowCount("")}>
+                                        {x.order}
+                                        <p>{showCount && showCount === x.count ? <>ID:{showCount}</> : null}</p>
                                       </td>
 
-                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400" onClick={() =>
-                                         { setForPost(x.unid); if (level > 8) handleOpenModalBar(); setPost(x.count);
-                                          setTitle("unid"); }}>{x.unid}</td>
+                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() => { setForPost(x.objective);
+                                         if (level > 8) {
+                                          handleOpenModalBar(); setPost(x.count); setTitle("objective");
+                                         } }}>
+                                        {x.objective.length > 50 ? x.objective.slice(0, 50) + "..." : x.objective}
+                                        </td>
 
-<td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" 
-onMouseEnter={() => setShowCount(x.count)} 
-onMouseLeave={() => setShowCount("")}>{x.order }
-<p>{showCount && showCount === x.count ? <>ID:{showCount}</> : null}
-</p>
-</td>
-
-
-                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() =>
-                                         { setForPost(x.objective); if (level > 8) handleOpenModalBar(); 
-                                         setPost(x.count); setTitle("objective"); }}>
-                                          {x.objective.length > 50 ? x.objective.slice(0, 50) + "..." : x.objective}
-                                          </td>
-
-
-                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() => 
-                                        { setForPost(x.type); if (level > 8) handleOpenModalBar();
-                                        setPost(x.count); setTitle("type"); }}>{x.type}</td>
-
-                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() =>
-                                         { setForPost(x.date); 
-                                         if (level > 8) handleOpenModalBar(); setPost(x.count);
-                                          setTitle("date"); }}>{month}-{x.date} </td>
-
-                                      <td className={`px-6 phones:p-1 phones:text-[10px] ${ x.priority === "Prio"  ? "bg-red-600 text-white " : "text-gray-400" }`} >
-                                     <button onClick={() => 
-                                      { if (level > 8) { 
-                                        const docRef = collection(db, page);
-                                      const colRef = doc(docRef, x.count + x.month);
-                                       updateDoc(colRef, { priority: x.priority === "Prio" ? "No" : "Prio" },
-                                        { merge: true }); } }}>{x.priority}</button>
+                                      <td
+                                        className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400"
+                                        onClick={() => { if (level > 8) { setForPost(x.type); handleOpenModalBar(); setPost(x.count); setTitle("type"); } }}>
+                                        {x.type}
                                       </td>
 
-                                      <td className="px-6 phones:p-1 phones:text-[10px]  whitespace-nowrap text-sm text-gray-400">
-                                        <button  className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105  transition-transform transform-gpu hover:text-white hover:bg-red-500  " onClick={() => handleText(i)} >
-                                     {statusBar===i? "close" : "open"}
+                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() => { setForPost(x.date); if (level > 8) { handleOpenModalBar(); setPost(x.count); setTitle("date"); } }}>{ month}-{x.date} </td>
+
+                                      <td className={`px-6 phones:p-1 phones:text-[10px] ${x.priority === "Prio" ? "bg-red-600 text-white " : "text-gray-400"}`} >
+                                        <button
+                                          onClick={() => { if (level > 8) { 
+                                            const docRef = collection(db, page); 
+                                            const colRef = doc(docRef, x.count + x.month);
+                                            updateDoc(colRef, { priority: x.priority === "Prio" ? "No" : "Prio" }, { merge: true }); }
+                                           }} >
+                                          {x.priority}
                                         </button>
                                       </td>
 
-                                  
+                                      <td className="px-6 phones:p-1 phones:text-[10px]  whitespace-nowrap text-sm text-gray-400">
+                                        <button className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105  transition-transform transform-gpu hover:text-white hover:bg-red-500  " onClick={() => handleText(i)}>{statusBar === i ? "close" : "open"}</button>
+                                        </td>
 
-                                      <Modal  open={show === i}  onClose={() => handleText(i)}  aria-labelledby="modal-modal-title"  aria-describedby="modal-modal-description"  className="overflow-auto main-modal" >
+                                      <Modal
+                                        open={show === i}
+                                        onClose={() => handleText(i)}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                        className="overflow-auto main-modal"
+                                      >
                                         <Box
                                           sx={styleNew}
                                           className="lg:!top-[40%] "
                                         >
-                                          <Typography id="modal-modal-title" variant="h6" component="h2"  style={{ textAlign: "center" }}  className="flex flex-col gap-5 first-typo">
+                                          <Typography
+                                            id="modal-modal-title"
+                                            variant="h6"
+                                            component="h2"
+                                            style={{ textAlign: "center" }}
+                                            className="flex flex-col gap-5 first-typo"
+                                          >
                                             {show === i && level > 7 && (
                                               <>
                                                 <div className="flex flex-col-reverse xl:flex-row">
                                                   <div className="lg:w-[800px] m-auto border-2 border-black bg-slate-700">
                                                     <div className="holds-written-content">
-                                                      
-                                             {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
-                                                    <PageModal post={post} objective={objective} typeAnswer={typeAnswer} month={month} color={color} 
-                                                    page={page} setShow={setShow}   pri={pri} date={date} objectiveAnswer={objectiveAnswer}  
-                                                    img={img}   boosting={boosting} uniqueId={uniqueId} user={user} type={type} subject={subject} level={level}/>
-                                                  
-                                                       {/* Below handles the images for the modal */}
+                                                      {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
+                                                      <PageModal {...forPageModal}/>
+
+                                                      {/* Below handles the images for the modal */}
                                                       <ModalContent level={level} page={page} round={round} type={type} show={show} month={month} post={post} />
 
-                                                      {!x.answer ? null : (<h6 className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4" key={i} onClick={() => setObjectiveAnswer(x.answer)} style={{ color: "black" }} dangerouslySetInnerHTML={{ __html: x.answer }} />)}
+                                                      {!x.answer ? null : (
+                                                        <h6 className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4" key={i} onClick={() => setObjectiveAnswer(x.answer)} style={{ color: "black" }} dangerouslySetInnerHTML={{ __html: x.answer }} />
+                                                      )}
 
                                                       <div className="flex flex-col items-center justify-evenly border-b-2 border-black">
+                                                        {level > 7 && (
+                                                          <>
+                                                            <div className={`${whatDoUWant === "Open" ? "above-div-send w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10" : null}`}>
+                                                              <SendFromForm {...forSendFromForm} />
+                                                              {level > 9 ? (
+                                                                <button onClick={() => { handleDelete(i), setShow(""), setStatusBar(""); }} className="text-white bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete</button> ) : null}
+                                                            </div>
 
-
-                                                        {level > 7 &&
-                                                        (
-                                                            <>
-                                                              <div className={`${whatDoUWant === "Open" ? "above-div-send w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10" : null}`}>
-                                                                <SendFromForm user={user} uniqueId={uniqueId} orderPost={orderPost} post={post}
-                                                                 type={type} objectiveAnswer={objectiveAnswer} subject={subject} typeAnswer={typeAnswer}
-                                                                 month={month} color={color} page={page} level={level} setObjectiveAnswer={setObjectiveAnswer} />
-                                                                 {level > 9 ? (<button onClick={() => { handleDelete(i), setShow(""), setStatusBar(""); }} className=" text-white bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"> Delete</button>) : null}
+                                                            {level > 8 && (
+                                                              <form className="flex  phones:flex-col" onSubmit={handleSubmit}>
+                                                                <div className="flex flex-col">
+                                                                  <textarea value={preset} onChange={e => setPreset(e.target.value)} className="w-[300px] h-[300px] phones:w-full" />
+                                                                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { navigator.clipboard.writeText(preset); }}> Copy </button>
                                                                 </div>
-
-                                                              {level > 8 && (
-
-                                                                <form
-                                                                  className="flex  phones:flex-col" onSubmit={handleSubmit}>
-                                                                   <div className="flex flex-col">
-                                                                   <textarea value={preset} onChange={e => setPreset(e.target.value)}  className="w-[300px] h-[300px] phones:w-full"/>
-                                                        
-                                                                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => {navigator.clipboard.writeText(preset);}}> Copy </button>
-</div>
-                                                                  <ReactQuill
-                                                                    value={  objectiveAnswer } onChange={ handleEditorChange}
-                                                                    modules={modules}
-                                                                    style={{ color:"black",backgroundColor:"white",}}
-                                                                    placeholder="Text here..."
-                                                                    className="max-w-[90vw]  lg:max-w-[500px] overflow-scroll"
-                                                                  />
-
-                                                                  
-                                                                </form>
-
-                                                                
-                                                              )}
-                                                            </>
-                                                          )}
+                                                                <ReactQuill value={objectiveAnswer} 
+                                                                onChange={handleEditorChange}
+                                                                 modules={modules} style={{ color: "black", backgroundColor: "white" }}
+                                                                  placeholder="Text here..." className="max-w-[90vw]  lg:max-w-[500px] overflow-scroll" />
+                                                              </form>
+                                                            )}
+                                                          </>
+                                                        )}
                                                         {level > 8 ? (
                                                           <div className="flex items-baseline">
-                                                            
-                                                            <input type="checkbox" readOnly checked={isChecked}
-                                                             onClick={() => { setIsChecked(prevChecked => !prevChecked), setImageUrl(x.designer), setImage1Url(x.designer1), setImage2Url(x.designer2), setImage3Url(x.designer3), setBoosting(x.boosting), setCreatePdf(x.answer); }} className="mr-2 cursor-pointer" />
-                                                          
-                                                            <Solo createPdf={createPdf} orderPost={orderPost} image1Url={image1Url}
-                                                             image2Url={image2Url} image3Url={image3Url} setIsChecked={setIsChecked} 
-                                                             subject={subject} round={round} post={post} page={page} uniqueId={uniqueId} 
-                                                             boosting={boosting} month={month} date={date} type={type} imageUrl={imageUrl} 
-                                                             isChecked={isChecked} />
-                                                          
-                                                          </div>
+                                                            <input type="checkbox" readOnly checked={isChecked} 
+                                                            onClick={() => { setIsChecked(prevChecked => !prevChecked), setImageUrl(x.designer), setImage1Url(x.designer1),
+                                                             setImage2Url(x.designer2), setImage3Url(x.designer3), setBoosting(x.boosting), setCreatePdf(x.answer); }} className="mr-2 cursor-pointer" />
 
+                                                            <Solo {...forSolo} />
+                                                          </div>
                                                         ) : null}
 
                                                         {level > 8 ? (
@@ -595,9 +490,11 @@ onMouseLeave={() => setShowCount("")}>{x.order }
                                                     </div>
                                                   </div>
 
-                                                  {level > 8 ? (<div className=" lg:w-[800px] xl:w-[400px]">
-                                                     <Bot setObjectiveAnswer={setObjectiveAnswer} subject={subject} user={user} /></div>) 
-                                                     : null}
+                                                  {level > 8 ? (
+                                                    <div className=" lg:w-[800px] xl:w-[400px]">
+                                                      <Bot setObjectiveAnswer={setObjectiveAnswer} subject={subject} user={user} />
+                                                    </div>
+                                                  ) : null}
                                                 </div>
                                               </>
                                             )}
@@ -618,7 +515,12 @@ onMouseLeave={() => setShowCount("")}>{x.order }
               </Suspense>
 
               <Modal
-                open={openModalBar} onClose={handleCloseBar} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description"  className="max-w-[80vw] max-h-[80vw]  " >
+                open={openModalBar}
+                onClose={handleCloseBar}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                className="max-w-[80vw] max-h-[80vw]  "
+              >
                 <Box sx={styleBar} className="lg:!top-[50%] 0">
                   <Typography
                     id="modal-modal-title"
@@ -627,9 +529,22 @@ onMouseLeave={() => setShowCount("")}>{x.order }
                     style={{ textAlign: "center" }}
                     className="flex flex-col gap-5"
                   >
-                    <p className="cursor-pointer"> Edit {title} : {forPost} </p>
-                    <input type="text"  className="border-2 border-black  " placeholder={`Editing ${forPost}`} onChange={e => setEditDetails(e.target.value)}/>
-                    <button  className="bg-blue-700 text-white px-3 py-2 rounded-md ml-3" onClick={() => { handleEditted(); }}>
+                    <p className="cursor-pointer">
+                      {" "}
+                      Edit {title} : {forPost}{" "}
+                    </p>
+                    <input
+                      type="text"
+                      className="border-2 border-black  "
+                      placeholder={`Editing ${forPost}`}
+                      onChange={e => setEditDetails(e.target.value)}
+                    />
+                    <button
+                      className="bg-blue-700 text-white px-3 py-2 rounded-md ml-3"
+                      onClick={() => {
+                        handleEditted();
+                      }}
+                    >
                       {" "}
                       Submit{" "}
                     </button>

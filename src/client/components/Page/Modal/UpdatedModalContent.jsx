@@ -6,11 +6,9 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { collection, doc, updateDoc,setDoc} from "firebase/firestore";
 import { db } from '../../../Firebase';
-import { useState } from 'react';
-import Sure from '../../firebaseData/Sure';
-import Solo from '../../Txt/Solo';
+import { useState,useEffect } from 'react';
 import bin from '/src/client/components/images/bin-2.png'
-import SendFromForm from '../../firebaseData/SendFromForm';
+
 
 
 const style = {

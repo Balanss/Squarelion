@@ -14,8 +14,7 @@ export default function Title({}) {
         const getMessage = async () => {
             try {
               const unsubscribe = fs
-                .collection('group')
-                .orderBy('timestamp', 'desc')
+                .collection('DesignerPage')
                 .onSnapshot((querySnapshot) => {
                   const messageArray = querySnapshot.docs.map((doc) => ({
                     id: doc.id,
@@ -39,16 +38,14 @@ export default function Title({}) {
           }, []); 
 
 
-          const sum = ( message.map(x => x[user]).reduce((accumulator, currentValue) => accumulator + currentValue, null))
+      
+
+          const sum = message.filter((x,id) => x.SendTo === user)
+
+
 
           useEffect(() => {
-    
-
-            if (sum === null || isNaN(sum) || sum === 0) {
-              document.title = `Squarelion Agency`;
-            } else {
-              document.title = `Squarelion Agency (${sum})`;
-            }
+           sum.length > 0 ?  document.title = `Squarelion Agency (${sum.length})` : document.title = `Squarelion Agency`;
           }, [sum]);
 
 

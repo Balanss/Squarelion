@@ -11,8 +11,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import DesignerHeader from "./DesignerHeader";
-import Roles from "../AdminPage/Roles/Roles";
-import { set } from "date-fns";
+import Title from "../../Title";
+
 
 const style = {
   position: "absolute", bottom: "0", top: "35%", left: "60%", transform: "translate(-50%, -50%)", bgcolor: "background.paper", border: "2px solid #000", boxShadow: 24, p: 4, overflow: "scroll",
@@ -109,6 +109,8 @@ const[messageUploading, setMessageUploading] = useState('')
   const [dPost, setDPost] = useState("");
   const [dMonth, setDMonth] = useState("");
   const [dPage, setDPage] = useState("");
+  const [requestDelete, setRequestDelete] = useState(false);
+  const [images,setImages]= useState([])
 
 
 
@@ -147,8 +149,13 @@ const[messageUploading, setMessageUploading] = useState('')
     try {
       const files = await Promise.all(uploadPromises);
 
-      const images = files.filter(file => file.type.startsWith('image/')).map(file => file.url);
+      
       const pdfs = files.filter(file => file.type === 'application/pdf').map(file => file.url);
+
+       const newImages = files.filter(file => file.type.startsWith('image/')).map(file => file.url);
+      setImages(prevImages => [...prevImages, ...newImages]);
+
+     
 
       const imageData = {
         designer: images[0] || "",
@@ -195,6 +202,8 @@ const[messageUploading, setMessageUploading] = useState('')
     }
   };
 
+ 
+
 
 
 const [sureToReset, setSureToReset] = useState(false)
@@ -204,6 +213,7 @@ const [designerPageReset, setDesignerPageReset] = useState("")
 
   function handleRestting(){
 setSureToReset(true)
+setImages('')
   }
 
   //sends towards saskia
@@ -258,6 +268,7 @@ setSureToReset(true)
         const colR = doc(docR, designer.post + designer.month + designer.page);
         deleteDoc(colR);
         setImageUrl("");
+        setImages([])
       } else {
         return console.log("error");
       }
@@ -272,6 +283,7 @@ setSureToReset(true)
     const colRef = doc(docRef, dPost + dMonth + dPage);
     updateDoc(colRef, {
       subject: arrayUnion(message +" - "+ user),
+      New: false,
     });
 
 
@@ -280,8 +292,8 @@ setSureToReset(true)
     setDoc(
       colR,
       {
-        color: "#00eaff",
-        status: "Feedback",
+        color: "#FF4500",
+        status: "Feedback ",
         StatusText: "Feedback",
    
       },
@@ -315,6 +327,7 @@ setSureToReset(true)
             uuid={uuid}
             setLevel={setLevel}
           />
+          <Title />
 
           <section>
             <DesignerHeader level={level} />
@@ -329,6 +342,7 @@ setSureToReset(true)
                 <table className="w-full text-sm text-left text-gray-300 shadow-md shadow-slate-800">
                   <thead className='className="text-xs  uppercase  bg-gray-700 text-gray-200'>
                     <tr className="text-center">
+                      <th className="p-[1px]"></th>
                       <th className="px-4 py-2">Image</th>
                       <th className="px-4 py-2">Date</th>
                       <th className="px-4 py-2">Client</th>
@@ -338,6 +352,7 @@ setSureToReset(true)
                      {level > 8 && <th className="px-4 py-2">Assigned</th>}
                       <th className="px-4 py-2">Send</th>
                       <th className="px-4 py-2">Reset</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -345,11 +360,13 @@ setSureToReset(true)
 
                     
                     {newDesigner.map((designer, id) =>
-                      (designer.SendTo === user || level > 10 || user === 'Saskia') && designer.hide !== true ? (
+                      (designer.SendTo === user || level > 9 || user === 'Saskia') && designer.hide !== true ? (
                         <tr
                           key={id}
-                          className="border-b bg-gray-600 border-gray-700 shadow-md hover:scale-105 shadow-black"
+                          className="border-b bg-gray-600 border-gray-700 shadow-md  shadow-black"
                         >
+
+                          <td className={`${designer.New ? 'border-l-[5px] border-blue-700  animate-pulse animate-thrice animate-duration-[3000ms] animate-ease-out ' : ''} `}></td>
                           <td className="border px-4 py-2">
                             <img
                               src={designer.img}
@@ -447,7 +464,7 @@ setSureToReset(true)
                            <button
                              onClick={() =>{  handleRestting(id),setDesignerPostReset(designer.post),
                                setDesignerMonthReset(designer.month),setDesignerPageReset(designer.page) }}
-                             className="bg-red-700 text-white p-2 rounded-md hover:bg-red-800 cursor-pointer"
+                             className="bg-red-700 text-white p-2 rounded-md hover:bg-red-800 cursor-pointer relative z-[2]"
                            >
                              {" "}
                              Reset{" "}
@@ -456,6 +473,8 @@ setSureToReset(true)
                        
                          ) : null}
                            </td>
+
+                        
                         </tr>
                       ) : null
                     )}
@@ -464,7 +483,8 @@ setSureToReset(true)
                               <div className='fixed top-0 z-[1000] left-0 w-full h-full bg-slate-400/20 gap-4  flex justify-center items-center'>
                                 <div className="flex gap-3 flex-col bg-white p-5 rounded-md">
                                 <p className='text-black font-semibold text-xl'>Are you sure you want to reset this?</p>
-                                <button onClick={() => {   
+                                <button onClick={() => {
+                                  setImages([])
                                   const docRef = collection(db, "DesignerPage");
                                   const colRef = doc(
                                     docRef,
@@ -517,13 +537,13 @@ setSureToReset(true)
               
 <div>
   <button className='bg-red-700 text-white p-2 rounded-md hover:bg-red-800  mb-5 cursor-pointer' onClick={handleClose}>Close</button>
+  
 </div>
 
-                <section className="flex lg:w-[90vw] flex-row items-center flex-wrap content-center  gap-5 justify-center">
-                  <img className="w-[300px]" src={image} />
-                  <img className="w-[300px]" src={image1} />
-                  <img className="w-[300px]" src={image2} />
-                  <img className="w-[300px]" src={image3} />  
+                <section className="flex lg:w-[90vw] flex-row items-center flex-wrap content-center  gap-5 justify-center"> 
+                  {images.map((image, index) => (
+      <img className="w-[300px]" key={index} src={image} alt={`Image ${index + 1}`} />
+    ))}
 
                   <hr className="w-full border-2 border-black" />
 <div>
