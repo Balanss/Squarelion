@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect ,Component} from "react";
+import { useState, useEffect ,Component, useLayoutEffect} from "react";
 import React, { lazy, Suspense } from "react";
 // import './App.css'
 import { HashRouter, Routes, Route } from "react-router-dom";
@@ -29,19 +29,25 @@ function App() {
   const [user, setUser] = useState(0);
   const [level, setLevel] = useState("");
   const [uuid, setUuid] = useState("");
+  const [ local, setLocal] = useState(null)
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setLocal(position.coords.latitude.toString());
+    });
+
+
+    //needs to be === current date
     if (uuid) {
       const entryDate = localStorage.getItem("entryDate");
       const currentDate = new Date().toLocaleDateString();
       if (entryDate === currentDate) {
         console.log("Already visited today");
-        
-      } else {
+      } else if (local === import.meta.env.VITE_LATI_COD) {
+        console.log("at the office login");
         const currentTime = new Date().toLocaleString();
         localStorage.setItem("entryDate", currentDate);
         localStorage.setItem("entryTime", currentTime);
-    
 
         const docRef = collection(db,'admin')
         const colRef = doc(docRef,uuid)
@@ -49,10 +55,12 @@ function App() {
         // Update the document in Firebase map with the current date and time
         updateDoc(colRef,{LoggedIn:new Date().toLocaleString(),
           logs:arrayUnion(new Date().toLocaleString())},{merge:true})
-   
+      } else {
+        console.log("Not in office");
+  console.log(local)
       }
     }
-  }, [uuid,user]);
+  }, [uuid, user, local]);
 
 
 
