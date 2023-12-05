@@ -110,7 +110,7 @@ const[messageUploading, setMessageUploading] = useState('')
   const [dMonth, setDMonth] = useState("");
   const [dPage, setDPage] = useState("");
   const [requestDelete, setRequestDelete] = useState(false);
-  const [images,setImages]= useState([])
+ 
 
 
 
@@ -152,8 +152,8 @@ const[messageUploading, setMessageUploading] = useState('')
       
       const pdfs = files.filter(file => file.type === 'application/pdf').map(file => file.url);
 
-       const newImages = files.filter(file => file.type.startsWith('image/')).map(file => file.url);
-      setImages(prevImages => [...prevImages, ...newImages]);
+       const images = files.filter(file => file.type.startsWith('image/')).map(file => file.url);
+     
 
      
 
@@ -213,7 +213,7 @@ const [designerPageReset, setDesignerPageReset] = useState("")
 
   function handleRestting(){
 setSureToReset(true)
-setImages('')
+
   }
 
   //sends towards saskia
@@ -268,7 +268,7 @@ setImages('')
         const colR = doc(docR, designer.post + designer.month + designer.page);
         deleteDoc(colR);
         setImageUrl("");
-        setImages([])
+      
       } else {
         return console.log("error");
       }
@@ -484,7 +484,7 @@ setImages('')
                                 <div className="flex gap-3 flex-col bg-white p-5 rounded-md">
                                 <p className='text-black font-semibold text-xl'>Are you sure you want to reset this?</p>
                                 <button onClick={() => {
-                                  setImages([])
+                                  
                                   const docRef = collection(db, "DesignerPage");
                                   const colRef = doc(
                                     docRef,
@@ -541,10 +541,10 @@ setImages('')
 </div>
 
                 <section className="flex lg:w-[90vw] flex-row items-center flex-wrap content-center  gap-5 justify-center"> 
-                  {images.map((image, index) => (
-      <img className="w-[300px]" key={index} src={image} alt={`Image ${index + 1}`} />
-    ))}
-
+                <img className="w-[300px]" src={image} />
+                  <img className="w-[300px]" src={image1} />
+                  <img className="w-[300px]" src={image2} />
+                  <img className="w-[300px]" src={image3} />  
                   <hr className="w-full border-2 border-black" />
 <div>
   {content.map((message, index) => (
