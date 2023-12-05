@@ -29,7 +29,15 @@ setModal(true)
   }
 
 
+
+  
+
 function handleToDdesigner(){
+  const date = new Date();
+  const day = date.getDate(); // get the current day
+  const monthly = date.getMonth() + 1; // get the current month (getMonth() returns a zero-based value, so we add 1)
+  const dayString = String(day).padStart(2, '0'); // e.g., '02' instead of '2'
+  const monthString = String(monthly).padStart(2, '0'); // e.g., '05' instead of '5'
 
 
     if(imageUrls[0] === ''){
@@ -42,6 +50,7 @@ function handleToDdesigner(){
         page:page,
         post:post,
       date:date,
+      newDate:dayString + "-" + monthString,
         user:user,
         type:type,
         hide:false,
@@ -56,6 +65,7 @@ function handleToDdesigner(){
         statusText:'Designer',
         month:month,
         page:page,
+        newDate:dayString + "-" + monthString,
         New:true,
         post:post,
       date:date,

@@ -1,18 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { auth, fs, db } from "../../../Firebase";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  updateDoc,
-  setDoc,
-  addDoc,
-  FieldValue,
-  deleteField,
-} from "firebase/firestore";
 
-export default function GettingRound({ round, setRound, rounded, setRounded, page, month, showRound, viewer, setPage }) {
-  const getRound = () => {
+
+export default function GettingRound({ round, setRound, rounded, setRounded, page, month, showRound, viewer, setPage,level }) {
+  const getRound = async() => {
     setPage(localStorage.getItem("partner"));
     try {
       fs.collection(page)
@@ -27,7 +18,7 @@ export default function GettingRound({ round, setRound, rounded, setRounded, pag
                   const item = data[key];
                   return item.user
                     ? {
-                        level: item.level,
+                      
                         month: item.month,
                         order: item.order,
                         objective: item.objective,
@@ -47,6 +38,11 @@ export default function GettingRound({ round, setRound, rounded, setRounded, pag
                         answer: item.answer,
                         designer: item.designer,
                         priority: item.priority,
+                        designer1: item.designer1,
+                        designer2: item.designer2,
+                        designer3: item.designer3,
+                        designer: item.designer,
+                        
                       }
                     : null;
                 })
@@ -63,6 +59,6 @@ export default function GettingRound({ round, setRound, rounded, setRounded, pag
   };
 
   useEffect(() => {
-    getRound();
-  }, [page, showRound, viewer, month]);
+    const unsubscribe = getRound();
+  }, [page, showRound, viewer, month,level]);
 }

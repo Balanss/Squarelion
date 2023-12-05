@@ -1,17 +1,14 @@
 import React from 'react'
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { collection, doc, updateDoc } from "firebase/firestore";
 import { db } from '../../../Firebase';
 import { useState } from 'react';
-import Sure from '../../firebaseData/Sure';
-import Solo from '../../Txt/Solo';
 import bin from '/src/client/components/images/bin-2.png'
-import SendFromForm from '../../firebaseData/SendFromForm';
 import { useEffect } from 'react';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
 
 
 const style = {
@@ -59,9 +56,9 @@ const [isMobile, setIsMobile] = useState(false);
         )
 
     }
+   
+
     const handleClose = () => setOpenModal(false);
-
-
 
     useEffect(() => {
         const handleResize = () => {
@@ -77,21 +74,62 @@ const [isMobile, setIsMobile] = useState(false);
         };
     }, []);
 
-        
+     
     
 
   return (
     <>
 
-    {round.map((x,i) => (
-            <div key={x.id}>
+    {round.map((x,i) => {
+
+const imageCount = [x.designer, x.designer1, x.designer2, x.designer3].filter(Boolean).length;
+  // Calculate the image size based on the number of images
+  let imageSize;
+  switch (imageCount) {
+    case 1:
+      imageSize = '60vw';
+      break;
+    case 2:
+      imageSize = '45vw';
+      break;
+    case 3:
+      imageSize = '30vw';
+      break;
+    case 4:
+      imageSize = '20vw';
+      break;
+    default:
+      imageSize = '20vw';
+  }
+
+  let imageHeight;
+    switch (imageCount) {
+        case 1:
+            imageHeight = '80vh';
+            break;
+        case 2:
+            imageHeight = '60vh';
+            break;
+        case 3:
+            imageHeight = '40vh';
+            break;
+        case 4:
+            imageHeight = '30vh';
+            break;
+        default:
+            imageHeight = '30vh';
+    }
+
+            return (
+                <div key={x.id} className='inline-flex pb-[50px] pt-[50px] gap-6 flex-wrap items-center  justify-center m-auto'>
             {i === show && <>
         
                 {/* designer image */}
                {x.pdf?  <a className='text-white' href={x.pdf} target="_blank" rel="noreferrer"> View pdf </a> : null  }
-                {x.designer > "" && 
-                <><span className='flex items-center justify-around '>
-                <img src={x.designer} className='m-auto mt-[50px]' style={{maxWidth:'20vw',maxHeight:'20vh',cursor:'zoom-in'}}  onClick={() => {handleOpenModal(i)}}/>
+                {x.designer !== '' && 
+                <>
+                <span className='flex items-end justify-end '>
+                <img src={x.designer}  style={{width:imageSize,height:imageHeight}}  onClick={() => {handleOpenModal(i)}}/>
                 {level > 8 && <img
               src={bin}
               alt="Delete"
@@ -108,11 +146,12 @@ const [isMobile, setIsMobile] = useState(false);
         
                 {/* designer1, designer2, designer3 images */}
                 {(type === 'Stories' || type ==='stories') && <>
-        
-                <span className='flex items-center justify-around mt-3 mb-2'> 
-                <img src={x.designer1} style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}} onClick={() => {handleOpenModal(i)}}/>
-        
-                {x.designer1 && level > 8 && (
+                
+         {x.designer1 > '' && level > 8 && (
+                <span className='flex items-end justify-end  '> 
+                <img src={x.designer1} style={{width:imageSize,height:imageHeight}} onClick={() => {handleOpenModal(i)}}/>
+         
+              
                     <img
                         src={bin}
                         alt="Delete"
@@ -124,13 +163,17 @@ const [isMobile, setIsMobile] = useState(false);
                             updateDoc(colRef, { designer1: '' }, { merge: true });
                         }}
                     />
-                )}
+               
                 </span>
+                 )}
                 
-                
-                <span className='flex items-center justify-around mt-3 mb-3'>
-                <img src={x.designer2}  style={{maxWidth:'20vw',maxHeight:'20vh',margin:'auto'}}  onClick={() => {handleOpenModal(i)}}/>
-                {x.designer2 > '' && level > 8 && (<img
+
+
+        {x.designer2 > '' && level > 8 && (
+                <span className='flex items-end justify-end '>
+                <img src={x.designer2}  style={{width:imageSize,height:imageHeight}}  onClick={() => {handleOpenModal(i)}}/>
+               
+                <img
               src={bin}
               alt="Delete"
               className="absolute z-[1] bg-slate-600 text-white rounded-full p-2 border border-black ml-[30%] cursor-pointer w-10"
@@ -140,21 +183,20 @@ const [isMobile, setIsMobile] = useState(false);
                 const colRef = doc(docRef, x.id);
                 updateDoc(colRef, { designer2: '' }, { merge: true });
               }}
-            />)}
+            />
+             
+                </span>)}
                 
-                
-                </span>
-                
-                
-                <span className='flex items-center justify-around'>
+                  {x.designer3 > '' && level > 8 && (
+                <span className='flex items-end justify-end'>
                 <img
                     src={x.designer3}
-                    style={{ maxWidth: '20vw', maxHeight: '20vh', margin: 'auto' }}
+                    style={{ maxWidth:imageSize,height:imageHeight, margin: 'auto' }}
                     onClick={() => {
                         handleOpenModal(i);
                     }}
                 />
-                {x.designer3 > '' && level > 8 && (
+              
                     <img
                         src={bin}
                         alt="Delete"
@@ -166,33 +208,27 @@ const [isMobile, setIsMobile] = useState(false);
                             updateDoc(colRef, { designer3: '' }, { merge: true });
                         }}
                     />
-                )}
+               
                 
-                </span>
+                </span>)}
+                </>  
                 
-                    {/* this views content img */}
-
-
-                   
-        
-        
-        
-                
-                </> }
+                }
         
         
             </>}
         
             </div>
-    )
+            )
+    }
 
      
  
 
-    )}
+)}
 
 
-        <Modal
+        {/* <Modal
     open={openModal}
     onClose={handleClose}
     aria-labelledby="modal-modal-title"
@@ -201,15 +237,15 @@ const [isMobile, setIsMobile] = useState(false);
     >
     <Box sx={isMobile ? phones : style}>
     <Typography id="modal-modal-title" variant="h6" component="h2"  sx={{mt:2}} style={{textAlign:'center'}}  className='flex'>
-    <img src={img1} style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
-    <img src={img2}  style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
+    <img src={img1} style={{maxWidth: isMobile ? '50vw' : '50vw', maxHeight: isMobile ? '50vh' : '50vh', margin: 'auto'}}/>
+    <img src={img2}  style={{maxWidth: isMobile ? '50vw' : '50vw', maxHeight: isMobile ? '50vh' : '50vh', margin: 'auto'}}/>
     </Typography>
     <Typography id="modal-modal-description" sx={{ mt: 2 }} className='flex'>
-    <img src={img3}      style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
-    <img src={img4}      style={{maxWidth: isMobile ? '50vw' : '40vw', maxHeight: isMobile ? '50vh' : '40vh', margin: 'auto'}}/>
+    <img src={img3}      style={{maxWidth: isMobile ? '50vw' : '50vw', maxHeight: isMobile ? '50vh' : '50vh', margin: 'auto'}}/>
+    <img src={img4}      style={{maxWidth: isMobile ? '50vw' : '50vw', maxHeight: isMobile ? '50vh' : '50vh', margin: 'auto'}}/>
     </Typography>
     </Box>
-    </Modal>
+    </Modal> */}
 
     </>
   )

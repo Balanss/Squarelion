@@ -1,20 +1,6 @@
 import React from "react";
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  deleteDoc,
-  doc,
-  addDoc,
-  updateDoc,
-  setDoc,
-  deleteField,
-  getDoc,
-} from "firebase/firestore";
 import { auth, fs, db } from "/src/client/Firebase.jsx";
 import { useState, useEffect } from "react";
-import logo from "../images/logo.png";
 import {
   getStorage,
   ref,
@@ -22,21 +8,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 
-export default function Stories({
-  name,
-  user,
-  type,
-  objectiveAnswer,
-  subject,
-  typeAnswer,
-  month,
-  color,
-  page,
-  level,
-  setObjectiveAnswer,
-  orderPost,
-  uniqueId,
-}) {
+export default function Stories({ name, user, type,post, objectiveAnswer, subject, typeAnswer, month, color, page, level, setObjectiveAnswer, orderPost, uniqueId }) {
   const [imageUrls, setImageUrls] = useState([]);
   const [files, setFiles] = useState([]);
 
@@ -92,19 +64,31 @@ export default function Stories({
 
           if (downloadURLs.length === selectedFiles.length) {
             // All uploads completed successfully, now update 
-            
-            docRef=collection(db, page);
-            colRef=doc(docRef,month);
-            await setDoc(colRef, {  designer: downloadURLs[0],
-              designer1: downloadURLs[1] || "",
-              designer2: downloadURLs[2] || "",
-              designer3: downloadURLs[3] || "",
-              DesignedBy: user, }, { merge: true });
+        
+            const data = {
+              [post + month]: {
+                designer: downloadURLs[0],
+                designer1: downloadURLs[1] || "",
+                designer2: downloadURLs[2] || "",
+                designer3: downloadURLs[3] || "",
+                DesignedBy: user,
+              }
+            };
+
+            await fs
+  .collection(page)
+  .doc(month)
+  .set(data, { merge: true });
+
           
             setImageUrls(downloadURLs);
             setFiles(selectedFiles);
             setUploadButtonText("Upload Complete");
             setUploading(false);
+
+            setTimeout(() => {
+              setUploadButtonText("Upload Images");
+            }, 3000);
           }
         }
       );

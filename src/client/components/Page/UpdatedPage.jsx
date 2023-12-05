@@ -159,13 +159,15 @@ export default function UpdatedPage({ month, setMonth }) {
     }
   };
 
+
+  //deletes from desiger page 
   function handleDelete(i) {
     round.map((x, index) => {
       if (index === i) {
         const docRef = collection(db, localStorage.getItem("partner"));
         const colRef = doc(docRef, x.month);
 
-        deleteDoc(colRef, { [x.post + x.month]: deleteField() });
+        updateDoc(colRef, { [x.count + x.month]: deleteField() });
 
         const dcRef = collection(db, "DesignerPage");
         const clRef = doc(dcRef, x.id + x.client);
@@ -314,7 +316,7 @@ export default function UpdatedPage({ month, setMonth }) {
         <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
         <Version />
         <Title />
-        <GettingRound round={round} setRound={setRound} rounded={rounded} setRounded={setRounded} page={page} month={month} showRound={showRound} viewer={viewer} setPage={setPage} />
+        <GettingRound round={round} level={level} setRound={setRound} rounded={rounded} setRounded={setRounded} page={page} month={month} showRound={showRound} viewer={viewer} setPage={setPage} />
         <div className="border-b-2 border-yellow-500 pt-2 bg-slate-800">
           {" "}
           <Nav />{" "}
@@ -443,12 +445,14 @@ export default function UpdatedPage({ month, setMonth }) {
                                                       {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
                                                       <PageModal {...forPageModal}/>
 
-                                                      {/* Below handles the images for the modal */}
-                                                      <ModalContent level={level} page={page} round={round} type={type} show={show} month={month} post={post} />
+                                                   
 
                                                       {!x.answer ? null : (
                                                         <h6 className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4" key={i} onClick={() => setObjectiveAnswer(x.answer)} style={{ color: "black" }} dangerouslySetInnerHTML={{ __html: x.answer }} />
                                                       )}
+
+                                                         {/* Below handles the images for the modal */}
+                                                         <ModalContent level={level} page={page} round={round} type={type} show={show} month={month} post={post} />
 
                                                       <div className="flex flex-col items-center justify-evenly border-b-2 border-black">
                                                         {level > 7 && (

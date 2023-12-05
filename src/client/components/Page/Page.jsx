@@ -725,13 +725,7 @@ export default function Page({ month, setMonth }) {
                                                         ) : null}
                                                       </div>
 
-                                                      <ModalContent
-                                                        level={level}
-                                                        page={page}
-                                                        round={round}
-                                                        type={type}
-                                                        show={show}
-                                                      />
+
                                                       {!x.answer ? null : (
                                                         <h6
                                                           className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4"
@@ -750,22 +744,16 @@ export default function Page({ month, setMonth }) {
                                                         />
                                                       )}
 
+                                                      <ModalContent
+                                                        level={level}
+                                                        page={page}
+                                                        round={round}
+                                                        type={type}
+                                                        show={show}
+                                                      />
+                
+
                                                       <div className="flex flex-col items-center justify-evenly border-b-2 border-black">
-                                                        <section className="text-center mt-20">
-                                                          <button
-                                                            onClick={() =>
-                                                              setWhatDoUWant(
-                                                                whatDoUWant ===
-                                                                  "Close"
-                                                                  ? "Open"
-                                                                  : "Close"
-                                                              )
-                                                            }
-                                                            className="cursor-pointer lg:mt-2 text-white bg-sky-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                                                          >
-                                                            Open Text Editor
-                                                          </button>
-                                                        </section>
 
                                                         {level > 7 &&
                                                           whatDoUWant ===

@@ -20,7 +20,7 @@ const style = {
 
 export default function Designer() {
   const [designerData, setDesignerData] = useState([]);
-  const [imageUrl, setImageUrl] = useState(""); // State for the designer data
+  const [imageUrl, setImageUrl] = useState([]); // State for the designer data
   const [user, setUser] = useState("");
   const [uuid, setUuid] = useState("");
   const [level, setLevel] = useState("");
@@ -367,6 +367,7 @@ setSureToReset(true)
                         >
 
                           <td className={`${designer.New ? 'border-l-[5px] border-blue-700  animate-pulse animate-thrice animate-duration-[3000ms] animate-ease-out ' : ''} `}></td>
+
                           <td className="border px-4 py-2">
                             <img
                               src={designer.img}
@@ -375,9 +376,11 @@ setSureToReset(true)
                           </td>
                           
                           <td className="border px-4 py-2">
-                            {designer.date}-{designer.month}
+                            {designer.newDate}
                           </td>
+
                           <td className="border px-4 py-2">{designer.page}</td>
+
                           <td
                             className={`border px-4 py-2 ${
                               designer.prio === "Prio" ? "bg-red-600" : "bg-gray-600"

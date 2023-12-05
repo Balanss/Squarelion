@@ -1,17 +1,5 @@
 import React from "react";
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  deleteDoc,
-  doc,
-  addDoc,
-  updateDoc,
-  setDoc,
-  deleteField,
-  getDoc,
-} from "firebase/firestore";
+
 import { auth, fs, db } from "/src/client/Firebase.jsx";
 import { useState, useEffect } from "react";
 import logo from "../images/logo.png";
@@ -93,8 +81,7 @@ export default function Stories({
           if (downloadURLs.length === selectedFiles.length) {
             // All uploads completed successfully, now update 
             
-            docRef=collection(db, page);
-            colRef=doc(docRef,month);
+        
             
             await fs
               .collection(page)
