@@ -87,16 +87,16 @@ const imageCount = [x.designer, x.designer1, x.designer2, x.designer3].filter(Bo
   let imageSize;
   switch (imageCount) {
     case 1:
-      imageSize = '60vw';
+      imageSize = 'auto';
       break;
     case 2:
-      imageSize = '45vw';
+      imageSize = 'auto';
       break;
     case 3:
-      imageSize = '30vw';
+      imageSize = 'auto';
       break;
     case 4:
-      imageSize = '20vw';
+      imageSize = 'auto';
       break;
     default:
       imageSize = '20vw';
