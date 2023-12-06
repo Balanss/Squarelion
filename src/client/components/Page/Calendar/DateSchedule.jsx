@@ -21,6 +21,7 @@ export default function Calendar({ user }) {
   const [message, setMessage] = useState("");
   const [alert, setAlert] = useState(false);
   const [timer, setTimer] = useState('');
+  const [ specialId, setSpecialId] = useState('');
 
   const handleTimeChange = event => {
     setTime(event.target.value);
@@ -29,7 +30,7 @@ export default function Calendar({ user }) {
   const handleSubmit = () => {
     if (time && title > "") {
       const docRef = collection(db, "schedule");
-      const colRef = doc(docRef, title);
+      const colRef = doc(docRef);
       setDoc(
         colRef,
         { selectedDate: time ,timer:timer , Title: title, user: user },
@@ -48,15 +49,13 @@ export default function Calendar({ user }) {
         setMessage("");
       }, 2000);
     }
-
- 
   };
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "schedule"), snapshot => {
       const data = [];
       snapshot.forEach(doc => {
-        data.push(doc.data());
+        data.push({ id: doc.id, ...doc.data() });
       });
       // Sort the data array by closest date to latest
       data.sort((a, b) => new Date(a.selectedDate) - new Date(b.selectedDate));
@@ -65,32 +64,41 @@ export default function Calendar({ user }) {
     return unsubscribe;
   }, []);
 
-  const handleDelete = async id => {
-    const docRef = collection(db, "schedule");
-    const colRef = doc(docRef, id);
-    deleteDoc(colRef);
-  };
+ 
 
-  const colors = [
-    "bg-green-800",
-    "bg-blue-800",
-    "bg-blue-900",
-    "bg-green-900",
-    "bg-indigo-900",
-    "bg-purple-900",
-    "bg-yellow-900",
-    "bg-pink-800",
-    "bg-teal-800",
-    "bg-cyan-800",
-    "bg-lime-800",
-    "bg-orange-800",
-  ];
+
+    const colors = [
+      "bg-gradient-to-r from-green-700 to-green-800",
+      "bg-gradient-to-r from-blue-700 to-blue-800",
+      "bg-gradient-to-r from-indigo-700 to-indigo-800",
+      "bg-gradient-to-r from-purple-700 to-purple-800",
+      "bg-gradient-to-r from-pink-700 to-pink-800",
+      "bg-gradient-to-r from-teal-700 to-teal-800",
+      "bg-gradient-to-r from-lime-700 to-lime-800",
+      "bg-gradient-to-r from-emerald-700 to-emerald-800",
+      "bg-gradient-to-r from-fuchsia-700 to-fuchsia-800",
+    ];
+
 
   const [randomColor, setRandomColor] = useState("");
 
   useEffect(() => {
     setRandomColor(colors[Math.floor(Math.random() * colors.length)]);
   }, []);
+
+
+  const handleAutoDel = async (id) => {
+   scheduleData.map((x, i) => {
+    if (i !== id){
+      console.log('not equal')
+    } else {
+      const docRef = collection(db, "schedule");
+      const colRef = doc(docRef, x.id);
+      deleteDoc(colRef);
+    }
+    }
+    )
+  };
 
   return (
     <section className="flex flex-col lg:flex-row-reverse lg:w-[75vw] p-10 justify-between bg-slate-800 shadow-lg ">
@@ -144,11 +152,18 @@ export default function Calendar({ user }) {
         {scheduleData.map((x, id) => {
           const randomColor = colors[Math.floor(Math.random() * colors.length)];
           const currentDate = new Date();
-          const selectedDate = new Date(x.selectedDate) + 1;
+          currentDate.setHours(0, 0, 0, 0); // set time to 00:00:00.000
+          const selectedDate = new Date(x.selectedDate);
+          selectedDate.setDate(selectedDate.getDate() + 1);
+          selectedDate.setHours(0, 0, 0, 0); // set time to 00:00:00.000
           const isPastDate = selectedDate < currentDate;
+          console.log(isPastDate);
+          console.log(selectedDate);
+          console.log(currentDate);
 
           if (isPastDate) {
-            return null; // Skip rendering for past events
+            handleAutoDel(id); // Skip rendering for past events
+          
           }
 
           return (
@@ -162,7 +177,7 @@ export default function Calendar({ user }) {
                     className="cursor-pointer hover:text-red-700 "
                     onClick={() => {
                       const docRef = collection(db, "schedule");
-                      const colRef = doc(docRef, x.Title);
+                      const colRef = doc(docRef, x.id);
                       deleteDoc(colRef);
                     }}
                   >
@@ -170,7 +185,7 @@ export default function Calendar({ user }) {
                     X{" "}
                   </span>{" "}
                 </h1>
-                <p onClick={() => handleDelete(id)}>
+                <p >
                   {x.selectedDate.replace("T", " ")}
                   <span className="ml-1"> @ {x.timer}  </span>
                   <span className="ml-1"> | {x.Title}  </span>

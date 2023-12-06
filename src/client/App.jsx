@@ -41,8 +41,8 @@ function App() {
     if (uuid) {
       const entryDate = localStorage.getItem("entryDate");
       const currentDate = new Date().toLocaleDateString();
-      if (entryDate === currentDate) {
-        console.log("Already visited today");
+      if (entryDate === currentDate && local === import.meta.env.VITE_LATI_COD) {
+        console.log("Already visited today in office");
       } else if (local === import.meta.env.VITE_LATI_COD) {
         console.log("at the office login");
         const currentTime = new Date().toLocaleString();

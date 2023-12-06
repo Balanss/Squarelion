@@ -15,11 +15,21 @@ export default function SignoutInfo() {
     const [level, setLevel] = useState("");
     const [uuid, setUuid] = useState("");
     const [ clicked,setClicked] = useState(false)
+    const [ local, setLocal] = useState(null)
   
+
+    useEffect(() => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLocal(position.coords.latitude.toString());
+      });
+  
+    }, [uuid, user]);
 
    
 function SignoutInfo() {
-    if (uuid) {
+
+
+    if (uuid && local === import.meta.env.VITE_LATI_COD) {
         const entryDate = localStorage.getItem("entryDate");
         const currentDate = new Date().toLocaleDateString();
        
@@ -34,7 +44,11 @@ function SignoutInfo() {
           // Update the document in Firebase map with the current date and time
           updateDoc(colRef,{LoggedOut:new Date().toLocaleString()},{merge:true})
           updateDoc(colRef,{logsOut:arrayUnion(new Date().toLocaleString())})
+
+          console.log('logged out in office')
         
+      } else {
+        console.log("Not in office");
       }
 
 setClicked(true)

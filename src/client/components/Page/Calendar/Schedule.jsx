@@ -36,17 +36,19 @@ export default function Schedule({ user, level, uuid }) {
 
   const fetchAndCacheData = async () => {
     try {
-      // Check if the data is in local storage
-      const cachedData = localStorage.getItem('data');
-      if (cachedData) {
-        setMatchingData(JSON.parse(cachedData));
+      // Check if data is in local storage
+      const cachedData = JSON.parse(localStorage.getItem("cachedData") || "[]");
+      if (cachedData.length > 0) {
+        // Data is in local storage, load it from there
+        setMatchingData(cachedData);
         return;
       }
 
+      // Data is not in local storage, fetch it from Firebase
       const promises = data.map(dataItem =>
         fs
           .collection(dataItem.name)
-          .where('status', '!=', 'Approved')
+          .where("status", "==", "pending")
           .get()
           .then(querySnapshot =>
             querySnapshot.docs.map(doc => ({
@@ -60,11 +62,11 @@ export default function Schedule({ user, level, uuid }) {
       const results = await Promise.all(promises);
       const matchingDataArray = results.flat();
 
-      const filteredData = matchingDataArray.filter(item => item.status !== 0);
-      setMatchingData(filteredData);
+      // Save fetched data to local storage
+      localStorage.setItem("cachedData", JSON.stringify(matchingDataArray));
 
-      // Save the data in local storage
-      localStorage.setItem('data', JSON.stringify(filteredData));
+      // Update state
+      setMatchingData(matchingDataArray.filter(item => item.status !== 0));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -73,11 +75,6 @@ export default function Schedule({ user, level, uuid }) {
   useEffect(() => {
     fetchAndCacheData();
   }, [data]);
-
-
-
-
-
 
   // Add a function to refresh data from Firebase when needed
 
@@ -154,22 +151,22 @@ export default function Schedule({ user, level, uuid }) {
                     </th>
 
                     <td className="px-1 py-1">
-                      {level > 8 && dataItem.name !== "Test" && (
+                      {level > 8   && dataItem.name !== "Test" && (
                         <>
-                        
+                          <p>
                             Pending:{" "}
                             {
                               matchingData.filter(
                                 matchingItem =>
                                   matchingItem.client === dataItem.name &&
-                                  matchingItem.status === "pending" 
+                                  matchingItem.status !== "Approved"
                               ).length
                             }{" "}
-                          
+                          </p>
                         </>
                       )}
 
-                      {level === 8 && (
+                      {/* {level === 8 && (
                         <>
                           {dataItem.name !== "Test" ? (
                             <p>
@@ -179,13 +176,14 @@ export default function Schedule({ user, level, uuid }) {
                                 matchingData.filter(
                                   matchingItem =>
                                     matchingItem.client === dataItem.name &&
-                                     matchingItem.SendTo === user  && ( matchingItem.status === "Waiting Designer"|| matchingItem.status === 'Feedback')
+                                    matchingItem.status == "Designer" &&
+                                    dataItem.name !== "Test"
                                 ).length
                               }{" "}
                             </p>
                           ) : null}
                         </>
-                      )}
+                      )} */}
                     </td>
                   
                   </tr>
