@@ -33,7 +33,7 @@ export default function SidePanel({ level, user, switching, setSwitching }) {
   return (
     <aside
       id="cta-button-sidebar"
-      className="fixed top-0 left-0 z-40 w-1/5 xl:w-[15%] h-screen transition-transform -translate-x-full sm:translate-x-0"
+      className="fixed top-0 left-0 z-[10000] w-1/5 xl:w-[15%] h-screen transition-transform -translate-x-full  sm:translate-x-0"
       aria-label="Sidebar"
     >
       <div className="h-full px-3 py-4 overflow-y-auto bg-gray-800 dark:bg-gray-800">

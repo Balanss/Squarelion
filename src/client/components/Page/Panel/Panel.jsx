@@ -45,7 +45,7 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
    
      <div className="h-full px-3 py-4 overflow-y-auto bg-slate-800 dark:bg-slate-800 w-[20vw]  ">
       <DesignerFunctions user={user} setNoti={setNoti} setDesignerData={setDesignerData} designerData={designerData}/>
-        <ul className="space-y-2 font-medium fixed phones:bg-slate-500 phones:left-0 ">
+        <ul className="space-y-2 font-medium fixed phones:z-10 phones:bg-slate-500 phones:left-0 ">
            <li>
               <Link to='/' 
               className=" transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2 rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
@@ -140,7 +140,7 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
   </li> */}
 
 
-  <li className='fixed bottom-10 phones:top-0 phones:right-0'>
+  <li className='fixed bottom-10 phones:hidden phones:top-0 phones:right-0'>
   <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
               <img className='w-[25px]' src={timer} />
                  <span className="flex-1 ml-2 whitespace-nowrap text-white md:text-xs lg:text-md"><SignoutInfo /> </span>

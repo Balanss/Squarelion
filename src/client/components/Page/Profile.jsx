@@ -14,6 +14,7 @@ import UserStats from "./UserStats/UserStats";
 import { lazy, Suspense } from "react";
 import BugReport from "../../Bugs/BugReport";
 import FeedBack from "../../FeedBack/FeedBack";
+import SignoutInfo from "../AdminPage/LogsInfo/SignoutInfo";
 // import PopUp from "../../FeedBack/PopUp";
 
 // Lazy import the Schedule component
@@ -109,6 +110,11 @@ export default function Profile() {
         </svg>
       </button>
 
+      <div className="phones:fixed phones:z-40 phones:top-3 phones:right-3 ">
+                <SignoutInfo/>
+              </div>
+
+
       <div className=" flex flex-col sm:flex-row whole-div  ">
         {pan === true && isMobile === true && level > 6 && (
           <>
@@ -121,6 +127,8 @@ export default function Profile() {
               setClicked={setClicked}
               setShowPfp={setShowPfp}
             />{" "}
+
+            
           </>
         )}
 
@@ -134,6 +142,8 @@ export default function Profile() {
                 pan={pan}
                 setPan={setPan}
               />{" "}
+
+             
             </>
           )}
 

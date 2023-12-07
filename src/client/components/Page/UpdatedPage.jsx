@@ -355,7 +355,8 @@ export default function UpdatedPage({ month, setMonth }) {
 
               <Suspense fallback={<div>Loading...</div>}>
                 <DragDropContext onDragEnd={handleDragEnd}>
-                  <table className="m-auto w-full text-center">
+               <div className="phones:overflow-y-auto ">
+               <table className="m-auto w-full text-center">
                     <thead className="phones:text-[12px]">
                       <tr className="bg-slate-800">
                       
@@ -440,7 +441,7 @@ export default function UpdatedPage({ month, setMonth }) {
                                             {show === i && level > 7 && (
                                               <>
                                                 <div className="flex flex-col-reverse xl:items-end xl:flex-row">
-                                                  <div className="lg:w-[800px] m-auto border-2 border-black bg-slate-700">
+                                                  <div className="lg:w-[800px] phones:w-[100dvw] m-auto border-2 border-black bg-slate-700">
                                                     <div className="holds-written-content">
                                                       {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
                                                       <PageModal {...forPageModal}/>
@@ -464,7 +465,7 @@ export default function UpdatedPage({ month, setMonth }) {
                                                             </div>
 
                                                             {level > 8 && (
-                                                              <form className="flex  phones:flex-col" onSubmit={handleSubmit}>
+                                                              <form className="flex phones:w-[100vw] phones:flex-col" onSubmit={handleSubmit}>
                                                                 <div className="flex flex-col">
                                                                   <textarea value={preset} onChange={e => setPreset(e.target.value)} className="w-[300px] h-[300px] phones:w-full" />
                                                                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { navigator.clipboard.writeText(preset); }}> Copy </button>
@@ -476,7 +477,7 @@ export default function UpdatedPage({ month, setMonth }) {
                                                                     modules={modules}
                                                                     style={{ color: "black", backgroundColor: "white" }}
                                                                     placeholder="Text here..."
-                                                                    className="max-w-[90vw] lg:max-w-[500px] overflow-scroll"
+                                                                    className="max-w-[90vw] phones:w-[100vw] phones:max-w-[100vw] lg:max-w-[500px] overflow-scroll"
                                                                   />
                                                                 </Suspense>
                                                               </form>
@@ -523,6 +524,7 @@ export default function UpdatedPage({ month, setMonth }) {
                       )}
                     </Droppable>
                   </table>
+               </div>
                 </DragDropContext>
               </Suspense>
 

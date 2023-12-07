@@ -340,7 +340,7 @@ export default function Page({ month, setMonth }) {
   return (
     <>
       <div
-        className="client-page min-h-[100vh] bg-slate-600 overflow-auto "
+        className="client-page min-h-[100vh]  bg-slate-600 overflow-auto "
         style={{ color: "white" }}
       >
         <User
@@ -476,6 +476,7 @@ export default function Page({ month, setMonth }) {
 
               <Suspense fallback={<div>Loading...</div>}>
                 <DragDropContext onDragEnd={handleDragEnd}>
+                  <div className="phones:overflow-y-auto">
                   <table className="m-auto w-full text-center animate-fade animate-duration-[500ms] animate-ease-in">
                     <thead className="phones:text-[12px]">
                       <tr className="bg-slate-800">
@@ -664,7 +665,7 @@ export default function Page({ month, setMonth }) {
                                             {show === i && level > 7 && (
                                               <>
                                                 <div className="flex flex-col-reverse xl:flex-row xl:items-end animate-fade animate-duration-[200ms] animate-ease-in">
-                                                  <div className="lg:w-[800px] m-auto border-2 border-black bg-slate-700">
+                                                  <div className="lg:w-[800px] phones:w-[100dvw] m-auto border-2 border-black bg-slate-700">
                                                     <div className="holds-written-content">
                                                       <div className="text-black flex">
                                                         <WaitingDesigner
@@ -818,7 +819,7 @@ export default function Page({ month, setMonth }) {
 
                                                               {level > 8 && (
                                                                 <form
-                                                                  className="flex phones:flex-col"
+                                                                  className="flex phones:flex-col phones:w-[100vw]"
                                                                   onSubmit={
                                                                     handleSubmit
                                                                   }
@@ -867,7 +868,7 @@ export default function Page({ month, setMonth }) {
                                                                         "white",
                                                                     }}
                                                                     placeholder="Text here..."
-                                                                    className="max-w-[90vw]  lg:max-w-[500px] overflow-scroll"
+                                                                    className="max-w-[90vw] phones:w-[100vw] phones:max-w-[100vw]  lg:max-w-[500px] overflow-scroll"
                                                                   />
                                                                 </form>
                                                               )}
@@ -987,6 +988,7 @@ export default function Page({ month, setMonth }) {
                       )}
                     </Droppable>
                   </table>
+                  </div>
                 </DragDropContext>
               </Suspense>
 

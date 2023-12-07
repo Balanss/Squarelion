@@ -77,7 +77,7 @@ setTimeout(() => {
 
     
 
-    {clicked? <span className='text-white bg-slate-700 rounded-lg p-4 '>You have successfully clocked out</span> : null}
+    {clicked? <span className='text-white bg-slate-700 rounded-lg p-4 phones:fixed phones:right-0 phones:rounded-none '>You have successfully clocked out</span> : null}
 
     </div>
 <div>
