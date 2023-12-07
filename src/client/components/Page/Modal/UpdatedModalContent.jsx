@@ -86,37 +86,37 @@ const [isMobile, setIsMobile] = useState(false);
         let imageSize;
         switch (imageCount) {
           case 1:
-            imageSize = '60vw';
+            imageSize = 'auto';
             break;
           case 2:
-            imageSize = '45vw';
+            imageSize = 'auto';
             break;
           case 3:
-            imageSize = '30vw';
+            imageSize = 'auto';
             break;
           case 4:
-            imageSize = '20vw';
+            imageSize = 'auto';
             break;
           default:
-            imageSize = '20vw';
+            imageSize = 'auto';
         }
       
         let imageHeight;
           switch (imageCount) {
               case 1:
-                  imageHeight = '80vh';
+                  imageHeight = 'auto';
                   break;
               case 2:
-                  imageHeight = '60vh';
+                  imageHeight = 'auto';
                   break;
               case 3:
-                  imageHeight = '40vh';
+                  imageHeight = 'auto';
                   break;
               case 4:
-                  imageHeight = '30vh';
+                  imageHeight = 'auto';
                   break;
               default:
-                  imageHeight = '30vh';
+                  imageHeight = 'auto';
           }
 
            return <div key={x.id} className='inline-flex pb-[50px] pt-[50px] gap-6 flex-wrap items-center  justify-center m-auto'>

@@ -105,19 +105,19 @@ const imageCount = [x.designer, x.designer1, x.designer2, x.designer3].filter(Bo
   let imageHeight;
     switch (imageCount) {
         case 1:
-            imageHeight = '80vh';
-            break;
+          imageHeight = 'auto';
+          break;
         case 2:
-            imageHeight = '60vh';
-            break;
+          imageHeight = 'auto';
+          break;
         case 3:
-            imageHeight = '40vh';
-            break;
+          imageHeight = 'auto';
+          break;
         case 4:
-            imageHeight = '30vh';
-            break;
+          imageHeight = 'auto';
+          break;
         default:
-            imageHeight = '30vh';
+          imageHeight = 'auto';
     }
 
             return (

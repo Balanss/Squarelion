@@ -14,7 +14,6 @@ import Title from "../../Title";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Inputs from "./PageFunctions/UpdatedInputs";
 import Loading from "../Loading";
@@ -22,11 +21,12 @@ import Memo from "./Memo/Memo";
 import "/src/client/index.css";
 import Version from "../../Version/Version";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Bot from "./Bot/Bot";
 import PageModal from "./PageModal";
 import GettingRound from "./GettingRound/GettingRound";
 
 const ModalContent = lazy(() => import("./Modal/UpdatedModalContent"));
+const Bot = lazy(() => import("./Bot/Bot"));
+const ReactQuill = lazy(() => import("react-quill"));
 
 const modules = {
   toolbar: {
@@ -439,7 +439,7 @@ export default function UpdatedPage({ month, setMonth }) {
                                           >
                                             {show === i && level > 7 && (
                                               <>
-                                                <div className="flex flex-col-reverse xl:flex-row">
+                                                <div className="flex flex-col-reverse xl:items-end xl:flex-row">
                                                   <div className="lg:w-[800px] m-auto border-2 border-black bg-slate-700">
                                                     <div className="holds-written-content">
                                                       {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
@@ -469,10 +469,16 @@ export default function UpdatedPage({ month, setMonth }) {
                                                                   <textarea value={preset} onChange={e => setPreset(e.target.value)} className="w-[300px] h-[300px] phones:w-full" />
                                                                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { navigator.clipboard.writeText(preset); }}> Copy </button>
                                                                 </div>
-                                                                <ReactQuill value={objectiveAnswer} 
-                                                                onChange={handleEditorChange}
-                                                                 modules={modules} style={{ color: "black", backgroundColor: "white" }}
-                                                                  placeholder="Text here..." className="max-w-[90vw]  lg:max-w-[500px] overflow-scroll" />
+                                                                <Suspense fallback={<div>Loading...</div>}>
+                                                                  <ReactQuill
+                                                                    value={objectiveAnswer}
+                                                                    onChange={handleEditorChange}
+                                                                    modules={modules}
+                                                                    style={{ color: "black", backgroundColor: "white" }}
+                                                                    placeholder="Text here..."
+                                                                    className="max-w-[90vw] lg:max-w-[500px] overflow-scroll"
+                                                                  />
+                                                                </Suspense>
                                                               </form>
                                                             )}
                                                           </>
@@ -495,9 +501,11 @@ export default function UpdatedPage({ month, setMonth }) {
                                                   </div>
 
                                                   {level > 8 ? (
-                                                    <div className=" lg:w-[800px] xl:w-[400px]">
-                                                      <Bot setObjectiveAnswer={setObjectiveAnswer} subject={subject} user={user} />
-                                                    </div>
+                                                    <Suspense fallback={<div>Loading...</div>}>
+                                                      <div className=" lg:w-[800px] xl:w-[400px] lg:relative lg:bottom-1">
+                                                        <Bot setObjectiveAnswer={setObjectiveAnswer} subject={subject} user={user} />
+                                                      </div>
+                                                    </Suspense>
                                                   ) : null}
                                                 </div>
                                               </>

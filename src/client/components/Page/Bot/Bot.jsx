@@ -110,7 +110,7 @@ const Bot = ({ setObjectiveAnswer, user, subject }) => {
   };
 
   return (
-    <div className="App bg-slate-800 ">
+    <div className="App bg-slate-800 phones:hidden ">
       <div className="flex bg-slate-900 text-white text-center font-bold justify-center gap-7 p-2">
         <h1> {user} Chatbot </h1>
       </div>
@@ -177,10 +177,10 @@ const Bot = ({ setObjectiveAnswer, user, subject }) => {
                 </span>
               ) : (
                 <div
-                  className={`flex font-semi break-words font-sans text-sm words-break text-white shadow-md shadow-black px-5 py-3  ${
+                  className={`flex font-semi break-words text-left font-sans text-sm words-break text-white shadow-md shadow-black px-5 py-3  ${
                     item.includes("Me:")
                       ? "bg-blue-800 rounded-bl-lg rounded-tl-lg rounded-tr-lg"
-                      : "bg-blue-400 rounded-br-lg rounded-tl-lg rounded-tr-lg"
+                      : "bg-blue-700 rounded-br-lg rounded-tl-lg rounded-tr-lg"
                   }`}
                 >
                   <ul className="break-words animate-fade animate-once animate-duration-500">

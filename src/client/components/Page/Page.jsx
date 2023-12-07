@@ -353,6 +353,7 @@ export default function Page({ month, setMonth }) {
         />
         <Version />
         <Title />
+      
         <div className="border-b-2 border-yellow-500 pt-2 bg-slate-800">
           {" "}
           <Nav />{" "}
@@ -662,7 +663,7 @@ export default function Page({ month, setMonth }) {
                                           >
                                             {show === i && level > 7 && (
                                               <>
-                                                <div className="flex flex-col-reverse xl:flex-row animate-fade animate-duration-[200ms] animate-ease-in">
+                                                <div className="flex flex-col-reverse xl:flex-row xl:items-end animate-fade animate-duration-[200ms] animate-ease-in">
                                                   <div className="lg:w-[800px] m-auto border-2 border-black bg-slate-700">
                                                     <div className="holds-written-content">
                                                       <div className="text-black flex">
@@ -960,7 +961,7 @@ export default function Page({ month, setMonth }) {
                                                   </div>
 
                                                   {level > 8 ? (
-                                                    <div className=" lg:w-[800px] xl:w-[400px]">
+                                                    <div className=" lg:w-[800px] xl:w-[400px] xl:relative bottom-1">
                                                       <Bot
                                                         setObjectiveAnswer={
                                                           setObjectiveAnswer
