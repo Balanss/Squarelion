@@ -110,7 +110,7 @@ export default function Profile() {
         </svg>
       </button>
 
-      <div className="phones:fixed phones:z-40 phones:top-3 phones:right-3 ">
+      <div className="phones:fixed phones:z-40 phones:top-3 phones:right-3 phones:block hidden">
                 <SignoutInfo/>
               </div>
 
