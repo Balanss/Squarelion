@@ -66,8 +66,12 @@ const updateVersion = '3'
               <h1 className="block px-4 py-2 max-h-[400px] overflow-auto">
                 Hello {user}! There have been updates to Media Pilot:
                 <ul className="list-disc list-inside mt-2">
-                  <li>Designers can now see how many post they have open</li>
-                  {level > 9 && <> <li> You can now select which desiger to assign  </li> </>}
+                  <li>New profile ui screen</li>
+                 <li> Content writers new ui screen for 2024 </li> 
+                 <li>New Designer ui screen</li> 
+                 <li> Added new current task - this will show your assigned task </li> 
+                 <li> Content writers new ui screen for 2024 </li> 
+                 {level> 9 || user === 'Saskia' ?<li> You can now see the lastest task finished in the last 24 hours </li>  : null}
                  
                 </ul>
               </h1>
