@@ -19,7 +19,7 @@ export default function GreetingUser({ user, level }) {
   const date = new Date();
 
 
-const updateVersion = '3'
+const updateVersion = '4'
 
 
 
