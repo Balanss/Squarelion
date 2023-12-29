@@ -1,7 +1,7 @@
 import React from 'react'
 import ButtonPress from '../../firebaseData/UpdatedButtonPress'
 
-export default function Inputs({setPost,setObjective,setDate,setType,setMonth,user,qty,page,post,objective,date,level,type,month,uniqueId,setUniqueId,boosting,setBootsing}) {
+export default function Inputs({setPost,dataMonth,setDataMonth,setObjective,setDate,setType,setMonth,user,qty,page,post,objective,date,level,type,month,uniqueId,setUniqueId,boosting,setBootsing}) {
 
     function handleAdminSubmit(e){
         e.preventDefault();
@@ -70,7 +70,7 @@ export default function Inputs({setPost,setObjective,setDate,setType,setMonth,us
                 </td>
 </>}
                 <td className="px-1 py-1 text-center">
-                <input type="month" placeholder='month' value={month} onChange={(e) => setMonth(e.target.value)}  className='input-admindb h-[50px] border-2 border-black w-[100px]' />
+                <input type="month" placeholder='month' value={month} onChange={(e) => {setMonth(e.target.value);setDataMonth(e.target.value)}}  className='input-admindb h-[50px] border-2 border-black w-[100px]' />
                 </td>
                 <td className="px-1 py-1">
           {level < 9? null : <input type='text' placeholder='boosting'  value={boosting} onChange={(e) => setBootsing(e.target.value)} className='input-admindb  h-[50px] border-2 border-black w-[100px]'/> }

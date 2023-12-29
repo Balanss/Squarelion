@@ -14,7 +14,7 @@ import ErrorBoundary from "./components/ErrorBoundary/Error";
 const Admin = lazy(() => import("./components/AdminPage/Admin"));
 const Login = lazy(() => import("./components/Login"));
 const Home = lazy(() => import("./components/Home/Home"));
-const Signup = lazy(() => import("./components/Signup"));
+
 
 // const Page = lazy(() => import("./components/Page/Page"));
 // const UpdatedPage = lazy(() => import("./components/Page/UpdatedPage"));
@@ -35,15 +35,14 @@ function App() {
     navigator.geolocation.getCurrentPosition((position) => {
       setLocal(position.coords.latitude.toString());
     });
-
-
     //needs to be === current date
     if (uuid) {
       const entryDate = localStorage.getItem("entryDate");
       const currentDate = new Date().toLocaleDateString();
       if (entryDate === currentDate && local === import.meta.env.VITE_LATI_COD) {
         console.log("Already visited today in office");
-      } else if (local === import.meta.env.VITE_LATI_COD) {
+      } else if (local === import.meta.env.VITE_LATI_COD || local === import.meta.env.VITE_LATI_COD2 || local === import.meta.env.VITE_LATI_COD3 || 
+        local === import.meta.env.VITE_LATI_COD4) {
         console.log("at the office login");
         const currentTime = new Date().toLocaleString();
         localStorage.setItem("entryDate", currentDate);
@@ -89,8 +88,6 @@ function App() {
             <Route path="/admindashboard" element={<Admin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
-
             {/* <Route path="/profile/:id" element={<Page />} />
             <Route path="/profile/:id" element={<UpdatedPage />} /> */}
             <Route path="/profile/:id" element={<PageLoader />} />

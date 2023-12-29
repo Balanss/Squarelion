@@ -58,7 +58,8 @@ alert('Please wait for the post to be sent to the server')
        channel:type,
        monthInWords:monthInWords,
        boosting: boosting === '' ? 0 : '$'+boosting,
-       priority:'No'
+       priority:'No',
+       dbId:post,
    
   }},{merge:true})
      

@@ -3,7 +3,7 @@ import {useState, useEffect,useMemo} from 'react'
 import { auth, fs } from '../../../Firebase'
 
 export default function User({ roles,setRoles,user,level }) {
-    const [users, setUsers] = useState([]);
+
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {

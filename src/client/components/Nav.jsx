@@ -4,15 +4,11 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import User from "./User";
 import { auth, fs, db } from "/src/client/Firebase.jsx";
-import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import AdminLogic from "./AdminPage/AdminLogic";
-import { ar } from "date-fns/locale";
-import { set } from "date-fns";
+import { motion } from 'framer-motion'
+import {fadeIn} from '../utils/Motion'
+
 
 export default function Nav() {
   const [user, setUser] = useState(0);
@@ -21,7 +17,7 @@ export default function Nav() {
   const [userOkay, setUserOkay] = useState("");
   const navigate = useNavigate();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -34,37 +30,6 @@ export default function Nav() {
     setUserOkay(localStorage.getItem("user"));
   }, [userOkay]);
 
-  const [round, setRound] = useState([]);
-
-  const getRound = async () => {
-    try {
-      const unsubscribe = fs.collection("admin").onSnapshot(querySnapshot => {
-        const roundArray = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        roundArray.sort((a, b) => {
-          // Extract the numeric part from the IDs
-          const idA = parseInt(a.id.split("-")[0]);
-          const idB = parseInt(b.id.split("-")[0]);
-
-          return idA - idB; // Sort the array based on the numeric IDs
-        });
-
-        setRound(roundArray);
-      });
-
-      return unsubscribe;
-    } catch (error) {
-      null;
-    }
-  };
-
-  useEffect(() => {
-    getRound();
-    // Cleanup the subscription
-  }, []);
 
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -82,14 +47,25 @@ export default function Nav() {
   }, []);
 
   const [userPermit, setUserPermit] = useState([]); //
-  const alert = userPermit.filter(x => x.request >= "Awaiting Request");
-  const alertNumber = alert.length > 0 ? alert.length : 0;
 
   const array = [
     { id: `/user/${user}`, title: user },
-    { id: "/admindashboard", title: "Admin" },
     { id: "logout", title: "Logout" },
   ];
+
+  if (level > 9) {
+    array.push({ id: "/admin", title: "Admin" });
+  }
+
+ const handleLogout = () => {
+  auth.signOut().then(() => {
+    navigate("/");
+    localStorage.clear();
+    setUser(0);
+    setLevel(0);
+    setUuid(null);
+  });
+}
 
   return (
     <>
@@ -108,19 +84,23 @@ export default function Nav() {
         <>
           <div className="flex font-mono items-center justify-center sm:w-[400px] mt-2 sm:items-center sm:m-auto sm:justify-around ">
             {array.map((x, i) => {
-              return level < 10 && x.id === "/admindashboard" ? null : (
+
+const animationProps = {
+  initial: { opacity: 0, y: -50 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.75, delay: i * 0.3 },
+};
+
+              return (
+                <motion.div key={i} {...animationProps} className="motion-div mt-5">
+
+              
                 <span
-                  key={i}
+                  
                   className=" cursor-pointer mr-5 relative mt-2 mb-2 md:px-5 md:py-3 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group"
                   onClick={() => {
                     if (x.id === "logout") {
-                      auth.signOut().then(() => {
-                        navigate("/");
-                        localStorage.clear();
-                        setUser(0);
-                        setLevel(0);
-                        setUuid(null);
-                      });
+                      handleLogout();
                     }
                     if (x.id === "/admindashboard") {
                       navigate("/admindashboard");
@@ -141,6 +121,7 @@ export default function Nav() {
                     </button>
                   </span>
                 </span>
+                </motion.div>
               );
             })}
           </div>

@@ -35,8 +35,7 @@ function handleSubmit(e){
           Email:email,
            accepted:'no',
            level:0,
-           noti:0,
-         
+           noti:0,  
         })
     })
         .then(() => {

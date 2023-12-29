@@ -1,182 +1,86 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { fs } from "../../../Firebase";
-import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
-
-import Chart from "chart.js/auto";
-import { useRef } from "react";
-import wip from "../../images/wip2.svg";
 import GreetingUser from "./GreetingUser";
+import { motion } from "framer-motion";
+
+import GettingRound from "./GettingRound";
+import CurrentEvents from "./CurrentEvents";
+import CurrentTask from "./CurrentTask/CurrentTask";
+import WrittenBy from "./OverAllUserStats/WrittenBy";
+import UploadedBy from "./OverAllUserStats/UploadedBy";
+import CreatedBy from "./OverAllUserStats/CreatedBy";
+import ViewTaskDone from "./View/ViewTaskDone";
+
+
 
 export default function UserStats({ user ,level}) {
   const [round, setRound] = useState([]);
-  const [onlyNames, setOnlyNames] = useState([]);
   const [data, setData] = useState([]);
   const [uploadedBy, setUploadedBy] = useState([]);
   const [writtenBy, setWrittenBy] = useState([]);
+  const [scheduleData, setScheduleData] = useState([]);
 
-  const getRound = async () => {
-    try {
-      const unsubscribe = fs
-        .collection("partner")
-        .onSnapshot(async querySnapshot => {
-          const roundArray = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
+ 
 
-          setRound(roundArray.map(doc => doc.name));
-        });
-
-      return unsubscribe;
-    } catch (error) {
-      console.log("loading");
-    }
-  };
-
-  useEffect(() => {
-    getRound();
-  }, [user]);
-
-  const getData = async () => {
-    try {
-      const dataArray = [];
-      for (const r of round) {
-        const querySnapshot = await fs
-          .collection(r)
-          .where("CreatedBY", "==", user)
-          .get();
-        const roundData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          CreatedBY: doc.data().CreatedBY,
-        }));
-
-        dataArray.push(...roundData);
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
       }
-      setData(dataArray);
-    } catch (error) {
-      console.error(error);
     }
-  };
-
-  const getWrittenData = async () => {
-    try {
-      const dataArray = [];
-      for (const r of round) {
-        const querySnapshot = await fs
-          .collection(r)
-          .where("TextWrittenBy", "==", user)
-          .get();
-        const roundData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          TextWrittenBy: doc.data().TextWrittenBy,
-          ...doc.data(),
-        }));
-
-        dataArray.push(...roundData);
-      }
-      setWrittenBy(dataArray);
-    } catch (error) {
-      console.error(error);
+  }
+    
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
     }
-  };
+  }
 
-  const getUploadedData = async () => {
-    try {
-      const dataArray = [];
-      for (const r of round) {
-        const querySnapshot = await fs
-          .collection(r)
-          .where("DesignUploadedBy", "==", user)
-          .get();
-        const roundData = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          DesignUploadedBy: doc.data().DesignUploadedBy,
-          ...doc.data(),
-        }));
 
-        dataArray.push(...roundData);
-      }
-      setUploadedBy(dataArray);
-      localStorage.setItem("uploadedBy", JSON.stringify(dataArray));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchAllData = async () => {
-      await Promise.all([getData(), getWrittenData(), getUploadedData()]);
-    };
-
-    fetchAllData();
-  }, [user, round]);
-
+ 
   return (
-    <div className=" text-center text-white w-[75vw]phones:w-auto flex items-center justify-start xl:items-start xl:justify-between flex-col lg:flex-row mb-5 mt-5 gap-10">
-      <div className="inline-flex phones:flex-col phones:gap-2 gap-5">
-        {writtenBy === 0 ? null : (
-          <div
-            className={`block max-w-sm p-6 md:w-[125px] lg:w-[125px] xl:w-[180px] text-left text-white  border border-gray-600 rounded-lg shadow   bg-gray-800 hover:bg-gray-700 `}
-          >
-            <h5 className={` "mb-2 text-md font-bold tracking-tight " `}>
-              {writtenBy.length === 0 ? (
-                <div className="px-3 py-1 text-xs font-medium leading-none text-center  rounded-full animate-pulse bg-blue-900 text-blue-200">
-                  loading...
-                </div>
-              ) : (
-                writtenBy.length
-              )}{" "}
-            </h5>
-            <p className={`font-normal text-xs xl:text-[md] text-gray-400 `}>
-              Written Content
-            </p>
-          </div>
-        )}
+    <div className=" text-center text-white w-[75vw]  phones:w-auto flex items-center justify-start xl:items-start xl:justify-between flex-col lg:flex-row mb-5 mt-5 gap-10">
+      <GettingRound setRound={setRound} user={user} />
+      <motion.div  className="inline-flex phones:flex-col phones:gap-2 gap-10"    variants={container} 
+    initial="hidden"
+    animate="visible">
 
-        {data === 0 ? null : (
-          <div
-            className={`block max-w-sm p-6 md:w-[125px] lg:w-[125px] xl:w-[180px] text-white  border border-gray-600 rounded-lg shadow text-left   bg-gray-800 hover:bg-gray-700 `}
-          >
-            <h5 className={` 'mb-2 text-md font-bold tracking-tight `}>
-              {data.length === 0 ? (
-                <div className="px-3 py-1 text-xs font-medium leading-none text-center  rounded-full animate-pulse bg-blue-900 text-blue-200">
-                  loading...
-                </div>
-              ) : (
-                data.length
-              )}
-            </h5>
-            <p className={`font-normal text-xs xl:text-[md] text-gray-400 `}>
-              Created Content
-            </p>
-          </div>
-        )}
+<motion.div className="" variants={item}>
 
-        {uploadedBy === 0 ? null : (
-          <div
-            className={`block max-w-sm p-6 md:w-[125px] lg:w-[125px] xl:w-[180px] border border-gray-600 rounded-lg shadow text-left bg-gray-800 hover:bg-gray-700 
-`}
-          >
-            <h5 className={` 'mb-2 text-md font-bold tracking-tight '`}>
-              {uploadedBy.length === 0 ? (
-                <div className="px-3 py-1 text-xs font-medium leading-none text-center rounded-full animate-pulse bg-blue-900 text-blue-200">
-                  loading...
-                </div>
-              ) : (
-                uploadedBy.length
-              )}
-            </h5>
-            <p className={`font-normal text-xs xl:text-[md] text-gray-400 `}>
-              Uploaded Design Content
-            </p>
-          </div>
-        )}
-      </div>
-
-      <div className="">
         <GreetingUser user={user} level={level} />
-      </div>
+
+        <section className="flex gap-3 flex-wrap justify-between phones:flex-col ">
+      {level > 9 || user === 'Saskia'? <ViewTaskDone user={user} level={level} /> : null}
+      <CurrentTask user={user} level={level} />
+      <CurrentEvents  user={user} level={level} scheduleData={scheduleData} setScheduleData={setScheduleData} />
+      </section>
+        
+
+      <section className="mt-10 flex gap-5 flex-row phones:flex-col">
+     
+        </section>
+
+        <section className="mt-10 flex gap-5 items-center justify-center flex-row phones:flex-col ">
+        <WrittenBy user={user} setWrittenBy={setWrittenBy} level={level} round={round} writtenBy={writtenBy} />
+        <UploadedBy user={user} setUploadedBy={setUploadedBy} level={level} round={round} uploadedBy={uploadedBy} />
+        <CreatedBy user={user} setData={setData} level={level} round={round} data={data} />
+        </section>
+
+      
+    
+      </motion.div>
+
+ 
+
+      </motion.div>
+
+     
     </div>
   );
 }

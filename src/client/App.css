@@ -29,6 +29,8 @@ input[type="file"] {
     float: none!important;
 }
 
+
+
 @media screen and (max-width:639px){
     .react-datepicker{
         width: 90vw!important;

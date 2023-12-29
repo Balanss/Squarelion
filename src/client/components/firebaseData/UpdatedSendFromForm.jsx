@@ -18,7 +18,7 @@ import { set } from 'date-fns';
 
 
 
-export default function SendFromForm({objectiveAnswer,preset,typeAnswer,month,color,page,level,setObjectiveAnswer,user,subject,type,post,uniqueId,orderPost}) {
+export default function SendFromForm({objectiveAnswer,dbId,preset,typeAnswer,month,color,page,level,setObjectiveAnswer,user,subject,type,post,uniqueId,orderPost}) {
     
   const [ emojiShow,setEmojiShow] = useState(false)
 
@@ -28,13 +28,15 @@ export default function SendFromForm({objectiveAnswer,preset,typeAnswer,month,co
     const docRef= collection(db,page )
     const colRef = doc(docRef,month)
 
-    setDoc(colRef,{[post + month]:{
+    setDoc(colRef,{[dbId + month]:{
       answer:objectiveAnswer.slice(3,-4),
                 answerOnWeb:objectiveAnswer+" "+preset,
                 status:'Waiting',
             color:'#00eaff',
             TextWrittenBy:user,  
                 client:page, 
+                AssignedTo:null,
+                Time: new Date().toLocaleString(),
     }},{merge:true})
  }
 
@@ -50,11 +52,6 @@ export default function SendFromForm({objectiveAnswer,preset,typeAnswer,month,co
           setName(localStorage.getItem('partner'))
       },[name])
 
-
-
-
-
-      
 
   
       function handleSub(e){
@@ -107,6 +104,9 @@ export default function SendFromForm({objectiveAnswer,preset,typeAnswer,month,co
             async () => {
 
               setSuccessfully(`Successfully uploaded`)
+              setTimeout(() => {
+                setSuccessfully('')
+              }, 2000);
               // Upload completed successfully, now get the download URL
               const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
       
@@ -116,6 +116,10 @@ export default function SendFromForm({objectiveAnswer,preset,typeAnswer,month,co
               setDoc(colR,{[post + month]:{ 
                 designer:downloadURL,
                 DesignUploadedBy: user,
+                status:'Design Done',
+                color:"gold",
+                Time: new Date().toLocaleString(),
+
               }},{merge:true})
       
               // Handle success if needed

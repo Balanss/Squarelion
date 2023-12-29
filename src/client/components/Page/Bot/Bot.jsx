@@ -110,7 +110,7 @@ const Bot = ({ setObjectiveAnswer, user, subject }) => {
   };
 
   return (
-    <div className="App bg-slate-800 phones:hidden ">
+    <div className="App bg-slate-800 phones:hidden hidden lg:block ">
       <div className="flex bg-slate-900 text-white text-center font-bold justify-center gap-7 p-2">
         <h1> {user} Chatbot </h1>
       </div>
