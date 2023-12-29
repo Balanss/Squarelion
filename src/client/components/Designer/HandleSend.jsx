@@ -10,9 +10,17 @@ import {
 export default function HandleSend({newDesigner, db, id,collection, doc, setDoc, user, setImageUrl}) {
 
 
-   
+  
   
 const HandleSend = async() => {
+
+
+  const test = newDesigner.find((_,index) => index === id)
+
+  if(!test){
+    throw new Error("Error occurred");
+  }
+
     newDesigner.map((designer, index) => {
         if (id === index) {
           console.log("success", designer.post);
@@ -64,9 +72,7 @@ const HandleSend = async() => {
           deleteDoc(colR);
           setImageUrl("");
         
-        } else {
-            throw new Error("Error occurred");
-        }
+        } 
       });
 }
 
