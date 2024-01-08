@@ -64,9 +64,7 @@ const HandleSend = async() => {
           deleteDoc(colR);
           setImageUrl("");
         
-        } else {
-            throw new Error("Error occurred");
-        }
+        } 
       });
 }
 
