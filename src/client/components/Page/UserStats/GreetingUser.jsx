@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import JoinedDate from "./Joined/JoinedDate";
-import JoinedDate from "./Joined/JoinedDate";
+
 
 export default function GreetingUser({ user, level }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +20,7 @@ export default function GreetingUser({ user, level }) {
   const date = new Date();
 
 
-const updateVersion = '4'
+const updateVersion = '5'
 
 
 

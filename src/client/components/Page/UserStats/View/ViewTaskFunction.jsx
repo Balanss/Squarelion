@@ -29,7 +29,7 @@ export default function CurrentTaskFunctions({user,setData,data,setMatchingData,
       useEffect(() => {
         const unsubscribe = getData(); // Store the unsubscribe function
         return () => unsubscribe(); // Unsubscribe when the component unmounts
-      }, [ month]); // Only call getData when the component mounts and when user or month changes
+      }, [ month,user]); // Only call getData when the component mounts and when user or month changes
 
    
  
@@ -79,7 +79,7 @@ const fetchData = async () => {
 
 useEffect(() => {
     fetchData();
-}, [month]); // Add dependencies here
+}, [month,user,data]); // Add dependencies here
 
 
 
