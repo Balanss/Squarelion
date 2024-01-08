@@ -14,7 +14,7 @@ import ErrorBoundary from "./components/ErrorBoundary/Error";
 const Admin = lazy(() => import("./components/AdminPage/Admin"));
 const Login = lazy(() => import("./components/Login"));
 const Home = lazy(() => import("./components/Home/Home"));
-const Signup = lazy(() => import("./components/Signup"));
+
 
 // const Page = lazy(() => import("./components/Page/Page"));
 // const UpdatedPage = lazy(() => import("./components/Page/UpdatedPage"));
@@ -88,8 +88,6 @@ function App() {
             <Route path="/admindashboard" element={<Admin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
-
             {/* <Route path="/profile/:id" element={<Page />} />
             <Route path="/profile/:id" element={<UpdatedPage />} /> */}
             <Route path="/profile/:id" element={<PageLoader />} />

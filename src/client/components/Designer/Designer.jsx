@@ -60,6 +60,8 @@ const [designerPageReset, setDesignerPageReset] = useState("")
     return true;
   });
 
+  console.log(designerData)
+
 
  
 
