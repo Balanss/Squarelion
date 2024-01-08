@@ -23,10 +23,15 @@ import Version from "../../Version/Version";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PageModal from "./PageModal";
 import GettingRound from "./GettingRound/GettingRound";
+import {motion} from "framer-motion"
+import AssignedTo from "./AssignedTo";
+import { container, item } from "../motion/Motion";
+
 
 const ModalContent = lazy(() => import("./Modal/UpdatedModalContent"));
 const Bot = lazy(() => import("./Bot/Bot"));
 const ReactQuill = lazy(() => import("react-quill"));
+const ModalForEddting = lazy(() => import("./Modal/ModalForEddting"));
 
 const modules = {
   toolbar: {
@@ -42,12 +47,10 @@ const modules = {
 
 const styleNew = {
   position: "absolute",
-  top: "50%",
-  bottom: "0",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
   bgcolor: "transparent",
-  p: 4,
+  width:'50vw',
+
+  inset: 0,
 };
 
 const styleBar = {
@@ -73,9 +76,9 @@ export default function UpdatedPage({ month, setMonth }) {
   const [page, setPage] = useState("");
   const [deletion, setDeletion] = useState("");
   const [rounded, setRounded] = useState([]);
-  const [newRound, setNewRound] = useState([]);
   const [round, setRound] = useState([]);
   const navigate = useNavigate();
+  const [ dbId, setDbId ] = useState("")
 
   //------------------------------------------ under lifts state to button for firebase
   const [objective, setObjective] = useState("");
@@ -83,6 +86,7 @@ export default function UpdatedPage({ month, setMonth }) {
   const [type, setType] = useState("");
   const [date, setDate] = useState("");
   const [post, setPost] = useState("");
+  const [ dataMonth, setDataMonth ] = useState(month)
 
   const [objectiveAnswer, setObjectiveAnswer] = useState("");
   const [typeAnswer, setTypeAnswer] = useState("");
@@ -98,6 +102,7 @@ export default function UpdatedPage({ month, setMonth }) {
   const [pri, setPri] = useState("");
   const [boosting, setBoosting] = useState("");
   const [title, setTitle] = useState("");
+  const [assigned, setAssigned] = useState([]);
 
   const [showRound, setShowRound] = useState();
   //
@@ -107,6 +112,11 @@ export default function UpdatedPage({ month, setMonth }) {
   const [isChecked, setIsChecked] = useState(false);
   const [orderPost, setOrderPost] = useState("");
   const [whatDoUWant, setWhatDoUWant] = useState("Open");
+  const [statusBar, setStatusBar] = useState("");
+
+  const [openModalBar, setOpenModalBar] = React.useState(false);
+  const handleOpenModalBar = () => setOpenModalBar(true);
+  const handleCloseBar = () => setOpenModalBar(false);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -122,6 +132,16 @@ export default function UpdatedPage({ month, setMonth }) {
           setDeletion("");
           setStatusBar("");
           setPri("");
+          setSubject("");
+          setPost("");
+          setUniqueId("");
+          setDate("");
+          setObjectiveAnswer("");
+          setType("");
+          setBoosting("");
+          setOrderPost("");
+          setDbId("")
+
         }
       });
     } else {
@@ -140,6 +160,7 @@ export default function UpdatedPage({ month, setMonth }) {
           setBoosting(x.boosting);
           setPri(x.priority);
           setOrderPost(x.order);
+          setDbId(x.dbId)
         }
       });
     }
@@ -167,7 +188,7 @@ export default function UpdatedPage({ month, setMonth }) {
         const docRef = collection(db, localStorage.getItem("partner"));
         const colRef = doc(docRef, x.month);
 
-        updateDoc(colRef, { [x.count + x.month]: deleteField() });
+        updateDoc(colRef, { [x.dbId + x.month]: deleteField() });
 
         const dcRef = collection(db, "DesignerPage");
         const clRef = doc(dcRef, x.id + x.client);
@@ -195,7 +216,7 @@ export default function UpdatedPage({ month, setMonth }) {
   const [img, setImage] = useState("");
   useEffect(() => {
     setImage(localStorage.getItem("image"));
-  }, [img]);
+  }, [img]); // sets the image for the current client
 
   useEffect(() => {
     let str = localStorage.getItem("preset");
@@ -205,7 +226,7 @@ export default function UpdatedPage({ month, setMonth }) {
       str = str.replace(/  /g, "\n");
     }
     setPreset(str);
-  }, []);
+  }, []); // sets the preset text for the client changes when u swap clients
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -214,13 +235,9 @@ export default function UpdatedPage({ month, setMonth }) {
       setIsLoading(true);
       navigate("/");
     }
-  }, [level]);
+  }, [level]);// loading screen
 
-  const [statusBar, setStatusBar] = useState("");
-
-  const [openModalBar, setOpenModalBar] = React.useState(false);
-  const handleOpenModalBar = () => setOpenModalBar(true);
-  const handleCloseBar = () => setOpenModalBar(false);
+ 
 
   const handleEditorChange = value => {
     setObjectiveAnswer(`${value}`);
@@ -242,41 +259,7 @@ export default function UpdatedPage({ month, setMonth }) {
     return () => clearTimeout(timeout);
   }, []);
 
-  function handleEditted(i) {
-    if (title === "count") {
-      const docRef = collection(db, page);
-      const colRef = doc(docRef, editDetails + month);
 
-      setDoc(
-        colRef,
-        {
-          client: page,
-          color: "orange",
-          count: editDetails,
-          date: date,
-          month: month,
-          objective: objective,
-          priority: "No",
-          status: "pending",
-          type: type,
-          unid: uniqueId,
-          boosting: boosting,
-        },
-        { merge: true }
-      );
-
-      const docR = collection(db, page);
-      const colR = doc(docR, post + month);
-      deleteDoc(colR);
-    } else {
-      const docRef = collection(db, page);
-      const colRef = doc(docRef, month);
-      const key = `${post + month}.${title}`;
-      updateDoc(colRef, { [key]: editDetails }, { merge: true });
-    }
-
-    handleCloseBar();
-  }
 
   const handleDragEnd = async result => {
     if (!result.destination) return;
@@ -299,25 +282,51 @@ export default function UpdatedPage({ month, setMonth }) {
 
   const [showCount, setShowCount] = useState("10");
 
-  const forTxtAll = { createPdf, subject, round, post, page, uniqueId, boosting, month, date, type, imageUrl, isChecked };
-  const forInput = { user, boosting, setBoosting, setUniqueId, uniqueId, level, setObjectiveAnswer, setTypeAnswer, type, setPost, month, setMonth, setObjective, setType, setDate, objective, post, page, date }
-  const forPageModal = { post, objective, typeAnswer, month, color, page, setShow, pri, date, objectiveAnswer, img, boosting, uniqueId, user, type, subject, level };
-  const forSendFromForm = {user, uniqueId, orderPost, post, type, objectiveAnswer, subject, typeAnswer, month, color, page, level, setObjectiveAnswer}
-  const forSolo = {createPdf, orderPost, image1Url, image2Url, image3Url, setIsChecked, subject, round, post, page, uniqueId, boosting, month, date, type, imageUrl, isChecked,}
-  
+  const forTxtAll = { createPdf, subject, round, post, page, uniqueId, boosting, month, date, type, imageUrl, isChecked,dbId };
+  const forInput = { user,setDataMonth,dataMonth, boosting, setBoosting, setUniqueId, uniqueId, level, setObjectiveAnswer, setTypeAnswer, type, setPost, month, setMonth, setObjective, setType, setDate, objective, post, page, date,dbId }
+  const forPageModal = { post, objective, typeAnswer, month, color, page, setShow, pri, date, objectiveAnswer, img, boosting, uniqueId, user, type, subject, level ,dbId };
+  const forSendFromForm = {user, uniqueId, orderPost, post, type, objectiveAnswer, subject, typeAnswer, month, color, page, level, setObjectiveAnswer ,dbId}
+  const forEditModal = {openModalBar, handleCloseBar, styleBar, title, forPost, setEditDetails, editDetails, page, month, post, uniqueId, objective, type, boosting, date, viewer, level}
+  const forSolo = {createPdf, orderPost, image1Url, image2Url, image3Url, setIsChecked, subject, round, post, page, uniqueId, boosting, month, date, type, imageUrl, isChecked,dbId}
+ 
+  const modalVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: "-100vh",
+      transition: {
+        delay: 0.2
+      }
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        delay: 0.2
+      }
+    },
+    exit: { 
+      opacity: 0, 
+      y: "100vh",
+      transition: {
+        delay: 0.3
+      }
+    },
+  };
+
+
 
 
   return (
     <>
       <div
-        className="client-page min-h-[100vh] bg-slate-600 overflow-auto"
+        className="client-page h-screen overflow-auto bg-primary"
         style={{ color: "white" }}
       >
         <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
         <Version />
         <Title />
-        <GettingRound round={round} level={level} setRound={setRound} rounded={rounded} setRounded={setRounded} page={page} month={month} showRound={showRound} viewer={viewer} setPage={setPage} />
-        <div className="border-b-2 border-yellow-500 pt-2 bg-slate-800">
+        <GettingRound round={round} dataMonth={dataMonth} level={level} setRound={setRound} rounded={rounded} setRounded={setRounded} page={page} month={month} showRound={showRound} viewer={viewer} setPage={setPage} />
+        <div className=" pt-4 mb-[25px] bg-primary">
           {" "}
           <Nav />{" "}
         </div>
@@ -326,7 +335,7 @@ export default function UpdatedPage({ month, setMonth }) {
           <>
             {level === 8 && (
               <>
-                <div className="admin-links-only-designer text-center mt-10 cursor-pointer ">
+                <div className="admin-links-only-designer text-center mt-10 cursor-pointer border-t-2 border-yellow-500 ">
                   {" "}
                   <Links />
                   <img src={img} className="client-pic p-4 rounded-lg flex items-center m-auto w-40" style={{ backgroundColor: "white", marginBottom: "40px", marginTop: "20px" }} /> 
@@ -336,11 +345,11 @@ export default function UpdatedPage({ month, setMonth }) {
 
             {level > 8 && (
               <>
-                <div className="flex flex-row justify-around items-center bg-slate-300 ">
+                <div className="flex flex-row justify-around items-center bg-slate-300 border-t-2 border-yellow-500 ">
                   <div className="bg-slate-700 p-4 rounded-lg cursor-pointer">
                     <Links />{" "}
                   </div>
-                  {/* <Demo round={round} page={page}/> */}
+               
                   <img src={img} className="w-20" style={{ backgroundColor: "white", marginBottom: "20px", marginTop: "20px" }} />
                   <div style={{ zIndex: 1 }}>
                     <TxtAll className="txt" {...forTxtAll} />
@@ -350,7 +359,7 @@ export default function UpdatedPage({ month, setMonth }) {
               </>
             )}
 
-            <div className="content-div bg-slate-600 pb-10 ">
+            <div className="content-div bg-secondary pb-10 " >
               <Inputs {...forInput} />
 
               <Suspense fallback={<div>Loading...</div>}>
@@ -358,7 +367,7 @@ export default function UpdatedPage({ month, setMonth }) {
                <div className="phones:overflow-y-auto ">
                <table className="m-auto w-full text-center">
                     <thead className="phones:text-[12px]">
-                      <tr className="bg-slate-800">
+                      <tr className="bg-primary">
                       
                         <th scope="col" className="px-6 py-3 phones:p-0">Status</th>
                         <th scope="col" className="px-6 py-3 phones:p-1">Unique Id</th>
@@ -372,15 +381,17 @@ export default function UpdatedPage({ month, setMonth }) {
                     </thead>
                     <Droppable droppableId="table">
                       {provided => (
-                        <tbody {...provided.droppableProps} ref={provided.innerRef}>
+                        < motion.tbody variants={container} {...provided.droppableProps} ref={provided.innerRef}>
                           {round.map(
                             (x, i) =>
                               x.month === month && (
+                               
                                 <Draggable draggableId={x.order.toString()} index={i}>
                                   {provided => (
-                                    <tr ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className=" border-b bg-gray-700 border-gray-800" >
+                                    <motion.tr  variants={container}
+                                    ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className=" border-[1px] border-y-[#2c1f42]  bg-primary " >
                                      
-                                      <td className="text-black text-center rounded-sm font-medium phones:text-xs" style={{ backgroundColor: x.color }}>{x.status}</td>
+                                      <td className="text-black text-center rounded-sm font-medium phones:text-xs    " style={{ backgroundColor: x.color }}>{x.status}   </td>
                                       <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400" 
                                       onClick={() => { setForPost(x.unid); if (level > 8) { handleOpenModalBar(); setPost(x.count); setTitle("unid");} }}>
                                         {x.unid}</td>
@@ -409,8 +420,12 @@ export default function UpdatedPage({ month, setMonth }) {
                                         <button
                                           onClick={() => { if (level > 8) { 
                                             const docRef = collection(db, page); 
-                                            const colRef = doc(docRef, x.count + x.month);
-                                            updateDoc(colRef, { priority: x.priority === "Prio" ? "No" : "Prio" }, { merge: true }); }
+                                            const colRef = doc(docRef, x.month);
+                                            setDoc(colRef, {[x.count + x.month]:{
+                                              priority: x.priority === "Prio" ? "No" : "Prio" 
+                                            }}, { merge: true })
+             
+                                          }
                                            }} >
                                           {x.priority}
                                         </button>
@@ -419,7 +434,6 @@ export default function UpdatedPage({ month, setMonth }) {
                                       <td className="px-6 phones:p-1 phones:text-[10px]  whitespace-nowrap text-sm text-gray-400">
                                         <button className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105  transition-transform transform-gpu hover:text-white hover:bg-red-500  " onClick={() => handleText(i)}>{statusBar === i ? "close" : "open"}</button>
                                         </td>
-
                                       <Modal
                                         open={show === i}
                                         onClose={() => handleText(i)}
@@ -429,7 +443,7 @@ export default function UpdatedPage({ month, setMonth }) {
                                       >
                                         <Box
                                           sx={styleNew}
-                                          className="lg:!top-[40%] "
+                                          className="lg:ml-[150px] phones:mt-10 "
                                         >
                                           <Typography
                                             id="modal-modal-title"
@@ -440,14 +454,20 @@ export default function UpdatedPage({ month, setMonth }) {
                                           >
                                             {show === i && level > 7 && (
                                               <>
-                                                <div className="flex flex-col-reverse xl:items-end xl:flex-row">
+                                                <motion.div className="flex flex-col-reverse xl:items-end xl:flex-row" 
+                                                  variants={modalVariants}
+                                                  initial="hidden"
+                                                  animate="visible"
+                                                  exit="exit"
+                                                
+                                                >
                                                   <div className="lg:w-[800px] phones:w-[100dvw] m-auto border-2 border-black bg-slate-700">
+                                                        {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
+                                                  <PageModal {...forPageModal}/>
+                                                  <AssignedTo dbId={dbId} user={user} typeAnswer={typeAnswer} post={post} month={month} level={level} page={page} assigned={assigned} setAssigned={setAssigned} />
+
                                                     <div className="holds-written-content">
-                                                      {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
-                                                      <PageModal {...forPageModal}/>
-
-                                                   
-
+                                                  
                                                       {!x.answer ? null : (
                                                         <h6 className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4" key={i} onClick={() => setObjectiveAnswer(x.answer)} style={{ color: "black" }} dangerouslySetInnerHTML={{ __html: x.answer }} />
                                                       )}
@@ -477,7 +497,7 @@ export default function UpdatedPage({ month, setMonth }) {
                                                                     modules={modules}
                                                                     style={{ color: "black", backgroundColor: "white" }}
                                                                     placeholder="Text here..."
-                                                                    className="max-w-[90vw] phones:w-[100vw] phones:max-w-[100vw] lg:max-w-[500px] overflow-scroll"
+                                                                    className="max-w-[90vw] phones:w-[100vw] phones:max-w-[100vw] lg:max-w-[500px] max-h-[350px] overflow-scroll"
                                                                   />
                                                                 </Suspense>
                                                               </form>
@@ -495,9 +515,10 @@ export default function UpdatedPage({ month, setMonth }) {
                                                         ) : null}
 
                                                         {level > 8 ? (
-                                                          <h1 className="text-2xl mb-5 text-white"> Boosting : {x.boosting}</h1>
+                                                          <h1 className="text-2xl mb-5 text-white"> Boosting : ${x.boosting}</h1>
                                                         ) : null}
                                                       </div>
+
                                                     </div>
                                                   </div>
 
@@ -508,19 +529,23 @@ export default function UpdatedPage({ month, setMonth }) {
                                                       </div>
                                                     </Suspense>
                                                   ) : null}
-                                                </div>
+
+
+                                               
+
+                                                </motion.div>
                                               </>
                                             )}
                                           </Typography>
                                         </Box>
                                       </Modal>
-                                    </tr>
+                                    </motion.tr>
                                   )}
                                 </Draggable>
                               )
                           )}
                           {provided.placeholder}
-                        </tbody>
+                        </motion.tbody>
                       )}
                     </Droppable>
                   </table>
@@ -528,43 +553,8 @@ export default function UpdatedPage({ month, setMonth }) {
                 </DragDropContext>
               </Suspense>
 
-              <Modal
-                open={openModalBar}
-                onClose={handleCloseBar}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                className="max-w-[80vw] max-h-[80vw]  "
-              >
-                <Box sx={styleBar} className="lg:!top-[50%] 0">
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
-                    style={{ textAlign: "center" }}
-                    className="flex flex-col gap-5"
-                  >
-                    <p className="cursor-pointer">
-                      {" "}
-                      Edit {title} : {forPost}{" "}
-                    </p>
-                    <input
-                      type="text"
-                      className="border-2 border-black  "
-                      placeholder={`Editing ${forPost}`}
-                      onChange={e => setEditDetails(e.target.value)}
-                    />
-                    <button
-                      className="bg-blue-700 text-white px-3 py-2 rounded-md ml-3"
-                      onClick={() => {
-                        handleEditted();
-                      }}
-                    >
-                      {" "}
-                      Submit{" "}
-                    </button>
-                  </Typography>
-                </Box>
-              </Modal>
+              <ModalForEddting {...forEditModal} />
+
             </div>
           </>
         )}

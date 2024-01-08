@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { collection, addDoc,doc,updateDoc ,setDoc,deleteDoc} from 'firebase/firestore';
-import {db} from '../firebase';
+import { db } from '../Firebase';
 import BugFunctions from './BugFunctions';
 import SeeFeedback from '../FeedBack/SeeFeedback';
+import {motion} from "framer-motion"
 
 const BugReport = ({user,level}) => {
   const [bugDescription, setBugDescription] = useState('');
@@ -55,28 +56,36 @@ const openModal = (feedback) => {
 
   return (
    <>
-   {level < 11 && (
- <div className="text-center text-white phones:w-[80vw] w-[40vw] min-h-[100vh] flex flex-col items-center justify-start mb-5 mt-5 gap-2">
+
+<motion.div
+initial={{ opacity: 0, y: 50 }}
+animate={{ opacity: 1, y: 0 }}
+exit={{ opacity: 0, y: -50 }} // Add this line for exit animation
+transition={{ duration: 0.5 }}>
+{level < 11 && (
+ <div className="text-center text-white phones:w-[80vw] w-[40vw] h-screen inline-flex flex-col items-center justify-start m phones:pt-5 pt-[150px] gap-2">
  <BugFunctions setBugShow={setBugShow} level={level}/>
     {message && (
         <div className="bg-green-500 text-white px-4 py-2 rounded-md text-xl  font-bold mb-2 w-[300px]">
             {message}
         </div>
     )}
-<h1 className="text-2xl font-bold mb-4">Bug Report</h1>
+<h1 className="text-2xl font-bold mb-4">Bug And Feedback Report</h1>
 <form onSubmit={handleSubmit}>
  <textarea
    className="w-full h-40 phones:w-4/4 p-2 border text-black border-gray-300 rounded"
-   placeholder="Describe the bug..."
+   placeholder="Leave any issues or give feeback..."
    value={bugDescription}
    onChange={(e) => setBugDescription(e.target.value)}
  ></textarea>
- <button
+ <motion.button
+  whileHover={{ scale: 1.1 }}
+  transition={{ type: "spring", stiffness: 300, damping: 10 }}
    className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4"
    type="submit"
  >
-   Submit Bug
- </button>
+   Submit Message
+ </motion.button>
 </form>
 </div>
    )}
@@ -86,7 +95,7 @@ const openModal = (feedback) => {
        <div className="text-center phones:w-[60vw] w-[70vw] min-h-[100vh] flex flex-col items-center justify-start pt-[200px] gap-2">
         <BugFunctions setBugShow={setBugShow} level={level}/>
         <SeeFeedback setGettingFeedback={setGettingFeedback} level={level} />
-        <h1 className="text-2xl font-bold mb-4">Bug Report List</h1>
+        <h1 className="text-2xl text-white font-bold mb-4">Bugs And Feedback Report List</h1>
          <table className="w-3/4  border-collapse phones:text-xs phones:p-0">
             <thead >
                 <tr className='bg-slate-800 text-white border-[1px]'>
@@ -100,7 +109,7 @@ const openModal = (feedback) => {
             <tbody>
                 {bugShow.map((bug,id) => (
                     <tr key={bug.timestamp} className='bg-stone-300 font-semibold'>
-                        <td className="px-4 py-2 border phones:p-1">{bug.description.slice(0,10)}</td>
+                        <td className="px-4 py-2 border phones:p-1" onClick={() => openModal(bug.description)}>{bug.description.slice(0,10)}</td>
                         <td className="px-4 py-2 border phones:p-1">{bug.timestamp.slice(0, 10)}</td>
                         <td className="px-4 py-2 border phones:p-1">{bug.SendBy}</td>
                         <td className={`px-4 py-2 border phones:px-1 ${bug.color}`}>
@@ -131,13 +140,14 @@ const openModal = (feedback) => {
     </td>
     
                         <td className="px-4 py-2 border  phones:p-1">
-                            <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onClick={() => {
+                            <motion.button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onClick={() => {
                                 const bugRef = collection(db, 'bugs');
                              const colRef = doc(bugRef, bug.timestamp);
                              deleteDoc(colRef);
-                            }}>
+                            }}  whileHover={{ scale: 1.1 }}
+                            transition={{ type: "spring", stiffness: 400, damping: 10 }}>
                                 Resolve
-                            </button>
+                            </motion.button>
                         </td> 
                     </tr>
                 ))}
@@ -146,40 +156,8 @@ const openModal = (feedback) => {
          </div>
 
 )}
-       
 
-
-<section className="text-center phones:w-[80vw] w-[70vw] min-h-[100vh] flex flex-col items-center justify-start pt-[200px] gap-2">
-<h1 className="text-2xl font-bold mb-4">Feedback</h1>
-<table className="w-3/4  border-collapse phones:text-xs">
-            <thead >
-                <tr className='bg-slate-800 text-white border-[1px] '>
-                    <th className="px-4 py-2  ">Description</th>
-                    <th className="px-4 py-2   ">Timestamp</th>
-                    <th className="px-4 py-2  " >SendBy</th>
-                </tr>
-            </thead>
-            <tbody>
-                {gettingFeedback.map((fb,id) => (
-                    <tr key={fb.timestamp} className='bg-stone-300 font-semibold phones:text-xs'>
-                        <td className="px-4 py-2 border phones:text-[10px] ">
-                            {fb.feedback.length > 20 ? (
-                                <>
-                                    {fb.feedback.slice(0, 20)}...
-                                    <button onClick={() => openModal(fb.feedback)}>View Full Text</button>
-                                </>
-                            ) : (
-                                fb.feedback
-                            )}
-                        </td>
-                        <td className="px-4 py-2 border phones:text-[10px]">{fb.timestamp.slice(0, 10)}</td>
-                        <td className="px-4 py-2 border phones:text-[10px]">{fb.sendBy}</td>
-                        
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-                        {full && (
+{full && (
                             <div className="fixed z-10 inset-0 overflow-y-auto">
                                 <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                                     <div className="fixed inset-0 transition-opacity" aria-hidden="true">
@@ -221,7 +199,13 @@ const openModal = (feedback) => {
                                 </div>
                             </div>
                         )}
-    </section>
+
+</motion.div>
+
+       
+
+
+
 
 
    </>

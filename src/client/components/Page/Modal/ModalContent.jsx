@@ -129,7 +129,7 @@ const imageCount = [x.designer, x.designer1, x.designer2, x.designer3].filter(Bo
                 {x.designer !== '' && 
                 <>
                 <span className='flex items-end justify-end '>
-                <img src={x.designer}  style={{width:imageSize,height:imageHeight}}  onClick={() => {handleOpenModal(i)}}/>
+                <img src={x.designer} className='' style={{width:imageSize,height:imageHeight}}  onClick={() => {handleOpenModal(i)}}/>
                 {level > 8 && <img
               src={bin}
               alt="Delete"

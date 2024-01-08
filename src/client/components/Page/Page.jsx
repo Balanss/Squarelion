@@ -340,7 +340,7 @@ export default function Page({ month, setMonth }) {
   return (
     <>
       <div
-        className="client-page min-h-[100vh]  bg-slate-600 overflow-auto "
+        className="client-page h-screen bg-primary  overflow-auto "
         style={{ color: "white" }}
       >
         <User
@@ -354,7 +354,7 @@ export default function Page({ month, setMonth }) {
         <Version />
         <Title />
       
-        <div className="border-b-2 border-yellow-500 pt-2 bg-slate-800">
+        <div className="mb-5  pt-4 bg-primary">
           {" "}
           <Nav />{" "}
         </div>
@@ -370,7 +370,7 @@ export default function Page({ month, setMonth }) {
           <>
             {level === 8 && (
               <>
-                <div className="admin-links-only-designer text-center mt-10 cursor-pointer ">
+                <div className="admin-links-only-designer text-center mt-10 cursor-pointer  border-yellow-500 border-t-2 ">
                   {" "}
                   <Links />
                   <img
@@ -388,11 +388,11 @@ export default function Page({ month, setMonth }) {
 
             {level > 8 && (
               <>
-                <div className="flex flex-row justify-around items-center bg-slate-300 ">
+                <div className="flex flex-row justify-around items-center bg-slate-300  border-yellow-500 border-t-2">
                   <div className="bg-slate-700 p-4 rounded-lg cursor-pointer">
                     <Links />{" "}
                   </div>
-                  {/* <Demo round={round} page={page}/> */}
+                 
                   <img
                     src={img}
                     className="w-20"

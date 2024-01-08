@@ -18,7 +18,6 @@ export default function GettingRound({ round, setRound, rounded, setRounded, pag
                   const item = data[key];
                   return item.user
                     ? {
-                      
                         month: item.month,
                         order: item.order,
                         objective: item.objective,
@@ -42,7 +41,7 @@ export default function GettingRound({ round, setRound, rounded, setRounded, pag
                         designer2: item.designer2,
                         designer3: item.designer3,
                         designer: item.designer,
-                        
+                        dbId: item.dbId,
                       }
                     : null;
                 })
@@ -60,5 +59,7 @@ export default function GettingRound({ round, setRound, rounded, setRounded, pag
 
   useEffect(() => {
     const unsubscribe = getRound();
-  }, [page, showRound, viewer, month,level]);
+  
+  }, [page, showRound, viewer, month, level]);
+
 }

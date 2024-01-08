@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "../Nav";
 import { db, auth, fs } from "../../Firebase";
 import User from "../User";
@@ -7,16 +7,16 @@ import {
 import DesignerFunctions from "./DesignerFunctions";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL,} from "firebase/storage";
 import "../../App.css";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 import DesignerHeader from "./DesignerHeader";
 import Title from "../../Title";
+import { motion } from "framer-motion";
+import Loading from "../Loading";
+import HandlesViewImage from './HandlesViewImage';
+import DesignerModal from "./DesignerModal";
+import HandleSend from "./HandleSend";
 
 
-const style = {
-  position: "absolute", bottom: "0", top: "35%", left: "60%", transform: "translate(-50%, -50%)", bgcolor: "background.paper", border: "2px solid #000", boxShadow: 24, p: 4, overflow: "scroll",
-};
+
 
 export default function Designer() {
   const [designerData, setDesignerData] = useState([]);
@@ -41,13 +41,21 @@ const[messageUploading, setMessageUploading] = useState('')
   const handleOpenModal = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
   const [message, setMessage] = useState("");
-  const [roles,setRoles] = useState([])
-  const [noti, setNoti] = useState();
+  const [noti, setNoti] = useState();  const [dPost, setDPost] = useState("");
+  const [dMonth, setDMonth] = useState("");
+  const [dPage, setDPage] = useState("");
+const [sureToReset, setSureToReset] = useState(false)
+const [designerPostReset, setDesignerPostReset] = useState("")
+const [designerMonthReset, setDesignerMonthReset] = useState("")
+const [designerPageReset, setDesignerPageReset] = useState("")
+
 
 
   const newDesigner = designerData.filter((designer) => {
     if (level !== 11) {
       return !designer.id.endsWith("Test");
+    } else if (level === 11) {
+      return true
     }
     return true;
   });
@@ -106,217 +114,47 @@ const[messageUploading, setMessageUploading] = useState('')
     });
   }
 
-  const [dPost, setDPost] = useState("");
-  const [dMonth, setDMonth] = useState("");
-  const [dPage, setDPage] = useState("");
-  const [requestDelete, setRequestDelete] = useState(false);
- 
-
-
-
-  const handleImageChange = async e => {
-    const selectedFiles = e.target.files;
-    if (!selectedFiles || selectedFiles.length > 4) {
-      alert("You can only upload a maximum of 4 files at once.");
-      return;
-    }
-
-    const uploadPromises = Array.from(selectedFiles).map(file => {
-      const storageRef = ref(getStorage(), `products/${name}/${file.name}`);
-
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      return new Promise((resolve, reject) => {
-        uploadTask.on(
-          "state_changed",
-          snapshot => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setSuccessfully(`Uploading ${progress}%`)
-          },
-          error => {
-            console.error("Upload Error:", error);
-            reject(error);
-          },
-          async () => {
-            // Upload completed successfully, now get the download URL
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            resolve({ url: downloadURL, type: file.type });
-          }
-        );
-      });
-    });
-
-    try {
-      const files = await Promise.all(uploadPromises);
-
-      
-      const pdfs = files.filter(file => file.type === 'application/pdf').map(file => file.url);
-
-       const images = files.filter(file => file.type.startsWith('image/')).map(file => file.url);
-     
-
-     
-
-      const imageData = {
-        designer: images[0] || "",
-        designer1: images[1] || "",
-        designer2: images[2] || "",
-        designer3: images[3] || "",
-      };
-
-      const pdfData = {
-        pdf: pdfs[0] || "",
-      };
-
-      if (images[0]) {
-        const docData = {
-          ...imageData,
-          DesignedUploadedBy: user,
-        };
-        await setDoc(doc(fs, "DesignerPage", dPost + dMonth + dPage), docData, {
-          merge: true,
-        });
-      } else if (pdfs[0]) {
-        const docData = {
-          ...pdfData,
-          DesignedUploadedBy: user,
-        };
-        await setDoc(doc(fs, "DesignerPage", dPost + dMonth + dPage), docData, {
-          merge: true,
-        });
-      }
-
-      setImageUrls(images);
-      setFiles(selectedFiles);
-      setSuccessfully(
-      
-        "Files have been uploaded. Click view button to view them!"
-      );
-
-      setTimeout(() => {
-        setSuccessfully("");
-      }, 7000);
-    } catch (error) {
-      console.error("Error updating Firestore:", error);
-      // Handle the error appropriately
-    }
-  };
-
- 
-
-
-
-const [sureToReset, setSureToReset] = useState(false)
-const [designerPostReset, setDesignerPostReset] = useState("")
-const [designerMonthReset, setDesignerMonthReset] = useState("")
-const [designerPageReset, setDesignerPageReset] = useState("")
 
   function handleRestting(){
 setSureToReset(true)
 
   }
+const [isLoading, setIsLoading] = useState(true)
 
-  //sends towards saskia
-  function handleSend(id) {
-    newDesigner.map((designer, index) => {
-      if (id === index) {
-        console.log("success", designer.post);
-
-        if (designer.month.includes("2023")) {
-          const docRef = collection(db, designer.page);
-          const colRef = doc(docRef, designer.post + designer.month);
-          setDoc(
-            colRef,
-            {
-              designer: designer.designer,
-              designer1: designer.designer1,
-              designer2: designer.designer2,
-              designer3: designer.designer3,
-              pdf: designer.pdf || "",
-              hide: true,
-              color: "#00eaff",
-              status: "Design Done",
-              StatusText: "Design Done",
-              DesignUploadedBy: user,
-            },
-            { merge: true }
-          );
-        } else {
-          const docRef = collection(db, designer.page);
-          const colRef = doc(docRef, designer.month);
-          setDoc(
-            colRef,
-            {
-             [designer.post + designer.month]: {
-              designer: designer.designer,
-              designer1: designer.designer1,
-              designer2: designer.designer2,
-              designer3: designer.designer3,
-              pdf: designer.pdf || "",
-              hide: true,
-              color: "#00eaff",
-              status: "Design Done",
-              StatusText: "Design Done",
-              DesignUploadedBy: user,
-             }
-            },
-            { merge: true }
-          );
-        }
-
-        const docR = collection(db, "DesignerPage");
-        const colR = doc(docR, designer.post + designer.month + designer.page);
-        deleteDoc(colR);
-        setImageUrl("");
-      
-      } else {
-        return console.log("error");
-      }
-    });
-  }
+useEffect(() => {
+  setTimeout(() => {
+    setIsLoading(false)
+  }, 1000);
+});
 
 
+const forHandleViewImage = {
+  name,
+  user,
+  dPost,
+  dMonth,
+  dPage,
+  setSuccessfully,
+  setImageUrls,
+  setFiles
+};
 
-  const handleSubmitMessage = async (e) => {
-    e.preventDefault();
-    const docRef = collection(db, "DesignerPage");
-    const colRef = doc(docRef, dPost + dMonth + dPage);
-    updateDoc(colRef, {
-      subject: arrayUnion(message +" - "+ user),
-      New: false,
-    });
-
-
-    const docR = collection(db, dPage);
-    const colR = doc(docR, dPost + dMonth);
-    setDoc(
-      colR,
-      {
-        color: "#FF4500",
-        status: "Feedback ",
-        StatusText: "Feedback",
-   
-      },
-      { merge: true }
-    );
-    
-   
-    setContent(prevContent => [...prevContent, message +" - "+ user]);
-
-    setTimeout(() => {
-      setMessage("");
-    },2000)
-
-    
-  }
-
-
-
+const animationProps = {
+  initial: { opacity: 0, y: -50 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.3, delay: 0.3 },
+};
 
 
   return (
     <>
-      <div className=" min-h-[100vh] pb-10 bg-slate-800">
+{isLoading && <>
+
+<Loading/>
+
+</>}
+
+      <div className=" min-h-[100vh] pb-10 bg-primary">
         <Nav />{" "}
       
         <div className="">
@@ -338,7 +176,7 @@ setSureToReset(true)
               <DesignerFunctions setDesignerData={setDesignerData} designerData={designerData} user={user}  setNoti={setNoti}/>
 
             
-                <section>
+              {!isLoading && (<motion.section {...animationProps}>
                 <table className="w-full text-sm text-left text-gray-300 shadow-md shadow-slate-800">
                   <thead className='className="text-xs  uppercase  bg-gray-700 text-gray-200'>
                     <tr className="text-center">
@@ -368,69 +206,29 @@ setSureToReset(true)
 
                           <td className={`${designer.New ? 'border-l-[5px] border-blue-700  animate-pulse animate-thrice animate-duration-[3000ms] animate-ease-out ' : ''} `}></td>
 
-                          <td className="border px-4 py-2">
-                            <img
-                              src={designer.img}
-                              className="w-[50px] h-[50px] rounded-md mr-4"
-                            />
-                          </td>
+                          <td className="border px-4 py-2"><img src={designer.img} className="w-[50px] h-[50px] rounded-md mr-4" /></td>
                           
-                          <td className="border px-4 py-2">
-                            {designer.newDate}
-                          </td>
+                          <td className="border px-4 py-2">{designer.newDate}</td>
 
                           <td className="border px-4 py-2">{designer.page}</td>
 
-                          <td
-                            className={`border px-4 py-2 ${
-                              designer.prio === "Prio" ? "bg-red-600" : "bg-gray-600"
-                            }`}
-                          >
-                            {designer.prio}
-                          </td>
+                          <td className={`border px-4 py-2 ${designer.prio === "Prio" ? "bg-red-600" : "bg-gray-600"}`}>{designer.prio}</td>
                           <td className="border px-4 py-2">
-                            <h1
-                              className="cursor-pointer text-black  bg-white text-md border-black border-2 p-2  hover:scale-110 transition-transform "
-                              onClick={() => {
-                                handleOpenModal(),
-                                  setImage(designer.designer),
-                                  setImage1(designer.designer1),
-                                  setImage2(designer.designer2),
-                                  setImage3(designer.designer3),
-                                  setContent(designer.subject);
-                                  setExampleImg(designer.img1);
-                                  setExampleImg1(designer.img2);
-                                  setExampleImg2(designer.img3);
-                                  setExampleImg3(designer.img4);
-                                  setDPost(designer.post);
-                                  setDMonth(designer.month);
-                                  setDPage(designer.page);
-                              }}
-                            >
-                              {" "}
-                              View{" "}
-                            </h1>
+                            <h1 className="cursor-pointer text-black bg-white text-md border-black border-2 p-2 hover:scale-110 transition-transform" onClick={() => { handleOpenModal(), setImage(designer.designer),
+                               setImage1(designer.designer1), setImage2(designer.designer2), setImage3(designer.designer3),
+                                setContent(designer.subject); setExampleImg(designer.img1); setExampleImg1(designer.img2); 
+                                setExampleImg2(designer.img3); setExampleImg3(designer.img4); setDPost(designer.post);
+                                 setDMonth(designer.month); setDPage(designer.page); }}> View </h1>
 
                             {designer.pdf === undefined || designer.pdf === "" ? null : (
-                              <h1
-                                className="cursor-pointer text-black  bg-white text-md border-black border-2 p-2  hover:scale-110 transition-transform "
-                                onClick={() => {
-                                  window.open(designer.pdf);
-                                }}
-                              >
-                                {" "}
-                                View Pdf
-                              </h1>
+                              <h1 className="cursor-pointer text-black bg-white text-md border-black border-2 p-2 hover:scale-110 transition-transform" onClick={() => { window.open(designer.pdf); }}> View Pdf </h1>
                             )}
                           </td>
                           <td className="border px-4 py-2">
-                            <form
-                              onSubmit={() => {
-                                handleSub(id);
-                              }}
-                              className="designer-upload  mr-5 ml-4"
-                            >
-                              <label
+                            <form onSubmit={() => { handleSub(id); }} className="designer-upload  mr-5 ml-4">
+                              <motion.label
+                              whileHover={{ scale: 1.1 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 10 }}
                                 onClick={() => {
                                   setDPost(designer.post);
                                   setDMonth(designer.month);
@@ -438,8 +236,8 @@ setSureToReset(true)
                                 }}
                                 className="custom-file-upload cursor-pointer text-white hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 lg:w-[120px]"
                               >
-                                <input type="file" accept="image/*" multiple onChange={handleImageChange} /> Upload
-                              </label>
+                            <HandlesViewImage {...forHandleViewImage} />
+                              </motion.label>
                             </form>
                           </td>
 {level > 8 && <td className="border px-4 py-2 font-bold">
@@ -449,15 +247,9 @@ setSureToReset(true)
                           <td className="border px-4 py-2">
                             <div>
                               {designer.designer !== undefined || designer.pdf !== undefined ?  (
-                                <button
-                                  onClick={() => {
-                                    handleSend(id);
-                                  }}
-                                  className="bg-slate-800 text-white p-2 rounded-md hover:bg-gray-900 cursor-pointer"
-                                >
-                                  {" "}
-                                  Finish{" "}
-                                </button>
+                                <HandleSend 
+                                 newDesigner={newDesigner}  id={id} db={db} collection={collection} doc={doc} 
+                                 setDoc={setDoc} user={user} setImageUrl={setImageUrl} /> 
                               ) :null }
                             </div>
                           </td>
@@ -481,6 +273,7 @@ setSureToReset(true)
                         </tr>
                       ) : null
                     )}
+
                      {sureToReset && (
                             <>
                               <div className='fixed top-0 z-[1000] left-0 w-full h-full bg-slate-400/20 gap-4  flex justify-center items-center'>
@@ -512,7 +305,7 @@ setSureToReset(true)
                           )}
                   </tbody>
                 </table>
-                </section>
+                </motion.section>)}
             
             </div>
 
@@ -523,63 +316,7 @@ setSureToReset(true)
           </div>
 
 
-          <Modal
-            open={openModal}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            className="max-w-[80vw] max-h-[80vw]  "
-          >
-            <Box sx={style}>
-              <Typography
-                id="modal-modal-title"
-                variant="h6"
-                component="h2"
-                style={{ textAlign: "center" }}
-              >
-              
-<div>
-  <button className='bg-red-700 text-white p-2 rounded-md hover:bg-red-800  mb-5 cursor-pointer' onClick={handleClose}>Close</button>
-  
-</div>
-
-                <section className="flex lg:w-[90vw] flex-row items-center flex-wrap content-center  gap-5 justify-center"> 
-                <img className="w-[300px]" src={image} />
-                  <img className="w-[300px]" src={image1} />
-                  <img className="w-[300px]" src={image2} />
-                  <img className="w-[300px]" src={image3} />  
-                  <hr className="w-full border-2 border-black" />
-<div>
-  {content.map((message, index) => (
-    <div key={index}>
-     <p className="w-[80%] m-auto whitespace-pre-wrap"> {message}</p>
-      <br />
-    </div>
-  ))}
-
-<div>
- <form onSubmit={handleSubmitMessage}>
-  <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Enter your message here" className='border-2 border-black p-2 rounded-md'/>
-  <button className='bg-blue-700 text-white p-2 rounded-md hover:bg-blue-800  ml-1 cursor-pointer'>Send</button>
- </form>
-</div>
-
-<div className="flex flex-row items-center mt-3">
-
-                    <img className="w-[200px]" src={exampleImg} />
-                    <img className="w-[200px]" src={exampleImg1} />
-                    <img className="w-[200px]" src={exampleImg2} />
-                    <img className="w-[200px]" src={exampleImg3} />
-</div>
-</div>
-
-
-  
-
-                </section>
-              </Typography>
-            </Box>
-          </Modal>
+        <DesignerModal openModal={openModal} handleClose={handleClose} image={image} image1={image1} image2={image2} image3={image3} content={content} user={user} message={message} setMessage={setMessage} dPost={dPost} dMonth={dMonth} dPage={dPage} setContent={setContent} arrayUnion={arrayUnion} exampleImg={exampleImg} exampleImg1={exampleImg1} exampleImg2={exampleImg2} exampleImg3={exampleImg3} />
         
         </div>{" "}
       </div>

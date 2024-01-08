@@ -13,6 +13,7 @@ export default function User({user,setUser,setUuid,setLevel,level}) {
           const userData = snapshot.data();
           setUser(userData.Name);
           setLevel(userData.level);
+          
           localStorage.setItem('user', userData.Name);
         });
       } else {

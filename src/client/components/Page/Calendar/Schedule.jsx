@@ -3,15 +3,15 @@ import { useState, useEffect } from "react";
 import { fs } from "../../../Firebase";
 import { useNavigate } from "react-router-dom";
 import block from "../../images/loading-blocks.gif";
-import { collection, doc, updateDoc } from "firebase/firestore";
+import {motion} from "framer-motion"
+import { useInView } from 'react-intersection-observer';
+import { fadeIn,textVariant} from "../../../utils/Motion"
+
 
 export default function Schedule({ user, level, uuid }) {
   //create a const of data and get all firebase data from the collection of partners
   const [data, setData] = useState([]);
   const navigate = useNavigate();
-  const [view, setView] = useState("");
-  const [date, setDate] = useState("");
-  const [entryTime, setEntryTime] = useState("");
 
   const getData = async () => {
     try {
@@ -83,9 +83,41 @@ export default function Schedule({ user, level, uuid }) {
 
   const [SwitchingPage, setSwitchingPage] = useState(false);
 
+
+  const container = {
+    hidden: { opacity: 0, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.2,
+        staggerChildren: 0.1
+      }
+    }
+  }
+    
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  }
+
+  const [ref, inView] = useInView({
+    triggerOnce: true, // Change this to false if you want the animation to trigger again whenever it comes in view
+  });
+ 
+
   return (
     <>
-      <div className=" animate-fade-right animate-once animate-duration-[3000ms] animate-ease-in  overflow-hidden flex flex-wrap items-center gap-2 justify-center sm:w-[70vw] laptop:w-[80vw] laptop:content-start laptopL:overflow-y-scroll phones:p-0  p-5 m-auto  border-2 border-slate-700/50 ">
+    <motion.div  ref={ref}
+     initial={{ opacity: 0, y: -50 }}
+     animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : -50 }}
+     variants={fadeIn("left", "spring",  1, 0.50)}  className="m-auto p-[10px]">
+
+ 
+      <div className="  overflow-hidden flex flex-wrap items-center gap-2 justify-center sm:w-[70vw] laptop:w-[79vw] laptop:content-start phones:p-0  p-5 m-auto   ">
         <section className="">
           {SwitchingPage && (
             <div className=" flex-col  fixed top-0 w-[100vw] bg-slate-600 left-0 z-[100] flex items-center justify-center h-[100vh]">
@@ -96,14 +128,14 @@ export default function Schedule({ user, level, uuid }) {
           )}
         </section>
 
-        <table className="w-full text-sm text-left text-gray-400 shadow-md shadow-slate-800">
-          <caption className="p-5 text-lg font-semibold text-left phones:text-center  text-white bg-gray-800">
+        <table className="w-full text-sm text-left text-gray-400 shadow-card2 bg-[#111d39] border border-y-[#2c1f42] border-x-[#2f3763]">
+          <caption className="p-5 text-lg font-semibold text-left phones:text-center  text-white shadow-card2 bg-[#111d39]">
             Squarelion Agency Partners
             <p className="mt-1 text-sm font-normal text-gray-400">
               Click on any of the images to view the partner page
             </p>
           </caption>
-          <thead className="text-xs  uppercase bg-gray-700 text-gray-400">
+          <thead className="text-xs  uppercase  text-gray-400">
             <tr>
               <th scope="col" className="px-2 py-3">
                 Source
@@ -120,9 +152,10 @@ export default function Schedule({ user, level, uuid }) {
             {data.map(
               (dataItem, dataIndex) =>
                 dataItem.name !== "Test" && (
-                  <tr
+                  <motion.tr 
+                  transition={{ duration: 0.50, delay:  dataIndex *0.2 }}
                     key={dataIndex}
-                    className=" border-b bg-gray-800 border-gray-700"
+                    className="shadow-card2 bg-[#111d39] border border-y-[#2c1f42] border-x-[#2f3763]"
                   >
                     <th
                       scope="row"
@@ -186,12 +219,13 @@ export default function Schedule({ user, level, uuid }) {
                       )} */}
                     </td>
                   
-                  </tr>
+                  </motion.tr>
                 )
             )}
           </tbody>
         </table>
       </div>
+      </motion.div>
     </>
   );
 }

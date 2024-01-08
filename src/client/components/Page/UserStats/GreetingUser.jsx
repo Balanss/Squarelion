@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import JoinedDate from "./Joined/JoinedDate";
 
 export default function GreetingUser({ user, level }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,15 +24,16 @@ const updateVersion = '3'
 
 
   return (
-    <div className="max-w-sm p-5 md:w-[250px] lg:w-[200px] xl:w-[280px]  border border-gray-600 rounded-lg shadow text-left bg-gray-800 hover:bg-gray-700  ">
-      <p className="text-xs xl:text-[md]  text-white font-bold">
+    <div className=" p-5 border w-[75vw] phones:w-[90vw] border-y-[#2c1f42] border-x-[#2f3763] rounded-lg shadow text-left bg-[#111d39]  ">
+      <p className="text-xl xl:text-7xl text-white font-bold pb-5">
         {" "}
-        {greetingMessage}
-        <span className="text-blue-400 ml-2 font-bold text-md text-xs xl:text-[md]">
+        {greetingMessage},
+        <br />
+        <span className="text-green-400  font-bold  text-xl  xl:text-4xl">
           {user}!
         </span>
       </p>
-      <p className="text-gray-400  text-xs xl:text-[md]">
+      <p className="text-gray-400  text-xs md:text-lg">
         {date.toString().slice(0, 15)}
       </p>
 
@@ -64,8 +66,12 @@ const updateVersion = '3'
               <h1 className="block px-4 py-2 max-h-[400px] overflow-auto">
                 Hello {user}! There have been updates to Media Pilot:
                 <ul className="list-disc list-inside mt-2">
-                  <li>Designers can now see how many post they have open</li>
-                  {level > 9 && <> <li> You can now select which desiger to assign  </li> </>}
+                  <li>New profile ui screen</li>
+                  <li>Content writers new ui screen for 2024</li>
+                  <li>New Designer ui screen</li>
+                  <li>Added new current task - this will show your assigned task</li>
+                  <li>Content writers new ui screen for 2024</li>
+                  {level > 9 && <> <li> You can now see the lastest task finished in the last 24 hours  </li> </>}
                  
                 </ul>
               </h1>
@@ -73,6 +79,8 @@ const updateVersion = '3'
           </ul>
         </div>
       )}
+
+<JoinedDate user={user} level={level} />
     </div>
   );
 }

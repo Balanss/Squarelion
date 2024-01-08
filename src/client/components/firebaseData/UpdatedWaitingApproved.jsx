@@ -36,7 +36,7 @@ const sendToZapier = async (payload) => {
           const docRef = collection(db, page);
           const colRef = doc(docRef, month);
           setDoc(colRef, { [post + month]: { 
-            color:'green',
+            color:'#adff2f',
             status:'Approved',
             statusText:'Approved'
           } }, { merge: true });
@@ -57,7 +57,7 @@ const sendToZapier = async (payload) => {
               objective: objective,
                count: post,
                status: 'approved',
-               color:'green',
+               color:'#97db3e',
                statusText:'approved',
                month:month,
                user:user,
@@ -84,6 +84,6 @@ const sendToZapier = async (payload) => {
 
 
   return (
-    <button className='bg-green-500  w-[30vw] m-auto  mt-2 mb-2 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}>  Approved </button> 
+    <button className='bg-[#97db3e] w-[30vw] m-auto  mt-2 mb-2 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={handleData}>  Approved </button> 
   )
 }

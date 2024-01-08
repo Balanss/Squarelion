@@ -1,27 +1,18 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {
-  collection,
-  doc,
-  setDoc,
-  onSnapshot,
-  deleteDoc,
-} from "firebase/firestore";
-import { db } from "../../../firebase";
-import { Alert } from "flowbite-react";
-import { set } from "date-fns";
+import { collection, doc, setDoc, onSnapshot, deleteDoc } from "firebase/firestore";
+import { db } from "../../../Firebase";
+import { motion } from "framer-motion";
 
 export default function Calendar({ user }) {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [time, setTime] = useState('');
   const [scheduleData, setScheduleData] = useState([]);
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
-  const [alert, setAlert] = useState(false);
   const [timer, setTimer] = useState('');
-  const [ specialId, setSpecialId] = useState('');
+
 
   const handleTimeChange = event => {
     setTime(event.target.value);
@@ -100,8 +91,29 @@ export default function Calendar({ user }) {
     )
   };
 
+
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  }
+
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  }
+
   return (
-    <section className="flex flex-col lg:flex-row-reverse lg:w-[75vw] p-10 justify-between bg-slate-800 shadow-lg ">
+    <section className="flex flex-col lg:flex-row-reverse lg:w-[75vw] p-10 justify-between   ">
       <div className="">
         <DatePicker selected={selectedDate} inline className="myDatePicker " />
 
@@ -145,7 +157,7 @@ export default function Calendar({ user }) {
         </div>
       </div>
 
-      <div className="inline-flex flex-col gap-5 lg:w-[40vw]   p-4 max-h-[400px] lg:max-h-[800px] overflow-y-auto">
+      <div className="inline-flex flex-col gap-5 lg:w-[40vw]   p-4 max-h-[400px] lg:max-h-[800px] overflow-y-auto" > 
         <section className="flex justify-between">
           <h2 className="text-white">Upcoming Events</h2>
         </section>
@@ -157,18 +169,20 @@ export default function Calendar({ user }) {
           selectedDate.setDate(selectedDate.getDate() + 1);
           selectedDate.setHours(0, 0, 0, 0); // set time to 00:00:00.000
           const isPastDate = selectedDate < currentDate;
-          console.log(isPastDate);
-          console.log(selectedDate);
-          console.log(currentDate);
-
           if (isPastDate) {
             handleAutoDel(id); // Skip rendering for past events
           
           }
 
+
+        
+
           return (
-            <React.Fragment key={id}>
-              <div
+            <React.Fragment key={id} >
+              <motion.div
+               initial={{ opacity: 0, y:10 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ duration: 0.75, delay: id * 0.3 }}
                 className={`text-white text-xs ${randomColor} p-2 mt-2 rounded-md inline-flex flex-col max-w-[200px] lg:max-w-[500px] break-words `}
               >
                 <h1 className="font-bold mb-2 flex justify-between">
@@ -190,7 +204,7 @@ export default function Calendar({ user }) {
                   <span className="ml-1"> @ {x.timer}  </span>
                   <span className="ml-1"> | {x.Title}  </span>
                 </p>
-              </div>
+              </motion.div>
               <hr className="opacity-25" />
             </React.Fragment>
           );

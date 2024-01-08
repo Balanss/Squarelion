@@ -1,60 +1,13 @@
-
-
-.survey-div{
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    /* background-color: #174174; */
- 
-
-   
-}
-
-
-.survey-paper{
-    width: 300px;
-    margin: auto;
-    margin-top: 50px;
-    margin-bottom: 41px;
-    background-color: ghostwhite;
-}
-
-.next-btn{
-    margin-top: 100px;
-    margin-bottom: 20px;
-}
-
-.emoji-rating{
-    width: 200px;
-    margin: auto;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-
-.questions-tap{
-    background-color: lightsteelblue;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-}
-
-
-
-@media screen and (min-width:768px){
-    .survey-paper{
-        width: 600px;
-    }
-
-
-    .questions-tap {
-        background-color: #b0c4de38;
-
-    
-}
-
-
-
-
-}
+.black-gradient {
+    background: #000000; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      #434343,
+      #000000
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #434343,
+      #000000
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
