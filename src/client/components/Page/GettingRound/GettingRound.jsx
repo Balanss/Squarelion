@@ -19,7 +19,7 @@ export default function GettingRound({ round, setRound, rounded, setRounded, pag
                   return item.user
                     ? {
                         month: item.month,
-                        order: item.order,
+                        order: item.order + 1,
                         objective: item.objective,
                         boosting: item.boosting,
                         channel: item.channel,

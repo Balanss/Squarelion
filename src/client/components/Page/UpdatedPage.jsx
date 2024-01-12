@@ -273,7 +273,7 @@ export default function UpdatedPage({ month, setMonth }) {
           .collection(page)
           .doc(month)
           .update(
-            { [`${item.count + item.month}.order`]: index - -1 },
+            { [`${item.count + item.month}.order`]: index },
             { merge: true }
           );
       })
