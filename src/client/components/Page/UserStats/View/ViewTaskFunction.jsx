@@ -105,12 +105,14 @@ useEffect(() => {
                 return diffHours <= 24 && (
                   <div className="max-h-500px phones:max-h-300px overflow-y-auto" key={item.id || index}>
                     <ul>
-                      <li className="flex flex-row items-center justify-between">
-                          <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                          <p className="text-white">{item.client.slice(0, 10)}..</p>
+                      <li className="flex flex-row gap-10 items-center justify-between">
+                          <div className='flex items-center gap-1'>
+                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                            <p className="text-white">{item.client.slice(0, 10)}..</p>
+                          </div>
                         <p className="text-white">{item.month}</p>
                         <p className="text-white">{item.post}</p>
-                        <p className="text-white">{item.Time.slice(9)}</p>
+                        <p className="text-white">{item.Time.slice()}</p>
                       </li>
                     </ul>
                   </div>
