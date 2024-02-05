@@ -102,7 +102,7 @@ export default function Profile() {
               </div>
 
 
-      <div className=" flex flex-col sm:flex-row whole-div  ">
+      <div className="  min-h-[100vh] flex flex-col sm:flex-row whole-div  ">
 
 
          {/* mobile side panel */}
