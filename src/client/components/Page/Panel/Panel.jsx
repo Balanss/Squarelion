@@ -45,13 +45,18 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
       { name: 'Designer', title: 'Designer ', img: design },
       { name: 'Bugs', title: 'Bugs & Feedback', img: Bugs }, 
       { name: formattedUser, title: formattedUser, img: userPfp },
-      { name: 'Signout', title: 'signout', img: IN }
+      { name: 'Signout', title: 'Signout', img: IN }
     ];
     
     if (level > 9) {
       arr.push(
         { name: 'Admin', title: 'Admin', img: admin },
       );
+    } 
+    if(level > 10){
+      arr.push(
+         {name: 'Timeoff', title: 'Timeoff', img: userPfp},
+      )
     }
 
 
@@ -85,7 +90,11 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
                setShowPfp('Bugs')
                break;
 
-               case 'signout':
+               case 'Timeoff':
+               setShowPfp('Timeoff')
+               break;
+
+               case 'Signout':
                handleLogout()
                break;
 

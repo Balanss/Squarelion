@@ -95,9 +95,7 @@ const animationProps = {
                 <motion.div key={i} {...animationProps} className="motion-div mt-5">
 
               
-                <span
-                  
-                  className=" cursor-pointer mr-5 relative mt-2 mb-2 md:px-5 md:py-3 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group"
+                <span  className=" cursor-pointer mr-5 relative mt-2 mb-2 md:px-5 md:py-3 overflow-hidden font-medium text-gray-600 bg-gray-100 border border-gray-100 rounded-lg shadow-inner group"
                   onClick={() => {
                     if (x.id === "logout") {
                       handleLogout();

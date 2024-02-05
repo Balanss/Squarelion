@@ -6,7 +6,7 @@ import HandleSubmitButton from './HandleSubmitButton';
 const style = {
     position: "absolute", bottom: "0", top: "35%", left: "60%",
      transform: "translate(-50%, -50%)", bgcolor: "background.paper", border: "2px solid #000",
-      boxShadow: 24, p: 4, overflow: "scroll",
+      boxShadow: 24, p: 4, overflow: "scroll", 
   };
 
 export default function DesignerModal({
@@ -73,8 +73,8 @@ export default function DesignerModal({
               <hr className="w-full border-2 border-black" />
 <div>
 {content.map((message, index) => (
-<div key={index}>
- <p className="w-[80%] m-auto whitespace-pre-wrap"> {message}</p>
+<div key={index} className='text-left '>
+ <p className="w-[80%] m-auto whitespace-pre-wrap "> {message}</p>
   <br />
 </div>
 ))}

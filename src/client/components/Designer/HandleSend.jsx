@@ -26,7 +26,8 @@ const HandleSend = async() => {
                 designer1: designer.designer1 || "",
                 designer2: designer.designer2 || "",
                 designer3: designer.designer3 || "",
-                pdf: designer.pdf || "",
+                pdf: designer.pdf || designer.psd,
+
                 hide: true,
                 color: "#00eaff",
                 status: "Design Done",
@@ -46,7 +47,7 @@ const HandleSend = async() => {
                 designer1: designer.designer1 || "",
                 designer2: designer.designer2 || "",
                 designer3: designer.designer3 || "",
-                pdf: designer.pdf || "",
+                pdf: designer.pdf || designer.psd,
                 hide: true,
                 color: "#00eaff",
                 status: "Design Done",

@@ -17,6 +17,8 @@ import SignoutInfo from "../AdminPage/LogsInfo/SignoutInfo";
 import { motion,AnimatePresence } from "framer-motion";
 import { useInView } from 'react-intersection-observer';
 import HamburgerButton from "./Hamburger/HamburgerButton";
+import App from "./Request/App";
+import AskingLeave from "./Request/AskingLeave";
 
 
 
@@ -141,18 +143,19 @@ export default function Profile() {
               {showPfp === "dashboard" && (
   <motion.div {...motionProps} className="inline-flex flex-col items-end">
       <UserStats user={user} level={level} />
-       {/*  <Schedule user={user} level={level} uuid={uuid} />  add this to admin panel*/}
+  
   </motion.div>
 )}
 
                 {showPfp === "Bugs" && <BugReport user={user} level={level} />}
-
-
                 {showPfp === "Calendar" && 
                   <motion.div {...motionProps}  className="inline-flex flex-col mt-10 items-end ">
                   <Cal user={user} level={level} uuid={uuid} />
               </motion.div>
                 }
+
+                {showPfp === "Timeoff" && <AskingLeave user={user} level={level} />}
+              
 
               </div>{" "}
             </>

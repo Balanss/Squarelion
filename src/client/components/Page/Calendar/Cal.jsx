@@ -14,7 +14,7 @@ const CalendarWithNotes = ({ user, level }) => {
 
   return (
     <>
-      <div className="p-5 phones:p-0 phones:m-0 mb-10 text-lg  font-semibold text-left text-white lg:w-[75vw] m-auto shadow-card2 bg-[#111d39] border border-y-[#2c1f42] border-x-[#2f3763] " >
+      <div className="p-5 phones:p-0 phones:m-0 mb-10 text-lg h-screen min-h-[0vh] font-semibold text-left text-white lg:w-[75vw] m-auto shadow-card2 bg-[#111d39] border border-y-[#2c1f42] border-x-[#2f3763] " >
       <section className="phones:p-5 phones:text-center">
       <p className="mt-1 text-2xl font-semibold  text-gray-500 dark:text-gray-400">
       Calendar

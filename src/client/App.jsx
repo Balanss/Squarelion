@@ -31,35 +31,35 @@ function App() {
   const [uuid, setUuid] = useState("");
   const [ local, setLocal] = useState(null)
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setLocal(position.coords.latitude.toString());
-    });
-    //needs to be === current date
-    if (uuid) {
-      const entryDate = localStorage.getItem("entryDate");
-      const currentDate = new Date().toLocaleDateString();
-      if (entryDate === currentDate && local === import.meta.env.VITE_LATI_COD) {
-        console.log("Already visited today in office");
-      } else if (local === import.meta.env.VITE_LATI_COD || local === import.meta.env.VITE_LATI_COD2 || local === import.meta.env.VITE_LATI_COD3 || 
-        local === import.meta.env.VITE_LATI_COD4 || import.meta.env.VITE_LATI_COD5) {
-        console.log("at the office login");
-        const currentTime = new Date().toLocaleString();
-        localStorage.setItem("entryDate", currentDate);
-        localStorage.setItem("entryTime", currentTime);
+  // useEffect(() => {
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     setLocal(position.coords.latitude.toString());
+  //   });
+  //   //needs to be === current date
+  //   if (uuid) {
+  //     const entryDate = localStorage.getItem("entryDate");
+  //     const currentDate = new Date().toLocaleDateString();
+  //     if (entryDate === currentDate && local === import.meta.env.VITE_LATI_COD) {
+  //       console.log("Already visited today in office");
+  //     } else if (local === import.meta.env.VITE_LATI_COD || local === import.meta.env.VITE_LATI_COD2 || local === import.meta.env.VITE_LATI_COD3 || 
+  //       local === import.meta.env.VITE_LATI_COD4 || import.meta.env.VITE_LATI_COD5) {
+  //       console.log("at the office login");
+  //       const currentTime = new Date().toLocaleString();
+  //       localStorage.setItem("entryDate", currentDate);
+  //       localStorage.setItem("entryTime", currentTime);
 
-        const docRef = collection(db,'admin')
-        const colRef = doc(docRef,uuid)
+  //       const docRef = collection(db,'admin')
+  //       const colRef = doc(docRef,uuid)
 
-        // Update the document in Firebase map with the current date and time
-        updateDoc(colRef,{LoggedIn:new Date().toLocaleString(),
-          logs:arrayUnion(new Date().toLocaleString())},{merge:true})
-      } else {
-        console.log("Not in office");
-  console.log(local)
-      }
-    }
-  }, [uuid, user, local]);
+  //       // Update the document in Firebase map with the current date and time
+  //       updateDoc(colRef,{LoggedIn:new Date().toLocaleString(),
+  //         logs:arrayUnion(new Date().toLocaleString())},{merge:true})
+  //     } else {
+  //       console.log("Not in office");
+  // console.log(local)
+  //     }
+  //   }
+  // }, [uuid, user, local]);
 
 
 

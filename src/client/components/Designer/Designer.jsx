@@ -60,7 +60,7 @@ const [designerPageReset, setDesignerPageReset] = useState("")
     return true;
   });
 
-  console.log(designerData)
+
 
 
  
@@ -148,6 +148,12 @@ const animationProps = {
 };
 
 
+const [hiddenRows, setHiddenRows] = useState(JSON.parse(localStorage.getItem('hiddenRows')) || []);
+
+useEffect(() => {
+  localStorage.setItem('hiddenRows', JSON.stringify(hiddenRows));
+}, [hiddenRows]);
+
   return (
     <>
 {isLoading && <>
@@ -174,9 +180,11 @@ const animationProps = {
           </section>
 
           <div className=" pt-[50px]">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center px-10 overflow-x-hidden">
               <DesignerFunctions setDesignerData={setDesignerData} designerData={designerData} user={user}  setNoti={setNoti}/>
-
+      <div className="mb-5">
+    {hiddenRows.length > 0 && <button onClick={() => setHiddenRows([])} className="bg-blue-700 text-white p-2 rounded-md hover:bg-blue-800 cursor-pointer relative z-[2]">Show {hiddenRows.length} hidden rows</button>}
+      </div>
             
               {!isLoading && (<motion.section {...animationProps}>
                 <table className="w-full text-sm text-left text-gray-300 shadow-md shadow-slate-800">
@@ -192,7 +200,7 @@ const animationProps = {
                      {level > 8 && <th className="px-4 py-2">Assigned</th>}
                       <th className="px-4 py-2">Send</th>
                       <th className="px-4 py-2">Reset</th>
-                      <th></th>
+                      <th className="px-4 py-2"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -203,14 +211,14 @@ const animationProps = {
                       (designer.SendTo === user || level > 9 || user === 'Saskia') && designer.hide !== true ? (
                         <tr
                           key={id}
-                          className="border-b bg-gray-600 border-gray-700 shadow-md  shadow-black"
+                          className={`border-b bg-gray-600 border-gray-700 shadow-md shadow-black ${hiddenRows.includes(id) ? 'hidden' : ''}`}
                         >
 
                           <td className={`${designer.New ? 'border-l-[5px] border-blue-700  animate-pulse animate-thrice animate-duration-[3000ms] animate-ease-out ' : ''} `}></td>
 
                           <td className="border px-4 py-2"><img src={designer.img} className="w-[50px] h-[50px] rounded-md mr-4" /></td>
                           
-                          <td className="border px-4 py-2">{designer.newDate}</td>
+                          <td className="border px-2 py-2">{designer.newDate}</td>
 
                           <td className="border px-4 py-2">{designer.page}</td>
 
@@ -271,7 +279,15 @@ const animationProps = {
                          ) : null}
                            </td>
 
-                        
+                           <td className="border px-4 py-2">
+    <button
+      onClick={() => setHiddenRows([...hiddenRows, id])}
+      className="bg-blue-700 text-white p-2 rounded-md hover:bg-blue-800 cursor-pointer relative z-[2]"
+    >
+      Hide
+    </button>
+  </td>
+                     
                         </tr>
                       ) : null
                     )}

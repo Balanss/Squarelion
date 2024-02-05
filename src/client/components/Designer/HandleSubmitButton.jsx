@@ -9,6 +9,7 @@ import { db, auth, fs } from "../../Firebase";
 //THIS SEND MESSAGE INSIDE MODAL
 export default function HandleSubmitButton({user, message, setMessage, dPost, dMonth, setContent, dPage, arrayUnion}) {
     
+
     const handleSubmitMessage = async (e) => {
         e.preventDefault();
         const docRef = collection(db, "DesignerPage");
@@ -18,22 +19,20 @@ export default function HandleSubmitButton({user, message, setMessage, dPost, dM
           New: false,
         });
     
-    
-        const docR = collection(db, dPage);
-        const colR = doc(docR, dPost + dMonth);
-        setDoc(
-          colR,
-          {
-            color: "#FF4500",
-            status: "Feedback ",
-            StatusText: "Feedback",
-       
-          },
-          { merge: true }
-        );
+    const docR = collection(db, dPage);
+    const colR = doc(docR,  dMonth);
+    setDoc(
+      colR,
+      { [dPost + dMonth ]: {
+        color: "#FF4500",
+        status: "Feedback",
+        statusText: "Feedback",
+      }},
+      { merge: true }
+    ).catch(error => console.error("Error updating document:", error));
         
        
-        setContent(prevContent => [...prevContent, message +" - "+ user]);
+    setContent(prevContent => [...prevContent, message +" - "+ user]);
     
         setTimeout(() => {
           setMessage("");

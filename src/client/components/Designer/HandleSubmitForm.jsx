@@ -37,7 +37,8 @@ export default function HandleSubmitForm({newDesigner, db, id ,dPage, collection
                 const colRef = doc(docRef, designer.post + designer.month + designer.page);
     
                 // Determine the field name based on the file type
-                const fieldName = file.type === 'application/pdf' ? 'pdf' : 'designer';
+                const fieldName = file
+                console.log(file)
     
                 const updateData = {};
                 updateData[fieldName] = downloadURL;
