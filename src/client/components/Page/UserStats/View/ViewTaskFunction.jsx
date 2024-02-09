@@ -52,7 +52,7 @@ const fetchData = async () => {
                                             month: item.month,
                                             post: item.count,
                                             Time: item.Time,
-                                            text: item.TextWrittenBy
+                                            text: item.TextWrittenBy || item.DesignUploadedBy
                                         }
                                     : null;
                             })
@@ -103,9 +103,9 @@ useEffect(() => {
               
                 // Render the div only if the difference is less than or equal to 24
                 return diffHours <= 24 && (
-                  <div className="max-h-500px phones:max-h-300px overflow-y-auto" key={item.id || index}>
+                  <div className="w-[60vw] flex" key={item.id || index}>
                     <ul>
-                      <li className="flex flex-row gap-10 items-center justify-between">
+                      <li className="flex flex-row  gap-5 items-center justify-between">
                           <div className='flex items-center gap-1'>
                             <div className="w-2 h-2 rounded-full bg-green-500"></div>
                             <p className="text-white">{item.client.slice(0, 10)}..</p>
@@ -113,6 +113,8 @@ useEffect(() => {
                         <p className="text-white">{item.month}</p>
                         <p className="text-white">{item.post}</p>
                         <p className="text-white">{item.Time.slice()}</p>
+                        <p className="text-white">{item.text}</p>
+
                       </li>
                     </ul>
                   </div>

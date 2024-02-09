@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { useState, useEffect ,Component, useLayoutEffect} from "react";
+import { useState, useEffect ,Component, useLayoutEffect,useContext} from "react";
 import React, { lazy, Suspense } from "react";
 // import './App.css'
 import { HashRouter, Routes, Route } from "react-router-dom";
 import Loading from "./components/Loading";
-import { auth, fs, db } from "./Firebase";
-import { collection, doc, updateDoc,setDoc,arrayUnion,getDoc } from "firebase/firestore";
 import User from "./components/User";
 import ErrorBoundary from "./components/ErrorBoundary/Error";
+import UserProvider from './components/context/UserContext'; // replace with the path to your UserProvider
 
 
 
@@ -65,6 +64,7 @@ function App() {
 
   return (
     <>
+    <UserProvider>
       <HashRouter>
         <ErrorBoundary>
        
@@ -73,14 +73,6 @@ function App() {
             <div>
               {" "}
               <Loading />
-              <User
-        setUser={setUser}
-        user={user}
-        level={level}
-        setLevel={setLevel}
-        setUuid={setUuid}
-        uuid={uuid}
-      />
             </div>
           }
         >
@@ -99,6 +91,7 @@ function App() {
         </Suspense>
         </ErrorBoundary>
       </HashRouter>
+      </UserProvider>
     </>
   );
 }
