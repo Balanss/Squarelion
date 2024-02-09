@@ -1,4 +1,4 @@
-import{r as _,b as Ys,h as Zs,t as ye,v as Hr,w as zr,x as $r,A as Gr,C as qr,B as Bn,D as Wr,S as Kr,E as Xr,G as Yr,R as Js,u as Zr,a as Pt,F as Re,j as N,L as Fn}from"./index-d6a71c4b.js";function Jr({user:t,setUser:e,setUuid:n,setLevel:s,level:i}){_.useEffect(()=>Ys.onAuthStateChanged(r=>{r?(n(r.uid),localStorage.getItem("user"),Zs.collection("admin").doc(r.uid).get().then(a=>{const l=a.data();e(l.Name),s(l.level),localStorage.setItem("user",l.Name)})):(e(null),s(null))}),[])}/**
+import{r as _,b as Ys,h as Zs,t as ye,v as Hr,w as zr,x as $r,A as Gr,C as qr,B as Bn,D as Wr,S as Kr,E as Xr,G as Yr,R as Js,u as Zr,a as Pt,F as Re,j as N,L as Fn}from"./index-5a09a7cb.js";function Jr({user:t,setUser:e,setUuid:n,setLevel:s,level:i}){_.useEffect(()=>Ys.onAuthStateChanged(r=>{r?(n(r.uid),localStorage.getItem("user"),Zs.collection("admin").doc(r.uid).get().then(a=>{const l=a.data();e(l.Name),s(l.level),localStorage.setItem("user",l.Name)})):(e(null),s(null))}),[])}/**
  * @license
  * Copyright 2017 Google LLC
  *
