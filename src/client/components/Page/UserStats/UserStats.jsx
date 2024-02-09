@@ -60,7 +60,7 @@ export default function UserStats({ user ,level}) {
       {level > 9 || user === 'Saskia'? <ViewTaskDone user={user} level={level} /> : null}
       <CurrentTask user={user} level={level} />
       <CurrentEvents  user={user} level={level} scheduleData={scheduleData} setScheduleData={setScheduleData} />
-     {level > 10 ? <App user={user} /> : null}
+     {level > 7 ? <App user={user} /> : null}
       </section>
         
 

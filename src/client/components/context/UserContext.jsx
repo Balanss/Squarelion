@@ -36,7 +36,7 @@ export default function UserProvider({ children }) {
         return unsubscribe;
     }, [user, uuid, level, pto, wfh]);
 
-    const value = useMemo(() => ({ user, uuid, level ,pto,wfh,uuid}), [user, uuid, level,pto,wfh,uuid]);
+    const value = useMemo(() => ({ user, uuid, level ,pto,wfh}), [user, uuid, level,pto,wfh]);
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }

@@ -43,6 +43,7 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
       { name: 'Calendar', title: 'Calendar', img: schedule },
       { name: 'Client',  img: client,component:<Links/> },
       { name: 'Designer', title: 'Designer ', img: design },
+      {name: 'Timeoff', title: 'Timeoff', img: userPfp},
       { name: 'Bugs', title: 'Bugs & Feedback', img: Bugs }, 
       { name: formattedUser, title: formattedUser, img: userPfp },
       { name: 'Signout', title: 'Signout', img: IN }
@@ -53,11 +54,7 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
         { name: 'Admin', title: 'Admin', img: admin },
       );
     } 
-    if(level > 10){
-      arr.push(
-         {name: 'Timeoff', title: 'Timeoff', img: userPfp},
-      )
-    }
+
 
 
    
