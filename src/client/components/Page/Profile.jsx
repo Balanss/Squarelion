@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { useState, useEffect } from "react";
-import User from "../User";
+import { useState, useEffect , useContext} from "react";
+import { UserContext } from "../context/UserContext";
 import { useParams } from "react-router-dom";
 import WaitingForAdmin from "./WaitingForAdmin";
 import Title from "../../Title";
@@ -12,13 +12,13 @@ import Panel from "./Panel/Panel";
 import Version from "../../Version/Version";
 import { lazy, Suspense } from "react";
 import BugReport from "../../Bugs/BugReport";
-import FeedBack from "../../FeedBack/FeedBack";
 import SignoutInfo from "../AdminPage/LogsInfo/SignoutInfo";
 import { motion,AnimatePresence } from "framer-motion";
-import { useInView } from 'react-intersection-observer';
 import HamburgerButton from "./Hamburger/HamburgerButton";
-import App from "./Request/App";
 import AskingLeave from "./Request/AskingLeave";
+import ClientUpload from "../AdminPage/ClientUpload";
+import Users from "../AdminPage/sql/Users";
+
 
 
 
@@ -28,15 +28,11 @@ const UserStats = lazy(() => import("./UserStats/UserStats"));
 
 export default function Profile() {
   const { id } = useParams();
-  const [user, setUser] = useState("");
-  const [uuid, setUuid] = useState("");
-  const [isAccepted, setIsAccepted] = useState("");
-  const [level, setLevel] = useState("waiting");
   const [pan, setPan] = useState(false);
   const [clicked, setClicked] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showPfp, setShowPfp] = useState("dashboard");
-  const [dateJoined, setDateJoined] = useState("");
+  const {user,uuid,level} = useContext(UserContext);
 
 
 
@@ -91,15 +87,13 @@ export default function Profile() {
     <>
       <Title />
       <Version />
-      <User setUser={setUser} user={user} setDateJoined={setDateJoined} dateJoined={dateJoined} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
-
       {level === 0 && <div className="min-h-[100vh] bg-slate-900"><WaitingForAdmin /></div>}
 
              <HamburgerButton pan={pan} setPan={setPan} />
 
-      <div className="phones:fixed phones:z-40 phones:top-3 phones:right-3 phones:block hidden">
+      {/* <div className="phones:fixed phones:z-40 phones:top-3 phones:right-3 phones:block hidden">
                 <SignoutInfo/>
-              </div>
+              </div> */}
 
 
       <div className="  min-h-[100vh] flex flex-col sm:flex-row whole-div  ">
@@ -141,10 +135,7 @@ export default function Profile() {
               {" "}
               <div className="flex flex-col items-center w-[78vw] bg-primary phones:w-full overflow-hidden ">
               {showPfp === "dashboard" && (
-  <motion.div {...motionProps} className="inline-flex flex-col items-end">
-      <UserStats user={user} level={level} />
-  
-  </motion.div>
+  <motion.div {...motionProps} className="inline-flex flex-col items-end">  <UserStats user={user} level={level} /> </motion.div>
 )}
 
                 {showPfp === "Bugs" && <BugReport user={user} level={level} />}
@@ -155,6 +146,8 @@ export default function Profile() {
                 }
 
                 {showPfp === "Timeoff" && <AskingLeave user={user} level={level} />}
+                {showPfp === "Admin" && <ClientUpload user={user} level={level} /> }
+                {showPfp === "Users" && <Users user={user} level={level} />}
               
 
               </div>{" "}

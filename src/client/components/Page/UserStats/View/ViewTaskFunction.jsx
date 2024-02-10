@@ -103,17 +103,17 @@ useEffect(() => {
               
                 // Render the div only if the difference is less than or equal to 24
                 return diffHours <= 24 && (
-                  <div className="w-[60vw] flex" key={item.id || index}>
+                  <div className="w-[60vw] phones:w-screen flex" key={item.id || index}>
                     <ul>
-                      <li className="flex flex-row  gap-5 items-center justify-between">
+                      <li className="flex flex-row  gap-5 items-center justify-between phones:text-xs ">
                           <div className='flex items-center gap-1'>
                             <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                            <p className="text-white">{item.client.slice(0, 10)}..</p>
+                            <p className="text-white phones:w-[120px]">{item.client.slice(0, 10)}..</p>
                           </div>
-                        <p className="text-white">{item.month}</p>
-                        <p className="text-white">{item.post}</p>
-                        <p className="text-white">{item.Time.slice()}</p>
-                        <p className="text-white">{item.text}</p>
+                        <p className="text-white phones:w-[120px]">{item.month}</p>
+                        <p className="text-white phones:w-[120px]">{item.post}</p>
+                        <p className="text-white phones:w-[120px]">{item.Time.slice()}</p>
+                        <p className="text-white phones:w-[120px]">{item.text}</p>
 
                       </li>
                     </ul>

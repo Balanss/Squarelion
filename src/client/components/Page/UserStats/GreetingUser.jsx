@@ -25,7 +25,7 @@ const updateVersion = '5'
 
 
   return (
-    <div className=" p-5 border w-[75vw] phones:w-[90vw] border-y-[#2c1f42] border-x-[#2f3763] rounded-lg shadow text-left bg-[#111d39]  ">
+    <div className=" p-5 border w-[75vw] phones:w-[90vw] border-y-[#2c1f42] phones:m-auto border-x-[#2f3763] rounded-lg shadow text-left bg-[#111d39]  ">
       <p className="text-xl xl:text-7xl text-white font-bold pb-5">
         {" "}
         {greetingMessage},

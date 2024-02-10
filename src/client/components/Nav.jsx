@@ -7,7 +7,7 @@ import { auth, fs, db } from "/src/client/Firebase.jsx";
 import { useNavigate } from "react-router-dom";
 import AdminLogic from "./AdminPage/AdminLogic";
 import { motion } from 'framer-motion'
-import {fadeIn} from '../utils/Motion'
+
 
 
 export default function Nav() {
@@ -17,14 +17,6 @@ export default function Nav() {
   const [userOkay, setUserOkay] = useState("");
   const navigate = useNavigate();
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   useEffect(() => {
     setUserOkay(localStorage.getItem("user"));
@@ -52,10 +44,6 @@ export default function Nav() {
     { id: `/user/${user}`, title: user },
     { id: "logout", title: "Logout" },
   ];
-
-  if (level > 9) {
-    array.push({ id: "/admin", title: "Admin" });
-  }
 
  const handleLogout = () => {
   auth.signOut().then(() => {
@@ -128,7 +116,7 @@ const animationProps = {
 
       {!uuid && (
         <>
-          <div className="flex font-mono items-center justify-center sm:w-[300px]  sm:items-center sm:m-auto sm:justify-around ">
+          <div className="flex font-mono items-center justify-center sm:w-[300px] pt-2  sm:items-center sm:m-auto sm:justify-around ">
             <button
               type="button"
               className="w-[80px] text-white bg-gradient-to-r mt-2 from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"

@@ -89,9 +89,8 @@ setDoc(colRef, {
          <section className='mt-20 bg-secondary p-10 w-full rounded-lg border-tertiary border-2 shadow-card2'>
                   <ToastContainer position='top-center' />
             <form onSubmit={handleSubmit} className="flex flex-row justify-center gap-10 items-start">
-                <button type="button" onClick={() => { setRequestType('pto'); setModalIsOpen(true); }} className="mb-4 p-2 bg-blue-500 text-white rounded">Request Leave</button>
-                <button type="button" onClick={() => { setRequestType('WFH'); setModalIsOpen(true); }} className="mb-4 p-2 bg-green-500 text-white rounded">Request WFH</button>
-                <button type="submit" className="p-2 bg-red-500 text-white rounded">Submit</button>
+                <button type="button" onClick={() => { setRequestType('pto'); setModalIsOpen(true); }} className="mb-4 p-2 bg-blue-500 text-white rounded hover:text-blue-500 hover:bg-white">Request Leave</button>
+                <button type="button" onClick={() => { setRequestType('WFH'); setModalIsOpen(true); }} className="mb-4 p-2 bg-green-500 text-white rounded hover:text-green-500 hover:bg-white" hover:text-green-500 hover:bg-white>Request WFH</button>
             </form>
 
             <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className='bg-slate-900 h-1/2 p-10 w-1/2 text-white'>

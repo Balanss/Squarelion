@@ -7,9 +7,9 @@ import {
   updateDoc,
   onSnapshot,
 } from "firebase/firestore";
-import { set } from "date-fns";
-import User from "../../User";
 
+import User from "../../User";
+ 
 export default function LogInfo() {
   const [logs, setLogs] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
@@ -118,6 +118,8 @@ export default function LogInfo() {
           ))}
         </select>
       </div>
+
+      
       <table className="w-full mt-5 text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr className="">

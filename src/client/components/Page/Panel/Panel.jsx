@@ -5,14 +5,14 @@ import client from '../../images/client.png';
 import dashboard from '../../images/dashboard.png';
 import admin from '../../images/admin.png';
 import userPfp from "../../images/user.png"
+import off from '../../images/off.png';
 import Bugs from '../../images/bug.png';
 import schedule from '../../images/schedule.png'
+import team from '../../images/team.png'
 import { Link, useNavigate } from 'react-router-dom'
 import Links from '../Links';
 import { auth } from '../../../Firebase';
 import design from "../../images/Designer.jpg"
-import SignoutInfo from '../../AdminPage/LogsInfo/SignoutInfo';
-import timer from "../../images/time.png"
 import DesignerFunctions from '../../Designer/DesignerFunctions';
 import { motion } from 'framer-motion'
 
@@ -43,7 +43,7 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
       { name: 'Calendar', title: 'Calendar', img: schedule },
       { name: 'Client',  img: client,component:<Links/> },
       { name: 'Designer', title: 'Designer ', img: design },
-      {name: 'Timeoff', title: 'Timeoff', img: userPfp},
+      {name: 'Timeoff', title: 'Timeoff', img: off},
       { name: 'Bugs', title: 'Bugs & Feedback', img: Bugs }, 
       { name: formattedUser, title: formattedUser, img: userPfp },
       { name: 'Signout', title: 'Signout', img: IN }
@@ -51,7 +51,8 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
     
     if (level > 9) {
       arr.push(
-        { name: 'Admin', title: 'Admin', img: admin },
+        { name: 'Admin', title: 'Client Upload', img: admin ,status: 'Management'},
+         { name: 'Users', title: 'Sql Users', img: team }
       );
     } 
 
@@ -96,7 +97,11 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
                break;
 
                case 'Admin':
-               navigate('/admindashboard')
+               setShowPfp('Admin')
+               break;
+
+               case 'Users':
+               setShowPfp('Users')
                break;
 
                case 'feedback':
@@ -117,10 +122,10 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
         <motion.ul className="space-y-2 font-medium fixed phones:z-10 phones:bg-slate-500 phones:left-0 flex flex-col items-start gap-4 " >
          {arr.map((x,i) => {
             return (
-               <motion.li  key={i} className='flex items-center justify-center cursor-pointer'
+               <motion.li  key={i} className={`flex items-center justify-center cursor-pointer ${x.status === 'Management'? 'border-t-2 pt-2 border-white ' : ""}`}
                initial={{ opacity: 0, y: 50 }}
                animate={{ opacity: 1, y: 0 }}
-               transition={{ duration: 0.55, delay:  i*0.2 }}
+               transition={{ duration: 0.35, delay:  i*0.1 }}
                onClick={() => {
                 handleGoTo(i)
              }}>
@@ -136,12 +141,12 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
                </motion.li>
             );
          })}
- <li className='fixed bottom-10 phones:hidden phones:top-0 phones:right-0'>
+ {/* <li className='fixed bottom-10 phones:hidden phones:top-0 phones:right-0'>
   <a  className="transform transition-transform ease-in hover:scale-105 cursor-pointer flex items-center p-2  rounded-lg text-white dark:text-white  dark:hover:bg-gray-700 group">
               <img className='w-[25px]' src={timer} />
                  <span className="flex-1 ml-2 whitespace-nowrap text-white md:text-xs lg:text-md"><SignoutInfo /> </span>
               </a>
-   </li>
+   </li> */}
 
           </motion.ul>
           

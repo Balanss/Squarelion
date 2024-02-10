@@ -46,7 +46,7 @@ export default function UserStats({ user ,level}) {
 
  
   return (
-    <div className=" text-center text-white w-[75vw]  phones:w-auto flex items-center justify-start xl:items-start xl:justify-between flex-col lg:flex-row mb-5 mt-5 gap-10">
+    <div className=" text-center text-white w-[75vw]  phones:w-auto flex items-center justify-start xl:items-start xl:justify-between flex-col lg:flex-row mb-5 mt-5 gap-10 hello">
       <GettingRound setRound={setRound} user={user} />
       <motion.div  className="inline-flex phones:flex-col phones:gap-2 gap-10"    variants={container} 
     initial="hidden"

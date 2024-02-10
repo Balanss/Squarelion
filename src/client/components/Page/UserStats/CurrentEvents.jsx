@@ -58,7 +58,7 @@ export default function CurrentEvents({scheduleData, setScheduleData}) {
 
 
   return (
-    <div className="inline-flex bg-secondary  flex-col mt-10 gap-5 lg:w-[35vw] border border-y-[#2c1f42] border-x-[#2f3763]  p-4 max-h-[400px] lg:max-h-[800px] overflow-y-auto" > 
+    <div className="inline-flex bg-secondary  flex-col mt-10 gap-5 lg:w-[35vw] border border-y-[#2c1f42] border-x-[#2f3763] phones:p-10 phones:w-screen phones:m-auto  p-4 max-h-[400px] lg:max-h-[800px] overflow-y-auto" > 
     <section className="flex flex-col items-start justify-between">
       <h2 className="text-white mb-2 phones:text-lg  text-2xl font-semibold">Upcoming Events</h2>
       <hr className='bg-white w-full' />

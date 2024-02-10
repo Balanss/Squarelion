@@ -10,7 +10,7 @@ import UserProvider from './components/context/UserContext'; // replace with the
 
 
 
-const Admin = lazy(() => import("./components/AdminPage/Admin"));
+
 const Login = lazy(() => import("./components/Login"));
 const Home = lazy(() => import("./components/Home/Home"));
 
@@ -77,7 +77,6 @@ function App() {
           }
         >
           <Routes>
-            <Route path="/admindashboard" element={<Admin />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
             {/* <Route path="/profile/:id" element={<Page />} />

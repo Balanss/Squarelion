@@ -106,34 +106,37 @@ setTimeout(() => {
 
 
   return (
-    <div className="inline-flex bg-secondary flex-col mt-10 gap-5 lg:w-[35vw] border border-y-[#2c1f42] border-x-[#2f3763]  p-4 max-h-[400px] lg:max-h-[800px] overflow-x-scroll overflow-y-auto" >
+    <div className="inline-flex bg-secondary flex-col mt-10 gap-5 lg:w-[35vw] border border-y-[#2c1f42] border-x-[#2f3763] phones:p-8 phones:w-screen phones:m-auto  p-4 max-h-[400px] lg:max-h-[800px] overflow-x-auto overflow-y-auto" >
       <LeaveFunctions user={user} monthNumber={monthNumber} setData={setData} />
       <ToastContainer position='top-center' />
     <section className="flex flex-col items-start justify-between w-screen ">
 <h2 className="text-white mb-2 phones:text-lg  text-2xl font-semibold">Current Leave</h2>
 <label>  Month: <input type="month" value={month} onChange={handleMonthChange} className='text-black mb-2'/> </label>
-<hr className='bg-white w-full' />
-{mappedObjects.map((item, index) => (
-  
-  <div key={index} className='flex flex-col gap-2 text-white '>
-  {user === item.user && level >  7 && month === item.from.slice(0,7) && (
-      <section className='flex flex-row gap-10 items-center mt-5 max-h-[300px]'>
-      <p className='text-white'>type: {item.type}</p>
-<p className='text-white'>From: {item.from}</p>
-<p className='text-white'>To: {item.to}</p>
-<p className='text-white'>User: {item.user}</p>
-<p className={`${item.accepted !== ""? 'flex' : 'hidden'}`} >Accepted: {item.accepted? "Granted":'Denied'}</p>
-<p className={`${item.accepted === ""? 'flex' : 'hidden'} text-white`}>  Waiting  </p>
-{level > 9 && (<>
-  <button className={`bg-blue-500 text-white p-2 rounded ${item.accepted? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`} disabled={item.accepted? true:false} onClick={() => {handleClicked(); setAsk(item.askedOn); setSelectedUser(item.user),setId(item.id)}}>Grand</button>
-<button className={`bg-red-500 text-white p-2 rounded ${!item.accepted  ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-700'}`} disabled={!item.accepted ? true :false} onClick={() => {handleDeny(); setAsk(item.askedOn); setSelectedUser(item.user);  setType(item.type), setId(item.id)}}>Deny</button>
-</> 
+<hr className='bg-white w-full ' />
+{mappedObjects && mappedObjects.length > 0 ? (
+  mappedObjects.map((item, index) => (
+    <div key={index} className='flex flex-col gap-2 text-white '>
+      {(user === item.user && level > 7 || level > 9) && month === item.from.slice(0,7) && (
+        <section className='flex flex-row gap-10  phones:gap-1 items-center mt-5 max-h-[300px] phones:text-xs'>
+          <p className='text-white phones:w-[100px]'>type: {item.type}</p>
+          <p className='text-white phones:w-[100px]'>From: {item.from}</p>
+          <p className='text-white phones:w-[100px]'>To: {item.to}</p>
+          <p className='text-white w-[120px]'>User: {item.user}</p>
+          <p className={`${item.accepted !== ""? 'flex' : 'hidden'} phones:w-[100px]`}>Accepted: {item.accepted? "Granted":'Denied'}</p>
+          <p className={`${item.accepted === ""? 'flex' : 'hidden'} text-white phones:w-[100px]`}>Waiting</p>
+          {level > 9 && (
+            <>
+              <button className={`bg-blue-500 text-white p-2 rounded ${item.accepted? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`} disabled={item.accepted? true:false} onClick={() => {handleClicked(); setAsk(item.askedOn); setSelectedUser(item.user),setId(item.id)}}>Grand</button>
+              <button className={`bg-red-500 text-white p-2 rounded  ${!item.accepted  ? 'opacity-50 cursor-not-allowed' : 'hover:bg-red-700'}`} disabled={!item.accepted ? true :false} onClick={() => {handleDeny(); setAsk(item.askedOn); setSelectedUser(item.user);  setType(item.type), setId(item.id)}}>Deny</button>
+            </>
+          )}
+        </section>
+      )}
+    </div>  
+  ))
+) : (
+  <h1 className='text-center mt-5 text-5xl font-bold'>No current leave</h1>
 )}
-</section>
-  )}
-
-  </div>  
-))}
 </section>
  </div>
   )

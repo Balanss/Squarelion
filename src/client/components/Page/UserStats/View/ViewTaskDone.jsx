@@ -29,7 +29,7 @@ export default function ViewTaskDone({user}) {
  
 
   return (
-    <div className="inline-flex bg-secondary flex-col mt-10 gap-5 lg:w-[35vw] border border-y-[#2c1f42] border-x-[#2f3763]  p-4 max-h-[400px] lg:max-h-[500px] overflow-scroll" >
+    <div className="inline-flex bg-secondary flex-col mt-10 gap-5 lg:w-[35vw] border border-y-[#2c1f42] border-x-[#2f3763] phones:max-h-[200px]  phones:p-10 p-4 max-h-[400px] lg:max-h-[500px] overflow-scroll" >
             <section className="flex flex-col items-start justify-between">
       <h2 className="text-white mb-2 phones:text-lg  text-2xl font-semibold">Latest Task Done</h2>
       <input date={date} className="bg-[#2f3763] text-white w-full p-2 rounded-md" type="month" value={month} onChange={e => setMonth(e.target.value)} />
