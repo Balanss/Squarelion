@@ -12,7 +12,6 @@ import Panel from "./Panel/Panel";
 import Version from "../../Version/Version";
 import { lazy, Suspense } from "react";
 import BugReport from "../../Bugs/BugReport";
-import SignoutInfo from "../AdminPage/LogsInfo/SignoutInfo";
 import { motion,AnimatePresence } from "framer-motion";
 import HamburgerButton from "./Hamburger/HamburgerButton";
 import AskingLeave from "./Request/AskingLeave";
@@ -100,7 +99,7 @@ export default function Profile() {
 
 
          {/* mobile side panel */}
-        {pan === true && isMobile === true && level > 6 && (
+        {pan === true && isMobile === true && level > 5 && (
           <>
             <Panel
               level={level}
@@ -118,7 +117,7 @@ export default function Profile() {
 
         <div className="bg-[#0f172a] w-[100vw] phones:justify-center flex flex-row flex-wrap">
           {/* for desktop */}
-          {isMobile === false && level > 6 && (
+          {isMobile === false && level > 5 && (
             <>
               <Panel
                 level={level}
@@ -130,14 +129,13 @@ export default function Profile() {
             </>
           )}
 
-          {level > 6 ? (
+          {level > 5 ? (
             <>
               {" "}
               <div className="flex flex-col items-center w-[78vw] bg-primary phones:w-full overflow-hidden ">
               {showPfp === "dashboard" && (
-  <motion.div {...motionProps} className="inline-flex flex-col items-end">  <UserStats user={user} level={level} /> </motion.div>
-)}
-
+                       <motion.div {...motionProps} className="inline-flex flex-col items-end ">  <UserStats user={user} level={level} /> </motion.div>
+                                                                            )}
                 {showPfp === "Bugs" && <BugReport user={user} level={level} />}
                 {showPfp === "Calendar" && 
                   <motion.div {...motionProps}  className="inline-flex flex-col mt-10 items-end ">

@@ -19,7 +19,6 @@ import WaitingDesigner from "../firebaseData/WaitingDesigner";
 import WaitingApproval from "../firebaseData/WaitingApproval";
 import WaitingApproved from "../firebaseData/WaitingApproved";
 import Solo from "../Txt/Solo";
-import TxtAll from "../Txt/TxtAll";
 import Title from "../../Title";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -403,21 +402,6 @@ export default function Page({ month, setMonth }) {
                     }}
                   />
                   <div style={{ zIndex: 1 }}>
-                    <TxtAll
-                      className="txt"
-                      createPdf={createPdf}
-                      subject={subject}
-                      round={round}
-                      post={post}
-                      page={page}
-                      uniqueId={uniqueId}
-                      boosting={boosting}
-                      month={month}
-                      date={date}
-                      type={type}
-                      imageUrl={imageUrl}
-                      isChecked={isChecked}
-                    />
                     <Memo page={page} round={round} />
                   </div>
                 </div>

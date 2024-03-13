@@ -40,7 +40,6 @@ export default function GettingRound({ round, setRound, rounded, setRounded, pag
                         designer1: item.designer1,
                         designer2: item.designer2,
                         designer3: item.designer3,
-                        designer: item.designer,
                         dbId: item.dbId,
                       }
                     : null;

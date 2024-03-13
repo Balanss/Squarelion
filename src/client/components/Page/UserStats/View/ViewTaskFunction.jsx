@@ -89,7 +89,7 @@ useEffect(() => {
   return (
    <>
             {matchingData.length === 0 ? (
-              <h1>No current task</h1>
+              <h1 className='text-left'>No current task</h1>
             ) : (
               matchingData.map((item, index) =>  {
                 // Parse item.Time into a Date object
@@ -103,17 +103,17 @@ useEffect(() => {
               
                 // Render the div only if the difference is less than or equal to 24
                 return diffHours <= 24 && (
-                  <div className="w-[60vw] phones:w-screen flex" key={item.id || index}>
+                  <div className=" phones:w-screen  grid grid-cols-1 items-center" key={item.id || index}>
                     <ul>
-                      <li className="flex flex-row  gap-5 items-center justify-between phones:text-xs ">
+                      <li className=" grid    justify-items-center  grid-cols-5   gap-5 items-center laptop:justify-between phones:text-xs ">
                           <div className='flex items-center gap-1'>
                             <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                            <p className="text-white phones:w-[120px]">{item.client.slice(0, 10)}..</p>
+                            <p className="text-white phones:w-[30px]">{item.client.slice(0, 10)}..</p>
                           </div>
-                        <p className="text-white phones:w-[120px]">{item.month}</p>
-                        <p className="text-white phones:w-[120px]">{item.post}</p>
-                        <p className="text-white phones:w-[120px]">{item.Time.slice()}</p>
-                        <p className="text-white phones:w-[120px]">{item.text}</p>
+                        <p className="text-white phones:w-[50px]">{item.month}</p>
+                        <span className="text-white phones:w-[10px]">{item.post}</span>
+                        <p className="text-white w-[80px]">{item.Time.slice()}</p>
+                        <p className="text-white phones:w-[80px]">{item.text}</p>
 
                       </li>
                     </ul>

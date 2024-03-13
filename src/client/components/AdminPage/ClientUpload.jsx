@@ -15,6 +15,8 @@ import Loading from "../Loading";
 import PartnerLogic from "./PartnerLogic";
 import Version from "../../Version/Version";
 import { UserContext } from "../context/UserContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -64,9 +66,10 @@ export default function ClientUpload() {
   }, []);
 
 
+
   function handleSub(e) {
     e.preventDefault();
-    const storageRef = ref(getStorage(), `products/${"partners"}/${image}`);
+    const storageRef = ref(getStorage(), `products/${name}/${image}`);
 
     // Upload the file to the bucket
     const uploadTask = uploadBytesResumable(storageRef, image);
@@ -96,20 +99,9 @@ export default function ClientUpload() {
           { imageUrl: downloadURL, name: name, status: 0, preset: preset},
           { merge: true }
         );
-
-        const leadData = {
-          name: name,
-        };
-
+          toast.success(`Client ${name} has been added`);
         setImage("");
-        name("");
-
-        try {
-          await sendToZapier(leadData);
-          // Additional code to execute after sending data to Zapier, if needed
-        } catch (error) {
-          console.log(error);
-        }
+        setName("");
       }
     );
   }
@@ -122,13 +114,14 @@ export default function ClientUpload() {
 
   return(
     <div className="flex gap-3 phones:flex-col">
+      <ToastContainer />
           <Version />
           <PartnerLogic partner={partner} setPartner={setPartner} />   
 
           <div className="flex flex-col items-center justify-start shadow-card hover:shadow-card2 border-2 border-slate-900 rounded-lg mt-10 bg-secondary text-white p-10">
             <form className="flex flex-col items-start justify-start mb-10"  onSubmit={handleSub}>
               <label className="mb-2">Create a new client to the SQL database</label>
-              <input type="text" className="mb-2 p-2 text-white" placeholder="Enter Client Name"  onChange={(e) => setName(e.target.value)}/>
+              <input type="text" className="mb-2 p-2 text-black" placeholder="Enter Client Name"  onChange={(e) => setName(e.target.value)}/>
               <textarea className="mb-2 p-2 text-white" placeholder="Enter Client Preset" onChange={(e) => setPreset(e.target.value)} />
               <label className="w-[200px] p-2 rounded !bg-green-500 cursor-pointer"><input type="file"    onChange={handleImageChange}/> Upload Client Image </label>
               <button className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-100 cursor-pointer hover:bg-green-600 hover:text-green-200 mt-5">  Add Client  </button>
@@ -149,7 +142,7 @@ export default function ClientUpload() {
                   </span>
                 </div>
               </td>
-              <td className="border px-4 py-2">  <img src={partner.imageUrl} alt={partner.name}  className="w-10 h-10 rounded-full"/> </td>
+              <td className="border px-4 py-2">  <img src={partner.imageUrl} alt={partner.name} loading="lazy"  className="w-10 h-10 rounded-full"/> </td>
             </tr>
           ))}
         </tbody>

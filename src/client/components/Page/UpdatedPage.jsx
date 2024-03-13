@@ -1,31 +1,36 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy,useContext,useState, useEffect,useRef } from "react";
 import Nav from "../Nav";
-import { useState, useEffect } from "react";
 import { fs, db } from "../../Firebase";
 import { useNavigate } from "react-router-dom";
-import User from "../User";
-import { collection, deleteDoc, doc, updateDoc, setDoc, addDoc, FieldValue, deleteField } from "firebase/firestore";
+import { collection, deleteDoc, doc, updateDoc, setDoc, addDoc, FieldValue, deleteField, increment } from "firebase/firestore";
 import SendFromForm from "../firebaseData/UpdatedSendFromForm";
-import { useParams } from "react-router-dom";
 import Links from "./Links";
 import Solo from "../Txt/Solo";
-import TxtAll from "../Txt/TxtAll";
+
 import Title from "../../Title";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 import "react-quill/dist/quill.snow.css";
 import Inputs from "./PageFunctions/UpdatedInputs";
 import Loading from "../Loading";
 import Memo from "./Memo/Memo";
 import "/src/client/index.css";
 import Version from "../../Version/Version";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import PageModal from "./PageModal";
 import GettingRound from "./GettingRound/GettingRound";
-import {motion} from "framer-motion"
+import {AnimatePresence, motion} from "framer-motion"
 import AssignedTo from "./AssignedTo";
 import { container, item } from "../motion/Motion";
+import open from "../../assets/view.png";
+import unseen from "../../assets/unseen.png";
+import trash from "../../assets/trash.png";
+import prio from "../../assets/prio.png";
+import np from "../../assets/np.png";
+import '../../App.css'
+import grab from "../../assets/grab.png";
+import { UserContext } from "../context/UserContext";
+import { UpdatedPageContext } from "../context/UpdatedPageContext";
+import { DragDropContext,Draggable,Droppable } from 'react-beautiful-dnd';
+import Docs from "./automation/Docs";
+
 
 
 const ModalContent = lazy(() => import("./Modal/UpdatedModalContent"));
@@ -33,77 +38,39 @@ const Bot = lazy(() => import("./Bot/Bot"));
 const ReactQuill = lazy(() => import("react-quill"));
 const ModalForEddting = lazy(() => import("./Modal/ModalForEddting"));
 
-const modules = {
-  toolbar: {
-    handlers: {
-      // Prevent the default behavior of adding a new paragraph on enter key
-      // and instead insert a line break
-      handleEnter: function () {
-        return true;
-      },
-    },
-  },
-};
 
-const styleNew = {
-  position: "absolute",
-  bgcolor: "transparent",
-  width:'50vw',
 
-  inset: 0,
-};
 
-const styleBar = {
-  position: "absolute",
-  top: "100%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+
+
+
 
 export default function UpdatedPage({ month, setMonth }) {
-  const { id } = useParams();
+
+  const {user,uuid,level} = useContext(UserContext);
+
+  const { objective, setObjective, uniqueId,
+     setUniqueId, type, setType, date, setDate,
+      post, setPost, objectiveAnswer, setObjectiveAnswer,
+       typeAnswer, setTypeAnswer, subject, setSubject, editDetails, 
+       setEditDetails, forPost, setForPost, imageUrl, setImageUrl, image1Url,
+        setImage1Url, image2Url, setImage2Url, image3Url, setImage3Url, preset,
+         setPreset, viewer, setViewer, pri, setPri, boosting, setBoosting, title, 
+         setTitle, assigned, setAssigned, dbId, setDbId,color,setColor,show,setShow,
+         round,setRound,rounded,setRounded,page,setPage,answer,setAnswer } = useContext(UpdatedPageContext);
+
+         
+ 
   const [hide, setHide] = useState(false);
-  const [color, setColor] = useState("orange");
-  const [user, setUser] = useState("");
-  const [uuid, setUuid] = useState("");
-  const [level, setLevel] = useState("");
-  const [isAccepted, setIsAccepted] = useState("");
-  const [show, setShow] = useState("");
-  const [page, setPage] = useState("");
-  const [deletion, setDeletion] = useState("");
-  const [rounded, setRounded] = useState([]);
-  const [round, setRound] = useState([]);
+
+  // const [deletion, setDeletion] = useState("");
+
   const navigate = useNavigate();
-  const [ dbId, setDbId ] = useState("")
+ 
 
   //------------------------------------------ under lifts state to button for firebase
-  const [objective, setObjective] = useState("");
-  const [uniqueId, setUniqueId] = useState("");
-  const [type, setType] = useState("");
-  const [date, setDate] = useState("");
-  const [post, setPost] = useState("");
+
   const [ dataMonth, setDataMonth ] = useState(month)
-
-  const [objectiveAnswer, setObjectiveAnswer] = useState("");
-  const [typeAnswer, setTypeAnswer] = useState("");
-  const [subject, setSubject] = useState("");
-  const [editDetails, setEditDetails] = useState("");
-  const [forPost, setForPost] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [image1Url, setImage1Url] = useState("");
-  const [image2Url, setImage2Url] = useState("");
-  const [image3Url, setImage3Url] = useState("");
-  const [preset, setPreset] = useState("");
-  const [viewer, setViewer] = useState("all");
-  const [pri, setPri] = useState("");
-  const [boosting, setBoosting] = useState("");
-  const [title, setTitle] = useState("");
-  const [assigned, setAssigned] = useState([]);
-
   const [showRound, setShowRound] = useState();
   //
 
@@ -113,6 +80,9 @@ export default function UpdatedPage({ month, setMonth }) {
   const [orderPost, setOrderPost] = useState("");
   const [whatDoUWant, setWhatDoUWant] = useState("Open");
   const [statusBar, setStatusBar] = useState("");
+  const [checkDelete, setCheckDelete] = useState(false);
+const [selectDoc, setSelectDoc] = useState([])
+ 
 
   const [openModalBar, setOpenModalBar] = React.useState(false);
   const handleOpenModalBar = () => setOpenModalBar(true);
@@ -123,13 +93,13 @@ export default function UpdatedPage({ month, setMonth }) {
     setHide(false);
   }
 
-  function handleText(i) {
+  function handleText(index) {
     if (show !== "") {
-      round.map((x, index) => {
+      round.map((x, i) => {
         if (i === index) {
           setShow("");
           setTypeAnswer("");
-          setDeletion("");
+          // setDeletion("");
           setStatusBar("");
           setPri("");
           setSubject("");
@@ -141,15 +111,19 @@ export default function UpdatedPage({ month, setMonth }) {
           setBoosting("");
           setOrderPost("");
           setDbId("")
+          setImageUrl("");
+          setImage1Url("");
+          setImage2Url("");
+          setImage3Url("");
 
         }
       });
     } else {
-      round.map((x, index) => {
+      round.map((x, i) => {
         if (i === index) {
           setShow(i);
           setTypeAnswer(x.count);
-          setDeletion(x.count);
+          // setDeletion(x.count);
           setStatusBar(i);
           setSubject(x.objective);
           setPost(x.count);
@@ -161,30 +135,26 @@ export default function UpdatedPage({ month, setMonth }) {
           setPri(x.priority);
           setOrderPost(x.order);
           setDbId(x.dbId)
+          setImageUrl(x.designer);
+          setImage1Url(x.designer1);
+          setImage2Url(x.designer2);
+          setImage3Url(x.designer3);
         }
       });
     }
   }
 
-  const sendToZapier = async payload => {
-    const zapierURL = import.meta.env.VITE_ZAP_DELETE;
-    try {
-      const response = await fetch(zapierURL, {
-        method: "POST",
-        mode: "cors",
-        body: JSON.stringify(payload),
-      });
-      const resp = await response.json();
-    } catch (e) {
-      console.log(e);
-    }
-  };
+
+  
+ 
 
 
   //deletes from desiger page 
-  function handleDelete(i) {
-    round.map((x, index) => {
+  function handleDelete(index) {
+    round.map((x, i) => {
       if (index === i) {
+
+        setCheckDelete(false);
         const docRef = collection(db, localStorage.getItem("partner"));
         const colRef = doc(docRef, x.month);
 
@@ -194,24 +164,13 @@ export default function UpdatedPage({ month, setMonth }) {
         const clRef = doc(dcRef, x.id + x.client);
         deleteDoc(clRef);
 
-        const leadData = {
-          answer: x.answer,
-          uniqueId: x.unid,
-          date: x.date,
-          id: x.id,
-          objective: x.objective,
-          client: page,
-        };
-
-        try {
-          sendToZapier(leadData);
-          // Additional code to execute after sending data to Zapier, if needed
-        } catch (error) {
-          console.log(error);
-        }
+        setShow("");
+        setStatusBar("");
       }
     });
   }
+
+  
 
   const [img, setImage] = useState("");
   useEffect(() => {
@@ -261,304 +220,264 @@ export default function UpdatedPage({ month, setMonth }) {
 
 
 
-  const handleDragEnd = async result => {
-    if (!result.destination) return;
-    const items = Array.from(round);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setRound(items);
-    await Promise.all(
-      items.map((item, index) => {
-        return fs
-          .collection(page)
-          .doc(month)
-          .update(
-            { [`${item.count + item.month}.order`]: index },
-            { merge: true }
-          );
-      })
-    );
-  };
-
   const [showCount, setShowCount] = useState("10");
 
-  const forTxtAll = { createPdf, subject, round, post, page, uniqueId, boosting, month, date, type, imageUrl, isChecked,dbId };
-  const forInput = { user,setDataMonth,dataMonth, boosting, setBoosting, setUniqueId, uniqueId, level, setObjectiveAnswer, setTypeAnswer, type, setPost, month, setMonth, setObjective, setType, setDate, objective, post, page, date,dbId }
-  const forPageModal = { post, objective, typeAnswer, month, color, page, setShow, pri, date, objectiveAnswer, img, boosting, uniqueId, user, type, subject, level ,dbId };
+  const forInput = { setDataMonth,dataMonth, month, setMonth,user }
+  const forPageModal = { answer, post,imageUrl, objective, typeAnswer, month, color, page, setShow, pri, date, objectiveAnswer, img, boosting, uniqueId, user, type, subject, level ,dbId };
   const forSendFromForm = {user, uniqueId, orderPost, post, type, objectiveAnswer, subject, typeAnswer, month, color, page, level, setObjectiveAnswer ,dbId}
-  const forEditModal = {openModalBar, handleCloseBar, styleBar, title, forPost, setEditDetails, editDetails, page, month, post, uniqueId, objective, type, boosting, date, viewer, level}
-  const forSolo = {createPdf, orderPost, image1Url, image2Url, image3Url, setIsChecked, subject, round, post, page, uniqueId, boosting, month, date, type, imageUrl, isChecked,dbId}
+  const forEditModal = {openModalBar, handleCloseBar,  title, forPost, setEditDetails, editDetails, page, month, post, uniqueId, objective, type, boosting, date, viewer, level}
+  const forSolo = {createPdf,preset, orderPost, image1Url, image2Url, image3Url, setIsChecked, subject, round, post, page, uniqueId, boosting, month, date, type, imageUrl, isChecked,dbId}
  
-  const modalVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: "-100vh",
-      transition: {
-        delay: 0.2
+
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setShow("")
+        setStatusBar("");
       }
-    },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        delay: 0.2
-      }
-    },
-    exit: { 
-      opacity: 0, 
-      y: "100vh",
-      transition: {
-        delay: 0.3
-      }
-    },
-  };
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+
+
+const handleOnDragEnd = async (result) => {
+  if (!result.destination) return;
+  const items = Array.from(round);
+  const [reorderedItem] = items.splice(result.source.index, 1);
+  items.splice(result.destination.index, 0, reorderedItem);
+
+
+  await Promise.all(
+    items.map((item, index) => {
+      return fs
+      .collection(page)
+      .doc(month)
+        .update(
+          { [`${item.count + item.month}.order`]: index },
+          { merge: true }
+        );
+    })
+  );
+};
 
 
 
 
-  return (
-    <>
-      <div
-        className="client-page h-screen overflow-auto bg-primary"
-        style={{ color: "white" }}
-      >
-        <User user={user} setUser={setUser} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel} />
+  return ( 
+    <> 
+    {level > 6 && uuid !== null && (<> 
+      <div className="client-page h-screen overflow-auto bg-primary" style={{ color: "white" }} >
         <Version />
         <Title />
         <GettingRound round={round} dataMonth={dataMonth} level={level} setRound={setRound} rounded={rounded} setRounded={setRounded} page={page} month={month} showRound={showRound} viewer={viewer} setPage={setPage} />
-        <div className=" pt-4 mb-[25px] bg-primary">
-          {" "}
-          <Nav />{" "}
-        </div>
+        <div className=" pt-4 mb-[25px] bg-primary">  <Nav /></div>
         <div className={`absolute inset-0 ${isVisible ? "block" : "hidden"}`} style={{ zIndex, backgroundColor: "white" }}><Loading /></div>
-        {level > 7 && uuid !== null && (
-          <>
-            {level === 8 && (
-              <>
-                <div className="admin-links-only-designer text-center mt-10 cursor-pointer border-t-2 border-yellow-500 ">
-                  {" "}
-                  <Links />
-                  <img src={img} className="client-pic p-4 rounded-lg flex items-center m-auto w-40" style={{ backgroundColor: "white", marginBottom: "40px", marginTop: "20px" }} /> 
-                </div>
-              </>
-            )}
-
-            {level > 8 && (
-              <>
                 <div className="flex flex-row justify-around items-center bg-slate-300 border-t-2 border-yellow-500 ">
                   <div className="bg-slate-700 p-4 rounded-lg cursor-pointer">
                     <Links />{" "}
                   </div>
-               
+          
                   <img src={img} className="w-20" style={{ backgroundColor: "white", marginBottom: "20px", marginTop: "20px" }} />
                   <div style={{ zIndex: 1 }}>
-                    <TxtAll className="txt" {...forTxtAll} />
-                    <Memo page={page} round={round} />
+                    {level >= 8 && <Docs selectDoc={selectDoc} page={page} />}
+                    {level >= 10 && <Memo page={page} round={round} />}
                   </div>
                 </div>
-              </>
-            )}
 
-            <div className="content-div bg-secondary pb-10 " >
+            <div className="content-div  pb-10 " >
               <Inputs {...forInput} />
-
               <Suspense fallback={<div>Loading...</div>}>
-                <DragDropContext onDragEnd={handleDragEnd}>
                <div className="phones:overflow-y-auto ">
-               <table className="m-auto w-full text-center">
-                    <thead className="phones:text-[12px]">
-                      <tr className="bg-primary">
-                      
-                        <th scope="col" className="px-6 py-3 phones:p-0">Status</th>
-                        <th scope="col" className="px-6 py-3 phones:p-1">Unique Id</th>
-                        <th scope="col" className="px-6 py-3 phones:p-1">Post</th>
-                        <th scope="col" className="px-6 py-3 phones:p-0"> Subject </th>
-                        <th scope="col" className="px-6 py-3 phones:p-0">Channel</th>
-                        <th scope="col" className="px-6 py-3 phones:p-0">Day</th>
-                        <th scope="col" className="px-6 py-3 phones:p-2">Prio</th>
-                        <th scope="col" className="px-6 py-3 phones:p-2">View</th>
-                      </tr>
-                    </thead>
-                    <Droppable droppableId="table">
-                      {provided => (
-                        < motion.tbody variants={container} {...provided.droppableProps} ref={provided.innerRef}>
-                          {round.map(
-                            (x, i) =>
-                              x.month === month && (
-                               
-                                <Draggable draggableId={x.order.toString()} index={i}>
-                                  {provided => (
-                                    <motion.tr  variants={container}
-                                    ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className=" border-[1px] border-y-[#2c1f42]  bg-primary " >
-                                     
-                                      <td className="text-black text-center rounded-sm font-medium phones:text-xs    " style={{ backgroundColor: x.color }}>{x.status}   </td>
-                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400" 
-                                      onClick={() => { setForPost(x.unid); if (level > 8) { handleOpenModalBar(); setPost(x.count); setTitle("unid");} }}>
-                                        {x.unid}</td>
-
-                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onMouseEnter={() => setShowCount(x.count)} onMouseLeave={() => setShowCount("")}>
-                                        {x.order}
-                                        <p>{showCount && showCount === x.count ? <>ID:{showCount}</> : null}</p>
-                                      </td>
-
-                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() => { setForPost(x.objective);
-                                         if (level > 8) {
-                                          handleOpenModalBar(); setPost(x.count); setTitle("objective");
-                                         } }}>
-                                        {x.objective.length > 50 ? x.objective.slice(0, 50) + "..." : x.objective}
-                                        </td>
-
-                                      <td
-                                        className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400"
-                                        onClick={() => { if (level > 8) { setForPost(x.type); handleOpenModalBar(); setPost(x.count); setTitle("type"); } }}>
-                                        {x.type}
-                                      </td>
-
-                                      <td className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400" onClick={() => { setForPost(x.date); if (level > 8) { handleOpenModalBar(); setPost(x.count); setTitle("date"); } }}>{ month}-{x.date} </td>
-
-                                      <td className={`px-6 phones:p-1 phones:text-[10px] ${x.priority === "Prio" ? "bg-red-600 text-white " : "text-gray-400"}`} >
-                                        <button
-                                          onClick={() => { if (level > 8) { 
-                                            const docRef = collection(db, page); 
-                                            const colRef = doc(docRef, x.month);
-                                            setDoc(colRef, {[x.count + x.month]:{
-                                              priority: x.priority === "Prio" ? "No" : "Prio" 
-                                            }}, { merge: true })
-             
-                                          }
-                                           }} >
-                                          {x.priority}
-                                        </button>
-                                      </td>
-
-                                      <td className="px-6 phones:p-1 phones:text-[10px]  whitespace-nowrap text-sm text-gray-400">
-                                        <button className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105  transition-transform transform-gpu hover:text-white hover:bg-red-500  " onClick={() => handleText(i)}>{statusBar === i ? "close" : "open"}</button>
-                                        </td>
-                                      <Modal
-                                        open={show === i}
-                                        onClose={() => handleText(i)}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        className="overflow-auto main-modal"
-                                      >
-                                        <Box
-                                          sx={styleNew}
-                                          className="lg:ml-[150px] phones:mt-10 "
-                                        >
-                                          <Typography
-                                            id="modal-modal-title"
-                                            variant="h6"
-                                            component="h2"
-                                            style={{ textAlign: "center" }}
-                                            className="flex flex-col gap-5 first-typo"
-                                          >
-                                            {show === i && level > 7 && (
-                                              <>
-                                                <motion.div className="flex flex-col-reverse xl:items-end xl:flex-row" 
-                                                  variants={modalVariants}
-                                                  initial="hidden"
-                                                  animate="visible"
-                                                  exit="exit"
-                                                
-                                                >
-                                                  <div className="lg:w-[800px] phones:w-[100dvw] m-auto border-2 border-black bg-slate-700">
-                                                        {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
-                                                  <PageModal {...forPageModal}/>
-                                                  <AssignedTo dbId={dbId} user={user} typeAnswer={typeAnswer} post={post} month={month} level={level} page={page} assigned={assigned} setAssigned={setAssigned} />
-
-                                                    <div className="holds-written-content">
-                                                  
-                                                      {!x.answer ? null : (
-                                                        <h6 className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4" key={i} onClick={() => setObjectiveAnswer(x.answer)} style={{ color: "black" }} dangerouslySetInnerHTML={{ __html: x.answer }} />
-                                                      )}
-
-                                                         {/* Below handles the images for the modal */}
-                                                         <ModalContent level={level} page={page} round={round} type={type} show={show} month={month} post={post} />
-
-                                                      <div className="flex flex-col items-center justify-evenly border-b-2 border-black">
-                                                        {level > 7 && (
-                                                          <>
-                                                            <div className={`${whatDoUWant === "Open" ? "above-div-send w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10" : null}`}>
-                                                              <SendFromForm {...forSendFromForm} />
-                                                              {level > 9 ? (
-                                                                <button onClick={() => { handleDelete(i), setShow(""), setStatusBar(""); }} className="text-white bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete</button> ) : null}
-                                                            </div>
-
-                                                            {level > 8 && (
-                                                              <form className="flex phones:w-[100vw] phones:flex-col" onSubmit={handleSubmit}>
-                                                                <div className="flex flex-col">
-                                                                  <textarea value={preset} onChange={e => setPreset(e.target.value)} className="w-[300px] h-[300px] phones:w-full" />
-                                                                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { navigator.clipboard.writeText(preset); }}> Copy </button>
-                                                                </div>
-                                                                <Suspense fallback={<div>Loading...</div>}>
-                                                                  <ReactQuill
-                                                                    value={objectiveAnswer}
-                                                                    onChange={handleEditorChange}
-                                                                    modules={modules}
-                                                                    style={{ color: "black", backgroundColor: "white" }}
-                                                                    placeholder="Text here..."
-                                                                    className="max-w-[90vw] phones:w-[100vw] phones:max-w-[100vw] lg:max-w-[500px] max-h-[350px] overflow-scroll"
-                                                                  />
-                                                                </Suspense>
-                                                              </form>
-                                                            )}
-                                                          </>
-                                                        )}
-                                                        {level > 8 ? (
-                                                          <div className="flex items-baseline">
-                                                            <input type="checkbox" readOnly checked={isChecked} 
-                                                            onClick={() => { setIsChecked(prevChecked => !prevChecked), setImageUrl(x.designer), setImage1Url(x.designer1),
-                                                             setImage2Url(x.designer2), setImage3Url(x.designer3), setBoosting(x.boosting), setCreatePdf(x.answer); }} className="mr-2 cursor-pointer" />
-
-                                                            <Solo {...forSolo} />
-                                                          </div>
-                                                        ) : null}
-
-                                                        {level > 8 ? (
-                                                          <h1 className="text-2xl mb-5 text-white"> Boosting : ${x.boosting}</h1>
-                                                        ) : null}
-                                                      </div>
-
-                                                    </div>
-                                                  </div>
-
-                                                  {level > 8 ? (
-                                                    <Suspense fallback={<div>Loading...</div>}>
-                                                      <div className=" lg:w-[800px] xl:w-[400px] lg:relative lg:bottom-1">
-                                                        <Bot setObjectiveAnswer={setObjectiveAnswer} subject={subject} user={user} />
-                                                      </div>
-                                                    </Suspense>
-                                                  ) : null}
-
-
-                                               
-
-                                                </motion.div>
-                                              </>
-                                            )}
-                                          </Typography>
-                                        </Box>
-                                      </Modal>
-                                    </motion.tr>
-                                  )}
-                                </Draggable>
-                              )
-                          )}
-                          {provided.placeholder}
-                        </motion.tbody>
-                      )}
-                    </Droppable>
-                  </table>
-               </div>
-                </DragDropContext>
+            
+               </div>         
               </Suspense>
+             <ModalForEddting {...forEditModal} />
+           <div className="w-[80vw] m-auto flex justify-end ">
+          <button 
+            className="bg-secondary px-4 py-2 rounded border-[1px] hover:border-green-800 hover:scale-[1.1] mb-4" 
+            onClick={() => setSelectDoc(selectDoc === round ? [] : round)}
+          >
+            Select All
+          </button>
+           </div>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="char">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                    {round.map((item, index) => {
+                  return ( <div key={index}> 
+                   { item.month === month && (
+                    <Draggable key={index} index={index} draggableId={`${item.order}`}>
+                      {(provided) => (
+                         <section  className=""  {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps} >
+                         <motion.div variants={container} className="border-[1px] border-y-[#2c1f42] bg-secondary  grid grid-cols-6 phones:gap-y-10 laptop:grid-cols-10 gap-y-5 items-center text-left py-1 rounded laptop:w-[80vw] m-auto">
+                           <p className="text-black text-center rounded-sm font-medium text-xs flex-grow py-1 ml-1" style={{ backgroundColor: item.color }} >{item.status}</p>
+                           <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400 flex-grow" onClick={() => { setForPost(item.unid); if (level > 8) { handleOpenModalBar(); setPost(item.count); setTitle("unid"); } }}> {item.unid}</p>
+                           <div className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onMouseEnter={() => setShowCount(item.count)} onMouseLeave={() => setShowCount("")}> {item.order}
+                             <p>{showCount && showCount === item.count ? <>ID:{showCount}</> : null}</p>
+                           </div>
+                           <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onClick={() => { setForPost(item.objective); handleOpenModalBar(); setPost(item.count); setTitle("objective"); }}>
+                             {item.objective.length > 11 ? item.objective.slice(0, 10) + "..." : item.objective}
+                           </p>
+                           <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onClick={() => { setForPost(item.type); handleOpenModalBar(); setPost(item.count); setTitle("type"); }}>
+                             {item.type}
+                           </p>
+                           <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onClick={() => { setForPost(item.date); if (level > 8) { handleOpenModalBar(); setPost(item.count); setTitle("date"); } }}>{month}-{item.date}</p>
+                           <p className={`px-6 phones:p-1 phones:text-[10px] ${item.priority === "Prio" ? " text-white " : "text-gray-400"} flex-grow`}>
+                             <img src={item.priority === "Prio" ? prio : np} className="w-10 h-10 m-auto hover:scale-[1.1] cursor-pointer" title={item.priority === "Prio" ? "Priority" : "Not Priority"} onClick={() => { const docRef = collection(db, page); const colRef = doc(docRef, item.month); setDoc(colRef, { [item.count + item.month]: { priority: item.priority === "Prio" ? "No" : "Prio" } }, { merge: true }) }} />
+                           </p>
+                         {level > 7  &&   <p className="px-6  phones:p-1 phones:text-[10px] whitespace-nowrap text-sm text-gray-400 flex-grow">
+                             <img src={statusBar === index ? unseen : open} className="w-10 h-10 m-auto hover:scale-[1.1] cursor-pointer" onClick={() => handleText(index)} />
+                           </p>}
+                          <div className="reorder-handle"  >
+                          <img src={grab} alt="" className="cursor-grab hover:scale-[1.1] phones:hidden" draggable='false'/>
+                          </div>
+                          <div>
+                            {level > 7 && <>
+                              <div className={`${selectDoc.includes(item) ? 'bg-green-900 text-end md:px-2 border-2' : 'bg-blue-900/50 md:px-2 border-2 border-gray-600 '} phones:text-xs phones:text-center md:mr-2 hover:scale-[1.1]`}>
+                              <button onClick={() => {
+                                setSelectDoc(prevSelectedDoc => {
+                                  if (prevSelectedDoc.includes(item)) {
+                                    // If the item is already selected, remove it from the array
+                                    return prevSelectedDoc.filter(doc => doc !== item);
+                                  } else {
+                                    // If the item is not selected, add it to the array
+                                    return [...prevSelectedDoc, item];
+                                  }
+                                });
+                              }}>
+                                {selectDoc.includes(item) ? 'Selected' : 'Select'}
+                              </button>
+                            </div>
+                            </>}
+                            
+                          </div>
+                         </motion.div>
+                         </section>
+                        
+                      )}
+                      
+                     </Draggable>
+                       )}
+                      {provided.placeholder}
 
-              <ModalForEddting {...forEditModal} />
+                     
+                    <div className={`${show !== index ? 'null' : 'left-0 top-0 z-[100] fixed overflow-y-scroll overflow-x-hidden no-scrollbar h-screen rounded bg-black bg-opacity-50'}`}> 
+                    <AnimatePresence>    
+                    {show === index && level > 7 && (
+                      <>
+                             <motion.div className="flex z-[10] flex-col-reverse items-start xl:flex-row fixed top-0 h-screen overflow-y-scroll overflow-x-hidden no-scrollbar " initial={{ x:-2000 }} animate={{ opacity: 1,x:0 }} exit={{x:-2000}} transition={{ duration: 0.5,type:'spring' }} >
+                           
+                           <div className="lg:w-[900px] phones:w-[100dvw] m-auto2 border-white border-2 p-4 bg-[#171717]">
+           {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
+                  <PageModal {...forPageModal}/>
+     
+                          <div className="holds-written-content">
 
-            </div>
-          </>
-        )}
+            {/* Below handles the images for the modal */}
+            <ModalContent level={level} page={page} round={round} type={type} show={show} month={month} post={post} />
+           {item.answer && 
+             <>
+               <h6 className="text-left text-black rounded md:w-[80vw]  lg:m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4 break-words" key={index} onClick={() => setObjectiveAnswer(item.answer)}>
+                 {item.answer.replace(/<\/?[^>]+(>|$)/g, "").split('\n').map((line, i) => 
+                   <React.Fragment key={i}>
+                     {line}
+                     <br />
+                   </React.Fragment>
+                 )}
+               </h6>
+
+                  {level>8 && <AssignedTo dbId={dbId} user={user} typeAnswer={typeAnswer} post={post} month={month} level={level} page={page} assigned={assigned} setAssigned={setAssigned} />}
+
+                </>
+           }
+              <h1 className="text-xl mt-5 text-center text-white"> Boosting : ${item.boosting}</h1>
+
+            {/* <div className="flex items-baseline justify-center">
+               <input type="checkbox" readOnly checked={isChecked} 
+               onClick={() => { setIsChecked(prevChecked => !prevChecked), setImageUrl(item.designer), setImage1Url(item.designer1),
+                setImage2Url(item.designer2), setImage3Url(item.designer3), setBoosting(item.boosting), setCreatePdf(item.answer); }} className="mr-2 cursor-pointer" />
+               <Solo {...forSolo} />
+             </div> */}
+
+         <div className="flex  flex-col laptopL:items-center justify-evenly ">
+             <>
+               <div className={`${whatDoUWant === "Open" ? "above-div-send phones:flex-row phones:gap-x-3 w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg: bg-[#212121] p-4 rounded mt-2 mb-5 lg:flex-row lg:gap-10" : null}`}>
+                 {level > 8 ? 
+                 <> 
+                   <div className="flex flex-col items-center justify-center">
+                   <img src={trash} onClick={() => { if (checkDelete) handleDelete(index); else alert("Please check the box to delete"); }} className="hover:scale-[1.1] cursor-pointer" title="Delete Post"/> 
+                   <input type="checkbox" onChange={(e) => setCheckDelete(e.target.checked)} />
+
+                     </div>
+                  </> : null}
+               </div>  
+                 
+            {level > 8 &&  
+            <div className="flex flex-row">
+                  <form className="flex phones:w-[100vw] phones:flex-col " onSubmit={handleSubmit}>
+                    <div className="flex flex-col">
+                      <textarea value={preset} onChange={e => setPreset(e.target.value)} className="w-[280px]  h-[300px] phones:w-full text-black rounded" />
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { navigator.clipboard.writeText(preset); }}> Copy </button>
+                    </div>
+                    <textarea value={objectiveAnswer} placeholder="Create content here..." onChange={e => setObjectiveAnswer(e.target.value)} className="w-[280px] h-[300px] phones:w-full text-black rounded" />
+                  </form> 
+                  <div className="mt-4">
+                    <SendFromForm {...forSendFromForm} />
+                  </div>
+                </div> }
+      
+
+      { level < 8 &&  (level < 8 && (item.status === 'Final' || item.status === 'Waiting' || item.status === 'Feedback' || item.Status === "Waiting Designer" || item.Status === 'Design Done')) && 
+       <div className="flex flex-row">
+       <form className="flex phones:w-[100vw] phones:flex-col " onSubmit={handleSubmit}>
+         <div className="flex flex-col">
+           <textarea value={preset} onChange={e => setPreset(e.target.value)} className="w-[280px]  h-[300px] phones:w-full text-black rounded" />
+           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { navigator.clipboard.writeText(preset); }}> Copy </button>
+         </div>
+         <textarea value={objectiveAnswer} placeholder="Create content here..." onChange={e => setObjectiveAnswer(e.target.value)} className="w-[280px] h-[300px] phones:w-full text-black rounded" />
+       </form> 
+       <div className="mt-4">
+         <SendFromForm {...forSendFromForm} />
+       </div>
+     </div> 
+      }
+                   
+
+             </>
+
+                              </div>
+
+                                </div>
+                                       </div>
+                                     </motion.div>
+                                 
+                                </>
+                              )} 
+                           </AnimatePresence>    
+                    </div>
+                      
+                 </div>  )
+      
+              }
+              )} 
+              </div>        
+            )}
+         </Droppable>
+        </DragDropContext>
+            </div>    
       </div>
-    </>
-  );
+      </>  )}
+  
+  </>);
 }
+
+
