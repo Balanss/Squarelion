@@ -19,7 +19,7 @@ export default function Facebook({imageUrl,answer,month,doubleCheck,setDoubleChe
   const [ selectedTime, setSelectedTime ] = useState('')
 
 
-console.log(selectedTime)
+
 
   useEffect(() => {
     const docRef = doc(db, page, "Status");
@@ -107,7 +107,7 @@ console.log(selectedTime)
         <p>to: {page}</p>
         <p> title: {answer}</p>
         <img src={imageUrl} alt='image' className='w-20 h-20'/>
-        {level === 11 && (report.Status !== 'Posted' || report.Status !=='Error') && <>
+        {level > 9 && (report.Status !== 'Posted' || report.Status !=='Error') && <>
         <button onClick={() => setTime(true)} className='bg-green-900 px-2 mt-2 ml-2 rounded hover:scale-[1.1]'>Post on selected time</button>
         {/* <button onClick={handlePost} className='bg-blue-400 px-2 mt-2 rounded hover:scale-[1.1]'>Yes,Post now</button> */}
         <button onClick={() => setDoubleCheck(false)} className='bg-red-400 px-2 mt-2 ml-2 rounded hover:scale-[1.1]'>No</button>
