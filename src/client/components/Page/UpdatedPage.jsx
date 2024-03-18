@@ -287,7 +287,7 @@ const handleOnDragEnd = async (result) => {
           
                   <img src={img} className="w-20" style={{ backgroundColor: "white", marginBottom: "20px", marginTop: "20px" }} />
                   <div style={{ zIndex: 1 }}>
-                    {level >= 8 && <Docs selectDoc={selectDoc} page={page} />}
+                    {level >= 8 && <div >   <Docs selectDoc={selectDoc} page={page} />   </div>}
                     {level >= 10 && <Memo page={page} round={round} />}
                   </div>
                 </div>
@@ -378,7 +378,12 @@ const handleOnDragEnd = async (result) => {
                            
                            <div className="lg:w-[900px] phones:w-[100dvw] m-auto2 border-white border-2 p-4 bg-[#171717]">
            {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
-                  <PageModal {...forPageModal}/>
+                  {level >  9 && <PageModal {...forPageModal}/>}
+                  { level < 8 &&  (level < 8 && (item.status === 'Final' || item.status === 'Waiting' || item.status === 'Feedback' || item.Status === "Waiting Designer" || item.Status === 'Design Done')) &&
+                      <PageModal {...forPageModal}/>
+                    }
+
+
      
                           <div className="holds-written-content">
 
@@ -386,14 +391,24 @@ const handleOnDragEnd = async (result) => {
             <ModalContent level={level} page={page} round={round} type={type} show={show} month={month} post={post} />
            {item.answer && 
              <>
-               <h6 className="text-left text-black rounded md:w-[80vw]  lg:m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4 break-words" key={index} onClick={() => setObjectiveAnswer(item.answer)}>
-                 {item.answer.replace(/<\/?[^>]+(>|$)/g, "").split('\n').map((line, i) => 
-                   <React.Fragment key={i}>
-                     {line}
-                     <br />
-                   </React.Fragment>
-                 )}
-               </h6>
+              <h6 
+                className="text-left text-black rounded md:w-[80vw]  lg:m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4 break-words" 
+                key={index} 
+                onClick={() => setObjectiveAnswer(item.answer)}
+              >
+                {item.answer
+                  .replace(/<br>/g, "\n") // replace <br> with newline
+                  .replace(/&nbsp;/g, " ") // replace &nbsp; with space
+                  .replace(/&amp;/g, "&") // replace &amp; with &
+                  .replace(/<\/?[^>]+(>|$)/g, "") // remove other HTML tags
+                  .split('\n').map((line, i) => 
+                    <React.Fragment key={i}>
+                      {line}
+                      <br />
+                    </React.Fragment>
+                  )
+                }
+              </h6>
 
                   {level>8 && <AssignedTo dbId={dbId} user={user} typeAnswer={typeAnswer} post={post} month={month} level={level} page={page} assigned={assigned} setAssigned={setAssigned} />}
 
@@ -401,12 +416,12 @@ const handleOnDragEnd = async (result) => {
            }
               <h1 className="text-xl mt-5 text-center text-white"> Boosting : ${item.boosting}</h1>
 
-            {/* <div className="flex items-baseline justify-center">
+            <div className="flex items-baseline justify-center">
                <input type="checkbox" readOnly checked={isChecked} 
                onClick={() => { setIsChecked(prevChecked => !prevChecked), setImageUrl(item.designer), setImage1Url(item.designer1),
                 setImage2Url(item.designer2), setImage3Url(item.designer3), setBoosting(item.boosting), setCreatePdf(item.answer); }} className="mr-2 cursor-pointer" />
                <Solo {...forSolo} />
-             </div> */}
+             </div>
 
          <div className="flex  flex-col laptopL:items-center justify-evenly ">
              <>

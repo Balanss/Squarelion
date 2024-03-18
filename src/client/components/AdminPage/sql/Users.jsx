@@ -15,7 +15,8 @@ useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "admin"), querySnapshot => {
       const allLogs = querySnapshot.docs.reduce((acc, doc) => {
         const data = doc.data();
-        if (data.logs) {
+      
+        if (data) {
           return [
             ...acc,
             {
@@ -48,6 +49,8 @@ useEffect(() => {
 
     toast.success('User level updated');
   };
+
+
 
   return (
     <div className=''>

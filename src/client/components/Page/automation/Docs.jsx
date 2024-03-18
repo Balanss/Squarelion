@@ -14,6 +14,13 @@ export default function Docs({selectDoc,page}) {
 
     const handleDownload = async () => {
 
+                    let uuid;
+                    if (selectDoc[0] && selectDoc[0].unid) {
+                        uuid = selectDoc[0].unid.slice(0, -2);
+                    }
+
+               
+
         try{
             const data = {
                 doc: selectDoc[0],
@@ -49,7 +56,9 @@ export default function Docs({selectDoc,page}) {
                 doc31: selectDoc[30],
                 length: selectDoc.length,
                 page: page,
-                email:email
+                email:email,
+                uuid:uuid,
+                
             }
 
             const response = await fetch(import.meta.env.VITE_ALL_DOCS, {
@@ -71,6 +80,7 @@ export default function Docs({selectDoc,page}) {
     }
 
 };
+
 
 
   return (

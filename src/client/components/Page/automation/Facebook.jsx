@@ -19,7 +19,7 @@ export default function Facebook({imageUrl,answer,month,doubleCheck,setDoubleChe
   const [ selectedTime, setSelectedTime ] = useState('')
 
 
-
+console.log(selectedTime)
 
   useEffect(() => {
     const docRef = doc(db, page, "Status");
@@ -44,7 +44,7 @@ export default function Facebook({imageUrl,answer,month,doubleCheck,setDoubleChe
 
   const handlePost = async() => {
 
-    const date = new Date(selectedTime);
+    
     const data = {
       name: page,
       content: answer,
@@ -101,7 +101,7 @@ export default function Facebook({imageUrl,answer,month,doubleCheck,setDoubleChe
 
 
   return (
-    <div className='fixed  top-2 '>
+    <div className='fixed z-[1] top-2 '>
       {doubleCheck && <div className=' w-[45vw] z-[10000000000000000] bg-primary text-white p-10 rounded'>
         <p>Posting to facebook will send the following data:</p>
         <p>to: {page}</p>
