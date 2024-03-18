@@ -318,14 +318,14 @@ const handleOnDragEnd = async (result) => {
                     <Draggable key={index} index={index} draggableId={`${item.order}`}>
                       {(provided) => (
                          <section  className=""  {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps} >
-                         <motion.div variants={container} className="border-[1px] border-y-[#2c1f42] bg-secondary  grid grid-cols-6 phones:gap-y-10 laptop:grid-cols-10 gap-y-5 items-center text-left py-1 rounded laptop:w-[80vw] m-auto">
+                         <motion.div variants={container} className="border-[1px] border-y-[#2c1f42] bg-secondary  grid grid-cols-6 phones:gap-y-10 laptop:grid-cols-9 gap-y-5 items-center text-left py-1 rounded laptop:w-[80vw] m-auto">
                            <p className="text-black text-center rounded-sm font-medium text-xs flex-grow py-1 ml-1" style={{ backgroundColor: item.color }} >{item.status}</p>
                            <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400 flex-grow" onClick={() => { setForPost(item.unid); if (level > 8) { handleOpenModalBar(); setPost(item.count); setTitle("unid"); } }}> {item.unid}</p>
-                           <div className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onMouseEnter={() => setShowCount(item.count)} onMouseLeave={() => setShowCount("")}> {item.order}
+                           {/* <div className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onMouseEnter={() => setShowCount(item.count)} onMouseLeave={() => setShowCount("")}> {item.order}
                              <p>{showCount && showCount === item.count ? <>ID:{showCount}</> : null}</p>
-                           </div>
-                           <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onClick={() => { setForPost(item.objective); handleOpenModalBar(); setPost(item.count); setTitle("objective"); }}>
-                             {item.objective.length > 11 ? item.objective.slice(0, 10) + "..." : item.objective}
+                           </div> */}
+                           <p className="px-6 phones:p-1 lg:relative lg:right-[30px] phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onClick={() => { setForPost(item.objective); handleOpenModalBar(); setPost(item.count); setTitle("objective"); }}>
+                             {item.objective.length > 21 ? item.objective.slice(0, 20) + ".." : item.objective}
                            </p>
                            <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onClick={() => { setForPost(item.type); handleOpenModalBar(); setPost(item.count); setTitle("type"); }}>
                              {item.type}

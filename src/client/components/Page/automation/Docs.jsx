@@ -10,6 +10,7 @@ export default function Docs({selectDoc,page}) {
     const {user,uuid,level,email} = useContext(UserContext);
    
 
+    console.log(page)
    
 
     const handleDownload = async () => {

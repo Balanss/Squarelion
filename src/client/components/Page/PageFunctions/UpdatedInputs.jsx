@@ -62,8 +62,8 @@ export default function Inputs({dataMonth,setDataMonth,setMonth,month,user}) {
                 <datalist id="suggestions">
       <option value="FB/IG" />
       <option value="FB/IG/LI" />
-        <option value="Facebook" />
-        <option value="Instagram" />
+        <option value="Fb" />
+        <option value="Ig" />
         <option value="Mailchimp" />
         <option value="LinkedIn" />
         <option value="Stories" />
