@@ -377,8 +377,10 @@ const handleOnDragEnd = async (result) => {
                              <motion.div className="flex z-[10] flex-col-reverse items-start xl:flex-row fixed top-0 h-screen overflow-y-scroll overflow-x-hidden no-scrollbar " initial={{ x:-2000 }} animate={{ opacity: 1,x:0 }} exit={{x:-2000}} transition={{ duration: 0.5,type:'spring' }} >
                            
                            <div className="lg:w-[900px] phones:w-[100dvw] m-auto2 border-white border-2 p-4 bg-[#171717]">
+
            {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
-                  <PageModal {...forPageModal}/>
+           {(level > 8 || (level <= 8 && item.color !== '#adff2f' && item.color !== "green")) &&  <PageModal {...forPageModal}/> }
+                 
 
 
 
@@ -444,8 +446,8 @@ const handleOnDragEnd = async (result) => {
                     <textarea value={objectiveAnswer} placeholder="Create content here..." onChange={e => setObjectiveAnswer(e.target.value)} className="w-[300px] laptop:w-[400px] laptop:max-w-[400px] h-[300px] phones:w-full text-black rounded" />
                   </form> 
                   <div className="mt-4">
-                    { (level > 8 || (level <= 8 && (item.status === 'Final' || item.status === 'Waiting' || item.status === 'Feedback' || item.Status === "Waiting Designer" || item.Status === 'Design Done'))) &&
-                      <SendFromForm {...forSendFromForm} />
+                    { (level > 8 || (level <= 8 && item.color !== '#adff2f' && item.color !== "green")) &&
+                        <SendFromForm {...forSendFromForm} />
                     }
                  
                   </div>
