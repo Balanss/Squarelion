@@ -4,6 +4,8 @@ import { getDoc } from "firebase/firestore";
 import { setDoc, doc,arrayUnion } from "firebase/firestore";
 import { fs } from "../../Firebase";
 import upload from "../../assets/upload.png";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function HandlesViewImage({name, user, dPost, dMonth, dPage, setSuccessfully, setImageUrls, setFiles}) {
 
@@ -34,6 +36,7 @@ const uploadPromises = selectedFiles.length? Array.from(selectedFiles).map(file 
         // Upload completed successfully, now get the download URL
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
         resolve({ url: downloadURL, type: file.type, name: file.name});
+       setSuccessfully("Upload successful");
       }
     );
   });
@@ -45,27 +48,30 @@ const uploadedFiles = await Promise.all(uploadPromises);
 const docRef = doc(fs, "DesignerPage", dPost + dMonth + dPage);
     const docSnap = await getDoc(docRef);
 
-    let existingFiles = docSnap.exists() ? docSnap.data().files : [];
+let existingFiles = docSnap.exists() && docSnap.data().files ? docSnap.data().files : [];
 
-    // Check total number of files (existing + new)
-    if (existingFiles.length + selectedFiles.length > 4) {
-      alert("You can only upload a maximum of 4 files");
-      return;
-    }
+// Check total number of files (existing + new)
+if ((existingFiles ? existingFiles.length : 0) + (selectedFiles ? selectedFiles.length : 0) > 4) {
+  alert("You can only upload a maximum of 4 files");
+  return;
+}
 
 let newFiles;
 if (Array.isArray(existingFiles)) {``
   // If existingFiles is an array, append new files to it
   newFiles = [...existingFiles, ...uploadedFiles];
+ 
 } else if (typeof existingFiles === 'object') {
   // If existingFiles is an object, merge it with new files
   newFiles = {...existingFiles, ...uploadedFiles};
+ 
 } else {
   // If existingFiles is neither an array nor an object, just use new files
   newFiles = uploadedFiles;
+ 
 }
 
-// Construct docData
+try {
 const docData = {
 DesignedUploadedBy: user,
 files: arrayUnion(...uploadedFiles),
@@ -75,10 +81,11 @@ files: arrayUnion(...uploadedFiles),
 await setDoc(docRef, docData, {
 merge: true,
 });
-      
+}
+catch (error) {
+  console.error("Error adding document: ", error);
 
-     
-   
+}
 
 setTimeout(() => {
   setSuccessfully("");
@@ -90,6 +97,7 @@ setTimeout(() => {
 
       return (
         <label> 
+          <ToastContainer />
     <input type="file" accept="image/*" multiple onChange={handleImageChange} /> 
    <img src={upload} alt="upload" className="w-8 h-8 cursor-pointer hover:scale-[1.1]"  title='Upload files'/>
         </label>

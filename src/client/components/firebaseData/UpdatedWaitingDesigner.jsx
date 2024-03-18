@@ -206,7 +206,7 @@ const [sureYouWantToDelete, setSureYouWantToDelete] = useState(false)
 
 
 {modal === true &&
-<div className='fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50'>
+<div className='fixed z-[1000000000000] top-0 pb-10 w-full h-full bg-black bg-opacity-50  overflow-y-auto overflow-x-hidden'>
   
   <section className='bg-white w-[50vw] phones:w-[90vw] m-auto mt-20 p-2 rounded-lg h-auto' >
   <button className='bg-red-500 w-[10vw]  phones:w-auto m-auto mt-2 p-2 mb-2 cursor-pointer transition-transform transform-gpu hover:scale-110' onClick={() => setModal(false)}>Close</button>

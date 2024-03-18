@@ -150,7 +150,7 @@ export default function DesignerModal({
 </div>
             </section>
 <hr  className='w-screen bg-white mt-4'/>
-            <div className='mt-20 rounded text-left p-10 phones:w-[80vw] pc:min-w-[70vw] w-[70vw] pc:max-w-[70vw]  bg-white border-primary'>
+            <div className='mt-20 rounded text-left p-10 phones:w-[40vw] pc:min-w-[40vw] w-[40vw] pc:max-w-[40vw]  bg-white border-primary'>
 {content.map((message, index) => (
 <div key={index} className='text-left break-words text-black  rounded px-3  '>
  <p className="w-[80%] m-auto whitespace-pre-wrap "> {message}</p>

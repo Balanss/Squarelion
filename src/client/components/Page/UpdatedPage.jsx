@@ -318,7 +318,7 @@ const handleOnDragEnd = async (result) => {
                     <Draggable key={index} index={index} draggableId={`${item.order}`}>
                       {(provided) => (
                          <section  className=""  {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps} >
-                         <motion.div variants={container} className="border-[1px] border-y-[#2c1f42] bg-secondary  grid grid-cols-6 phones:gap-y-10 laptop:grid-cols-9 gap-y-5 items-center text-left py-1 rounded laptop:w-[80vw] m-auto">
+                         <motion.div variants={container} className="border-[1px] border-y-[#2c1f42] bg-secondary  grid grid-cols-6 phones:gap-y-10 laptopL:laptop:grid-cols-8 laptop:grid-cols-7 gap-y-5 items-center text-left py-1 rounded laptop:w-[80vw] m-auto">
                            <p className="text-black text-center rounded-sm font-medium text-xs flex-grow py-1 ml-1" style={{ backgroundColor: item.color }} >{item.status}</p>
                            <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400 flex-grow" onClick={() => { setForPost(item.unid); if (level > 8) { handleOpenModalBar(); setPost(item.count); setTitle("unid"); } }}> {item.unid}</p>
                            {/* <div className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onMouseEnter={() => setShowCount(item.count)} onMouseLeave={() => setShowCount("")}> {item.order}
@@ -337,9 +337,9 @@ const handleOnDragEnd = async (result) => {
                          {level > 7  &&   <p className="px-6  phones:p-1 phones:text-[10px] whitespace-nowrap text-sm text-gray-400 flex-grow">
                              <img src={statusBar === index ? unseen : open} className="w-10 h-10 m-auto hover:scale-[1.1] cursor-pointer" onClick={() => handleText(index)} />
                            </p>}
-                          <div className="reorder-handle"  >
+                          {/* <div className="reorder-handle"  >
                           <img src={grab} alt="" className="cursor-grab hover:scale-[1.1] phones:hidden" draggable='false'/>
-                          </div>
+                          </div> */}
                           <div>
                             {level > 7 && <>
                               <div className={`${selectDoc.includes(item) ? 'bg-green-900 text-end md:px-2 border-2' : 'bg-blue-900/50 md:px-2 border-2 border-gray-600 '} phones:text-xs phones:text-center md:mr-2 hover:scale-[1.1]`}>
@@ -378,10 +378,8 @@ const handleOnDragEnd = async (result) => {
                            
                            <div className="lg:w-[900px] phones:w-[100dvw] m-auto2 border-white border-2 p-4 bg-[#171717]">
            {/* below is for the 3 finish state buttons ( waiting,apporved,designer) */}
-                  {level >  9 && <PageModal {...forPageModal}/>}
-                  { level < 8 &&  (level < 8 && (item.status === 'Final' || item.status === 'Waiting' || item.status === 'Feedback' || item.Status === "Waiting Designer" || item.Status === 'Design Done')) &&
-                      <PageModal {...forPageModal}/>
-                    }
+                  <PageModal {...forPageModal}/>
+
 
 
      
@@ -414,14 +412,14 @@ const handleOnDragEnd = async (result) => {
 
                 </>
            }
-              <h1 className="text-xl mt-5 text-center text-white"> Boosting : ${item.boosting}</h1>
+              <h1 className="text-xl mt-5 text-center text-white" onClick={() => { setForPost(item.boosting); if (level > 8) { handleOpenModalBar(); setPost(item.count); setTitle("boosting"); } }}> Boosting : ${item.boosting}</h1>
 
-            <div className="flex items-baseline justify-center">
+            {/* <div className="flex items-baseline justify-center">
                <input type="checkbox" readOnly checked={isChecked} 
                onClick={() => { setIsChecked(prevChecked => !prevChecked), setImageUrl(item.designer), setImage1Url(item.designer1),
                 setImage2Url(item.designer2), setImage3Url(item.designer3), setBoosting(item.boosting), setCreatePdf(item.answer); }} className="mr-2 cursor-pointer" />
                <Solo {...forSolo} />
-             </div>
+             </div> */}
 
          <div className="flex  flex-col laptopL:items-center justify-evenly ">
              <>
@@ -436,35 +434,23 @@ const handleOnDragEnd = async (result) => {
                   </> : null}
                </div>  
                  
-            {level > 8 &&  
+            {level > 7 &&  
             <div className="flex flex-row">
                   <form className="flex phones:w-[100vw] phones:flex-col " onSubmit={handleSubmit}>
                     <div className="flex flex-col">
-                      <textarea value={preset} onChange={e => setPreset(e.target.value)} className="w-[280px]  h-[300px] phones:w-full text-black rounded" />
+                      <textarea value={preset} onChange={e => setPreset(e.target.value)} className="w-[300px] laptop:w-[400px]  h-[300px] phones:w-full text-black rounded" />
                       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { navigator.clipboard.writeText(preset); }}> Copy </button>
                     </div>
-                    <textarea value={objectiveAnswer} placeholder="Create content here..." onChange={e => setObjectiveAnswer(e.target.value)} className="w-[280px] h-[300px] phones:w-full text-black rounded" />
+                    <textarea value={objectiveAnswer} placeholder="Create content here..." onChange={e => setObjectiveAnswer(e.target.value)} className="w-[300px] laptop:w-[400px] laptop:max-w-[400px] h-[300px] phones:w-full text-black rounded" />
                   </form> 
                   <div className="mt-4">
-                    <SendFromForm {...forSendFromForm} />
+                    { (level > 8 || (level <= 8 && (item.status === 'Final' || item.status === 'Waiting' || item.status === 'Feedback' || item.Status === "Waiting Designer" || item.Status === 'Design Done'))) &&
+                      <SendFromForm {...forSendFromForm} />
+                    }
+                 
                   </div>
                 </div> }
-      
 
-      { level < 8 &&  (level < 8 && (item.status === 'Final' || item.status === 'Waiting' || item.status === 'Feedback' || item.Status === "Waiting Designer" || item.Status === 'Design Done')) && 
-       <div className="flex flex-row">
-       <form className="flex phones:w-[100vw] phones:flex-col " onSubmit={handleSubmit}>
-         <div className="flex flex-col">
-           <textarea value={preset} onChange={e => setPreset(e.target.value)} className="w-[280px]  h-[300px] phones:w-full text-black rounded" />
-           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { navigator.clipboard.writeText(preset); }}> Copy </button>
-         </div>
-         <textarea value={objectiveAnswer} placeholder="Create content here..." onChange={e => setObjectiveAnswer(e.target.value)} className="w-[280px] h-[300px] phones:w-full text-black rounded" />
-       </form> 
-       <div className="mt-4">
-         <SendFromForm {...forSendFromForm} />
-       </div>
-     </div> 
-      }
                    
 
              </>
