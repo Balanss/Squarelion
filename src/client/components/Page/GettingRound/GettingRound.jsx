@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { auth, fs, db } from "../../../Firebase";
 
-
-export default function GettingRound({ round, setRound, rounded, setRounded, page, month, showRound, viewer, setPage,level }) {
-  const getRound = async() => {
+export default function GettingRound({ round, setRound, rounded, setRounded, page, month, showRound, viewer, setPage, level }) {
+  const getRound = () => {
     setPage(localStorage.getItem("partner"));
+    let unsubscribe = () => {}; // Initialize unsubscribe to a no-op function
     try {
-      fs.collection(page)
+      unsubscribe = fs.collection(page)
         .doc(month)
         .onSnapshot(doc => {
           if (doc.exists) {
@@ -51,14 +51,19 @@ export default function GettingRound({ round, setRound, rounded, setRounded, pag
             console.log("No such document!");
           }
         });
+
+      return unsubscribe;
     } catch (error) {
       console.log("loading");
+      return unsubscribe; // Ensure unsubscribe is always returned
     }
   };
 
   useEffect(() => {
     const unsubscribe = getRound();
-  
-  }, [page, showRound, viewer, month, level]);
 
+    return () => {
+      unsubscribe(); // Call the unsubscribe function when component unmounts
+    };
+  }, [page, showRound, viewer, month, level]);
 }

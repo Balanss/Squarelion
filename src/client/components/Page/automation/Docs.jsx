@@ -3,14 +3,12 @@ import "react-toastify/dist/ReactToastify.css";
 import txt from "../../images/txt-file.png"
 import {useState,useContext} from 'react'
 import {UserContext} from '../../context/UserContext'
+import DocErrorHandler from "./DocErrorHandler";
 
-export default function Docs({selectDoc,page}) {
+export default function Docs({selectDoc,page,month}) {
 
 
     const {user,uuid,level,email} = useContext(UserContext);
-   
-
-    console.log(page)
    
 
     const handleDownload = async () => {
@@ -87,6 +85,7 @@ export default function Docs({selectDoc,page}) {
   return (
     <div>
         <ToastContainer />
+        <DocErrorHandler page={page} month={month} />
     <img src={txt} alt={txt} onClick={() => {selectDoc.length > 0 ? handleDownload(): alert('Please select atleast 1 post')}} title="Send to Doc" className={`w-10 hover:scale-[1.1] ${selectDoc.length !== 0? '' : 'opacity-30'}`} style={{ cursor: "pointer"}}/>
   </div>
   )

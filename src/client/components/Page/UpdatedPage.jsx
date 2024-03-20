@@ -287,7 +287,7 @@ const handleOnDragEnd = async (result) => {
           
                   <img src={img} className="w-20" style={{ backgroundColor: "white", marginBottom: "20px", marginTop: "20px" }} />
                   <div style={{ zIndex: 1 }}>
-                    {level >= 8 && <div >   <Docs selectDoc={selectDoc} page={page} />   </div>}
+                    {level >= 8 && <div >   <Docs selectDoc={selectDoc} page={page} month={month} />   </div>}
                     {level >= 10 && <Memo page={page} round={round} />}
                   </div>
                 </div>
@@ -443,7 +443,7 @@ const handleOnDragEnd = async (result) => {
                       <textarea value={preset} onChange={e => setPreset(e.target.value)} className="w-[300px] laptop:w-[400px]  h-[300px] phones:w-full text-black rounded" />
                       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => { navigator.clipboard.writeText(preset); }}> Copy </button>
                     </div>
-                    <textarea value={objectiveAnswer} placeholder="Create content here..." onChange={e => setObjectiveAnswer(e.target.value)} className="w-[300px] laptop:w-[400px] laptop:max-w-[400px] h-[300px] phones:w-full text-black rounded" />
+                    <textarea value={objectiveAnswer} placeholder="Create content here..." onChange={e => setObjectiveAnswer(e.target.value)} className="w-[300px] laptop:w-[400px] text-sm laptop:max-w-[400px] h-[300px] phones:w-full text-black rounded" />
                   </form> 
                   <div className="mt-4">
                     { (level > 8 || (level <= 8 && item.color !== '#adff2f' && item.color !== "green")) &&

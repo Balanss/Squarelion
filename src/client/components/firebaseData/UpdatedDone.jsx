@@ -3,17 +3,19 @@
 import React from 'react'
 import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
 import { auth, fs,db } from '/src/client/Firebase.jsx'
-import {useState, useEffect} from 'react'
+import {useState, useEffect,useContext} from 'react'
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Facebook from '../Page/automation/Facebook';
+import { UpdatedPageContext } from "../context/UpdatedPageContext";
 
 
-export default function UpdatedDone({month,page,post,imageUrl,objectiveAnswer}) {
 
+export default function UpdatedDone({month,page,post,objectiveAnswer}) {
 
+   const {imageUrl} = useContext(UpdatedPageContext);
   
-
+   console.log(imageUrl)
 
   const [doubleCheck, setDoubleCheck] = useState(false)
   const [name,setName] = useState('')

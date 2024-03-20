@@ -12,8 +12,8 @@ export default function Facebook({imageUrl,answer,month,doubleCheck,setDoubleChe
 
  
   const [ success, setSuccess ] = useState(false)
-  const {user,uuid,level} = useContext(UserContext);
-  const {page,setPage,post} = useContext(UpdatedPageContext)
+  const {level} = useContext(UserContext);
+  const {page,post} = useContext(UpdatedPageContext)
   const [report, setReport] = useState('')
   const [time, setTime] = useState(false)
   const [ selectedTime, setSelectedTime ] = useState('')
@@ -107,12 +107,13 @@ export default function Facebook({imageUrl,answer,month,doubleCheck,setDoubleChe
         <p>to: {page}</p>
         <p> title: {answer}</p>
         <img src={imageUrl} alt='image' className='w-20 h-20'/>
-        {level > 9 && (report.Status !== 'Posted' || report.Status !=='Error') && <>
+        {level > 9 && (report.Status !== 'Posted' || report.Status !=='Error') && imageUrl && <>
         <button onClick={() => setTime(true)} className='bg-green-900 px-2 mt-2 ml-2 rounded hover:scale-[1.1]'>Post on selected time</button>
         {/* <button onClick={handlePost} className='bg-blue-400 px-2 mt-2 rounded hover:scale-[1.1]'>Yes,Post now</button> */}
         <button onClick={() => setDoubleCheck(false)} className='bg-red-400 px-2 mt-2 ml-2 rounded hover:scale-[1.1]'>No</button>
-      
         </>}
+
+        {!imageUrl && <p>No image selected. Please close the tab and reopen</p>}
 
         {time && <div className='mt-2 bg-secondary px-4 py-2'>
           <input className='text-black rounded  ' type='datetime-local' onChange={(e) => setSelectedTime(e.target.value)}/>
