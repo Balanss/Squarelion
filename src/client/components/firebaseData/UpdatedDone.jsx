@@ -15,11 +15,9 @@ export default function UpdatedDone({month,page,post,objectiveAnswer}) {
 
    const {imageUrl} = useContext(UpdatedPageContext);
   
-   console.log(imageUrl)
-
+   
   const [doubleCheck, setDoubleCheck] = useState(false)
   const [name,setName] = useState('')
-  const [alreadyPosted, setAlreadyPosted] = useState(false)
   const [report, setReport] = useState('')
 
 

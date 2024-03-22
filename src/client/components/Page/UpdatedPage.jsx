@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { collection, deleteDoc, doc, updateDoc, setDoc, addDoc, FieldValue, deleteField, increment } from "firebase/firestore";
 import SendFromForm from "../firebaseData/UpdatedSendFromForm";
 import Links from "./Links";
-import Solo from "../Txt/Solo";
-
 import Title from "../../Title";
 import "react-quill/dist/quill.snow.css";
 import Inputs from "./PageFunctions/UpdatedInputs";
@@ -25,7 +23,6 @@ import trash from "../../assets/trash.png";
 import prio from "../../assets/prio.png";
 import np from "../../assets/np.png";
 import '../../App.css'
-import grab from "../../assets/grab.png";
 import { UserContext } from "../context/UserContext";
 import { UpdatedPageContext } from "../context/UpdatedPageContext";
 import { DragDropContext,Draggable,Droppable } from 'react-beautiful-dnd';
@@ -34,8 +31,6 @@ import Docs from "./automation/Docs";
 
 
 const ModalContent = lazy(() => import("./Modal/UpdatedModalContent"));
-const Bot = lazy(() => import("./Bot/Bot"));
-const ReactQuill = lazy(() => import("react-quill"));
 const ModalForEddting = lazy(() => import("./Modal/ModalForEddting"));
 
 
@@ -150,25 +145,26 @@ const [selectDoc, setSelectDoc] = useState([])
 
 
   //deletes from desiger page 
-  function handleDelete(index) {
-    round.map((x, i) => {
-      if (index === i) {
+async function handleDelete(index) {
+  const deletePromises = round.map(async (x, i) => {  // Added async here
+    if (index === i) {
+      setCheckDelete(false);
+      const docRef = collection(db, localStorage.getItem("partner"));
+      const colRef = doc(docRef, x.month);
+      await updateDoc(colRef, { [x.dbId + x.month]: deleteField() });  // Added await here
 
-        setCheckDelete(false);
-        const docRef = collection(db, localStorage.getItem("partner"));
-        const colRef = doc(docRef, x.month);
+      const dcRef = collection(db, "DesignerPage");
+      const clRef = doc(dcRef, x.count + x.month + x.client);
+      await deleteDoc(clRef);  // This await is now valid
+      console.log(x.count+ x.month + x.client)
+      setShow("");
+      setStatusBar("");
+    }
+  });
 
-        updateDoc(colRef, { [x.dbId + x.month]: deleteField() });
-
-        const dcRef = collection(db, "DesignerPage");
-        const clRef = doc(dcRef, x.id + x.client);
-        deleteDoc(clRef);
-
-        setShow("");
-        setStatusBar("");
-      }
-    });
-  }
+  // Wait for all delete operations to complete
+  await Promise.all(deletePromises);
+}
 
   
 

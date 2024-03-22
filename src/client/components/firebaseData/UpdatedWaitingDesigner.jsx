@@ -55,6 +55,7 @@ async function handleToDdesigner(){
     type:type,
     hide:false,
     SendTo:name,
+    files:[],
     prio:pri,
     subject: arrayUnion(forDesigner + "- " + user),
   };

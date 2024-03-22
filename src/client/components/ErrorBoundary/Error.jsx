@@ -1,5 +1,6 @@
 import React from 'react';
 import error from '../images/404.jpg';
+import { collection,addDoc,doc,updateDoc ,setDoc,deleteDoc,arrayUnion } from 'firebase/firestore';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -12,9 +13,15 @@ class ErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
+  async componentDidCatch(error, errorInfo) {
     // You can also log the error to an error reporting service
     console.log(error, errorInfo);
+    const bugsCollection = collection(db, "bugs");
+    await addDoc(bugsCollection, {
+      error: error.toString(),
+      errorInfo: JSON.stringify(errorInfo),
+      timestamp: new Date().toISOString()
+  }); 
   }
 
   render() {

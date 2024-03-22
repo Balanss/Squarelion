@@ -1,12 +1,12 @@
 import React from 'react'
-import {
-    collection,deleteDoc,doc,  addDoc,updateDoc,setDoc,deleteField, arrayUnion,FieldValue} from "firebase/firestore";
+import {collection,deleteDoc,doc,  addDoc,updateDoc,setDoc,deleteField, arrayUnion,FieldValue} from "firebase/firestore";
   import DesignerFunctions from "./DesignerFunctions";
   import { getStorage, ref, uploadBytesResumable, getDownloadURL,} from "firebase/storage";
   import { db, auth, fs } from "../../Firebase";
   import send from "../../assets/send.png";
 import { toast ,ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useState } from "react";
   
 
 
@@ -18,8 +18,7 @@ export default function HandleSend({newDesigner, db, id,collection, doc, setDoc,
   
 const HandleSend = async () => {
    await newDesigner.map((designer, index) => {
-        if (id === index) {
-          console.log("success", designer.post);
+        if (id === index && designer.files.length > 0) {
           if (designer.month.includes("2023")) {
             const docRef = collection(db, designer.page);
             const colRef = doc(docRef, designer.post + designer.month);
@@ -49,10 +48,10 @@ const HandleSend = async () => {
               colRef,
               {
                [designer.post + designer.month]: {
-designer: designer.files[0] ? designer.files[0].url : "",
-designer1: designer.files[1] ? designer.files[1].url : "",
-designer2: designer.files[2] ? designer.files[2].url : "",
-designer3: designer.files[3] ? designer.files[3].url : "",
+                 designer: designer.files[0] ? designer.files[0].url : "",
+                 designer1: designer.files[1] ? designer.files[1].url : "",
+                 designer2: designer.files[2] ? designer.files[2].url : "",
+                 designer3: designer.files[3] ? designer.files[3].url : "",
                 hide: true,
                 color: "#00eaff",
                 status: "Design Done",
@@ -82,7 +81,7 @@ designer3: designer.files[3] ? designer.files[3].url : "",
 
 return (<> 
 <ToastContainer />
-    <img src={send} className='w-8 h-8 cursor-pointer hover:scale-[1.1]' onClick={HandleSend} title='Send'/>
+    <img src={send} className={`w-8 h-8 cursor-pointer hover:scale-[1.1] }`} onClick={HandleSend} title='Send'/>
     </>
 )
 

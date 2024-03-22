@@ -135,6 +135,7 @@ const handleMouseEnter = (designer) => {
 
 
 
+
   return (
     <>
 {isLoading && <>
@@ -198,10 +199,12 @@ const handleMouseEnter = (designer) => {
                             <HandlesViewImage {...forHandleViewImage} />
                           </td>
 
-                          <td className="border px-4 py-2">
+                        
+                           <td className={`border px-4 py-2  ${designer.files && designer.files[0]? 'opacity-100':'opacity-20'}`}>
                             {/* //this sends the images to the database and removes the task */}
                                 <HandleSend  newDesigner={newDesigner}  id={id} db={db} collection={collection} doc={doc}  setDoc={setDoc} user={user} setImageUrl={setImageUrl} /> 
                           </td>
+                          
     
                          
                              <td className="border px-4 py-2">

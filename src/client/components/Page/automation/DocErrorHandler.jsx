@@ -90,7 +90,6 @@ useEffect(() => {
 
 {/* <progress value={timer} max="5"></progress> */}
 
-console.log(report)
 
 
 
