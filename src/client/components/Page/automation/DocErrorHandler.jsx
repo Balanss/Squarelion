@@ -12,7 +12,7 @@ export default function DocErrorHandler({page,month}) {
     const [report, setReport] = useState('')
     const [checkerMail, setCheckerMail] = useState('')
     const [timer, setTimer] = useState('5')
-    const [longerTimer, setLongerTimer] = useState('45')
+    const [longerTimer, setLongerTimer] = useState(45)
 
     const {user} = useContext(UserContext);
 
@@ -56,7 +56,9 @@ useEffect(() => {
             await updateDoc(docRef, {
                 [page+month+user]: deleteField()
             });
-        }, 5 * 1000); // 5 seconds
+
+            setReport('');
+        }, 10 * 1000); // 10 seconds
 
         // Cleanup function
         return () => {
@@ -65,21 +67,22 @@ useEffect(() => {
         } 
     } else {
 
-        const intervalId = setInterval(() => {
-            setLongerTimer((prevTimer) => prevTimer > 0 ? prevTimer - 1 : 0);
-        }, 1000);
+ 
 
         const timeoutId = setTimeout(async () => {
+
+
             // Update the document
             const docRef = doc(db, page, "Status");
             await updateDoc(docRef, {
                 [page+month+user]: deleteField()
             });
+            setReport('');
         }, 45 * 1000); // 5 seconds
 
         // Cleanup function
         return () => {
-            clearInterval(intervalId);
+          
             clearTimeout(timeoutId);
         }
     
@@ -96,7 +99,7 @@ useEffect(() => {
   return (
     <div className='mb-2'>
        {report === 'Error!! Content not posted' && <p className='text-black underline text-xs'>There was an error.This message will disappear in {timer} seconds</p>}
-       {report !== 'Error!! Content not posted' && report !=='no such field!' && report !== ''  && checkerMail[0].includes(user) && <a className='text-black underline' href={report} target='_blank' rel='noopener noreferrer'> Link ,{longerTimer} </a>}
+       {report !== 'Error!! Content not posted' && report !=='no such field!'  && report !== ''  && checkerMail[0].includes(user) && <a className='text-black underline' href={report} target='_blank' rel='noopener noreferrer'> Link  </a>}
     </div>
   )
 }

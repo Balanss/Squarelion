@@ -43,6 +43,11 @@ useEffect(() => {
   await  setDoc(colRef,{ [post+month]:{
  date:date,
       unid:uniqueId,
+      answer:"",
+      designer:'',
+      designer1:'',
+      designer2:'',
+      designer3:'',
        type: type,
        objective: objective,
         count: post,

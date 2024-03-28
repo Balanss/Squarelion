@@ -283,7 +283,7 @@ const handleOnDragEnd = async (result) => {
           
                   <img src={img} className="w-20" style={{ backgroundColor: "white", marginBottom: "20px", marginTop: "20px" }} />
                   <div style={{ zIndex: 1 }}>
-                    {level >= 8 && <div >   <Docs selectDoc={selectDoc} page={page} month={month} />   </div>}
+                    {level >= 8 && <div >   <Docs selectDoc={selectDoc} setSelectDoc={setSelectDoc} page={page} month={month} />   </div>}
                     {level >= 10 && <Memo page={page} round={round} />}
                   </div>
                 </div>
@@ -299,7 +299,18 @@ const handleOnDragEnd = async (result) => {
            <div className="w-[80vw] m-auto flex justify-end ">
           <button 
             className="bg-secondary px-4 py-2 rounded border-[1px] hover:border-green-800 hover:scale-[1.1] mb-4" 
-            onClick={() => setSelectDoc(selectDoc === round ? [] : round)}
+            onClick={() => {
+              if (selectDoc.length === round.length) {
+                setSelectDoc([]);
+              } else {
+                const newRound = round.map(item => ({ 
+                  ...item, 
+                  designer: item.designer || "", 
+                  answer: item.answer || "" 
+                }));
+                setSelectDoc(newRound);
+              }
+            }}
           >
             Select All
           </button>
@@ -338,21 +349,23 @@ const handleOnDragEnd = async (result) => {
                           </div> */}
                           <div>
                             {level > 7 && <>
-                              <div className={`${selectDoc.includes(item) ? 'bg-green-900 text-end md:px-2 border-2' : 'bg-blue-900/50 md:px-2 border-2 border-gray-600 '} phones:text-xs phones:text-center md:mr-2 hover:scale-[1.1]`}>
-                              <button onClick={() => {
-                                setSelectDoc(prevSelectedDoc => {
-                                  if (prevSelectedDoc.includes(item)) {
-                                    // If the item is already selected, remove it from the array
-                                    return prevSelectedDoc.filter(doc => doc !== item);
-                                  } else {
-                                    // If the item is not selected, add it to the array
-                                    return [...prevSelectedDoc, item];
-                                  }
-                                });
-                              }}>
-                                {selectDoc.includes(item) ? 'Selected' : 'Select'}
-                              </button>
-                            </div>
+                              <div className={`${selectDoc.some(i => i.count === item.count) ? 'bg-green-900 text-end md:px-2 border-2' : 'bg-blue-900/50 md:px-2 border-2 border-gray-600 '} phones:text-xs phones:text-center md:mr-2 hover:scale-[1.1]`}>
+                                <button onClick={() => {
+                                  setSelectDoc(prevSelectedDoc => {
+                                    if (prevSelectedDoc.some(i => i.count === item.count)) {
+                                      // If the item is already selected, remove it from the array
+                                      return prevSelectedDoc.filter(doc => doc.count !== item.count);
+                                    } else {
+                                      // If the item is not selected, add it to the array
+                                      // Add the designer and answer fields to the item
+                                      const newItem = { ...item, designer: item.designer || "", answer: item.answer || "" };
+                                      return [...prevSelectedDoc, newItem];
+                                    }
+                                  });
+                                }}>
+                                  {selectDoc.some(i => i.count === item.count) ? 'Selected' : 'Select'}
+                                </button>
+                              </div>
                             </>}
                             
                           </div>

@@ -1,21 +1,28 @@
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import txt from "../../images/txt-file.png"
-import {useState,useContext} from 'react'
+import {useState,useContext,useEffect} from 'react'
 import {UserContext} from '../../context/UserContext'
 import DocErrorHandler from "./DocErrorHandler";
 
-export default function Docs({selectDoc,page,month}) {
+export default function Docs({selectDoc,page,month,setSelectDoc}) {
 
 
     const {user,uuid,level,email} = useContext(UserContext);
    
+  
+
+
+
+console.log(selectDoc);
+
 
     const handleDownload = async () => {
 
                     let uuid;
                     if (selectDoc[0] && selectDoc[0].unid) {
                         uuid = selectDoc[0].unid.slice(0, -2);
+                        
                     }
 
                
@@ -57,6 +64,7 @@ export default function Docs({selectDoc,page,month}) {
                 page: page,
                 email:email,
                 uuid:uuid,
+                printer:user
                 
             }
 
