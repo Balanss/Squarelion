@@ -8,21 +8,19 @@ export default function ResetWFH() {
 
     const {uuid} = useContext(UserContext);
 
-    useEffect(() => {
-        const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-based
-        const storedMonth = localStorage.getItem('month');
-    
-        if (storedMonth !== currentMonth.toString()) {
-          localStorage.setItem('month', currentMonth.toString());
-    
-          const dcRef = collection(db, 'admin');
-          const clRef = doc(dcRef, uuid);
-          updateDoc(clRef, {
-            WFH: 3
-          });
-        } else {
-          console.log('current month is the same as the stored month');
-        }
-      }, []);
+   useEffect(() => {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDate();
+
+  if (currentDay === 24) {
+    const dcRef = collection(db, 'admin');
+    const clRef = doc(dcRef, uuid);
+    updateDoc(clRef, {
+      WFH: 3
+    },{ merge: true });
+  } else {
+    console.log('Today is not the 24th of the month');
+  }
+}, []);
 
 }

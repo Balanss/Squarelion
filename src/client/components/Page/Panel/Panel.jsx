@@ -53,6 +53,7 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
       arr.push(
          { name: 'Admin', title: 'Client Upload', img: admin, status: 'Management' },
          { name: 'Users', title: 'Sql Users', img: team }
+        
       );
    }
 

@@ -2,7 +2,7 @@ import React from 'react'
 import {useState, useEffect,useMemo} from 'react'
 import { auth, fs } from '../Firebase'
 
-export default function User({user,setUser,setUuid,setLevel,level}) {
+export default function User({setUser,setUuid,setLevel}) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {

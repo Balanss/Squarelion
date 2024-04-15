@@ -11,7 +11,8 @@ import { UpdatedPageContext } from "../context/UpdatedPageContext";
 
 
 
-export default function UpdatedDone({month,page,post,objectiveAnswer}) {
+
+export default function UpdatedDone({month,page,post,objectiveAnswer,dbId}) {
 
    const {imageUrl} = useContext(UpdatedPageContext);
   
@@ -88,7 +89,8 @@ async function handleData() {
 
   return (
     <> 
-   <Facebook doubleCheck={doubleCheck} setDoubleCheck={setDoubleCheck} month={month} answer={objectiveAnswer} page={page} imageUrl={imageUrl} />
+   <Facebook doubleCheck={doubleCheck} setDoubleCheck={setDoubleCheck} month={month} answer={objectiveAnswer} page={page} imageUrl={imageUrl} dbId={dbId} />
+  
     <button className={`bg-green-400  w-[30vw] m-auto  mt-2 mb-2 p-2 cursor-pointer transition-transform transform-gpu hover:scale-110 ${report === 'Posted'? 'opacity-40':'opacity-100'}`} disabled={report === "Posted"? true : false}  onClick={() => {handleClick(); handleData();}}>  {report === "Posted"? "Already on FB" : " Post Now"} </button> 
  
    </>)

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs,onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase'; // Assuming you have already initialized your Firebase app and exported the Firestore instance as "db"
+import { db } from '../Firebase'; // Assuming you have already initialized your Firebase app and exported the Firestore instance as "db"
 
 function BugFunctions({ setBugShow, level }) {
   useEffect(() => {
     const fetchBugs = async () => {
-      const bugsCollectionRef = collection(db, 'bugs');
+      const bugsCollectionRef = collection(db, 'bugsReport');
       const unsubscribe = onSnapshot(bugsCollectionRef, (snapshot) => {
         const bugsData = snapshot.docs.map((doc) => doc.data());
         setBugShow(bugsData);

@@ -36,6 +36,8 @@ function handleSubmit(e){
            accepted:'no',
            level:0,
            noti:0,  
+           WFH:3,
+           pto:15,
         })
     })
         .then(() => {

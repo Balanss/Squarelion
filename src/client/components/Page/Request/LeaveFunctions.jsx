@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase';
+import { db } from '../../../Firebase';
 import { getDocs, collection,onSnapshot } from 'firebase/firestore';
 
 export default function LeaveFunctions({user, monthNumbers,setData,pto,wfh}) {
@@ -15,7 +15,7 @@ export default function LeaveFunctions({user, monthNumbers,setData,pto,wfh}) {
                 const newData = querySnapshot.docs.map(doc => {
                     const data = doc.data();
                     const values = Object.values(data);
-                    return values[0]; // This will return the value of the first property. Adjust the index if needed.
+                    return values // This will return the value of the first property. Adjust the index if needed.
                 });
                 setData(newData);
             });

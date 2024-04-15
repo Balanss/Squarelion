@@ -68,11 +68,11 @@ export default function UserStats({ user ,level}) {
      
         </section>
 
-        <section className="mt-10 flex gap-5 items-center justify-center flex-row phones:flex-col ">
+        {/* <section className="mt-10 flex gap-5 items-center justify-center flex-row phones:flex-col ">
         {level > 6 && <WrittenBy user={user} setWrittenBy={setWrittenBy} level={level} round={round} writtenBy={writtenBy} />}
         {level >= 6 && <UploadedBy user={user} setUploadedBy={setUploadedBy} level={level} round={round} uploadedBy={uploadedBy} />}
         {level > 6 && <CreatedBy user={user} setData={setData} level={level} round={round} data={data} />}
-        </section>
+        </section> */}
 
       
     

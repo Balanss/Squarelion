@@ -20,7 +20,7 @@ const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-        const bugRef = collection(db, 'bugs');
+        const bugRef = collection(db, 'bugsReport');
         const timestamp = new Date().toISOString();
         const newBug = {
             description: bugDescription,
@@ -100,7 +100,7 @@ transition={{ duration: 0.5 }}>
             <thead >
                 <tr className='bg-slate-800 text-white border-[1px]'>
                     <th className="px-4 py-2 phones:p-1">Description</th>
-                    <th className="px-4 py-2 phones:p-1">Timestamp</th>
+                    {/* <th className="px-4 py-2 phones:p-1">Timestamp</th> */}
                     <th className="px-4 py-2 phones:p-1">SendBy</th>
                     <th className="px-4 py-2 phones:p-1">Status</th>
                     <th className="px-4 py-2 phones:p-1">Action</th>
@@ -108,9 +108,10 @@ transition={{ duration: 0.5 }}>
             </thead>
             <tbody>
                 {bugShow.map((bug,id) => (
+                    <> 
                     <tr key={bug.timestamp} className='bg-stone-300 font-semibold'>
                         <td className="px-1 py-1 text-xs border phones:p-1" onClick={() => openModal(bug.description)}>{bug.description}</td>
-                        <td className="px-4 py-2 border phones:p-1 text-xs">{bug.timestamp.slice(0, 10)}</td>
+                        {/* <td className="px-4 py-2 border phones:p-1 text-xs">{bug.timestamp.slice(0, 10)}</td> */}
                         <td className="px-4 py-2 border phones:p-1">{bug.SendBy}</td>
                         <td className={`px-4 py-2 border phones:px-1 ${bug.color}`}>
       <button onClick={() => setDropdownOpen(!dropdownOpen)} className="dropdown">
@@ -150,6 +151,7 @@ transition={{ duration: 0.5 }}>
                             </motion.button>
                         </td> 
                     </tr>
+                    </>
                 ))}
             </tbody>
         </table>

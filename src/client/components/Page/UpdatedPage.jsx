@@ -219,7 +219,7 @@ async function handleDelete(index) {
   const [showCount, setShowCount] = useState("10");
 
   const forInput = { setDataMonth,dataMonth, month, setMonth,user }
-  const forPageModal = { answer, post,imageUrl, objective, typeAnswer, month, color, page, setShow, pri, date, objectiveAnswer, img, boosting, uniqueId, user, type, subject, level ,dbId };
+  const forPageModal = {  answer, post,imageUrl, objective, typeAnswer, month, color, page, setShow, pri, date, objectiveAnswer, img, boosting, uniqueId, user, type, subject, level ,dbId };
   const forSendFromForm = {user, uniqueId, orderPost, post, type, objectiveAnswer, subject, typeAnswer, month, color, page, level, setObjectiveAnswer ,dbId}
   const forEditModal = {openModalBar, handleCloseBar,  title, forPost, setEditDetails, editDetails, page, month, post, uniqueId, objective, type, boosting, date, viewer, level}
   const forSolo = {createPdf,preset, orderPost, image1Url, image2Url, image3Url, setIsChecked, subject, round, post, page, uniqueId, boosting, month, date, type, imageUrl, isChecked,dbId}
@@ -263,8 +263,6 @@ const handleOnDragEnd = async (result) => {
     })
   );
 };
-
-
 
 
   return ( 

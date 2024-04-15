@@ -30,6 +30,7 @@ export const UpdatedPageContext = createContext();
     const [ show, setShow] = useState('');
     const [rounded, setRounded] = useState([]);
     const [round, setRound] = useState([]);
+    const [ hashtag, setHashtag ] = useState('')
   
 
 
@@ -64,6 +65,7 @@ export const UpdatedPageContext = createContext();
             show, setShow,
             rounded, setRounded,
             round, setRound,
+            hashtag, setHashtag
            
         }}>
             {children}

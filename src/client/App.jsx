@@ -15,6 +15,7 @@ import  UpdatedPageProvider  from './components/context/UpdatedPageContext'; // 
 
 const Login = lazy(() => import("./components/Login"));
 const Home = lazy(() => import("./components/Home/Home"));
+const Signup = lazy(() => import("./components/Signup"));
 
 
 // const Page = lazy(() => import("./components/Page/Page"));
@@ -83,6 +84,7 @@ function App() {
             <Route path="/profile/:id" element={<UpdatedPage />} /> */}
             <Route path="/profile/:id" element={<PageLoader />} />
             <Route path="/user/:id" element={<Profile />} />
+            {/* <Route path="/signup" element={<Signup />} /> */}
 
             <Route path="/designer" element={<Designer />} />
             <Route path="/sqlProp" element={<Prop />} />
