@@ -1,17 +1,23 @@
-import React,{useEffect,useState} from 'react'
+import React,{useEffect,useState,useContext} from 'react'
 import { db } from '../../../Firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { doc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CreatePdf from './CreatePdf';
+import LeaveFunctions from '../../Page/Request/LeaveFunctions'
+import { UserContext } from "../../context/UserContext";
 
 
 
-export default function Users({level,users}) {
+export default function Users({users}) {
 
 const [logs, setLogs] = useState([]);
 const [selectedTeam,setSelectedTeam] = useState('');
+const {user,level,pto,wfh,uuid} = useContext(UserContext);
+const [data, setData] = useState([]);
+const [ userName, setUserName] = useState('');
 
 useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "admin"), querySnapshot => {
@@ -61,8 +67,10 @@ useEffect(() => {
 
 
 
+
   return (
     <div className=''>
+        <LeaveFunctions user={user}  setData={setData}/>
           <ToastContainer position='top-center' />
           <section className='bg-secondary phones:w-[90vw] phones:m-auto  phones:mt-10 mt-20 p-10  rounded-lg shadow-card2 border-2 border-dark-purple'>
         <div className="flex flex-col items-center justify-center mb-3 ">
@@ -83,11 +91,12 @@ useEffect(() => {
                 <th className="px-2 py-4 phones:px-1">Joined</th>
                 <th className="px-2 py-4 phones:px-1">Level</th>
                 <th className="px-2 py-4 phones:px-1">Assigned</th>
+                <th className="px-2 py-4 phones:px-1">PDF</th>
             </tr>
         </thead>
         <tbody>
          {logs.map(user => (
-        <tr key={user.id} className=''>
+        <tr key={user.id} className='' onMouseEnter={() => setUserName(user.name)} onMouseLeave={() => {setUserName('')}}>
             <td className="px-2 py-4 phones:px-1">{user.name}</td>
             <td className="px-2 py-4 phones:px-1">{user.level}</td>  
             <td className="px-2 py-4 phones:px-1">{user.WFH}</td>
@@ -113,8 +122,8 @@ useEffect(() => {
               </select>
               )}
             </td>
-        </tr>
-    
+           <CreatePdf userName={userName} />
+        </tr>  
 ))}
         </tbody>
     </table>

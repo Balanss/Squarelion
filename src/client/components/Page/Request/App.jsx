@@ -77,7 +77,7 @@ const matchingUsers = data.flatMap(outerArray =>
 
 
   return (
-    <div className="inline-flex bg-secondary flex-col mt-10 gap-5  border border-y-[#2c1f42] border-x-[#2f3763] phones:px-8 phones:w-screen phones:m-auto  px-4 max-h-[400px] lg:max-h-[800px] overflow-y-auto" >
+    <div className="inline-flex bg-secondary flex-col  mt-10 gap-5  border border-y-[#2c1f42] border-x-[#2f3763] phones:px-8 phones:w-screen phones:m-auto  px-4 max-h-[400px] lg:max-h-[800px] lg:overflow-y-auto" >
       <LeaveFunctions user={user} monthNumber={monthNumber} setData={setData} monthNumbers={monthNumber} pto={pto} wfh={wfh} />
       <ToastContainer position='top-center' />
     <section className="flex flex-col items-start justify-between  ">
@@ -108,7 +108,7 @@ const matchingUsers = data.flatMap(outerArray =>
      null
       )}
     </div>  
-  ))  : <div className=''>
+  ))  : <div className=' lg: min-w-[400px] phones:min-w-screen overflow-hidden'>
   <h1 className='text-center'>No current leaves</h1>
 </div>}
 

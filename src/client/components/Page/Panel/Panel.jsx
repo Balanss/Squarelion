@@ -120,7 +120,7 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
 
    return (
    
-     <div className=" px-3 py-4 overflow-y-auto h-auto bg-[#111d39] w-[20vw]  border-r-2 ">
+     <div className=" px-3 py-4 overflow-y-auto  h-auto bg-[#111d39] w-[20vw]  border-r-2 ">
       <DesignerFunctions user={user} setNoti={setNoti} setDesignerData={setDesignerData} designerData={designerData}/>
         <motion.ul className="space-y-2 font-medium fixed phones:z-10 phones:bg-slate-500 phones:rounded phones:p-2 phones:left-0 flex flex-col items-start gap-4 " >
       {arr.filter(x => x !== null).map((x, i) => {
