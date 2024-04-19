@@ -4,8 +4,7 @@ import close from '../../assets/close.png';
 import { deleteObject, ref,getStorage } from "firebase/storage";
 import { doc, updateDoc, arrayRemove,getDoc ,deleteField} from "firebase/firestore";
 import { fs } from "../../Firebase";
-import { toast,ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast,{Toaster} from 'react-hot-toast'
 import trash from '../../assets/trash.png';
 
 
@@ -116,7 +115,7 @@ export default function DesignerModal({
 
 <> 
 
-<ToastContainer />
+
 <div className=' absolute right-4 top-4 '>
 
   <img src={close} className='w-8 h-8 cursor-pointer hover:scale-[1.1]' onClick={handleHide}/>
@@ -163,6 +162,7 @@ export default function DesignerModal({
 
 </div>
 <HandleSubmitButton {...handleSubmitButtonProps} />
+<Toaster />
 </>
 
 

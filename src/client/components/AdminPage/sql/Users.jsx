@@ -1,14 +1,15 @@
-import React,{useEffect,useState,useContext} from 'react'
+import React,{useEffect,useState,useContext,lazy} from 'react'
 import { db } from '../../../Firebase';
-import { collection, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot,query,where ,getDoc} from 'firebase/firestore';
 import { doc, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CreatePdf from './CreatePdf';
-import LeaveFunctions from '../../Page/Request/LeaveFunctions'
+
 import { UserContext } from "../../context/UserContext";
 
+
+const Pdf = lazy(() => import("./CreatePdf"));
 
 
 export default function Users({users}) {
@@ -16,7 +17,7 @@ export default function Users({users}) {
 const [logs, setLogs] = useState([]);
 const [selectedTeam,setSelectedTeam] = useState('');
 const {user,level,pto,wfh,uuid} = useContext(UserContext);
-const [data, setData] = useState([]);
+const [data, setData] = useState('');
 const [ userName, setUserName] = useState('');
 
 useEffect(() => {
@@ -66,11 +67,29 @@ useEffect(() => {
 }
 
 
+useEffect(() => {
+  const fetchData = async () => {
+    const docRef = doc(db, "Request", userName);
 
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setData(docSnap.data());
+    } else {
+      console.log("No such document!");
+    }
+  };
+
+  fetchData();
+}, [userName]);
+
+
+
+// onMouseLeave={() => {setUserName('')}}
 
   return (
     <div className=''>
-        <LeaveFunctions user={user}  setData={setData}/>
+
           <ToastContainer position='top-center' />
           <section className='bg-secondary phones:w-[90vw] phones:m-auto  phones:mt-10 mt-20 p-10  rounded-lg shadow-card2 border-2 border-dark-purple'>
         <div className="flex flex-col items-center justify-center mb-3 ">
@@ -96,7 +115,7 @@ useEffect(() => {
         </thead>
         <tbody>
          {logs.map(user => (
-        <tr key={user.id} className='' onMouseEnter={() => setUserName(user.name)} onMouseLeave={() => {setUserName('')}}>
+        <tr key={user.id} className='' onMouseEnter={() => setUserName(user.name)}>
             <td className="px-2 py-4 phones:px-1">{user.name}</td>
             <td className="px-2 py-4 phones:px-1">{user.level}</td>  
             <td className="px-2 py-4 phones:px-1">{user.WFH}</td>
@@ -122,7 +141,7 @@ useEffect(() => {
               </select>
               )}
             </td>
-           <CreatePdf userName={userName} />
+           < Pdf userName={userName} data={data} />
         </tr>  
 ))}
         </tbody>

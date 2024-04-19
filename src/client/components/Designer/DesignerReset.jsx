@@ -1,8 +1,7 @@
 import React from 'react'
 import { collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../Firebase";
-import { toast,ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast,{Toaster} from 'react-hot-toast'
 
 
 
@@ -11,7 +10,7 @@ export default function DesignerReset({setFiles, setSureToReset, designerPostRes
     return (
  
         <>
-            <ToastContainer />
+           
           <div className='fixed top-0 z-[1000] left-0 w-full h-full bg-slate-400/20 gap-4  flex justify-center items-center'>
             <div className="flex gap-3 flex-col bg-white p-5 rounded-md">
             <p className='text-black font-semibold text-xl'>Are you sure you want to reset this?</p>
@@ -35,6 +34,7 @@ export default function DesignerReset({setFiles, setSureToReset, designerPostRes
             </div>
            
           </div>
+          <Toaster />
         </>
  )
 }

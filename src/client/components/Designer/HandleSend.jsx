@@ -1,12 +1,9 @@
 import React from 'react'
 import {collection,deleteDoc,doc,  addDoc,updateDoc,setDoc,deleteField, arrayUnion,FieldValue} from "firebase/firestore";
-  import DesignerFunctions from "./DesignerFunctions";
-  import { getStorage, ref, uploadBytesResumable, getDownloadURL,} from "firebase/storage";
-  import { db, auth, fs } from "../../Firebase";
   import send from "../../assets/send.png";
-import { toast ,ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useState } from "react";
+  import toast,{Toaster} from 'react-hot-toast'
+
+
   
 
 
@@ -80,7 +77,7 @@ const HandleSend = async () => {
 }
 
 return (<> 
-<ToastContainer />
+<Toaster />
     <img src={send} className={`w-8 h-8 cursor-pointer hover:scale-[1.1] }`} onClick={HandleSend} title='Send'/>
     </>
 )

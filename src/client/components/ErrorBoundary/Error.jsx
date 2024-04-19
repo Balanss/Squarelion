@@ -17,12 +17,12 @@ class ErrorBoundary extends React.Component {
   async componentDidCatch(error, errorInfo) {
     // You can also log the error to an error reporting service
     console.log(error, errorInfo);
-    const bugsCollection = collection(db, "bugsReport");
-    await addDoc(bugsCollection, {
-      error: error.toString(),
-      errorInfo: JSON.stringify(errorInfo),
-      timestamp: new Date().toISOString()
-  }); 
+  //   const bugsCollection = collection(db, "bugsReport");
+  //   await addDoc(bugsCollection, {
+  //     error: error.toString(),
+  //     errorInfo: JSON.stringify(errorInfo),
+  //     timestamp: new Date().toISOString()
+  // }); 
   }
 
   render() {
