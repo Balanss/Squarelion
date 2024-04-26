@@ -84,7 +84,7 @@ function App() {
             <Route path="/profile/:id" element={<UpdatedPage />} /> */}
             <Route path="/profile/:id" element={<PageLoader />} />
             <Route path="/user/:id" element={<Profile />} />
-            {/* <Route path="/signup" element={<Signup />} /> */}
+            <Route path="/signup" element={<Signup />} />
 
             <Route path="/designer" element={<Designer />} />
             <Route path="/sqlProp" element={<Prop />} />

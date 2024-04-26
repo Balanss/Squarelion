@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 import { UserContext } from "../../context/UserContext";
 
 
@@ -19,6 +20,7 @@ const [selectedTeam,setSelectedTeam] = useState('');
 const {user,level,pto,wfh,uuid} = useContext(UserContext);
 const [data, setData] = useState('');
 const [ userName, setUserName] = useState('');
+const [modalIsOpen, setModalIsOpen] = useState(false);
 
 useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "admin"), querySnapshot => {
@@ -86,9 +88,10 @@ useEffect(() => {
 
 
 // onMouseLeave={() => {setUserName('')}}
+const person = Object.values(data).map(user => user.user);
 
   return (
-    <div className=''>
+    <div className='a'>
 
           <ToastContainer position='top-center' />
           <section className='bg-secondary phones:w-[90vw] phones:m-auto  phones:mt-10 mt-20 p-10  rounded-lg shadow-card2 border-2 border-dark-purple'>
@@ -99,8 +102,8 @@ useEffect(() => {
         </div>
       </section>
  
-      <div className="flex flex-col items-center   justify-center text-white bg-secondary mt-2  p-10 rounded-lg shadow-card2 border-2 border-dark-purple hover:shadow-card ">
-    <table className='text-left   '>
+      <div className="phones:grid grid-cols-1 phones:overflow-scroll phones:w-[90vw]  text-white bg-secondary mt-2  p-10 rounded-lg shadow-card2 border-2 border-dark-purple hover:shadow-card ">
+    <table className='text-left  '>
         <thead>
             <tr>
                 <th className="px-2 py-4 phones:px-1">Name</th>
@@ -115,7 +118,7 @@ useEffect(() => {
         </thead>
         <tbody>
          {logs.map(user => (
-        <tr key={user.id} className='' onMouseEnter={() => setUserName(user.name)}>
+        <tr key={user.id} className=''>
             <td className="px-2 py-4 phones:px-1">{user.name}</td>
             <td className="px-2 py-4 phones:px-1">{user.level}</td>  
             <td className="px-2 py-4 phones:px-1">{user.WFH}</td>
@@ -141,9 +144,11 @@ useEffect(() => {
               </select>
               )}
             </td>
-           < Pdf userName={userName} data={data} />
+            <button onClick={() => {setModalIsOpen(true);setUserName(user.name)}} className='bg-dark-purple text-white p-2 mt-4 rounded-lg'>PDF</button>
         </tr>  
 ))}
+
+{modalIsOpen && userName === person[0] && < Pdf userName={userName} data={data} setModalIsOpen={setModalIsOpen} modalIsOpen={modalIsOpen} />}
         </tbody>
     </table>
       </div>

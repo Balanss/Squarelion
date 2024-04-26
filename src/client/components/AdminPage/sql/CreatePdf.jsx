@@ -2,11 +2,19 @@ import { Page, Document, Text, View, StyleSheet, PDFDownloadLink, pdf } from '@r
 
 import { useState } from 'react';
 
-export default function CreatePdf({ data }) {
+export default function CreatePdf({ data,modalIsOpen,setModalIsOpen,userName }) {
  
 
+  const [selectedMonth, setSelectedMonth] = useState('');
 
+
+  const handleMonthChange = (event) => {
+    const month = Number(event.target.value.split('-')[1]);
+    setSelectedMonth(month);
+    
+  };
   
+  const filteredData = Object.values(data).filter(user => user.month === selectedMonth);
   const styles = StyleSheet.create({
 
     text: {
@@ -66,7 +74,7 @@ export default function CreatePdf({ data }) {
             <Text style={styles.tableCell}>Day</Text>
             <Text style={styles.tableCell}>type</Text>
           </View>
-          {Object.values(data).map(user => (
+          {Object.values(filteredData).map(user => (
             <View style={styles.tableRow} key={user.id}>
               <Text style={styles.tableCell}>{user.user}</Text>
               <Text style={styles.tableCell}>{user.month}/{user.day}</Text>
@@ -81,15 +89,25 @@ export default function CreatePdf({ data }) {
 
 
 
+
+
   return (
     <>
-      <td className="px-2 py-4 phones:px-1">
-       
-        <PDFDownloadLink document={MyDoc} fileName="report.pdf">
+      <td className="border-2 px-2 py-4 phones:px-1 flex  phones:flex-col gap-5  text-black fixed  rounded  top-12 right-0 justify-center items-start bg-white z-[100000000]">
+      <span className='flex flex-col items-start'>
+      <label htmlFor='month'>Select month</label>
+        <input type='month' className='border-2 border-gray-400 rounded' onChange={handleMonthChange}/>
+      </span>
+
+      {selectedMonth !== '' && <span className='font-bold underline hover:scale-[1.1]'>
+           <PDFDownloadLink document={MyDoc} fileName="worklog.pdf">
           {({ blob, url, loading, error }) =>
-            loading ? 'Loading document...' : 'Download'
+            loading ? 'Loading document...' : `Download now ${userName}.pdf`
           }
         </PDFDownloadLink>
+      </span>}
+   
+        <button className='bg-red-600 py-3 px-4 rounded text-white hover:scale-[1.1]' onClick={() => setModalIsOpen(!modalIsOpen)}>Close</button>
       </td>
     </>
   );
