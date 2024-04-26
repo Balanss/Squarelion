@@ -1,4 +1,4 @@
-import{r as _,b as Zs,f as Js,v as Kt,w as Hr,x as zr,A as $r,B as qr,C as Gr,D as Fn,E as Wr,S as Kr,G as Xr,H as Yr,R as Qs,u as Zr,j as St,F as Re,a as N,t as Nn}from"./index-dbee5ba0.js";function Jr({setUser:t,setUuid:e,setLevel:n}){_.useEffect(()=>Zs.onAuthStateChanged(i=>{i?(e(i.uid),localStorage.getItem("user"),Js.collection("admin").doc(i.uid).get().then(o=>{const r=o.data();t(r.Name),n(r.level),localStorage.setItem("user",r.Name)})):(t(null),n(null))}),[])}/**
+import{r as _,b as Zs,f as Js,v as Kt,w as Hr,x as zr,A as $r,B as qr,C as Gr,D as Fn,E as Wr,S as Kr,G as Xr,H as Yr,R as Qs,u as Zr,j as St,F as Re,a as N,t as Nn}from"./index-8195d3cd.js";function Jr({setUser:t,setUuid:e,setLevel:n}){_.useEffect(()=>Zs.onAuthStateChanged(i=>{i?(e(i.uid),localStorage.getItem("user"),Js.collection("admin").doc(i.uid).get().then(o=>{const r=o.data();t(r.Name),n(r.level),localStorage.setItem("user",r.Name)})):(t(null),n(null))}),[])}/**
  * @license
  * Copyright 2017 Google LLC
  *
