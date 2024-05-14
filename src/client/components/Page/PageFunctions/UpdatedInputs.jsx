@@ -1,6 +1,7 @@
 import React,{useContext}  from 'react'
 import ButtonPress from '../../firebaseData/UpdatedButtonPress'
 import { UpdatedPageContext } from "../../context/UpdatedPageContext";
+import CreateTemplate from '../CreateTemplate';
 
 export default function Inputs({dataMonth,setDataMonth,setMonth,month,user}) {
 
@@ -85,7 +86,8 @@ export default function Inputs({dataMonth,setDataMonth,setMonth,month,user}) {
         </tbody>
     </table>
 
-{level < 9 ? null :<ButtonPress user={user} uniqueId={uniqueId} boosting={boosting}  qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> }    
+{level < 9 ? null :<ButtonPress user={user} uniqueId={uniqueId} boosting={boosting}  qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> }   
+{level < 8 ? null :<CreateTemplate user={user} uniqueId={uniqueId} boosting={boosting}  qty={qty} objective={objective} type={type} date={date} post={post} page={page} month={month} setObjective={setObjective} className='input-admindb'/> }
 </div>
    </form>
   )

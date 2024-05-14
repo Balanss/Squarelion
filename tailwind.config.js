@@ -37,6 +37,7 @@ export default {
            'laptopL':"1024px",
            'cal':'1000px',
            'phones':{'max':'639px'},
+           'desktopX': '1440px',
 
           'desktop': '810px',
           // => @media (min-width: 1280px) { ... }

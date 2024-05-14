@@ -325,7 +325,7 @@ const handleOnDragEnd = async (result) => {
                          <section  className=""  {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps} >
                          <motion.div variants={container} className="border-[1px] border-y-[#2c1f42] bg-secondary  grid grid-cols-6 phones:gap-y-10 laptop:grid-cols-9 gap-y-5 items-center text-left py-1 rounded laptop:w-[80vw] m-auto">
                            <p className="text-black text-center rounded-sm font-medium text-xs flex-grow py-1 ml-1" style={{ backgroundColor: item.color }} >{item.status}</p>
-                           <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400 flex-grow" onClick={() => { setForPost(item.unid); if (level > 8) { handleOpenModalBar(); setPost(item.count); setTitle("unid"); } }}> {item.unid}</p>
+                           <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400 flex-grow" onClick={() => { setForPost(item.unid); if (level > 7) { handleOpenModalBar(); setPost(item.count); setTitle("unid"); } }}> {item.unid}</p>
                            <div className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onMouseEnter={() => setShowCount(item.count)} onMouseLeave={() => setShowCount("")}> {item.order}
                              <p>{showCount && showCount === item.count ? <>ID:{showCount}</> : null}</p>
                            </div>
@@ -342,9 +342,6 @@ const handleOnDragEnd = async (result) => {
                          {level > 7  &&   <p className="px-6  phones:p-1 phones:text-[10px] whitespace-nowrap text-sm text-gray-400 flex-grow">
                              <img src={statusBar === index ? unseen : open} className="w-10 h-10 m-auto hover:scale-[1.1] cursor-pointer" onClick={() => handleText(index)} />
                            </p>}
-                          {/* <div className="reorder-handle"  >
-                          <img src={grab} alt="" className="cursor-grab hover:scale-[1.1] phones:hidden" draggable='false'/>
-                          </div> */}
                           <div>
                             {level > 7 && <>
                               <div className={`${selectDoc.some(i => i.count === item.count) ? 'bg-green-900 text-end md:px-2 border-2' : 'bg-blue-900/50 md:px-2 border-2 border-gray-600 '} phones:text-xs phones:text-center md:mr-2 hover:scale-[1.1]`}>
@@ -422,14 +419,6 @@ const handleOnDragEnd = async (result) => {
                 </>
            }
               <h1 className="text-xl mt-5 text-center text-white" onClick={() => { setForPost(item.boosting); if (level > 8) { handleOpenModalBar(); setPost(item.count); setTitle("boosting"); } }}> Boosting : ${item.boosting}</h1>
-
-            {/* <div className="flex items-baseline justify-center">
-               <input type="checkbox" readOnly checked={isChecked} 
-               onClick={() => { setIsChecked(prevChecked => !prevChecked), setImageUrl(item.designer), setImage1Url(item.designer1),
-                setImage2Url(item.designer2), setImage3Url(item.designer3), setBoosting(item.boosting), setCreatePdf(item.answer); }} className="mr-2 cursor-pointer" />
-               <Solo {...forSolo} />
-             </div> */}
-
          <div className="flex  flex-col laptopL:items-center justify-evenly ">
              <>
                <div className={`${whatDoUWant === "Open" ? "above-div-send phones:flex-row phones:gap-x-3 w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg: bg-[#212121] p-4 rounded mt-2 mb-5 lg:flex-row lg:gap-10" : null}`}>
