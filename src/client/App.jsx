@@ -8,6 +8,7 @@ import Loading from "./components/Loading";
 import ErrorBoundary from "./components/ErrorBoundary/Error";
 import UserProvider from './components/context/UserContext'; // replace with the path to your UserProvider
 import  UpdatedPageProvider  from './components/context/UpdatedPageContext'; // adjust the path as needed
+import ContractPage from "./components/contracts/ContractPage";
 
 
 
@@ -83,9 +84,9 @@ function App() {
             {/* <Route path="/profile/:id" element={<Page />} />
             <Route path="/profile/:id" element={<UpdatedPage />} /> */}
             <Route path="/profile/:id" element={<PageLoader />} />
+            <Route path="/profile/contracts" element={<ContractPage />} />
             <Route path="/user/:id" element={<Profile />} />
             <Route path="/signup" element={<Signup />} />
-
             <Route path="/designer" element={<Designer />} />
             <Route path="/sqlProp" element={<Prop />} />
           </Routes>

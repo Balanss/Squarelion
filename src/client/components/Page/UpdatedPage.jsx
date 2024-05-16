@@ -65,7 +65,7 @@ export default function UpdatedPage({ month, setMonth }) {
 
   //------------------------------------------ under lifts state to button for firebase
 
-  const [ dataMonth, setDataMonth ] = useState(month)
+  const [ dataMonth, setDataMonth ] = useState()
   const [showRound, setShowRound] = useState();
   //
 
@@ -194,9 +194,7 @@ async function handleDelete(index) {
 
  
 
-  const handleEditorChange = value => {
-    setObjectiveAnswer(`${value}`);
-  };
+
 
   const [isVisible, setIsVisible] = useState(true);
   const [zIndex, setZIndex] = useState(0);

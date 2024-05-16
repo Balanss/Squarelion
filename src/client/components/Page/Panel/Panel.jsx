@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from 'react'
+import React, { useState ,useEffect,useContext} from 'react'
 import IN from '../../images/in.png';
 import homeBtn from '../../images/home-button.png';
 import client from '../../images/client.png';
@@ -7,6 +7,7 @@ import admin from '../../images/admin.png';
 import userPfp from "../../images/user.png"
 import off from '../../images/off.png';
 import Bugs from '../../images/bug.png';
+import contract from '../../../../assets/contract.png';
 import schedule from '../../images/schedule.png'
 import team from '../../images/team.png'
 import { Link, useNavigate } from 'react-router-dom'
@@ -15,6 +16,9 @@ import { auth } from '../../../Firebase';
 import design from "../../images/Designer.jpg"
 import DesignerFunctions from '../../Designer/DesignerFunctions';
 import { motion } from 'framer-motion'
+import Contracts from '../../contracts/Contracts';
+import { UserContext } from '../../context/UserContext';
+
 
 export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList,setHideList,sum,work,setSendTo,setDisplayTo,setPrivateChat,setTrueChat,setPan,pan}) {
 
@@ -34,7 +38,7 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
     
 
     const formattedUser = user.charAt(0).toUpperCase() + user.slice(1).toLowerCase();
-
+    const {role} = useContext(UserContext)
 
   
    const arr = [
@@ -43,6 +47,7 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
       { name: 'Calendar', title: 'Calendar', img: schedule },
       { name: 'Designer', title: 'Designer', img: design },
       level > 6 && { name: 'Client',  img: client, component: <Links/> },
+     ((level > 9 || role === 'Special') && { name: 'Contracts',  img: contract, component: <Contracts/> }),
       { name: 'Timeoff', title: 'Timeoff', img: off },
       { name: 'Bugs', title: 'Bugs & Feedback', img: Bugs },
       { name: formattedUser, title: formattedUser, img: userPfp },
@@ -77,6 +82,9 @@ export default function Panel({level,showWfh,setShowPfp,setShowWfh,user,hideList
                 setShowPfp('Calendar')
                 break;
                
+           case 'Contracts':
+           navigate('/profile/contracts')
+           break;
 
                case 'user':
                navigate(`/user/${user}`)

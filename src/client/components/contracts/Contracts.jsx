@@ -11,7 +11,7 @@ import sql from '../images/Logo.png'
 import PartnerLogic from '../AdminPage/PartnerLogic';
 
 
-export default function Links() {
+export default function Contracts() {
     const [partner, setPartner] = useState([]);
     const navigate = useNavigate()
  
@@ -30,7 +30,7 @@ export default function Links() {
         localStorage.setItem("preset", x.Preset || "No preset available"); // check if preset is undefined and set it to "No preset available" in that case
 
         setTimeout(() =>{
-          navigate(`/profile/${x.name}`)
+          navigate(`/profile/contracts`)
           window.location.reload()
         },500)
       }
