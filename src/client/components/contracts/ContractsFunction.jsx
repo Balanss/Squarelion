@@ -3,11 +3,12 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../Firebase';
 import open from "../../assets/view.png";
 import unseen from "../../assets/unseen.png";
-import { doc, setDoc } from "firebase/firestore";
 import toast,{Toaster} from 'react-hot-toast'
 import FileUpload from './FileUpload';
 import { UserContext } from '../context/UserContext';
-import { doc as firestoreDoc, deleteDoc } from "firebase/firestore";
+import { doc, deleteDoc, setDoc } from 'firebase/firestore';
+
+
 
 
 
@@ -20,7 +21,7 @@ export default function ContractsFunction() {
   const [id, setId] = useState(null);
   const [ description, setDescription] = useState('');
   const [nameOfCompany, setNameOfCompany] = useState('')
-  const[doc,setDoc] = useState('')
+  const[docu,setDocu] = useState('')
   const [pdf, setPdf] = useState('')
   const [finalDoc, setFinalDoc] = useState('')
 const [startDate, setStartDate] = useState('')
@@ -57,7 +58,7 @@ const {user} = useContext(UserContext);
  
     const handleDiscription = async () => {
         const docRef = doc(db, "contracts", nameOfCompany);
-        await setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
+         setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
             description: description
         }},{merge: true});
 
@@ -68,7 +69,7 @@ const {user} = useContext(UserContext);
 
     const handlePending = async () => {
         const docRef = doc(db, "contracts", nameOfCompany);
-        await setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
+         setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
             status: "Pending",
             color: "orange"
         }},{merge: true});
@@ -77,7 +78,7 @@ const {user} = useContext(UserContext);
 
     const handleApproved = async() => {
         const docRef = doc(db, "contracts", nameOfCompany);
-        await setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
+         setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
             status: "Approved",
             color: "green"
         }},{merge: true});
@@ -86,7 +87,7 @@ const {user} = useContext(UserContext);
 
     const handleRejected = async() => {
         const docRef = doc(db, "contracts", nameOfCompany);
-        await setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
+         setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
             status: "Rejected",
             color: "red"
         }},{merge: true});
@@ -95,9 +96,18 @@ const {user} = useContext(UserContext);
 
     const handleCompleted = async() => {
         const docRef = doc(db, "contracts", nameOfCompany);
-        await setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
+         setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
             status: "Completed",
             color: "gray"
+        }},{merge: true});
+        toast.success("Contract Status Updated")
+    }
+
+    const handleSigned = async() => {
+        const docRef = doc(db, "contracts", nameOfCompany);
+         setDoc(docRef,{[`${nameOfCompany} / ${startDate}/ ${endDate}`]:{
+            status: "Signed",
+            color: "green"
         }},{merge: true});
         toast.success("Contract Status Updated")
     }
@@ -107,7 +117,6 @@ const {user} = useContext(UserContext);
     const docRef = firestoreDoc(db, "contracts", nameOfCompany);
     await deleteDoc(docRef);
     toast.success("Contract Deleted")
-
     setTimeout(() => {
     setIsOpen(false);
    }, 500);
@@ -159,7 +168,7 @@ return (
                 setStartDate(contract[0].startDate),
                 setEndDate(contract[0].endDate),
                 setLiveDescription(contract[0].description),
-                setDoc(contract[0].doc),
+                setDocu(contract[0].doc),
                 setPdf(contract[0].pdf),
                 setFinalDoc(contract[0].finalDoc),
                 setStatus(contract[0].status)
@@ -179,6 +188,7 @@ return (
         <button className='bg-red-700 px-2 py-2 rounded-lg text-white' onClick={handleRejected}>Rejected</button>
         <button className='bg-gray-700 px-2 py-2 rounded-lg text-white'onClick={handleCompleted}>Completed</button>
         <button className='bg-green-700 px-2 py-2 rounded-lg text-white' onClick={handleApproved}>Approved</button>
+        <button className='bg-green-700 px-2 py-2 rounded-lg text-white' onClick={handleSigned}>Signed</button>
         <button className='bg-blue-700 px-2 py-2 rounded-lg text-white' onClick={handleDelete}>Delete</button>
 </>}
 
@@ -199,9 +209,9 @@ return (
 
         <div className='flex flex-row gap-4 mt-2 items-start'>
             <h1 className='text-2xl font-bold mb-4'>Documents</h1>
-            {doc === '' ? null:<a href={doc} target="_blank" rel="noreferrer" className='bg-blue-700 px-2 py-2 rounded-lg text-white'  download>Doc</a>}
+            {docu === '' ? null:<a href={docu} target="_blank" rel="noreferrer" className='bg-blue-700 px-2 py-2 rounded-lg text-white'  >Doc</a>}
             {pdf === '' ? null:<a href={pdf} target="_blank" rel="noreferrer" className='bg-blue-700 px-2 py-2 rounded-lg text-white'>PDF</a>}
-            {finalDoc === '' ? null : <a href={ finalDoc} target="_blank" rel="noreferrer" className='bg-blue-700 px-2 py-2 rounded-lg text-white'>Final Pdf</a>}
+            {finalDoc === '' ? null : <a href={ finalDoc} target="_blank" rel="noreferrer" className='bg-blue-700 px-2 py-2 rounded-lg text-white'>Signed PDF</a>}
            
 
         </div>

@@ -11,6 +11,7 @@ export default function FileUpload({nameOfCompany,endDate,startDate}) {
 
     const [image, setImage] = useState(null);
     const [type, setType] = useState();
+    const [link, setLink] = useState();
 
 
     function handleDoc(){
@@ -60,17 +61,19 @@ await setDoc(docRef, { [`${nameOfCompany} / ${startDate}/ ${endDate}`]: { [type]
     
       };
 
-      
+      const handleLink = async() => {
+        const docRef = doc(db, "contracts", nameOfCompany);
+        await setDoc(docRef, { [`${nameOfCompany} / ${startDate}/ ${endDate}`]: { [type]: link } }, { merge: true });
+      }
 
   return (
     <div className='flex flex-row items-center justify-center gap-x-4 '>  
 
     <section className='flex flex-col gap-2'> 
-    <label className='bg-blue-600 p-2 rounded-md hover:bg-blue-900'>
-        <input type="file" onChange={handleImageChange} onClick={() => { setType("doc") }} />
-            Upload Doc
+    <label className='  rounded-md hover:bg-blue-900 '>
+        <input type="text" placeholder='Enter Link' onChange={(e) => {setLink(e.target.value)}} className='rounded text-black' onClick={() => { setType("doc") }} />
     </label>
-    <button onClick={handleDoc} className='hover:scale-[1.1] hover:underline'>Submit</button>
+    <button onClick={handleLink} className='hover:scale-[1.1] hover:underline'>Submit</button>
     </section>
 
     
