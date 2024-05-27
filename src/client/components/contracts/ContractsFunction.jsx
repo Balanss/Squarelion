@@ -183,7 +183,7 @@ return (
     
     <div className='fixed top-0 left-0 desktopX:w-3/4 h-screen overflow-y-auto overflow-x-hidden py-4  bg-secondary bg-opacity-90 flex flex-col  gap-4 justify-top items-center'>
        <div className='flex flex-wrap px-2 flex-row gap-4'>
-{(status !== 'Approved' || user === 'SUPERADMIN' || user === 'Charlotte') && <>
+{(status !== 'Approved' || status !== 'Signed' || user === 'SUPERADMIN' || user === 'Charlotte') && <>
         <button className='bg-orange-700 px-2 py-2 rounded-lg text-white' onClick={handlePending}>Pending</button>
         <button className='bg-red-700 px-2 py-2 rounded-lg text-white' onClick={handleRejected}>Rejected</button>
         <button className='bg-gray-700 px-2 py-2 rounded-lg text-white'onClick={handleCompleted}>Completed</button>
