@@ -333,7 +333,7 @@ const handleOnDragEnd = async (result) => {
                            <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onClick={() => { setForPost(item.type); handleOpenModalBar(); setPost(item.count); setTitle("type"); }}>
                              {item.type}
                            </p>
-                           <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onClick={() => { setForPost(item.date); if (level > 8) { handleOpenModalBar(); setPost(item.count); setTitle("date"); } }}>{month}-{item.date}</p>
+                           <p className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400 flex-grow" onClick={() => { setForPost(item.date); if (level > 7) { handleOpenModalBar(); setPost(item.count); setTitle("date"); } }}>{month}-{item.date}</p>
                            <p className={`px-6 phones:p-1 phones:text-[10px] ${item.priority === "Prio" ? " text-white " : "text-gray-400"} flex-grow`}>
                              <img src={item.priority === "Prio" ? prio : np} className="w-10 h-10 m-auto hover:scale-[1.1] cursor-pointer" title={item.priority === "Prio" ? "Priority" : "Not Priority"} onClick={() => { const docRef = collection(db, page); const colRef = doc(docRef, item.month); setDoc(colRef, { [item.count + item.month]: { priority: item.priority === "Prio" ? "No" : "Prio" } }, { merge: true }) }} />
                            </p>
