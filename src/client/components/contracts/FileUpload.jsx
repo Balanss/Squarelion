@@ -41,7 +41,7 @@ export default function FileUpload({nameOfCompany,endDate,startDate}) {
   // Save the download URL to Firestore
 await setDoc(docRef, { [`${nameOfCompany} / ${startDate}/ ${endDate}`]: { [type]: downloadURL } }, { merge: true });
 }  
-
+ 
 
     );
 
