@@ -1,9 +1,9 @@
 import React, { Suspense, lazy } from "react";
-import Nav from "../Nav";
+
 import { useState, useEffect } from "react";
-import { db, fs } from "../../Firebase";
+import { db, fs } from "../../../Firebase";
 import { useNavigate } from "react-router-dom";
-import User from "../User";
+
 import {
   collection,
   deleteDoc,
@@ -12,28 +12,30 @@ import {
   setDoc,
   addDoc,
 } from "firebase/firestore";
-import SendFromForm from "../firebaseData/SendFromForm";
+import SendFromForm from "../../firebaseData/SendFromForm";
 import { useParams } from "react-router-dom";
-import Links from "./Links";
-import WaitingDesigner from "../firebaseData/WaitingDesigner";
-import WaitingApproval from "../firebaseData/WaitingApproval";
-import WaitingApproved from "../firebaseData/WaitingApproved";
-import Solo from "../Txt/Solo";
-import Title from "../../Title";
+import Links from "../Links";
+import WaitingDesigner from "../../firebaseData/WaitingDesigner";
+import WaitingApproval from "../../firebaseData/WaitingApproval";
+import WaitingApproved from "../../firebaseData/WaitingApproved";
+import Solo from "../../Txt/Solo";
+import Title from "../../../Title";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import Inputs from "./PageFunctions/Inputs";
-import Loading from "../Loading";
-import Memo from "./Memo/Memo";
+import Inputs from "../PageFunctions/Inputs";
+import Memo from "../Memo/Memo";
 import "/src/client/index.css";
-import Version from "../../Version/Version";
+import Version from "../../../Version/Version";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import Bot from "./Bot/Bot";
+import Bot from "../Bot/Bot";
+import Nav from "../../navbar/Nav";
+import User from "../../users/User";
+import Loading from "../../loading/Loading";
 
-const ModalContent = lazy(() => import("./Modal/ModalContent"));
+const ModalContent = lazy(() => import("../Modal/ModalContent"));
 
 const modules = {
   toolbar: {

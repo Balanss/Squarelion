@@ -1,8 +1,8 @@
 import React,{useState,useEffect} from 'react'
-import User from '../User'
-import Nav from '../Nav'
 import Footer from '../Home/Footer'
 import useLogo from '../images/useLogo.png'
+import Nav from '../navbar/Nav'
+import User from '../users/User'
 
 export default function WaitingForAdmin() {
 const [user,setUser] = useState('')

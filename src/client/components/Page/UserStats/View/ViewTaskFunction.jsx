@@ -59,7 +59,7 @@ const fetchData = async () => {
                             .filter(item => item !== null)
                             .sort((a, b) => a.order - b.order); // Sort by order in ascending order
                     } else {
-                        console.log("No such document!");
+                        
                         return [];
                     }
                 })

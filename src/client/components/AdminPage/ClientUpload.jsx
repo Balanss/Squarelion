@@ -10,8 +10,7 @@ import {
 } from "firebase/storage";
 import { db } from "/src/client/Firebase.jsx";
 import { Link, useNavigate } from "react-router-dom";
-import Nav from "../Nav";
-import Loading from "../Loading";
+
 import PartnerLogic from "./PartnerLogic";
 import Version from "../../Version/Version";
 import { UserContext } from "../context/UserContext";

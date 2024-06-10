@@ -1,12 +1,12 @@
 import React, { useEffect, useState,useContext } from "react";
-import Nav from "../Nav";
+
 import { db, auth, fs } from "../../Firebase";
 import { collection,deleteDoc,doc,  addDoc,updateDoc,setDoc,deleteField, arrayUnion,FieldValue} from "firebase/firestore";
 import DesignerFunctions from "./DesignerFunctions";
 import "../../App.css";
 import DesignerHeader from "./DesignerHeader";
 import Title from "../../Title";
-import Loading from "../Loading";
+
 import HandlesViewImage from './HandlesViewImage';
 import DesignerModal from "./DesignerModal";
 import HandleSend from "./HandleSend";
@@ -17,6 +17,8 @@ import reset from "../../assets/reset.png";
 import { motion,AnimatePresence } from "framer-motion";
 
 import DesignerReset from "./DesignerReset";
+import Nav from "../navbar/Nav";
+import Loading from "../loading/Loading";
 
 
 
@@ -177,10 +179,10 @@ const handleMouseEnter = (designer) => {
                       <th className="px-4 py-2">Hide</th>
                       {level > 8 && <th className="px-4 py-2">Assigned</th>}
                     </tr>
-                  </thead>
+                  </thead> 
                   <tbody>
                     {newDesigner.map((designer, id) =>
-                      (designer.SendTo === user || level > 9 || user === 'Saskia') && designer.hide !== true ? (
+                      (designer.SendTo === user || level > 9 || user === 'Saskia' ||user === 'Jalila Radjiman') && designer.hide !== true ? (
                         <tr  key={id} className={`border-b bg-gray-600 border-gray-700 shadow-md shadow-black ${hiddenRows.includes(id) ? 'hidden' : ''}`}>
                           <td className={`${designer.New ? 'border-l-[5px] border-blue-700  animate-pulse animate-thrice animate-duration-[3000ms] animate-ease-out ' : ''} `}></td>
 

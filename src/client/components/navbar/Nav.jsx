@@ -2,11 +2,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import User from "./User";
+
 import { auth, fs, db } from "/src/client/Firebase.jsx";
 import { useNavigate } from "react-router-dom";
-import AdminLogic from "./AdminPage/AdminLogic";
+import AdminLogic from "../AdminPage/AdminLogic";
 import { motion } from 'framer-motion'
+import User from "../users/User";
 
 
 

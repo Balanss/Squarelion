@@ -1,13 +1,16 @@
 /* eslint-disable no-unused-vars */
-import Nav from "../Nav";
+
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import useLogo from "../images/useLogo.png";
 import rocket from "../images/rocket.jpg";
 import axios from "axios";
-import Loading from "../Loading";
+
 import fast from "../images/fast.jpg";
 import ai from "../images/Ai-home.jpg";
-import User from "../User";
+import Loading from "../loading/Loading";
+import User from "../users/User";
+import Nav from "../navbar/Nav";
+
 
 export default function Home() {
   const [user, setUser] = useState("");

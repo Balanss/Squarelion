@@ -1,6 +1,6 @@
 import React from 'react'
 import {useState, useEffect,useMemo} from 'react'
-import { auth, fs } from '../Firebase'
+import { auth, fs } from '../../Firebase'
 
 export default function User({setUser,setUuid,setLevel}) {
 

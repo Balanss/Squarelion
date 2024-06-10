@@ -1,7 +1,8 @@
 import React from 'react'
 import{useState,useEffect} from 'react'
-import UpdatedPage from './UpdatedPage';
-import Page from './Page';
+ import UpdatedPage from './UpdatedPage';
+import Page from './legacy/Page';
+
 
 export default function SwitchingFromLegacyToNew() {
 

@@ -6,7 +6,7 @@ import { UserContext } from "../context/UserContext";
 import { useParams } from "react-router-dom";
 import WaitingForAdmin from "./WaitingForAdmin";
 import Title from "../../Title";
-import Loading from "../Loading";
+
 import Cal from "./Calendar/Cal";
 import Panel from "./Panel/Panel";
 import Version from "../../Version/Version";
@@ -17,6 +17,7 @@ import HamburgerButton from "./Hamburger/HamburgerButton";
 import AskingLeave from "./Request/AskingLeave";
 import ClientUpload from "../AdminPage/ClientUpload";
 import Users from "../AdminPage/sql/Users";
+import Loading from "../loading/Loading";
 
 
 

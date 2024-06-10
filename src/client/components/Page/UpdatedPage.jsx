@@ -1,5 +1,4 @@
 import React, { Suspense, lazy,useContext,useState, useEffect,useRef } from "react";
-import Nav from "../Nav";
 import { fs, db } from "../../Firebase";
 import { useNavigate } from "react-router-dom";
 import { collection, deleteDoc, doc, updateDoc, setDoc, addDoc, FieldValue, deleteField, increment } from "firebase/firestore";
@@ -8,7 +7,6 @@ import Links from "./Links";
 import Title from "../../Title";
 import "react-quill/dist/quill.snow.css";
 import Inputs from "./PageFunctions/UpdatedInputs";
-import Loading from "../Loading";
 import Memo from "./Memo/Memo";
 import "/src/client/index.css";
 import Version from "../../Version/Version";
@@ -27,6 +25,9 @@ import { UserContext } from "../context/UserContext";
 import { UpdatedPageContext } from "../context/UpdatedPageContext";
 import { DragDropContext,Draggable,Droppable } from 'react-beautiful-dnd';
 import Docs from "./automation/Docs";
+import Nav from "../navbar/Nav";
+import Loading from "../loading/Loading";
+
 
 
 
@@ -216,7 +217,7 @@ async function handleDelete(index) {
 
   const [showCount, setShowCount] = useState("10");
 
-  const forInput = { setDataMonth,dataMonth, month, setMonth,user }
+  const forInput = { setDataMonth,dataMonth, month, setMonth,user,round }
   const forPageModal = {  answer, post,imageUrl, objective, typeAnswer, month, color, page, setShow, pri, date, objectiveAnswer, img, boosting, uniqueId, user, type, subject, level ,dbId };
   const forSendFromForm = {user, uniqueId, orderPost, post, type, objectiveAnswer, subject, typeAnswer, month, color, page, level, setObjectiveAnswer ,dbId}
   const forEditModal = {openModalBar, handleCloseBar,  title, forPost, setEditDetails, editDetails, page, month, post, uniqueId, objective, type, boosting, date, viewer, level}
@@ -270,8 +271,8 @@ const handleOnDragEnd = async (result) => {
         <Version />
         <Title />
         <GettingRound round={round} dataMonth={dataMonth} level={level} setRound={setRound} rounded={rounded} setRounded={setRounded} page={page} month={month} showRound={showRound} viewer={viewer} setPage={setPage} />
-        <div className=" pt-4 mb-[25px] bg-primary">  <Nav /></div>
-        <div className={`absolute inset-0 ${isVisible ? "block" : "hidden"}`} style={{ zIndex, backgroundColor: "white" }}><Loading /></div>
+        <div className=" pt-4 mb-[25px] bg-primary">  <Nav /> </div>
+        <div className={`absolute inset-0 ${isVisible ? "block" : "hidden"}`} style={{ zIndex,  }}><Loading /></div>
                 <div className="flex flex-row justify-around items-center bg-slate-300 border-t-2 border-yellow-500 ">
                   <div className="bg-slate-700 p-4 rounded-lg cursor-pointer">
                     <Links />{" "}

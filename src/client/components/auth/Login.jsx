@@ -1,13 +1,11 @@
 import React from 'react'
-import Nav from './Nav'
-import Logo from "./images/Logo.png"
-import User from './User'
 import {useState, useEffect} from 'react'
 import { Link ,useNavigate} from 'react-router-dom'
-import { auth, fs } from '../Firebase'
-import { googleAuthProvider } from '../Firebase';
-import google from "./images/google.png"
-import logo from "./images/Logo.png"
+import { auth, fs } from '../../Firebase'
+import { googleAuthProvider } from '../../Firebase';
+import logo from "../images/logo.png"
+import User from '../users/User';
+import Nav from '../navbar/Nav';
 
 export default function Login() {
 

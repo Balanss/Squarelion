@@ -1,9 +1,10 @@
 import React, { useContext, useState,useEffect } from 'react'
 
-import Nav from '../Nav';
+
 import ContractInputs from './ContractInputs';
 import ContractsFunction from './ContractsFunction';
 import Links from '../Page/Links';
+import Nav from '../navbar/Nav';
 
 
 export default function ContractPage() {

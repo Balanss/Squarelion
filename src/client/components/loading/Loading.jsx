@@ -1,7 +1,7 @@
 import React from 'react'
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
-import block from "./images/loading-blocks.gif";
+import block from "../images/loading-blocks.gif";
 
 export default function Loading() {
   return (

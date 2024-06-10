@@ -1,7 +1,8 @@
 import React,{useState,useEffect} from 'react'
 import {collection,getDocs,onSnapshot,query,deleteDoc,doc,addDoc,updateDoc,setDoc,deleteField,getDoc} from "firebase/firestore";
 import { auth, fs,db } from './Firebase'
-import User from './components/User';
+import User from './components/users/User';
+
 
 export default function Title({}) {
 

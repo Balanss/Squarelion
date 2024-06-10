@@ -3,20 +3,21 @@ import { useState, useEffect ,Component, useLayoutEffect,useContext} from "react
 import React, { lazy, Suspense } from "react";
 // import './App.css'
 import { HashRouter, Routes, Route } from "react-router-dom";
-import Loading from "./components/Loading";
+
 
 import ErrorBoundary from "./components/ErrorBoundary/Error";
 import UserProvider from './components/context/UserContext'; // replace with the path to your UserProvider
 import  UpdatedPageProvider  from './components/context/UpdatedPageContext'; // adjust the path as needed
 import ContractPage from "./components/contracts/ContractPage";
+import Loading from "./components/loading/Loading";
 
 
 
 
 
-const Login = lazy(() => import("./components/Login"));
+const Login = lazy(() => import("../client/components/auth/Login"));
 const Home = lazy(() => import("./components/Home/Home"));
-const Signup = lazy(() => import("./components/Signup"));
+const Signup = lazy(() => import("../client/components/auth/Signup"));
 
 
 // const Page = lazy(() => import("./components/Page/Page"));
