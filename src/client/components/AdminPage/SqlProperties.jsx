@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from 'react'
 import { auth, fs,db } from '../../Firebase'
-import User from '../User';
-import Nav from '../Nav';
+
 import SqlMedia from './SqlProp/SqlMedia';
 import SqlDomein from './SqlProp/SqlDomein';
 import SqlHosting from './SqlProp/SqlHosting';
 import Version from '../../Version/Version'
+import User from '../users/User';
+import Nav from '../navbar/Nav';
 
 
 
