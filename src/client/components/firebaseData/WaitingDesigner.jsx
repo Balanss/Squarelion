@@ -104,10 +104,6 @@ setTimeout(() => {
 
   const [modal, setModal] = useState(false);
 
-
-
-
-
   const [imageUrls, setImageUrls] = useState([]);
   const [files, setFiles] = useState([]);
 

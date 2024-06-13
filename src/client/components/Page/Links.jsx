@@ -14,6 +14,7 @@ import PartnerLogic from '../AdminPage/PartnerLogic';
 export default function Links() {
     const [partner, setPartner] = useState([]);
     const navigate = useNavigate()
+    const [find,setFind] = useState()
  
     const {user,uuid,level} = useContext(UserContext);
 
@@ -81,11 +82,19 @@ export default function Links() {
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-      
-    >
+      // onKeyDown={toggleDrawer(anchor, false)}
+       >
+    {/* <input
+  type='text'
+  placeholder='Search Client'
+  className='border-2 border-black rounded-md p-2 ml-4 mt-4 relative z-[1000]'
+  onChange={(e) => setFind(e.target.value)} // Corrected: Removed unnecessary stopPropagation and fixed syntax error
+  onClick={(e) => e.stopPropagation()} // Correct usage: Prevents the click event from bubbling up
+/> */}
+     
       <List className='min-h-[700px] flex flex-col justify-around '>
-      {partner.map((partner, index) => {
+      
+      { partner.map((partner, index) => {
         if (level !== 11 && partner.name === 'Test') {
           return null;
         }
@@ -101,17 +110,17 @@ export default function Links() {
               <Link key={index} to={`/profile/${partner.name}`} onContextMenu={() => { handleGoLink(index)}} style={{ cursor: 'pointer', marginLeft: '20px' }}>
                 {partner.name}
               </Link>
-              {/* <p style={{ color: 'red', marginLeft: '10px' }}>
-                {partner.status !== 0 ? partner.status : null}
-              </p> */}
+
             </button>
+            
           </div>
         );
       })}
 
       </List>
       <Divider />
-      <img src={sql} className='logo' />
+    
+      <img src={sql} className='text-black'  onChange={(e) => {setFind(e.target.value)}} />
       
     </Box>
   );
@@ -120,18 +129,16 @@ export default function Links() {
   return (<> 
   <PartnerLogic setPartner={setPartner}/>
     <div className='text-white '>
-
+      
 {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
           <p className=' !text-white md:!text-xs lg:!text-md' onClick={toggleDrawer(anchor, true)}>Clients</p>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            
-            
-          >
+            onClose={toggleDrawer(anchor, false)} >
             {list(anchor)}
+           
           </Drawer>
         
         </React.Fragment>

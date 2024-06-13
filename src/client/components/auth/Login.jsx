@@ -54,7 +54,7 @@ if (email && password !== ''){
         setSuccessMsg("Sucessfully logged in")
         setTimeout(() => {
           setSuccessMsg("");
-          navigate("/")
+          // navigate("/")
         },2000)} else {
           auth.signInWithPopup(googleAuthProvider)
           .then((result) => {
@@ -83,7 +83,7 @@ if (email && password !== ''){
     }
 
   return (
-    <div>
+    < >
 <User  setUser={setUser} user={user} setUuid={setUuid} setIsAccepted={setIsAccepted} level={level} setLevel={setLevel}/>
 <Nav/>
 <div className='fixed w-[100%] h-[100%] bg-sky-100 '>
@@ -133,6 +133,6 @@ className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outl
  <div className='success-msg' >   </div> 
 
   </div>
-    </div>
+    </>
   )
 }

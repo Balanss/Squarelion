@@ -1,13 +1,10 @@
-import React from 'react'
-import {useState,useEffect} from 'react'
-import {collection,doc,setDoc,} from "firebase/firestore";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { collection, doc, setDoc, } from "firebase/firestore";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { auth, fs,db } from '/src/client/Firebase.jsx'
+import { auth, fs, db } from '/src/client/Firebase.jsx';
 
-export default function PartnerLogic({setPartner}) {
-
-
-   
+export default function PartnerLogic({ setPartner }) {
   const getPartner = async () => {
     try {
       const unsubscribe = fs.collection('partner')
@@ -16,22 +13,24 @@ export default function PartnerLogic({setPartner}) {
             id: doc.id,
             ...doc.data()
           }));
-  
-          partnerArray.sort((a, b) => a.id - b.id); // Sort the array based on the numeric ID
-  
+
+          // Sort the array alphabetically by the 'name' field
+          partnerArray.sort((a, b) => a.name.localeCompare(b.name));
+
           setPartner(partnerArray);
         });
-  
+
       return unsubscribe;
     } catch (error) {
       console.error('Error fetching partner data:', error);
     }
   };
-  
+
   useEffect(() => {
     const unsubscribe = getPartner();
-  
     // Cleanup the subscription
-   
+
   }, []);
+
+  return null; // Assuming you might want to render something or just use this for logic
 }

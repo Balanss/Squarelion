@@ -37,10 +37,6 @@ const ModalForEddting = lazy(() => import("./Modal/ModalForEddting"));
 
 
 
-
-
-
-
 export default function UpdatedPage({ month, setMonth }) {
 
   const {user,uuid,level} = useContext(UserContext);

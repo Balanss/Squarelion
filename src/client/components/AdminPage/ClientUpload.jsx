@@ -121,7 +121,7 @@ export default function ClientUpload() {
             <form className="flex flex-col items-start justify-start mb-10"  onSubmit={handleSub}>
               <label className="mb-2">Create a new client to the SQL database</label>
               <input type="text" className="mb-2 p-2 text-black" placeholder="Enter Client Name"  onChange={(e) => setName(e.target.value)}/>
-              <textarea className="mb-2 p-2 text-white" placeholder="Enter Client Preset" onChange={(e) => setPreset(e.target.value)} />
+              <textarea className="mb-2 p-2 text-black" placeholder="Enter Client Preset" onChange={(e) => setPreset(e.target.value)} />
               <label className="w-[200px] p-2 rounded !bg-green-500 cursor-pointer"><input type="file"    onChange={handleImageChange}/> Upload Client Image </label>
               <button className="border-2 border-green-600 rounded-lg px-3 py-2 text-green-100 cursor-pointer hover:bg-green-600 hover:text-green-200 mt-5">  Add Client  </button>
             </form>

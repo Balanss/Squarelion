@@ -41,6 +41,16 @@ async function handleToDdesigner(){
   const dcRef = fs.collection(`DesignerPage`).doc(post+month+page);
   const dcSnap = await dcRef.get();
 
+
+  setDoc(colRef, { [post + month]: {
+    color:'gold',
+    status:'Waiting Designer',
+    statusText:'Designer'
+  }}, { merge: true });
+
+ 
+
+
   let data = {
     color:'gold',
     status:'Designer',
@@ -78,11 +88,7 @@ async function handleToDdesigner(){
 
   setTimeout(() => {setAreYouSure(false)}, 2000);
 
-  setDoc(colRef, { [post + month]: {
-    color:'gold',
-    status:'Waiting Designer',
-    statusText:'Designer'
-  } }, { merge: true });
+
 
   setForDesigner('')
   setTimeout(() => {
