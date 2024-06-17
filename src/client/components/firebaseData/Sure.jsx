@@ -69,7 +69,7 @@ if(inputOne > ''){
           fs.collection(page).doc(typeAnswer+month).set({ 
               answer:objectiveAnswer,
               status:'Waiting',
-          color:'#00eaff',
+          color:'#800080',
           user:user,       
             },{merge:true})
 

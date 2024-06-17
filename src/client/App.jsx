@@ -10,6 +10,8 @@ import UserProvider from './components/context/UserContext'; // replace with the
 import  UpdatedPageProvider  from './components/context/UpdatedPageContext'; // adjust the path as needed
 import ContractPage from "./components/contracts/ContractPage";
 import Loading from "./components/loading/Loading";
+import ScheduleProvider from "./components/context/ScheduleContext";
+
 
 
 
@@ -68,6 +70,7 @@ function App() {
     <>
     <UserProvider>
       <UpdatedPageProvider>
+        <ScheduleProvider>
       <HashRouter>
         <ErrorBoundary>
        
@@ -94,6 +97,7 @@ function App() {
         </Suspense>
         </ErrorBoundary>
       </HashRouter>
+      </ScheduleProvider>
       </UpdatedPageProvider>
       </UserProvider>
     </>
