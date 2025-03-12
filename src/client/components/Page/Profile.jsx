@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
-import { useState, useEffect , useContext} from "react";
+import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { useParams } from "react-router-dom";
 import WaitingForAdmin from "./WaitingForAdmin";
@@ -12,15 +12,12 @@ import Panel from "./Panel/Panel";
 import Version from "../../Version/Version";
 import { lazy, Suspense } from "react";
 import BugReport from "../../Bugs/BugReport";
-import { motion,AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import HamburgerButton from "./Hamburger/HamburgerButton";
 import AskingLeave from "./Request/AskingLeave";
 import ClientUpload from "../AdminPage/ClientUpload";
 import Users from "../AdminPage/sql/Users";
 import Loading from "../loading/Loading";
-
-
-
 
 // Lazy import the Schedule component
 // const Schedule = lazy(() => import("./Calendar/Schedule"));
@@ -32,17 +29,13 @@ export default function Profile() {
   const [clicked, setClicked] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showPfp, setShowPfp] = useState("dashboard");
-  const {user,uuid,level} = useContext(UserContext);
-
-
+  const { user, uuid, level } = useContext(UserContext);
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(true);
     }, 1000);
   }, []);
-
-
 
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -72,34 +65,31 @@ export default function Profile() {
     };
   }, [pan]);
 
-
   const motionProps = {
     initial: { opacity: 0, y: -50 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -50 },
     transition: { duration: 0.5 },
   };
-  
-
-  
 
   return (
     <>
       <Title />
       <Version />
-      {level === 0 && <div className="min-h-[100vh] bg-slate-900"><WaitingForAdmin /></div>}
+      {level === 0 && (
+        <div className="min-h-[100vh] bg-slate-900">
+          <WaitingForAdmin />
+        </div>
+      )}
 
-             <HamburgerButton pan={pan} setPan={setPan} />
+      <HamburgerButton pan={pan} setPan={setPan} />
 
       {/* <div className="phones:fixed phones:z-40 phones:top-3 phones:right-3 phones:block hidden">
                 <SignoutInfo/>
               </div> */}
 
-
       <div className="  min-h-[100vh] flex flex-col sm:flex-row whole-div  ">
-
-
-         {/* mobile side panel */}
+        {/* mobile side panel */}
         {pan === true && isMobile === true && level > 5 && (
           <>
             <Panel
@@ -113,8 +103,6 @@ export default function Profile() {
             />
           </>
         )}
-
-
 
         <div className="bg-[#0f172a] w-[100vw] phones:justify-center flex flex-row flex-wrap">
           {/* for desktop */}
@@ -134,21 +122,15 @@ export default function Profile() {
             <>
               {" "}
               <div className="flex flex-col items-center w-[78vw] bg-primary phones:w-full overflow-hidden ">
-              {showPfp === "dashboard" && (
-                       <motion.div {...motionProps} className="inline-flex flex-col items-end ">  <UserStats user={user} level={level} /> </motion.div>
-                                                                            )}
-                {showPfp === "Bugs" && <BugReport user={user} level={level} />}
-                {showPfp === "Calendar" && 
-                  <motion.div {...motionProps}  className="inline-flex flex-col mt-10 items-end ">
-                  <Cal user={user} level={level} uuid={uuid} />
-              </motion.div>
-                }
-
-                {showPfp === "Timeoff" && <AskingLeave user={user} level={level} />}
-                {showPfp === "Admin" && <ClientUpload user={user} level={level} /> }
-                {showPfp === "Users" && <Users user={user} level={level} />}
-              
-
+                {showPfp === "dashboard" && (
+                  <motion.div
+                    {...motionProps}
+                    className="inline-flex flex-col items-end "
+                  >
+                    {" "}
+                    <UserStats user={user} level={level} />{" "}
+                  </motion.div>
+                )}
               </div>{" "}
             </>
           ) : null}

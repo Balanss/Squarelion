@@ -19,7 +19,6 @@ import ScheduleProvider from "./components/context/ScheduleContext";
 
 const Login = lazy(() => import("../client/components/auth/Login"));
 const Home = lazy(() => import("./components/Home/Home"));
-const Signup = lazy(() => import("../client/components/auth/Signup"));
 
 
 // const Page = lazy(() => import("./components/Page/Page"));
@@ -90,7 +89,6 @@ function App() {
             <Route path="/profile/:id" element={<PageLoader />} />
             <Route path="/profile/contracts" element={<ContractPage />} />
             <Route path="/user/:id" element={<Profile />} />
-            <Route path="/signup" element={<Signup />} />
             <Route path="/designer" element={<Designer />} />
             <Route path="/sqlProp" element={<Prop />} />
           </Routes>

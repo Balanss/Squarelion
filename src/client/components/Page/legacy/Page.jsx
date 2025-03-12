@@ -127,15 +127,15 @@ export default function Page({ month, setMonth }) {
       const unsubscribe = fs
         .collection(page)
         .where("month", "==", month)
-        .onSnapshot(async querySnapshot => {
-          const roundArray = querySnapshot.docs.map(doc => ({
+        .onSnapshot(async (querySnapshot) => {
+          const roundArray = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
 
           roundArray.sort((a, b) => a.order - b.order);
           const filteredRoundArray = roundArray.filter(
-            round => round.month === month
+            (round) => round.month === month
           );
           const halfLength = Math.ceil(filteredRoundArray.length / 2);
           const firstSlice = filteredRoundArray.slice(0, halfLength);
@@ -194,7 +194,7 @@ export default function Page({ month, setMonth }) {
     }
   }
 
-  const sendToZapier = async payload => {
+  const sendToZapier = async (payload) => {
     const zapierURL = import.meta.env.VITE_ZAP_DELETE;
     try {
       const response = await fetch(zapierURL, {
@@ -268,7 +268,7 @@ export default function Page({ month, setMonth }) {
   const handleOpenModalBar = () => setOpenModalBar(true);
   const handleCloseBar = () => setOpenModalBar(false);
 
-  const handleEditorChange = value => {
+  const handleEditorChange = (value) => {
     setObjectiveAnswer(`${value}`);
   };
 
@@ -323,7 +323,7 @@ export default function Page({ month, setMonth }) {
     handleCloseBar();
   }
 
-  const handleDragEnd = result => {
+  const handleDragEnd = (result) => {
     if (!result.destination) return;
     const items = Array.from(round);
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -354,7 +354,7 @@ export default function Page({ month, setMonth }) {
         />
         <Version />
         <Title />
-      
+
         <div className="mb-5  pt-4 bg-primary">
           {" "}
           <Nav />{" "}
@@ -393,7 +393,7 @@ export default function Page({ month, setMonth }) {
                   <div className="bg-slate-700 p-4 rounded-lg cursor-pointer">
                     <Links />{" "}
                   </div>
-                 
+
                   <img
                     src={img}
                     className="w-20"
@@ -403,577 +403,316 @@ export default function Page({ month, setMonth }) {
                       marginTop: "20px",
                     }}
                   />
-                  <div style={{ zIndex: 1 }}>
-                    <Memo page={page} round={round} />
-                  </div>
                 </div>
+                <Inputs
+                  user={user}
+                  boosting={boosting}
+                  setBootsing={setBoosting}
+                  setUniqueId={setUniqueId}
+                  uniqueId={uniqueId}
+                  level={level}
+                  setObjectiveAnswer={setObjectiveAnswer}
+                  setTypeAnswer={setTypeAnswer}
+                  type={type}
+                  setPost={setPost}
+                  month={month}
+                  setMonth={setMonth}
+                  setObjective={setObjective}
+                  setType={setType}
+                  setDate={setDate}
+                  objective={objective}
+                  post={post}
+                  page={page}
+                  date={date}
+                />
               </>
             )}
 
-            <div className="content-div bg-slate-600 pb-10 ">
-              <Inputs
-                user={user}
-                boosting={boosting}
-                setBootsing={setBoosting}
-                setUniqueId={setUniqueId}
-                uniqueId={uniqueId}
-                level={level}
-                setObjectiveAnswer={setObjectiveAnswer}
-                setTypeAnswer={setTypeAnswer}
-                type={type}
-                setPost={setPost}
-                month={month}
-                setMonth={setMonth}
-                setObjective={setObjective}
-                setType={setType}
-                setDate={setDate}
-                objective={objective}
-                post={post}
-                page={page}
-                date={date}
-              />
-
-              <section className="mb-5">
-                <button
-                  onClick={() => setViewer("all")}
-                  className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3"
-                >
-                  View All
-                </button>
-
-                <button
-                  onClick={() => {
-                    setViewer("10");
-                  }}
-                  className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3"
-                >
-                  First Half{" "}
-                </button>
-                <button
-                  onClick={() => {
-                    setViewer("20");
-                  }}
-                  className="bg-sky-500 text-white px-3 py-2 rounded-md ml-3"
-                >
-                  {" "}
-                  Second Half{" "}
-                </button>
-              </section>
-
+            <div className="content-div bg-slate-600 pb-10 mt-10 ">
               <Suspense fallback={<div>Loading...</div>}>
                 <DragDropContext onDragEnd={handleDragEnd}>
                   <div className="phones:overflow-y-auto">
-                  <table className="m-auto w-full text-center animate-fade animate-duration-[500ms] animate-ease-in">
-                    <thead className="phones:text-[12px]">
-                      <tr className="bg-slate-800">
-                        <th scope="col" className="px-6 py-3 phones:p-0">
-                          Status{" "}
-                        </th>
-                        <th scope="col" className="px-6 py-3 phones:p-1">
-                          Unique Id
-                        </th>
-                        <th scope="col" className="px-6 py-3 phones:p-1">
-                          Post
-                        </th>
-                        <th scope="col" className="px-6 py-3 phones:p-0">
-                          {" "}
-                          Subject{" "}
-                        </th>
-                        <th scope="col" className="px-6 py-3 phones:p-0">
-                          Channel{" "}
-                        </th>
-                        <th scope="col" className="px-6 py-3 phones:p-0">
-                          Day{" "}
-                        </th>
-                        <th scope="col" className="px-6 py-3 phones:p-2">
-                          Prio{" "}
-                        </th>
-                        <th scope="col" className="px-6 py-3 phones:p-2">
-                          View{" "}
-                        </th>
-                      </tr>
-                    </thead>
-                    <Droppable droppableId="table">
-                      {provided => (
-                        <tbody
-                          {...provided.droppableProps}
-                          ref={provided.innerRef}
-                        >
-                          {round.map(
-                            (x, i) =>
-                              x.month === month && (
-                                <Draggable
-                                  draggableId={x.order.toString()}
-                                  index={i}
-                                >
-                                  {provided => (
-                                    <tr
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      className=" border-b bg-gray-700 border-gray-800"
-                                    >
-                                      <td
-                                        className="text-black text-center rounded-sm font-medium phones:text-xs"
-                                        style={{ backgroundColor: x.color }}
-                                      >
-                                        {x.status}
-                                      </td>
+                    <table className="m-auto w-full text-center animate-fade animate-duration-[500ms] animate-ease-in">
+                      <thead className="phones:text-[12px]">
+                        <tr className="bg-slate-800">
+                          <th scope="col" className="px-6 py-3 phones:p-0">
+                            Status{" "}
+                          </th>
+                          <th scope="col" className="px-6 py-3 phones:p-1">
+                            Unique Id
+                          </th>
+                          <th scope="col" className="px-6 py-3 phones:p-1">
+                            Post
+                          </th>
+                          <th scope="col" className="px-6 py-3 phones:p-0">
+                            {" "}
+                            Subject{" "}
+                          </th>
+                          <th scope="col" className="px-6 py-3 phones:p-0">
+                            Channel{" "}
+                          </th>
+                          <th scope="col" className="px-6 py-3 phones:p-0">
+                            Day{" "}
+                          </th>
 
-                                      <td
-                                        className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400"
-                                        onClick={() => {
-                                          setForPost(x.unid);
-                                          if (level > 8) handleOpenModalBar();
-                                          setPost(x.count);
-                                          setTitle("unid");
-                                        }}
+                          <th scope="col" className="px-6 py-3 phones:p-2">
+                            View{" "}
+                          </th>
+                        </tr>
+                      </thead>
+                      <Droppable droppableId="table">
+                        {(provided) => (
+                          <tbody
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                          >
+                            {round.map(
+                              (x, i) =>
+                                x.month === month && (
+                                  <Draggable
+                                    draggableId={x.order.toString()}
+                                    index={i}
+                                  >
+                                    {(provided) => (
+                                      <tr
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        className=" border-b bg-gray-700 border-gray-800"
                                       >
-                                        {x.unid}
-                                      </td>
+                                        <td
+                                          className="text-black text-center rounded-sm font-medium phones:text-xs"
+                                          style={{ backgroundColor: x.color }}
+                                        >
+                                          {x.status}
+                                        </td>
 
-                                      <td
-                                        className="px-6 phones:text-[10px] phones:p-2 cursor-pointer whitespace-nowrap text-sm text-gray-400"
-                                        onMouseEnter={() =>
-                                          setShowCount(x.count)
-                                        }
-                                        onMouseLeave={() => setShowCount("")}
-                                      >
-                                        {x.order - -1}
-                                        <p>
-                                          {showCount &&
-                                          showCount === x.count ? (
-                                            <>ID:{showCount}</>
-                                          ) : null}
-                                        </p>
-                                      </td>
-
-                                      <td
-                                        className="px-6 phones:text-[10px] phones:p-2 cursor-pointer whitespace-nowrap text-sm text-gray-400"
-                                        onClick={() => {
-                                          setForPost(x.objective);
-                                          if (level > 8) handleOpenModalBar();
-                                          setPost(x.count);
-                                          setTitle("objective");
-                                        }}
-                                      >
-                                        {x.objective.length > 50
-                                          ? x.objective.slice(0, 50) + "..."
-                                          : x.objective}
-                                      </td>
-
-                                      <td
-                                        className="px-6 phones:p-0 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400"
-                                        onClick={() => {
-                                          setForPost(x.type);
-                                          if (level > 8) handleOpenModalBar();
-                                          setPost(x.count);
-                                          setTitle("type");
-                                        }}
-                                      >
-                                        {x.type}
-                                      </td>
-
-                                      <td
-                                        className="px-6 phones:p-0 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400"
-                                        onClick={() => {
-                                          setForPost(x.date);
-                                          if (level > 8) handleOpenModalBar();
-                                          setPost(x.count);
-                                          setTitle("date");
-                                        }}
-                                      >
-                                        {month}-{x.date}{" "}
-                                      </td>
-
-                                      <td
-                                        className={`px-6 phones:p-0 phones:text-[10px] ${
-                                          x.priority === "Prio"
-                                            ? "bg-red-600 text-white "
-                                            : "text-gray-400"
-                                        }`}
-                                      >
-                                        <button
+                                        <td
+                                          className="px-6 phones:p-1 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm font-medium text-gray-400"
                                           onClick={() => {
-                                            if (level > 8) {
-                                              const docRef = collection(
-                                                db,
-                                                page
-                                              );
-                                              const colRef = doc(
-                                                docRef,
-                                                x.count + x.month
-                                              );
-                                              updateDoc(
-                                                colRef,
-                                                {
-                                                  priority:
-                                                    x.priority === "Prio"
-                                                      ? "No"
-                                                      : "Prio",
-                                                },
-                                                { merge: true }
-                                              );
-                                            }
+                                            setForPost(x.unid);
+                                            if (level > 8) handleOpenModalBar();
+                                            setPost(x.count);
+                                            setTitle("unid");
                                           }}
                                         >
-                                          {x.priority}
-                                        </button>
-                                      </td>
+                                          {x.unid}
+                                        </td>
 
-                                      <td className="px-6 phones:p-1 phones:text-[10px] whitespace-nowrap text-sm text-gray-400">
-                                        <button
-                                          className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105 p-[1px]  transition-transform transform-gpu hover:text-white hover:bg-red-500  "
-                                          onClick={() => handleText(i)}
+                                        <td
+                                          className="px-6 phones:text-[10px] phones:p-2 cursor-pointer whitespace-nowrap text-sm text-gray-400"
+                                          onMouseEnter={() =>
+                                            setShowCount(x.count)
+                                          }
+                                          onMouseLeave={() => setShowCount("")}
                                         >
-                                          {statusBar === i ? "close" : "open"}
-                                        </button>
-                                      </td>
+                                          {x.order - -1}
+                                          <p>
+                                            {showCount &&
+                                            showCount === x.count ? (
+                                              <>ID:{showCount}</>
+                                            ) : null}
+                                          </p>
+                                        </td>
 
-                                      <Modal
-                                        open={show === i}
-                                        onClose={() => handleText(i)}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        className="overflow-auto main-modal"
-                                      >
-                                        <Box
-                                          sx={styleNew}
-                                          className="lg:!top-[40%] "
+                                        <td
+                                          className="px-6 phones:text-[10px] phones:p-2 cursor-pointer whitespace-nowrap text-sm text-gray-400"
+                                          onClick={() => {
+                                            setForPost(x.objective);
+                                            if (level > 8) handleOpenModalBar();
+                                            setPost(x.count);
+                                            setTitle("objective");
+                                          }}
                                         >
-                                          <Typography
-                                            id="modal-modal-title"
-                                            variant="h6"
-                                            component="h2"
-                                            style={{ textAlign: "center" }}
-                                            className="flex flex-col gap-5 first-typo"
+                                          {x.objective.length > 50
+                                            ? x.objective.slice(0, 50) + "..."
+                                            : x.objective}
+                                        </td>
+
+                                        <td
+                                          className="px-6 phones:p-0 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400"
+                                          onClick={() => {
+                                            setForPost(x.type);
+                                            if (level > 8) handleOpenModalBar();
+                                            setPost(x.count);
+                                            setTitle("type");
+                                          }}
+                                        >
+                                          {x.type}
+                                        </td>
+
+                                        <td
+                                          className="px-6 phones:p-0 phones:text-[10px] cursor-pointer whitespace-nowrap text-sm text-gray-400"
+                                          onClick={() => {
+                                            setForPost(x.date);
+                                            if (level > 8) handleOpenModalBar();
+                                            setPost(x.count);
+                                            setTitle("date");
+                                          }}
+                                        >
+                                          {month}-{x.date}{" "}
+                                        </td>
+
+                                        <td className="px-6 phones:p-1 phones:text-[10px] whitespace-nowrap text-sm text-gray-400">
+                                          <button
+                                            className="x-button lg:mr-3 mt-2 mb-4 hover:scale-105 p-[1px]  transition-transform transform-gpu hover:text-white hover:bg-red-500  "
+                                            onClick={() => handleText(i)}
                                           >
-                                            {show === i && level > 7 && (
-                                              <>
-                                                <div className="flex flex-col-reverse xl:flex-row xl:items-end animate-fade animate-duration-[200ms] animate-ease-in">
-                                                  <div className="lg:w-[800px] phones:w-[100dvw] m-auto border-2 border-black bg-slate-700">
-                                                    <div className="holds-written-content">
-                                                      <div className="text-black flex">
-                                                        <WaitingDesigner
-                                                          pri={pri}
-                                                          level={level}
-                                                          date={date}
-                                                          objectiveAnswer={
-                                                            objectiveAnswer
-                                                          }
-                                                          typeAnswer={
-                                                            typeAnswer
-                                                          }
-                                                          img={img}
-                                                          month={month}
-                                                          color={color}
-                                                          page={page}
-                                                          post={post}
-                                                          boosting={boosting}
-                                                          uniqueId={uniqueId}
-                                                          user={user}
-                                                          type={type}
-                                                          subject={subject}
-                                                        />
-                                                        <WaitingApproval
-                                                          objectiveAnswer={
-                                                            objectiveAnswer
-                                                          }
-                                                          objective={objective}
-                                                          typeAnswer={
-                                                            typeAnswer
-                                                          }
-                                                          month={month}
-                                                          color={color}
-                                                          page={page}
-                                                          setShow={setShow}
-                                                        />
-                                                        {level > 8 ? (
-                                                          <WaitingApproved
-                                                            objectiveAnswer={
-                                                              objectiveAnswer
+                                            {statusBar === i ? "close" : "open"}
+                                          </button>
+                                        </td>
+
+                                        <Modal
+                                          open={show === i}
+                                          onClose={() => handleText(i)}
+                                          aria-labelledby="modal-modal-title"
+                                          aria-describedby="modal-modal-description"
+                                          className="overflow-auto main-modal"
+                                        >
+                                          <Box
+                                            sx={styleNew}
+                                            className="lg:!top-[40%] "
+                                          >
+                                            <Typography
+                                              id="modal-modal-title"
+                                              variant="h6"
+                                              component="h2"
+                                              style={{ textAlign: "center" }}
+                                              className="flex flex-col gap-5 first-typo"
+                                            >
+                                              {show === i && level > 7 && (
+                                                <>
+                                                  <div className="flex flex-col-reverse xl:flex-row xl:items-end animate-fade animate-duration-[200ms] animate-ease-in">
+                                                    <div className="lg:w-[800px] phones:w-[100dvw] m-auto border-2 border-black bg-slate-700">
+                                                      <div className="holds-written-content">
+                                                        <div className="text-black flex"></div>
+
+                                                        {!x.answer ? null : (
+                                                          <h6
+                                                            className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4"
+                                                            key={i}
+                                                            onClick={() =>
+                                                              setObjectiveAnswer(
+                                                                x.answer
+                                                              )
                                                             }
-                                                            type={type}
-                                                            boosting={boosting}
-                                                            date={date}
-                                                            post={post}
-                                                            objective={
-                                                              objective
-                                                            }
-                                                            uniqueId={uniqueId}
-                                                            subject={subject}
-                                                            user={user}
-                                                            typeAnswer={
-                                                              typeAnswer
-                                                            }
-                                                            month={month}
-                                                            color={color}
-                                                            page={page}
+                                                            style={{
+                                                              color: "black",
+                                                            }}
+                                                            dangerouslySetInnerHTML={{
+                                                              __html: x.answer,
+                                                            }}
                                                           />
-                                                        ) : null}
-                                                      </div>
+                                                        )}
 
-
-                                                      {!x.answer ? null : (
-                                                        <h6
-                                                          className="text-left m-auto mt-[50px] text-md laptop:text-sm p-8 bg-white lg:w-3/4"
-                                                          key={i}
-                                                          onClick={() =>
-                                                            setObjectiveAnswer(
-                                                              x.answer
-                                                            )
-                                                          }
-                                                          style={{
-                                                            color: "black",
-                                                          }}
-                                                          dangerouslySetInnerHTML={{
-                                                            __html: x.answer,
-                                                          }}
+                                                        <ModalContent
+                                                          level={level}
+                                                          page={page}
+                                                          round={round}
+                                                          type={type}
+                                                          show={show}
                                                         />
-                                                      )}
 
-                                                      <ModalContent
-                                                        level={level}
-                                                        page={page}
-                                                        round={round}
-                                                        type={type}
-                                                        show={show}
-                                                      />
-                
+                                                        <div className="flex flex-col items-center justify-evenly border-b-2 border-black">
+                                                          {level > 7 &&
+                                                            whatDoUWant ===
+                                                              "Open" && (
+                                                              <>
+                                                                <div
+                                                                  className={`${
+                                                                    whatDoUWant ===
+                                                                    "Open"
+                                                                      ? "above-div-send w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10"
+                                                                      : null
+                                                                  }`}
+                                                                ></div>
 
-                                                      <div className="flex flex-col items-center justify-evenly border-b-2 border-black">
-
-                                                        {level > 7 &&
-                                                          whatDoUWant ===
-                                                            "Open" && (
-                                                            <>
-                                                              <div
-                                                                className={`${
-                                                                  whatDoUWant ===
-                                                                  "Open"
-                                                                    ? "above-div-send w-full flex flex-col items-center lg:flex lg:items-center lg:justify-center lg:bg-slate-500 p-4 rounded-sm mt-10 mb-5 lg:flex-row lg:gap-10"
-                                                                    : null
-                                                                }`}
-                                                              >
-                                                                <SendFromForm
-                                                                  user={user}
-                                                                  uniqueId={
-                                                                    uniqueId
-                                                                  }
-                                                                  orderPost={
-                                                                    orderPost
-                                                                  }
-                                                                  post={post}
-                                                                  type={type}
-                                                                  objectiveAnswer={
-                                                                    objectiveAnswer
-                                                                  }
-                                                                  subject={
-                                                                    subject
-                                                                  }
-                                                                  typeAnswer={
-                                                                    typeAnswer
-                                                                  }
-                                                                  month={month}
-                                                                  color={color}
-                                                                  page={page}
-                                                                  level={level}
-                                                                  setObjectiveAnswer={
-                                                                    setObjectiveAnswer
-                                                                  }
-                                                                />
-                                                                {level > 9 ? (
-                                                                  <button
-                                                                    onClick={() => {
-                                                                      handleDelete(
-                                                                        i
-                                                                      ),
-                                                                        setShow(
-                                                                          ""
-                                                                        ),
-                                                                        setStatusBar(
-                                                                          ""
-                                                                        );
-                                                                    }}
-                                                                    className=" text-white bg-red-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                                                                {level > 8 && (
+                                                                  <form
+                                                                    className="flex phones:flex-col phones:w-[100vw]"
+                                                                    onSubmit={
+                                                                      handleSubmit
+                                                                    }
                                                                   >
-                                                                    {" "}
-                                                                    Delete
-                                                                  </button>
-                                                                ) : null}
-                                                              </div>
-
-                                                              {level > 8 && (
-                                                                <form
-                                                                  className="flex phones:flex-col phones:w-[100vw]"
-                                                                  onSubmit={
-                                                                    handleSubmit
-                                                                  }
-                                                                >
-                                                                  <div className="flex flex-col">
-                                                                    <textarea
-                                                                      value={
-                                                                        preset
-                                                                      }
-                                                                      onChange={e =>
-                                                                        setPreset(
-                                                                          e
-                                                                            .target
-                                                                            .value
-                                                                        )
-                                                                      }
-                                                                      className="w-[300px] h-[300px] phones:w-full"
-                                                                    />
-
-                                                                    <button
-                                                                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                                                      onClick={() => {
-                                                                        navigator.clipboard.writeText(
+                                                                    <div className="flex flex-col">
+                                                                      <textarea
+                                                                        value={
                                                                           preset
-                                                                        );
-                                                                      }}
-                                                                    >
-                                                                      {" "}
-                                                                      Copy{" "}
-                                                                    </button>
-                                                                  </div>
-                                                                  <ReactQuill
-                                                                    value={
-                                                                      objectiveAnswer
-                                                                    }
-                                                                    onChange={
-                                                                      handleEditorChange
-                                                                    }
-                                                                    modules={
-                                                                      modules
-                                                                    }
-                                                                    style={{
-                                                                      color:
-                                                                        "black",
-                                                                      backgroundColor:
-                                                                        "white",
-                                                                    }}
-                                                                    placeholder="Text here..."
-                                                                    className="max-w-[90vw] phones:w-[100vw] phones:max-w-[100vw]  lg:max-w-[500px] overflow-scroll"
-                                                                  />
-                                                                </form>
-                                                              )}
-                                                            </>
-                                                          )}
-                                                        {level > 8 ? (
-                                                          <div className="flex items-baseline">
-                                                            <input
-                                                              type="checkbox"
-                                                              readOnly
-                                                              checked={
-                                                                isChecked
-                                                              }
-                                                              onClick={() => {
-                                                                setIsChecked(
-                                                                  prevChecked =>
-                                                                    !prevChecked
-                                                                ),
-                                                                  setImageUrl(
-                                                                    x.designer
-                                                                  ),
-                                                                  setImage1Url(
-                                                                    x.designer1
-                                                                  ),
-                                                                  setImage2Url(
-                                                                    x.designer2
-                                                                  ),
-                                                                  setImage3Url(
-                                                                    x.designer3
-                                                                  ),
-                                                                  setBoosting(
-                                                                    x.boosting
-                                                                  ),
-                                                                  setCreatePdf(
-                                                                    x.answer
-                                                                  );
-                                                              }}
-                                                              className="mr-2 cursor-pointer"
-                                                            />
-                                                            <Solo
-                                                              createPdf={
-                                                                createPdf
-                                                              }
-                                                              orderPost={
-                                                                orderPost
-                                                              }
-                                                              image1Url={
-                                                                image1Url
-                                                              }
-                                                              image2Url={
-                                                                image2Url
-                                                              }
-                                                              image3Url={
-                                                                image3Url
-                                                              }
-                                                              setIsChecked={
-                                                                setIsChecked
-                                                              }
-                                                              subject={subject}
-                                                              round={round}
-                                                              post={post}
-                                                              page={page}
-                                                              uniqueId={
-                                                                uniqueId
-                                                              }
-                                                              boosting={
-                                                                boosting
-                                                              }
-                                                              month={month}
-                                                              date={date}
-                                                              type={type}
-                                                              imageUrl={
-                                                                imageUrl
-                                                              }
-                                                              isChecked={
-                                                                isChecked
-                                                              }
-                                                            />
-                                                          </div>
-                                                        ) : null}
+                                                                        }
+                                                                        onChange={(
+                                                                          e
+                                                                        ) =>
+                                                                          setPreset(
+                                                                            e
+                                                                              .target
+                                                                              .value
+                                                                          )
+                                                                        }
+                                                                        className="w-[300px] h-[300px] phones:w-full"
+                                                                      />
 
-                                                        {level > 8 ? (
-                                                          <h1 className="text-2xl mb-5 text-white">
-                                                            {" "}
-                                                            Boosting :{" "}
-                                                            {x.boosting}
-                                                          </h1>
-                                                        ) : null}
+                                                                      <button
+                                                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                                                        onClick={() => {
+                                                                          navigator.clipboard.writeText(
+                                                                            preset
+                                                                          );
+                                                                        }}
+                                                                      >
+                                                                        {" "}
+                                                                        Copy{" "}
+                                                                      </button>
+                                                                    </div>
+                                                                    <ReactQuill
+                                                                      value={
+                                                                        objectiveAnswer
+                                                                      }
+                                                                      onChange={
+                                                                        handleEditorChange
+                                                                      }
+                                                                      modules={
+                                                                        modules
+                                                                      }
+                                                                      style={{
+                                                                        color:
+                                                                          "black",
+                                                                        backgroundColor:
+                                                                          "white",
+                                                                      }}
+                                                                      placeholder="Text here..."
+                                                                      className="max-w-[90vw] phones:w-[100vw] phones:max-w-[100vw]  lg:max-w-[500px] overflow-scroll"
+                                                                    />
+                                                                  </form>
+                                                                )}
+                                                              </>
+                                                            )}
+
+                                                          {level > 8 ? (
+                                                            <h1 className="text-2xl mb-5 text-white">
+                                                              {" "}
+                                                              Boosting :{" "}
+                                                              {x.boosting}
+                                                            </h1>
+                                                          ) : null}
+                                                        </div>
                                                       </div>
                                                     </div>
                                                   </div>
-
-                                                  {level > 8 ? (
-                                                    <div className=" lg:w-[800px] xl:w-[400px] xl:relative bottom-1">
-                                                      <Bot
-                                                        setObjectiveAnswer={
-                                                          setObjectiveAnswer
-                                                        }
-                                                        subject={subject}
-                                                        user={user}
-                                                      />
-                                                    </div>
-                                                  ) : null}
-                                                </div>
-                                              </>
-                                            )}
-                                          </Typography>
-                                        </Box>
-                                      </Modal>
-                                    </tr>
-                                  )}
-                                </Draggable>
-                              )
-                          )}
-                          {provided.placeholder}
-                        </tbody>
-                      )}
-                    </Droppable>
-                  </table>
+                                                </>
+                                              )}
+                                            </Typography>
+                                          </Box>
+                                        </Modal>
+                                      </tr>
+                                    )}
+                                  </Draggable>
+                                )
+                            )}
+                            {provided.placeholder}
+                          </tbody>
+                        )}
+                      </Droppable>
+                    </table>
                   </div>
                 </DragDropContext>
               </Suspense>
@@ -1001,7 +740,7 @@ export default function Page({ month, setMonth }) {
                       type="text"
                       className="border-2 border-black  "
                       placeholder={`Editing ${forPost}`}
-                      onChange={e => setEditDetails(e.target.value)}
+                      onChange={(e) => setEditDetails(e.target.value)}
                     />
                     <button
                       className="bg-blue-700 text-white px-3 py-2 rounded-md ml-3"
